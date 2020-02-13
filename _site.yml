@@ -1,0 +1,9 @@
+name: "biosurf"
+navbar:
+  title: "BioSurf"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+output_dir: docs
