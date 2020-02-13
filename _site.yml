@@ -7,7 +7,7 @@ navbar:
     - text: "About"
       href: about.html
 output:
-  html_document:
-    theme: spacelab
-    highlight: haddock
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
 output_dir: docs
