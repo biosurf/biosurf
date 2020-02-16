@@ -2,3 +2,23 @@
 title: "Publications"
 ---
 
+## 2020
+_Pedersen, C. B._, & _Olsen, L. R._ (In press). Algorithmic Clustering Of Single‐Cell Cytometry Data—How Unsupervised Are These Analyses Really?. Cytometry Part A. [doi:10.1002/cyto.a.23917](https://doi.org/10.1002/cyto.a.23917)
+
+## 2019
+_Pedersen, C. B._, & _Olsen, L. R._ (2019). Analysis of Mass Cytometry Data. In Mass Cytometry (pp. 267-279). Humana, New York, NY. [doi:10.1007/978-1-4939-9454-0_17](https://doi.org/10.1007/978-1-4939-9454-0_17)
+
+Simon, C., Davidsen, K., Hansen, C., Seymour, E., Barnkob, M. B., & _Olsen, L. R._ (2019). BioReader: a text mining tool for performing classification of biomedical literature. BMC bioinformatics, 19(13), 57. [doi:10.1186/s12859-019-2607-x](https://doi.org/10.1186/s12859-019-2607-x)
+
+Jurtz, V. I., & _Olsen, L. R._ (2019). Computational methods for identification of T cell neoepitopes in tumors. In Cancer Bioinformatics (pp. 157-172). Humana Press, New York, NY. [doi:10.1007/978-1-4939-8868-6_9](https://doi.org/10.1007/978-1-4939-8868-6_9)
+
+_Olsen, L. R._, _Pedersen, C. B._, Leipold, M. D., & Maecker, H. T. (2019). Getting the Most from Your High-Dimensional Cytometry Data. Immunity, 50(3), 535-536. [doi:10.1016/j.immuni.2019.02.015](https://doi.org/10.1016/j.immuni.2019.02.015)
+
+Li, S., Sun, J., _Allesøe, R._, Datta, K., Bao, Y., Oliveira, G., Forman, J., Jin, R., _Olsen, L. R._, Keskin, D. B., Shukla, S. A., Wu, C. J. & Livak, K. J. (2019). RNase H–dependent PCR-enabled T-cell receptor sequencing for highly specific and efficient targeted sequencing of T-cell receptor mRNA for single-cell and repertoire analysis. Nature protocols, 14(8), 2571-2594. [doi:10.1038/s41596-019-0195-x](https://doi.org/10.1038/s41596-019-0195-x)
+
+_Olsen, L. R._, Leipold, M. D., _Pedersen, C. B._, & Maecker, H. T. (2019). The anatomy of single cell mass cytometry data. Cytometry Part A, 95(2), 156-172. [doi:10.1002/cyto.a.23621](https://doi.org/10.1002/cyto.a.23621)
+
+## 2018
+Napolitani, G., Kurupati, P., Teng, K. W. W., Gibani, M. M., Rei, M., Aulicino, A., Preciado-Llanes, L., Wong, M. T.; Becht, E., Howson, L., de Haas, P., Salio, M., Blohmke, C. J., _Olsen, L. R._, Pinto, D. M. S., Scifo, L., Jones, C., Dobinson, H. Campbell, D., Juel, H. B., Thomaides-Brears, H., Pickard, D., Bumann, D., Baker, S., Dougan, G., Simmons, A., Gordon, M. A., Newell, E. W., Pollard, A. J. & Cerundolo, Vincenzo (2018). Clonal analysis of Salmonella-specific effector T cells reveals serovar-specific and cross-reactive T cell responses. Nature immunology, 19(7), 742-754. [doi:10.1038/s41590-018-0133-z](https://doi.org/10.1038/s41590-018-0133-z)
+
+Leipold, M. D., Obermoser, G., Fenwick, C., Kleinstuber, K., Rashidi, N., McNevin, J. P., Nau, A. N., Wagar, L. E., Rozot, V., Davis, M. M., DeRosa, S., Pantaleo, G., Scriba, T. J., Walker, B. D., _Olsen, L. R._ & Maecker, H. T. (2018). Comparison of CyTOF assays across sites: Results of a six-center pilot study. Journal of immunological methods, 453, 37-43. [doi:10.1016/j.jim.2017.11.008](https://doi.org/10.1016/j.jim.2017.11.008)
