@@ -2,7 +2,10 @@
 title: "Primers for analysis of mass cytometry data"
 ---
 
-</br>
+<br>
+
+<br>
+
 <center>
 
 [![](cytof_files/figure-html/computer.png){ width=40% }](cytof_data_scientist.html)
@@ -10,7 +13,11 @@ title: "Primers for analysis of mass cytometry data"
 The data scientist's primer to single cell mass cytometry<br>
 As described in [*Cytometry A*](https://onlinelibrary.wiley.com/doi/full/10.1002/cyto.a.23621)
 
-</br>
+</center>
+
+<br>
+
+<center>
 
 [![](cytof_files/figure-html/helios.png){ width=40% }](cytof_cytometrist.html)
 
@@ -18,3 +25,10 @@ The cytometrist's primer to single cell data analysis<br>
 As described in [*Immunity*](https://www.cell.com/immunity/fulltext/S1074-7613(19)30082-2?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS1074761319300822%3Fshowall%3Dtrue)
 
 </center>
+
+
+</br>
+
+
+</br>
+
