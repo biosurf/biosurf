@@ -16,7 +16,7 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -24,25 +24,73 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
 
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
 
 
 <style type="text/css">
@@ -106,33 +154,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 51px;
+  padding-top: 45px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .dropdown-submenu {
   position: relative;
@@ -679,26 +727,26 @@ div.tocify {
 <div id="installing-the-r-packages-you-will-need" class="section level2">
 <h2><span class="header-section-number">1.3</span> Installing the R packages you will need</h2>
 <p>We use a variety of packages for the analyses below. In case you are missing some of them, here’s what you will need:</p>
-<pre class="r"><code>## From CRAN
-install.packages(c(\&quot;scales\&quot;, \&quot;RColorBrewer\&quot;, \&quot;MASS\&quot;, \&quot;Rtsne\&quot;, \&quot;kohonen\&quot;, \&quot;miscTools\&quot;, \&quot;gplots\&quot;, \&quot;Radviz\&quot;, \&quot;igraph\&quot;, \&quot;statmod\&quot;))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## From CRAN
+<span class="kw">install.packages</span>(<span class="kw">c</span>(\<span class="st">&quot;scales</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">RColorBrewer</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">MASS</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">Rtsne</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">kohonen</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">miscTools</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">gplots</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">Radviz</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">igraph</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">statmod</span><span class="ch">\&quot;</span><span class="st">))</span>
 
-## From BioConductor
-source(\&quot;https://bioconductor.org/biocLite.R\&quot;)
-biocLite(c(\&quot;flowCore\&quot;, \&quot;cytofkit\&quot;, \&quot;ConsensusClusterPlus\&quot;, \&quot;cydar\&quot;, \&quot;flowCL\&quot;, \&quot;CATALYST\&quot;, \&quot;ncdfFlow\&quot;, \&quot;edgeR\&quot;))
+<span class="st">## From BioConductor</span>
+<span class="st">source(</span><span class="ch">\&quot;</span><span class="st">https://bioconductor.org/biocLite.R</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">biocLite(c(</span><span class="ch">\&quot;</span><span class="st">flowCore</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">cytofkit</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">ConsensusClusterPlus</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">cydar</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">flowCL</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CATALYST</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">ncdfFlow</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">edgeR</span><span class="ch">\&quot;</span><span class="st">))</span>
 
-## From source
-# cytofCore
-library(devtools)
-install_github(\&quot;nolanlab/cytofCore\&quot;)
+<span class="st">## From source</span>
+<span class="st"># cytofCore</span>
+<span class="st">library(devtools)</span>
+<span class="st">install_github(</span><span class="ch">\&quot;</span><span class="st">nolanlab/cytofCore</span><span class="ch">\&quot;</span><span class="st">)</span>
 
-# MEM
-library(devtools)
-download.file(url = \&quot;http://www.nature.com/nmeth/journal/v14/n3/extref/nmeth.4149-S5.zip\&quot;, destfile = \&quot;./MEM.zip\&quot;)
-unzip(\&quot;MEM.zip\&quot;)
-setwd(\&quot;./MEM\&quot;)
-build()
-install.packages(\&quot;./\&quot;, repos = NULL, type=\&quot;source\&quot;)
-unlink(\&quot;../MEM/\&quot;, recursive = TRUE) # optional cleanup</code></pre>
+<span class="st"># MEM</span>
+<span class="st">library(devtools)</span>
+<span class="st">download.file(url = </span><span class="ch">\&quot;</span><span class="st">http://www.nature.com/nmeth/journal/v14/n3/extref/nmeth.4149-S5.zip</span><span class="ch">\&quot;</span><span class="st">, destfile = </span><span class="ch">\&quot;</span><span class="st">./MEM.zip</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">unzip(</span><span class="ch">\&quot;</span><span class="st">MEM.zip</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">setwd(</span><span class="ch">\&quot;</span><span class="st">./MEM</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">build()</span>
+<span class="st">install.packages(</span><span class="ch">\&quot;</span><span class="st">./</span><span class="ch">\&quot;</span><span class="st">, repos = NULL, type=</span><span class="ch">\&quot;</span><span class="st">source</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">unlink(</span><span class="ch">\&quot;</span><span class="st">../MEM/</span><span class="ch">\&quot;</span><span class="st">, recursive = TRUE) # optional cleanup</span></code></pre></div>
 <p>The R session info is located at the <a href="#sessioninfo">bottom of the page</a>.“,”content“:”# The structure of data from the CyTOF system The following sections include lots of code snippets. The entire raw code can be downloaded <a href="https://raw.githubusercontent.com/biosurf/CyTOF/master/primer.R">here</a>. ## The Flow Cytometry Standard (FCS) format {FCS}</p>
 <p>The FCS format is a binary data file standard originally developed for storage of flow cytometry data. As well as the ion count matrix, it has slots for experiment information, channel information, etc. Traditionally, ion counts have been analyzed visually using <a href="https://www.flowjo.com/solutions/flowjo">FlowJo</a> - a commercial software platform for analysis of single-cell cytometry experiments. FlowJo is largely GUI-based and requires a license for both academic and non-academic users. For more automated analysis, the following tools for R can be used to import, manipulate and convert FCS files - or extract the ion counts for downstream analysis in R or other programming environments.</p>
 <ul>
@@ -708,30 +756,30 @@ unlink(\&quot;../MEM/\&quot;, recursive = TRUE) # optional cleanup</code></pre>
 <li><a href="https://bioconductor.org/packages/release/bioc/html/CATALYST.html">CATALYST</a>: contains functions for normalization, debarcoding, and quality control.</li>
 </ul>
 <p>Example of basic FCS file handling:</p>
-<pre class="r"><code># Load the flowCore package
-library(flowCore)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the flowCore package</span>
+<span class="kw">library</span>(flowCore)
 
-# Set working directory (directory where you placed the FCS files)
-setwd(\&quot;~/cytof_primer/healthy_controls/fcs_files/\&quot;)
+<span class="co"># Set working directory (directory where you placed the FCS files)</span>
+<span class="kw">setwd</span>(\<span class="st">&quot;~/cytof_primer/healthy_controls/fcs_files/</span><span class="ch">\&quot;</span><span class="st">)</span>
 
-# Read an fcs file
-fcs_files &lt;- list.files(pattern=&#39;.fcs$&#39;, full=TRUE, ignore.case = TRUE)
-fcs &lt;- read.FCS(filename=fcs_files[1], transformation=FALSE)
+<span class="st"># Read an fcs file</span>
+<span class="st">fcs_files &lt;- list.files(pattern=&#39;.fcs$&#39;, full=TRUE, ignore.case = TRUE)</span>
+<span class="st">fcs &lt;- read.FCS(filename=fcs_files[1], transformation=FALSE)</span>
 
-# Extract expression matrix
-exprs &lt;- fcs@exprs
+<span class="st"># Extract expression matrix</span>
+<span class="st">exprs &lt;- fcs@exprs</span>
 
-# Explore the channels (columns in the expression matrix)
-fcs@parameters@data
+<span class="st"># Explore the channels (columns in the expression matrix)</span>
+<span class="st">fcs@parameters@data</span>
 
-# Make colnames human readable using information in the parameter data slot
-markers &lt;- gsub(pattern = \&quot;.*_\&quot;, replacement = \&quot;\&quot;, x = as.vector(fcs@parameters@data$desc))
-colnames(exprs)[which(!is.na(markers))] &lt;- markers[which(!is.na(markers))]
+<span class="st"># Make colnames human readable using information in the parameter data slot</span>
+<span class="st">markers &lt;- gsub(pattern = </span><span class="ch">\&quot;</span><span class="st">.*_</span><span class="ch">\&quot;</span><span class="st">, replacement = </span><span class="ch">\&quot;\&quot;</span><span class="st">, x = as.vector(fcs@parameters@data$desc))</span>
+<span class="st">colnames(exprs)[which(!is.na(markers))] &lt;- markers[which(!is.na(markers))]</span>
 
-# Merging fcs files (in case of interrupted runs)
-library(cytofCore)
-dir.create(\&quot;./combined\&quot;)
-cytofCore.concatenateDirectoryFiles(inputDir=\&quot;./\&quot;,outputDir=\&quot;./combined\&quot;,pattern=NULL,overwrite=F,timeParam=\&quot;time\&quot;)</code></pre>
+<span class="st"># Merging fcs files (in case of interrupted runs)</span>
+<span class="st">library(cytofCore)</span>
+<span class="st">dir.create(</span><span class="ch">\&quot;</span><span class="st">./combined</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">cytofCore.concatenateDirectoryFiles(inputDir=</span><span class="ch">\&quot;</span><span class="st">./</span><span class="ch">\&quot;</span><span class="st">,outputDir=</span><span class="ch">\&quot;</span><span class="st">./combined</span><span class="ch">\&quot;</span><span class="st">,pattern=NULL,overwrite=F,timeParam=</span><span class="ch">\&quot;</span><span class="st">time</span><span class="ch">\&quot;</span><span class="st">)</span></code></pre></div>
 </div>
 <div id="parameter-harmonization-harmonize" class="section level2">
 <h2><span class="header-section-number">1.4</span> Parameter harmonization {harmonize}</h2>
@@ -742,9 +790,9 @@ cytofCore.concatenateDirectoryFiles(inputDir=\&quot;./\&quot;,outputDir=\&quot;.
 <h1><span class="header-section-number">2</span> Data preprocessing</h1>
 <p>Preprocessing is essential in any mass cytometry analysis process. Key steps in preprocessing include: <strong>bead normalization</strong>, in which one adjusts for varying instrument performance over time; <strong>pre-gating</strong>, in which live intact singlet cells are obtained; <strong>compensation</strong>, which (if applicable) is used to correct for spillover between the signals of different heavy metal isotopes, and <strong>debarcoding</strong>, which (if applicable) is used to separate different samples in a multiplexed experiment.</p>
 <p>For convenience, we here define the different types of channels (columns in the data matrix) used for different purposes:</p>
-<pre class="r"><code>pregating_channels &lt;- c(\&quot;Bead\&quot;, \&quot;DNA1\&quot;, \&quot;DNA2\&quot;, \&quot;Dead\&quot;, \&quot;Event_length\&quot;)
-lineage_channels &lt;- c(\&quot;CD57\&quot;, \&quot;CD19\&quot;, \&quot;CD4\&quot;, \&quot;CD8\&quot;, \&quot;IgD\&quot;, \&quot;CD11c\&quot;, \&quot;CD16\&quot;, \&quot;CD3\&quot;, \&quot;CD38\&quot;, \&quot;CD27\&quot;, \&quot;CD14\&quot;, \&quot;CXCR5\&quot;, \&quot;CCR7\&quot;, \&quot;CD45RA\&quot;, \&quot;CD20\&quot;, \&quot;CD127\&quot;, \&quot;CD33\&quot;, \&quot;CD28\&quot;, \&quot;CD161\&quot;, \&quot;TCRgd\&quot;, \&quot;CD123\&quot;, \&quot;CD56\&quot;, \&quot;HLADR\&quot;, \&quot;CD25\&quot;)
-instrument_channels &lt;- c(\&quot;Time\&quot;, \&quot;Event_length\&quot;, \&quot;Center\&quot;, \&quot;Offset\&quot;, \&quot;Width\&quot;, \&quot;Residual\&quot;, \&quot;sample\&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pregating_channels &lt;-<span class="st"> </span><span class="kw">c</span>(\<span class="st">&quot;Bead</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">DNA1</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">DNA2</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">Dead</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">Event_length</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">lineage_channels &lt;- c(</span><span class="ch">\&quot;</span><span class="st">CD57</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD19</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD4</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD8</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">IgD</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD11c</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD16</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD3</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD38</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD27</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD14</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CXCR5</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CCR7</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD45RA</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD20</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD127</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD33</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD28</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD161</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">TCRgd</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD123</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD56</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">HLADR</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD25</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">instrument_channels &lt;- c(</span><span class="ch">\&quot;</span><span class="st">Time</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">Event_length</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">Center</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">Offset</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">Width</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">Residual</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">sample</span><span class="ch">\&quot;</span><span class="st">)</span></code></pre></div>
 <div id="bead-normalization-beadnorm" class="section level2">
 <h2><span class="header-section-number">2.1</span> Bead Normalization {beadnorm}</h2>
 <p>Because CyTOF instrument performance may vary over time (both within a single run, but more prominently between different runs), it is important to normalize data in a way that limits the impact of the technical variation. The most commonly employed methods are the Fluidigm normalization (DVS Sciences, 2013) and MATLAB normalization (<a href="https://doi.org/10.1002/cyto.a.22271">Finck et al., 2013</a>). Both methods are based on adding beads carrying different heavy metal isotopes to the biological sample, and relying on the beads to leave an extractable signature that can be used to correct signal fluctuations. The Fluidigm normalization method uses a bead &quot;passport&quot; to normalize data to a global standard, while the MATLAB method normalizes using median bead intensities calculated across given experimental data files (e.g. files from different runs on the same machine).</p>
@@ -774,36 +822,36 @@ instrument_channels &lt;- c(\&quot;Time\&quot;, \&quot;Event_length\&quot;, \&qu
 <div id="dealing-with-randomized-values" class="section level3">
 <h3><span class="header-section-number">2.2.1</span> Dealing with &quot;randomized&quot; values</h3>
 <p>When an FCS file is exported by the Helios, non-zero values are randomized negatively and uniformly (]x-1;x]). This means that a count of, for example, 9 will be evenly distributed between 8 and 9 for each channel, for each event. This is mostly done for historical reasons, as visualizing count data from the CyTOF produce different plots than intensity data (from flow cytometers). Randomization is done (by default) during conversion of IMD to FCS by the Fluidigm software. Randomized counts can be converted back to the original value by rounding every decimal up to the nearest whole number.</p>
-<pre class="r"><code># Check if counts are randomized (expression matrix should only contain integers)
-is.wholenumber &lt;- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) &lt; tol
-table(is.wholenumber(exprs[,c(pregating_channels, lineage_channels)]))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check if counts are randomized (expression matrix should only contain integers)</span>
+is.wholenumber &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">tol =</span> .Machine<span class="op">$</span>double.eps<span class="op">^</span><span class="fl">0.5</span>)  <span class="kw">abs</span>(x <span class="op">-</span><span class="st"> </span><span class="kw">round</span>(x)) <span class="op">&lt;</span><span class="st"> </span>tol
+<span class="kw">table</span>(<span class="kw">is.wholenumber</span>(exprs[,<span class="kw">c</span>(pregating_channels, lineage_channels)]))
 
-# You may revert back to original counts (only applicable to measured channels - i.e. exclude time, event length, etc.)
-exprs &lt;- cbind(ceiling(exprs[,c(pregating_channels, lineage_channels)]), exprs[,instrument_channels])</code></pre>
+<span class="co"># You may revert back to original counts (only applicable to measured channels - i.e. exclude time, event length, etc.)</span>
+exprs &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">ceiling</span>(exprs[,<span class="kw">c</span>(pregating_channels, lineage_channels)]), exprs[,instrument_channels])</code></pre></div>
 <p>For multidimensional analysis this is definitely recommendable not to add unnecessary noise to the data, but for the purpose of the 2D visualizations we are doing for pre-gating, we will leave the randomized counts for now.</p>
 </div>
 <div id="arcsinh-transformation" class="section level3">
 <h3><span class="header-section-number">2.2.2</span> ArcSinh transformation</h3>
 <p>Commonly, mass cytometry ion counts will be ArcSinh transformed - this transformation will retain linearity in the low end of the count spectrum, but it resembles a log transformation in the high end. If counts are divided by a co-factor before the transformation, the range of ion counts for which linearity is retained may be adjusted. For CyTOF data, a co-factor of 5 is typically used. Transformations are done primarily for visualization purposes and co-factors are empirically determined. In some cases, adjusting co-factors slightly may improve visualizations.</p>
 <p>Continuing from the above code snippet for loading an FCS, the data may be ArcSinh-transformed as follows:</p>
-<pre class="r"><code>library(MASS)
-library(RColorBrewer)
-k &lt;- 11; my.cols &lt;- rev(brewer.pal(k, \&quot;RdYlBu\&quot;))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MASS)
+<span class="kw">library</span>(RColorBrewer)
+k &lt;-<span class="st"> </span><span class="dv">11</span>; my.cols &lt;-<span class="st"> </span><span class="kw">rev</span>(<span class="kw">brewer.pal</span>(k, \<span class="st">&quot;RdYlBu</span><span class="ch">\&quot;</span><span class="st">))</span>
 
-# Set co-factor
-cofac &lt;- 5
+<span class="st"># Set co-factor</span>
+<span class="st">cofac &lt;- 5</span>
 
-# Make arcsinh transformed expression matrix (with the exception of time and event_length, which should remain linear)
-exprs_trans &lt;- cbind(asinh(exprs[,c(pregating_channels, lineage_channels)]/cofac), exprs[,instrument_channels])
+<span class="st"># Make arcsinh transformed expression matrix (with the exception of time and event_length, which should remain linear)</span>
+<span class="st">exprs_trans &lt;- cbind(asinh(exprs[,c(pregating_channels, lineage_channels)]/cofac), exprs[,instrument_channels])</span>
 
-# Plot two-marker example of transformation effect
-plot(exprs[,c(\&quot;CD8\&quot;, \&quot;CD4\&quot;)], pch=\&quot;.\&quot;, col=\&quot;grey\&quot;, main=\&quot;CD8 vs CD4\&quot;)
-z &lt;- kde2d(exprs[,\&quot;CD8\&quot;], exprs[,\&quot;CD4\&quot;], n=50)
-contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)
+<span class="st"># Plot two-marker example of transformation effect</span>
+<span class="st">plot(exprs[,c(</span><span class="ch">\&quot;</span><span class="st">CD8</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD4</span><span class="ch">\&quot;</span><span class="st">)], pch=</span><span class="ch">\&quot;</span><span class="st">.</span><span class="ch">\&quot;</span><span class="st">, col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">, main=</span><span class="ch">\&quot;</span><span class="st">CD8 vs CD4</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">z &lt;- kde2d(exprs[,</span><span class="ch">\&quot;</span><span class="st">CD8</span><span class="ch">\&quot;</span><span class="st">], exprs[,</span><span class="ch">\&quot;</span><span class="st">CD4</span><span class="ch">\&quot;</span><span class="st">], n=50)</span>
+<span class="st">contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)</span>
 
-plot(exprs_trans[,c(\&quot;CD8\&quot;, \&quot;CD4\&quot;)], pch=\&quot;.\&quot;, col=\&quot;grey\&quot;, main=\&quot;CD8 vs CD4 (transformed counts)\&quot;)
-z &lt;- kde2d(exprs_trans[,\&quot;CD8\&quot;], exprs_trans[,\&quot;CD4\&quot;], n=50)
-contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)</code></pre>
+<span class="st">plot(exprs_trans[,c(</span><span class="ch">\&quot;</span><span class="st">CD8</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD4</span><span class="ch">\&quot;</span><span class="st">)], pch=</span><span class="ch">\&quot;</span><span class="st">.</span><span class="ch">\&quot;</span><span class="st">, col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">, main=</span><span class="ch">\&quot;</span><span class="st">CD8 vs CD4 (transformed counts)</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">z &lt;- kde2d(exprs_trans[,</span><span class="ch">\&quot;</span><span class="st">CD8</span><span class="ch">\&quot;</span><span class="st">], exprs_trans[,</span><span class="ch">\&quot;</span><span class="st">CD4</span><span class="ch">\&quot;</span><span class="st">], n=50)</span>
+<span class="st">contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/OmhBhh8.png" alt="Raw ion counts vs arcsinh transformed counts" />
 <p class="caption">Raw ion counts vs arcsinh transformed counts</p>
@@ -823,79 +871,79 @@ contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)</code></pre>
 <div id="pre-gating" class="section level2">
 <h2><span class="header-section-number">2.3</span> Pre-gating</h2>
 <p>Pre-gating has the purpose to filter the data to consist only of live, intact, single cells. Traditionally, this is carried out in four steps, carried out for each sample. There are number of ways one can semi or fully automate this process (using unsupervised or supervised machine learning for instance), but for clarity we will perform &quot;old school&quot; pre-gating below - sped up by pre-gating all samples in one go (insofar as samples are comparable to a degree that enables this). In the following sections, we will work on all the samples as a single object, so first we reload the data into a data.frame.</p>
-<pre class="r"><code># For the next step, set working directory to the normalized samples
-setwd(\&quot;~/cytof_primer/fcs_files/normed/\&quot;)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># For the next step, set working directory to the normalized samples</span>
+<span class="kw">setwd</span>(\<span class="st">&quot;~/cytof_primer/fcs_files/normed/</span><span class="ch">\&quot;</span><span class="st">)</span>
 
-# Read in your normalized files and concatenate in a data frame (in this example we subset each matrix to 10,000 random events)
-fcs_files &lt;- list.files(pattern=&#39;.fcs$&#39;, full=TRUE, ignore.case = TRUE)
-exprs_set &lt;- data.frame()
-sample &lt;- c()
-for(i in fcs_files) {
-  fcs &lt;- read.FCS(filename=i, transformation=FALSE) 
-  exprs &lt;- fcs@exprs
-  markers &lt;- gsub(pattern = \&quot;.*_\&quot;, replacement = \&quot;\&quot;, x = as.vector(fcs@parameters@data$desc))
-  colnames(exprs)[which(!is.na(markers))] &lt;- markers[which(!is.na(markers))]
-  # exprs &lt;- cbind(floor(exprs[,!colnames(exprs) %in% instrument_channels]), exprs[,colnames(exprs) %in% instrument_channels])
-  exprs_set &lt;- rbind(exprs_set, exprs[sample(nrow(exprs), 10000),])
-  sample &lt;- append(sample, rep(i, 10000))
-}
-exprs_set$sample &lt;- sample
-instrument_channels &lt;- append(instrument_channels, \&quot;sample\&quot;)
+<span class="st"># Read in your normalized files and concatenate in a data frame (in this example we subset each matrix to 10,000 random events)</span>
+<span class="st">fcs_files &lt;- list.files(pattern=&#39;.fcs$&#39;, full=TRUE, ignore.case = TRUE)</span>
+<span class="st">exprs_set &lt;- data.frame()</span>
+<span class="st">sample &lt;- c()</span>
+<span class="st">for(i in fcs_files) {</span>
+<span class="st">  fcs &lt;- read.FCS(filename=i, transformation=FALSE) </span>
+<span class="st">  exprs &lt;- fcs@exprs</span>
+<span class="st">  markers &lt;- gsub(pattern = </span><span class="ch">\&quot;</span><span class="st">.*_</span><span class="ch">\&quot;</span><span class="st">, replacement = </span><span class="ch">\&quot;\&quot;</span><span class="st">, x = as.vector(fcs@parameters@data$desc))</span>
+<span class="st">  colnames(exprs)[which(!is.na(markers))] &lt;- markers[which(!is.na(markers))]</span>
+<span class="st">  # exprs &lt;- cbind(floor(exprs[,!colnames(exprs) %in% instrument_channels]), exprs[,colnames(exprs) %in% instrument_channels])</span>
+<span class="st">  exprs_set &lt;- rbind(exprs_set, exprs[sample(nrow(exprs), 10000),])</span>
+<span class="st">  sample &lt;- append(sample, rep(i, 10000))</span>
+<span class="st">}</span>
+<span class="st">exprs_set$sample &lt;- sample</span>
+<span class="st">instrument_channels &lt;- append(instrument_channels, </span><span class="ch">\&quot;</span><span class="st">sample</span><span class="ch">\&quot;</span><span class="st">)</span>
 
-# Make arcsinh transformed expression matrix (excluding channels that should remain linear - e.g. time, event length, etc.)
-cofac &lt;- 5 # For CyTOF data, the co-factor is set to 5
-exprs_set_trans &lt;-cbind(asinh(exprs_set[,c(pregating_channels, lineage_channels)]/cofac), exprs_set[,instrument_channels])</code></pre>
+<span class="st"># Make arcsinh transformed expression matrix (excluding channels that should remain linear - e.g. time, event length, etc.)</span>
+<span class="st">cofac &lt;- 5 # For CyTOF data, the co-factor is set to 5</span>
+<span class="st">exprs_set_trans &lt;-cbind(asinh(exprs_set[,c(pregating_channels, lineage_channels)]/cofac), exprs_set[,instrument_channels])</span></code></pre></div>
 <div id="batch-correction" class="section level3">
 <h3><span class="header-section-number">2.3.1</span> Batch correction</h3>
 <p>Insofar as all samples are run on the same instrument, with the same panel, by the same operator, and bead normalized together, it should be possible to avoid pre-gating all your samples one at the time, and rather doing it in one go. You may check that the distributions of bead, DNA, and live/dead measurements are somewhat similar:</p>
-<pre class="r"><code>library(scales)
-library(RColorBrewer)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(scales)
+<span class="kw">library</span>(RColorBrewer)
 
-cols &lt;- brewer.pal(5,&#39;Set1&#39;)
-par(mfrow=c(1,5))
+cols &lt;-<span class="st"> </span><span class="kw">brewer.pal</span>(<span class="dv">5</span>,<span class="st">&#39;Set1&#39;</span>)
+<span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">5</span>))
 
-for(c in 1:length(pregating_channels)) {
-  plot(1, type = \&quot;n\&quot;, xlim = c(0, max(exprs_set_trans[,pregating_channels[c]])), ylim = c(1, length(fcs_files) + 2), axes = FALSE, xlab = \&quot;\&quot;, ylab = \&quot;\&quot;, main=pregating_channels[c], cex.main=3)
-  for(s in 1:length(fcs_files)){
-    dens &lt;- density(exprs_set_trans[exprs_set_trans$sample==fcs_files[s],pregating_channels[c]])
-    dens$y = dens$y+(length(fcs_files)-s+1)
-    par(bg=NA)
-    lines(dens)
-    polygon(dens, col=alpha(cols[c],0.4), border = NA)
-    abline(h =(length(fcs_files)-s+1), lwd = 0.5)
-  }
-}</code></pre>
+<span class="cf">for</span>(c <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(pregating_channels)) {
+  <span class="kw">plot</span>(<span class="dv">1</span>, <span class="dt">type =</span> \<span class="st">&quot;n</span><span class="ch">\&quot;</span><span class="st">, xlim = c(0, max(exprs_set_trans[,pregating_channels[c]])), ylim = c(1, length(fcs_files) + 2), axes = FALSE, xlab = </span><span class="ch">\&quot;\&quot;</span><span class="st">, ylab = </span><span class="ch">\&quot;\&quot;</span><span class="st">, main=pregating_channels[c], cex.main=3)</span>
+<span class="st">  for(s in 1:length(fcs_files)){</span>
+<span class="st">    dens &lt;- density(exprs_set_trans[exprs_set_trans$sample==fcs_files[s],pregating_channels[c]])</span>
+<span class="st">    dens$y = dens$y+(length(fcs_files)-s+1)</span>
+<span class="st">    par(bg=NA)</span>
+<span class="st">    lines(dens)</span>
+<span class="st">    polygon(dens, col=alpha(cols[c],0.4), border = NA)</span>
+<span class="st">    abline(h =(length(fcs_files)-s+1), lwd = 0.5)</span>
+<span class="st">  }</span>
+<span class="st">}</span></code></pre></div>
 <p><img src=\"https://i.imgur.com/rRo1Ycg.png\" alt=\"Visualization of the manual pre-gating strategy\" style=\"width: 800px;\"/></p>
 <p>As can be seen all five pre-gating channels are largely comparable in all samples, and batch correction is not necesarry for pre-gating.</p>
 <p>In case your data doesn’t look quite as nice (these samples were run on the same instrument, by the same operator, during the course of a single day), you can correct for batch effect channel-by-channel using a range based approach (basically a linear alignment of densities) or a warping normalization that enables non-linear adjustments to individual peaks in the data (frequently referred to as landmarks).</p>
 <p>First, let’s construct an example:</p>
-<pre class="r"><code># Create two toy batches of bimodal densities (the cydar packages only takes lists of lists as input)
-batches &lt;- list()
-x &lt;- list()
-ex &lt;- matrix(c(rnorm(500,2,1), rnorm(500,25,2)), ncol=1)
-colnames(ex) &lt;- \&quot;CDx\&quot;
-x[[\&quot;sample_Y\&quot;]] &lt;- ex
-batches[[\&quot;Batch1\&quot;]] &lt;- x
-ex &lt;- matrix(c(rnorm(500,2.1,1.1), rnorm(500,15,2)), ncol=1)
-colnames(ex) &lt;- \&quot;CDx\&quot;
-x[[\&quot;sample_Y\&quot;]] &lt;- ex
-batches[[\&quot;Batch2\&quot;]] &lt;- x
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create two toy batches of bimodal densities (the cydar packages only takes lists of lists as input)</span>
+batches &lt;-<span class="st"> </span><span class="kw">list</span>()
+x &lt;-<span class="st"> </span><span class="kw">list</span>()
+ex &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rnorm</span>(<span class="dv">500</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="kw">rnorm</span>(<span class="dv">500</span>,<span class="dv">25</span>,<span class="dv">2</span>)), <span class="dt">ncol=</span><span class="dv">1</span>)
+<span class="kw">colnames</span>(ex) &lt;-<span class="st"> </span>\<span class="st">&quot;CDx</span><span class="ch">\&quot;</span>
+<span class="st">x[[</span><span class="ch">\&quot;</span><span class="st">sample_Y</span><span class="ch">\&quot;</span><span class="st">]] &lt;- ex</span>
+<span class="st">batches[[</span><span class="ch">\&quot;</span><span class="st">Batch1</span><span class="ch">\&quot;</span><span class="st">]] &lt;- x</span>
+<span class="st">ex &lt;- matrix(c(rnorm(500,2.1,1.1), rnorm(500,15,2)), ncol=1)</span>
+<span class="st">colnames(ex) &lt;- </span><span class="ch">\&quot;</span><span class="st">CDx</span><span class="ch">\&quot;</span>
+<span class="st">x[[</span><span class="ch">\&quot;</span><span class="st">sample_Y</span><span class="ch">\&quot;</span><span class="st">]] &lt;- ex</span>
+<span class="st">batches[[</span><span class="ch">\&quot;</span><span class="st">Batch2</span><span class="ch">\&quot;</span><span class="st">]] &lt;- x</span>
 
-# Plot the marker distributions
-plot(density(batches$Batch1$sample_Y), main=\&quot;uncorrected samples\&quot;, ylim=c(0,0.09))
-points(density(batches$Batch2$sample_Y), type=\&quot;l\&quot;, col=\&quot;red\&quot;)</code></pre>
+<span class="st"># Plot the marker distributions</span>
+<span class="st">plot(density(batches$Batch1$sample_Y), main=</span><span class="ch">\&quot;</span><span class="st">uncorrected samples</span><span class="ch">\&quot;</span><span class="st">, ylim=c(0,0.09))</span>
+<span class="st">points(density(batches$Batch2$sample_Y), type=</span><span class="ch">\&quot;</span><span class="st">l</span><span class="ch">\&quot;</span><span class="st">, col=</span><span class="ch">\&quot;</span><span class="st">red</span><span class="ch">\&quot;</span><span class="st">)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/3SdFPxL.png" alt="Uncorrected samples" />
 <p class="caption">Uncorrected samples</p>
 </div>
 <p>The distributions are clearly unaligned and we will need to correct for this before we can analyze them together:</p>
-<pre class="r"><code># Run the normalization
-library(cydar)
-corrected &lt;- normalizeBatch(batches, batch.comp = NULL, mode=\&quot;warp\&quot;)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Run the normalization</span>
+<span class="kw">library</span>(cydar)
+corrected &lt;-<span class="st"> </span><span class="kw">normalizeBatch</span>(batches, <span class="dt">batch.comp =</span> <span class="ot">NULL</span>, <span class="dt">mode=</span>\<span class="st">&quot;warp</span><span class="ch">\&quot;</span><span class="st">)</span>
 
-# Plot the results
-plot(density(corrected$Batch1$sample_Y), main=\&quot;batch corrected samples\&quot;)
-points(density(corrected$Batch2$sample_Y), type=\&quot;l\&quot;, col=\&quot;red\&quot;)</code></pre>
+<span class="st"># Plot the results</span>
+<span class="st">plot(density(corrected$Batch1$sample_Y), main=</span><span class="ch">\&quot;</span><span class="st">batch corrected samples</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">points(density(corrected$Batch2$sample_Y), type=</span><span class="ch">\&quot;</span><span class="st">l</span><span class="ch">\&quot;</span><span class="st">, col=</span><span class="ch">\&quot;</span><span class="st">red</span><span class="ch">\&quot;</span><span class="st">)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/NrlRQJV.png" alt="Batch corrected data" />
 <p class="caption">Batch corrected data</p>
@@ -908,26 +956,26 @@ points(density(corrected$Batch2$sample_Y), type=\&quot;l\&quot;, col=\&quot;red\
 <div id="gating-for-cells-beads-vs.dna" class="section level3">
 <h3><span class="header-section-number">2.3.2</span> Gating for cells (beads vs. DNA)</h3>
 <p>The first step is to gate out beads, cell/bead dobulets, and debris. This is done by generating a biaxial plot with a DNA channel (e.g. <sup>191</sup>Ir) on one axis and a bead-only isotope (<sup>140</sup>Ce) on the other. A single bead should be DNA-negative and <sup>140</sup>Ce-positive, and cells should be DNA-positive and <sup>140</sup>Ce-negative. Double negatives are considered to be debris and double positives are commonly doublets. Below is a code snippet for conducting this step after initializing as described <a href="#fcs">above</a>.</p>
-<pre class="r"><code># Load necessary packages
-library(MASS)
-library(RColorBrewer)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load necessary packages</span>
+<span class="kw">library</span>(MASS)
+<span class="kw">library</span>(RColorBrewer)
 
-# Make color palette using color brewer
-k &lt;- 11; my.cols &lt;- rev(brewer.pal(k, \&quot;RdYlBu\&quot;))
+<span class="co"># Make color palette using color brewer</span>
+k &lt;-<span class="st"> </span><span class="dv">11</span>; my.cols &lt;-<span class="st"> </span><span class="kw">rev</span>(<span class="kw">brewer.pal</span>(k, \<span class="st">&quot;RdYlBu</span><span class="ch">\&quot;</span><span class="st">))</span>
 
-# Gate for cells (beads vs. DNA)
-sub &lt;- exprs_set_trans[exprs_set_trans$sample==fcs_files[4],c(\&quot;Bead\&quot;, \&quot;DNA1\&quot;)]
-z &lt;- kde2d(x=sub[,1], y=sub[,2], n=50, h=max(bandwidth.nrd(sub[,1]), bandwidth.nrd(sub[,2])))
+<span class="st"># Gate for cells (beads vs. DNA)</span>
+<span class="st">sub &lt;- exprs_set_trans[exprs_set_trans$sample==fcs_files[4],c(</span><span class="ch">\&quot;</span><span class="st">Bead</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">DNA1</span><span class="ch">\&quot;</span><span class="st">)]</span>
+<span class="st">z &lt;- kde2d(x=sub[,1], y=sub[,2], n=50, h=max(bandwidth.nrd(sub[,1]), bandwidth.nrd(sub[,2])))</span>
 
-# Generating a plot for gating visualization
-plot(sub, pch=\&quot;.\&quot;, cex=0.1, col=\&quot;gray\&quot;, xlab=colnames(sub)[1], ylab=colnames(sub)[2], xlim=c(0,max(sub[,1])), ylim=c(0,max(sub[,2])))
-contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)
+<span class="st"># Generating a plot for gating visualization</span>
+<span class="st">plot(sub, pch=</span><span class="ch">\&quot;</span><span class="st">.</span><span class="ch">\&quot;</span><span class="st">, cex=0.1, col=</span><span class="ch">\&quot;</span><span class="st">gray</span><span class="ch">\&quot;</span><span class="st">, xlab=colnames(sub)[1], ylab=colnames(sub)[2], xlim=c(0,max(sub[,1])), ylim=c(0,max(sub[,2])))</span>
+<span class="st">contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)</span>
 
-# Set gate boundaries - the values should be manually adjusted
-left &lt;- 0; right &lt;- 3; lower &lt;- 6; upper &lt;- 9
-rect(left,lower,right,upper,border=\&quot;red\&quot;)
-cells &lt;- exprs_set_trans[exprs_set_trans[,\&quot;Bead\&quot;] &lt; right,]; cells &lt;- cells[cells[,\&quot;DNA1\&quot;] &gt; lower &amp; cells[,\&quot;DNA1\&quot;] &lt; upper,]
-paste(\&quot;cells: \&quot;, round((nrow(cells)/nrow(exprs_set_trans))*100, digits=2), \&quot;%\&quot;, sep=\&quot;\&quot;)</code></pre>
+<span class="st"># Set gate boundaries - the values should be manually adjusted</span>
+<span class="st">left &lt;- 0; right &lt;- 3; lower &lt;- 6; upper &lt;- 9</span>
+<span class="st">rect(left,lower,right,upper,border=</span><span class="ch">\&quot;</span><span class="st">red</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">cells &lt;- exprs_set_trans[exprs_set_trans[,</span><span class="ch">\&quot;</span><span class="st">Bead</span><span class="ch">\&quot;</span><span class="st">] &lt; right,]; cells &lt;- cells[cells[,</span><span class="ch">\&quot;</span><span class="st">DNA1</span><span class="ch">\&quot;</span><span class="st">] &gt; lower &amp; cells[,</span><span class="ch">\&quot;</span><span class="st">DNA1</span><span class="ch">\&quot;</span><span class="st">] &lt; upper,]</span>
+<span class="st">paste(</span><span class="ch">\&quot;</span><span class="st">cells: </span><span class="ch">\&quot;</span><span class="st">, round((nrow(cells)/nrow(exprs_set_trans))*100, digits=2), </span><span class="ch">\&quot;</span><span class="st">%</span><span class="ch">\&quot;</span><span class="st">, sep=</span><span class="ch">\&quot;\&quot;</span><span class="st">)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/SHUUXb7.png" alt="Gating for cell" />
 <p class="caption">Gating for cell</p>
@@ -936,19 +984,19 @@ paste(\&quot;cells: \&quot;, round((nrow(cells)/nrow(exprs_set_trans))*100, digi
 <div id="gating-for-intact-cells-dna1-vs-dna2" class="section level3">
 <h3><span class="header-section-number">2.3.3</span> Gating for intact cells (DNA1 vs DNA2)</h3>
 <p>The second step is to gate for intact cells - usually by generation a bixaial plot with the two DNA channels (<sup>191</sup>Ir and <sup>193</sup>Ir) and gating for events, which express both at a balanced level. If events express only little DNA it is likely debris, but if DNA expression is too high, they are likely cell doublets.</p>
-<pre class="r"><code># Gate for intact cells (DNA1 vs DNA2)
-sub &lt;- exprs_set_trans[,c(\&quot;DNA1\&quot;, \&quot;DNA2\&quot;)]
-z &lt;- kde2d(sub[,1], sub[,2], n=50)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Gate for intact cells (DNA1 vs DNA2)</span>
+sub &lt;-<span class="st"> </span>exprs_set_trans[,<span class="kw">c</span>(\<span class="st">&quot;DNA1</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">DNA2</span><span class="ch">\&quot;</span><span class="st">)]</span>
+<span class="st">z &lt;- kde2d(sub[,1], sub[,2], n=50)</span>
 
-# Generating a plot for gating visualization
-plot(sub, pch=\&quot;.\&quot;, cex=0.1, col=\&quot;gray\&quot;, xlab=colnames(sub)[1], ylab=colnames(sub)[2], xlim=c(0,max(sub[,1])), ylim=c(0,max(sub[,2])))
-contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)
+<span class="st"># Generating a plot for gating visualization</span>
+<span class="st">plot(sub, pch=</span><span class="ch">\&quot;</span><span class="st">.</span><span class="ch">\&quot;</span><span class="st">, cex=0.1, col=</span><span class="ch">\&quot;</span><span class="st">gray</span><span class="ch">\&quot;</span><span class="st">, xlab=colnames(sub)[1], ylab=colnames(sub)[2], xlim=c(0,max(sub[,1])), ylim=c(0,max(sub[,2])))</span>
+<span class="st">contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)</span>
 
-# Set gate boundaries - the values should be manually adjusted
-left &lt;- 6.3; right &lt;- 8.2; lower &lt;- 6.8; upper &lt;- 8.85
-rect(left,lower,right,upper,border=\&quot;red\&quot;)
-intact &lt;- cells[cells[,\&quot;DNA1\&quot;] &gt; left &amp; cells[,\&quot;DNA1\&quot;] &lt; right,]; intact &lt;- intact[intact[,\&quot;DNA2\&quot;] &gt; lower &amp; intact[,\&quot;DNA2\&quot;] &lt; upper,]
-paste(\&quot;intact cells: \&quot;, round((nrow(intact)/nrow(cells))*100, digits=2), \&quot;%\&quot;, sep=\&quot;\&quot;)</code></pre>
+<span class="st"># Set gate boundaries - the values should be manually adjusted</span>
+<span class="st">left &lt;- 6.3; right &lt;- 8.2; lower &lt;- 6.8; upper &lt;- 8.85</span>
+<span class="st">rect(left,lower,right,upper,border=</span><span class="ch">\&quot;</span><span class="st">red</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">intact &lt;- cells[cells[,</span><span class="ch">\&quot;</span><span class="st">DNA1</span><span class="ch">\&quot;</span><span class="st">] &gt; left &amp; cells[,</span><span class="ch">\&quot;</span><span class="st">DNA1</span><span class="ch">\&quot;</span><span class="st">] &lt; right,]; intact &lt;- intact[intact[,</span><span class="ch">\&quot;</span><span class="st">DNA2</span><span class="ch">\&quot;</span><span class="st">] &gt; lower &amp; intact[,</span><span class="ch">\&quot;</span><span class="st">DNA2</span><span class="ch">\&quot;</span><span class="st">] &lt; upper,]</span>
+<span class="st">paste(</span><span class="ch">\&quot;</span><span class="st">intact cells: </span><span class="ch">\&quot;</span><span class="st">, round((nrow(intact)/nrow(cells))*100, digits=2), </span><span class="ch">\&quot;</span><span class="st">%</span><span class="ch">\&quot;</span><span class="st">, sep=</span><span class="ch">\&quot;\&quot;</span><span class="st">)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/rpi3Lh2.png" alt="Gating for intact cells" />
 <p class="caption">Gating for intact cells</p>
@@ -957,19 +1005,19 @@ paste(\&quot;intact cells: \&quot;, round((nrow(intact)/nrow(cells))*100, digits
 <div id="gating-for-singlets-event-length-vs-dna" class="section level3">
 <h3><span class="header-section-number">2.3.4</span> Gating for singlets (event length vs DNA)</h3>
 <p>The third step is to gate out doublets more specifically. This can be done by biaxially plotting event length against a DNA channel and gating for the events which have a length within the range of most events.</p>
-<pre class="r"><code># Gate for singlets (event length vs. DNA)
-sub &lt;- intact[,c(\&quot;Event_length\&quot;, \&quot;DNA1\&quot;)]
-z &lt;- kde2d(sub[,1], sub[,2], n=50)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Gate for singlets (event length vs. DNA)</span>
+sub &lt;-<span class="st"> </span>intact[,<span class="kw">c</span>(\<span class="st">&quot;Event_length</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">DNA1</span><span class="ch">\&quot;</span><span class="st">)]</span>
+<span class="st">z &lt;- kde2d(sub[,1], sub[,2], n=50)</span>
 
-# Generating a plot for gating visualization
-plot(sub, pch=\&quot;.\&quot;, cex=0.1, col=\&quot;gray\&quot;, xlab=colnames(sub)[1], ylab=colnames(sub)[2], xlim=c(0,max(sub[,1])), ylim=c(0,max(sub[,2])))
-contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)
+<span class="st"># Generating a plot for gating visualization</span>
+<span class="st">plot(sub, pch=</span><span class="ch">\&quot;</span><span class="st">.</span><span class="ch">\&quot;</span><span class="st">, cex=0.1, col=</span><span class="ch">\&quot;</span><span class="st">gray</span><span class="ch">\&quot;</span><span class="st">, xlab=colnames(sub)[1], ylab=colnames(sub)[2], xlim=c(0,max(sub[,1])), ylim=c(0,max(sub[,2])))</span>
+<span class="st">contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)</span>
 
-# Set gate boundaries - the values should be manually adjusted
-left &lt;- 11; bottom &lt;- min(sub[,2]); right &lt;- 21; upper &lt;- max(sub[,2])
-rect(left,bottom,right,upper,border=\&quot;red\&quot;, lwd=3) # Draw cells gate (format: ll x,y; ur x,y)
-singlets &lt;- intact[intact[,\&quot;Event_length\&quot;] &gt; left &amp; intact[,\&quot;Event_length\&quot;] &lt; right,]
-paste(\&quot;Intact singlets: \&quot;, round((nrow(singlets)/nrow(intact))*100, digits=2), \&quot;%\&quot;, sep=\&quot;\&quot;)</code></pre>
+<span class="st"># Set gate boundaries - the values should be manually adjusted</span>
+<span class="st">left &lt;- 11; bottom &lt;- min(sub[,2]); right &lt;- 21; upper &lt;- max(sub[,2])</span>
+<span class="st">rect(left,bottom,right,upper,border=</span><span class="ch">\&quot;</span><span class="st">red</span><span class="ch">\&quot;</span><span class="st">, lwd=3) # Draw cells gate (format: ll x,y; ur x,y)</span>
+<span class="st">singlets &lt;- intact[intact[,</span><span class="ch">\&quot;</span><span class="st">Event_length</span><span class="ch">\&quot;</span><span class="st">] &gt; left &amp; intact[,</span><span class="ch">\&quot;</span><span class="st">Event_length</span><span class="ch">\&quot;</span><span class="st">] &lt; right,]</span>
+<span class="st">paste(</span><span class="ch">\&quot;</span><span class="st">Intact singlets: </span><span class="ch">\&quot;</span><span class="st">, round((nrow(singlets)/nrow(intact))*100, digits=2), </span><span class="ch">\&quot;</span><span class="st">%</span><span class="ch">\&quot;</span><span class="st">, sep=</span><span class="ch">\&quot;\&quot;</span><span class="st">)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/32Irz1E.png" alt="Gating for singlets" />
 <p class="caption">Gating for singlets</p>
@@ -978,31 +1026,31 @@ paste(\&quot;Intact singlets: \&quot;, round((nrow(singlets)/nrow(intact))*100, 
 <div id="gating-for-live-cells-livedead-stain-vs-dna" class="section level3">
 <h3><span class="header-section-number">2.3.5</span> Gating for live cells (live/dead stain vs DNA)</h3>
 <p>The final step is to remove dead cells. This is typically carried out by using a viability stain. This staining takes place before ligation of antibody-probes. Because dead cells have disrupted membranes, the stain can enter them and form bonds with intracellular molecules. The gating itself is carried out by biaxially plotting the viability stain and a DNA channel and gating out cells with a high amount of staining.</p>
-<pre class="r"><code># Gate for live
-sub &lt;- singlets[,c(\&quot;Dead\&quot;, \&quot;DNA1\&quot;)]
-z &lt;- kde2d(sub[,1], sub[,2], n=50)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Gate for live</span>
+sub &lt;-<span class="st"> </span>singlets[,<span class="kw">c</span>(\<span class="st">&quot;Dead</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">DNA1</span><span class="ch">\&quot;</span><span class="st">)]</span>
+<span class="st">z &lt;- kde2d(sub[,1], sub[,2], n=50)</span>
 
-# Generating a plot for gating visualization
-plot(sub, pch=\&quot;.\&quot;, cex=0.1, col=\&quot;gray\&quot;, xlab=colnames(sub)[1], ylab=colnames(sub)[2], xlim=c(0,max(sub[,1])), ylim=c(0,max(sub[,2])))
-contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)
+<span class="st"># Generating a plot for gating visualization</span>
+<span class="st">plot(sub, pch=</span><span class="ch">\&quot;</span><span class="st">.</span><span class="ch">\&quot;</span><span class="st">, cex=0.1, col=</span><span class="ch">\&quot;</span><span class="st">gray</span><span class="ch">\&quot;</span><span class="st">, xlab=colnames(sub)[1], ylab=colnames(sub)[2], xlim=c(0,max(sub[,1])), ylim=c(0,max(sub[,2])))</span>
+<span class="st">contour(z, drawlabels=FALSE, nlevels=k, col=my.cols, add=TRUE)</span>
 
-# Set gate boundaries - the values should be manually adjusted
-left &lt;- 0; bottom &lt;- min(sub[,2]); right &lt;- 5; upper &lt;- max(sub[,2])
-rect(left,bottom,right,upper,border=\&quot;red\&quot;, lwd=3)
-live &lt;- singlets[singlets[,\&quot;Dead\&quot;] &lt; right,]
-paste(\&quot;Live intact singlets: \&quot;, round((nrow(live)/nrow(singlets))*100, digits=2), \&quot;%\&quot;, sep=\&quot;\&quot;)</code></pre>
+<span class="st"># Set gate boundaries - the values should be manually adjusted</span>
+<span class="st">left &lt;- 0; bottom &lt;- min(sub[,2]); right &lt;- 5; upper &lt;- max(sub[,2])</span>
+<span class="st">rect(left,bottom,right,upper,border=</span><span class="ch">\&quot;</span><span class="st">red</span><span class="ch">\&quot;</span><span class="st">, lwd=3)</span>
+<span class="st">live &lt;- singlets[singlets[,</span><span class="ch">\&quot;</span><span class="st">Dead</span><span class="ch">\&quot;</span><span class="st">] &lt; right,]</span>
+<span class="st">paste(</span><span class="ch">\&quot;</span><span class="st">Live intact singlets: </span><span class="ch">\&quot;</span><span class="st">, round((nrow(live)/nrow(singlets))*100, digits=2), </span><span class="ch">\&quot;</span><span class="st">%</span><span class="ch">\&quot;</span><span class="st">, sep=</span><span class="ch">\&quot;\&quot;</span><span class="st">)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/UyfMgo9.png" alt="Gating for live cells" />
 <p class="caption">Gating for live cells</p>
 </div>
 <p>Finally, you can print the recovery percentage for each sample and save the live intact singlets to a new FCS file if you need to.</p>
-<pre class="r"><code>for (i in fcs_files) {
-  print(paste(\&quot;Total recovery for \&quot;, i, \&quot;: \&quot;, round((nrow(live[live$sample==i,])/nrow(exprs_set_trans[exprs_set_trans$sample==i,]))*100, digits=2), \&quot;%\&quot;, sep=\&quot;\&quot;))
-}
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> fcs_files) {
+  <span class="kw">print</span>(<span class="kw">paste</span>(\<span class="st">&quot;Total recovery for </span><span class="ch">\&quot;</span><span class="st">, i, </span><span class="ch">\&quot;</span><span class="st">: </span><span class="ch">\&quot;</span><span class="st">, round((nrow(live[live$sample==i,])/nrow(exprs_set_trans[exprs_set_trans$sample==i,]))*100, digits=2), </span><span class="ch">\&quot;</span><span class="st">%</span><span class="ch">\&quot;</span><span class="st">, sep=</span><span class="ch">\&quot;\&quot;</span><span class="st">))</span>
+<span class="st">}</span>
 
-# Save FCS containing live intact singlets
-ff2 &lt;- flowFrame(xt_live_intact_singlets, ff@parameters, ff@description)
-suppressWarnings(write.FCS(ff2, filename = paste(\&quot;./\&quot;,  file, \&quot;live_intact_singlets\&quot;, sep=\&quot;\&quot;), what=\&quot;numeric\&quot;, delimiter = \&quot;\\\\\&quot;))</code></pre>
+<span class="st"># Save FCS containing live intact singlets</span>
+<span class="st">ff2 &lt;- flowFrame(xt_live_intact_singlets, ff@parameters, ff@description)</span>
+<span class="st">suppressWarnings(write.FCS(ff2, filename = paste(</span><span class="ch">\&quot;</span><span class="st">./</span><span class="ch">\&quot;</span><span class="st">,  file, </span><span class="ch">\&quot;</span><span class="st">live_intact_singlets</span><span class="ch">\&quot;</span><span class="st">, sep=</span><span class="ch">\&quot;\&quot;</span><span class="st">), what=</span><span class="ch">\&quot;</span><span class="st">numeric</span><span class="ch">\&quot;</span><span class="st">, delimiter = </span><span class="ch">\&quot;\\\\\&quot;</span><span class="st">))</span></code></pre></div>
 <p>More automated options for pre-gating can be conceived. One option is to train a supervised model, such as a support vector machine, on a sample for which manual gating has already been carried out. However, in this case it is also necessary to normalize and batch correct the data for alignment of the distributions of the pre-gating channels.</p>
 </div>
 </div>
@@ -1029,8 +1077,8 @@ suppressWarnings(write.FCS(ff2, filename = paste(\&quot;./\&quot;,  file, \&quot
 <div id="principal-component-analysis-pca" class="section level3">
 <h3><span class="header-section-number">3.1.1</span> Principal component analysis {pca}</h3>
 <p>The most commonly used algorithm for dimensionality reduction in the biological sciences is principal component analysis (PCA). For mass cytometry data, a PCA will often capture 40-50% of the variance on the first 2-3 PCs, but since the distance between events is linear, data existing on a nonlinear manifold will be misrepresented <a href="http://www.jimmunol.org/content/195/3/773.long">(Chester &amp; Maecker 2015)</a>. Whether this is an issue with CyTOF data or not depends heavily on the source of data. For example, as cells in the hematopoietic system develop in a hierarchical structure, the transition between some cells will result in a continuum rather than distinct clusters, which may not be entirely captured by PCA.</p>
-<pre class="r"><code>pca &lt;- prcomp(live[live$sample==fcs_files[1],lineage_channels], scale. = TRUE)
-plot(pca$x[,1:2], pch=21, bg=alpha(\&quot;slategray4\&quot;,0.6), col=\&quot;grey\&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pca &lt;-<span class="st"> </span><span class="kw">prcomp</span>(live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[<span class="dv">1</span>],lineage_channels], <span class="dt">scale. =</span> <span class="ot">TRUE</span>)
+<span class="kw">plot</span>(pca<span class="op">$</span>x[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dt">pch=</span><span class="dv">21</span>, <span class="dt">bg=</span><span class="kw">alpha</span>(\<span class="st">&quot;slategray4</span><span class="ch">\&quot;</span><span class="st">,0.6), col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/Dld6ETL.png" alt="2D PCA" />
 <p class="caption">2D PCA</p>
@@ -1040,25 +1088,25 @@ plot(pca$x[,1:2], pch=21, bg=alpha(\&quot;slategray4\&quot;,0.6), col=\&quot;gre
 <h3><span class="header-section-number">3.1.2</span> t-SNE {tsne}</h3>
 <p>The t-Distributed Stochastic Neighbor Embedding (t-SNE) dimensionality reduction algorithm is a popular tool for dimensionality reduction of cytometry data (van der Maaten and Hinton, 2008). The distance between data points are represented by a t-distribution, meaning that multidimensional distances are preserved to a greater degree than PCA. However, there are a number of features of the algorithm that can lead to misinterpretation by the unaware user. For example, t-SNE (intentionally) does not preserve distances nor density, and it only preserves nearest-neighbors if reasonable hyperparameters are selected. This means that the sizes of the clusters are not always indicative of the variability within the cluster, and similarly, the distance between two clusters is not always proportional to how different they really are. In this regard, the algorithm is quite sensitive to the user making an informed choice of the perplexity and epsilon hyperparameters to reasonably represent the underlying structure of the data (See Martin Wattenberg et al.’s excellent blog post on <a href="http://distill.pub/2016/misread-tsne/">how to use t-SNE efficiently</a>.). Another feature that may be considered a disadvantage to some is that t-SNE depends on a random start and is non-deterministic even on the same data unless the same seed and iteration limit is used for each run. Additionally, removing or adding even a few data points from the input set will affect the layout of the remaining events, and consequently it is not directly possible to add samples to an existing t-SNE plot. Lastly, t-SNE does not allow for identical events, which, in the case of immune profiling where one would expect at least some identical cells in each cluster, means discarding or scrambling data. Dimensionality reduction definitely has a place in mass cytometry analysis pipelines, but for these reasons, it should be limited to exploratory and/or post-analysis visualizations. t-SNE is implemented in a number of languages including R, Python, C++, etc., and as a plug-in to FlowJo X. The MATLAB implementation of t-SNE often used for mass cytometry data in GUI pipelines is referred to as viSNE (<a href="https://doi.org/10.1038/nbt.2594">Amir et al., 2013</a>).</p>
 <p>Before running t-SNE, it is necessary to remove identical events (if any) from the sample (duplicate rows).</p>
-<pre class="r"><code>table(duplicated(live[live$sample==fcs_files[1],lineage_channels]))
-# No duplicates here, but if so, they can be removed:
-live &lt;- live[-which(duplicated(live[live$sample==fcs_files[1],lineage_channels]))]</code></pre>
-<pre class="r"><code>library(Rtsne)
-set.seed(42)
-tsne &lt;- Rtsne(live[live$sample==fcs_files[1],lineage_channels])
-plot(tsne$Y[,1:2], pch=21, bg=alpha(\&quot;slategray4\&quot;,0.6), col=\&quot;grey\&quot;, xlab=\&quot;\&quot;, ylab=\&quot;\&quot;, lwd=0.5)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(<span class="kw">duplicated</span>(live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[<span class="dv">1</span>],lineage_channels]))
+<span class="co"># No duplicates here, but if so, they can be removed:</span>
+live &lt;-<span class="st"> </span>live[<span class="op">-</span><span class="kw">which</span>(<span class="kw">duplicated</span>(live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[<span class="dv">1</span>],lineage_channels]))]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Rtsne)
+<span class="kw">set.seed</span>(<span class="dv">42</span>)
+tsne &lt;-<span class="st"> </span><span class="kw">Rtsne</span>(live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[<span class="dv">1</span>],lineage_channels])
+<span class="kw">plot</span>(tsne<span class="op">$</span>Y[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dt">pch=</span><span class="dv">21</span>, <span class="dt">bg=</span><span class="kw">alpha</span>(\<span class="st">&quot;slategray4</span><span class="ch">\&quot;</span><span class="st">,0.6), col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">, xlab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, ylab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, lwd=0.5)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/20LPhRO.png" alt="2D t-SNE" />
 <p class="caption">2D t-SNE</p>
 </div>
 <p>Even before clustering, it is possible to get some sense of the cell composition in a sample by selectively coloring cells by marker expression on the t-SNE plot:</p>
-<pre class="r"><code>par(mfrow=c(2,2))
-for(i in c(\&quot;CD4\&quot;, \&quot;CD8\&quot;, \&quot;CD19\&quot;, \&quot;CD56\&quot;)) {
-  cols_ramp &lt;- colorRamp(c(\&quot;slategray4\&quot;, \&quot;red\&quot;))
-  marker_exprs_scaled &lt;- (live[live$sample==fcs_files[1],i] - min(live[live$sample==fcs_files[1],i]))/diff(range(live[live$sample==fcs_files[1],i]))
-  cols &lt;- rgb(cols_ramp(marker_exprs_scaled), maxColorValue = 256)
-  plot(tsne$Y[,1:2], pch=21, bg=alpha(cols,0.6), col=\&quot;grey\&quot;, xlab=\&quot;\&quot;, ylab=\&quot;\&quot;, lwd=0.5, main=i)
-}</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">c</span>(\<span class="st">&quot;CD4</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD8</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD19</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD56</span><span class="ch">\&quot;</span><span class="st">)) {</span>
+<span class="st">  cols_ramp &lt;- colorRamp(c(</span><span class="ch">\&quot;</span><span class="st">slategray4</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">red</span><span class="ch">\&quot;</span><span class="st">))</span>
+<span class="st">  marker_exprs_scaled &lt;- (live[live$sample==fcs_files[1],i] - min(live[live$sample==fcs_files[1],i]))/diff(range(live[live$sample==fcs_files[1],i]))</span>
+<span class="st">  cols &lt;- rgb(cols_ramp(marker_exprs_scaled), maxColorValue = 256)</span>
+<span class="st">  plot(tsne$Y[,1:2], pch=21, bg=alpha(cols,0.6), col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">, xlab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, ylab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, lwd=0.5, main=i)</span>
+<span class="st">}</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/6KXyzP4.png" alt="Cells highlighted by marker expression" />
 <p class="caption">Cells highlighted by marker expression</p>
@@ -1068,22 +1116,22 @@ for(i in c(\&quot;CD4\&quot;, \&quot;CD8\&quot;, \&quot;CD19\&quot;, \&quot;CD56
 <h3><span class="header-section-number">3.1.3</span> UMAP</h3>
 <p>Uniform Manifold Approximation and Projection (UMAP) is a newer addition to the family of CyTOF-applicable dimensionality reduction methods (<a href="http://dx.doi.org/10.1038/nbt.4314">Becht et al., 2018</a>). It works in a fashion that is more similar to t-SNE than PCA, which means that it also views each cell as a member of a neighborhood of similar cells. However, it has several advantages over t-SNE. The first one is speed. For a small dataset there may not be a significant difference, bu you will surely notice it for a million cells. Furthermore, UMAP preserves global distances in the data a lot better than t-SNE. Recall that distances have no meaning in a t-SNE plot - you can not say anything about <em>how</em> different clusters are with t-SNE and distances between clusters tend to be fairly constant. In UMAP plots, distances once again have meaning, although they are not linear and directly interpretable as for PCA.</p>
 <p>UMAP, like t-SNE also requires setting a seed for each run to make it reproducible. UMAP is implemented in several languages including R and Python.</p>
-<pre class="r"><code>library(umap)
-set.seed(42)
-umap &lt;- umap(live[live$sample==fcs_files[1],lineage_channels], n_neighbors = 15, min_dist = 0.2, metric = &#39;euclidean&#39;, method = &#39;naive&#39;)
-plot(umap$layout[,1:2], col = &#39;grey&#39;, bg = scales::alpha(\&quot;slategray4\&quot;,0.6), pch = 21, xlab = &#39;UMAP1&#39;, ylab = &#39;UMAP2&#39;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(umap)
+<span class="kw">set.seed</span>(<span class="dv">42</span>)
+umap &lt;-<span class="st"> </span><span class="kw">umap</span>(live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[<span class="dv">1</span>],lineage_channels], <span class="dt">n_neighbors =</span> <span class="dv">15</span>, <span class="dt">min_dist =</span> <span class="fl">0.2</span>, <span class="dt">metric =</span> <span class="st">&#39;euclidean&#39;</span>, <span class="dt">method =</span> <span class="st">&#39;naive&#39;</span>)
+<span class="kw">plot</span>(umap<span class="op">$</span>layout[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dt">col =</span> <span class="st">&#39;grey&#39;</span>, <span class="dt">bg =</span> scales<span class="op">::</span><span class="kw">alpha</span>(\<span class="st">&quot;slategray4</span><span class="ch">\&quot;</span><span class="st">,0.6), pch = 21, xlab = &#39;UMAP1&#39;, ylab = &#39;UMAP2&#39;)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/TTxTrT4.jpg" alt="2D UMAP" />
 <p class="caption">2D UMAP</p>
 </div>
 <p>Again, it is possible to get a pretty good insight into cell composition in a sample by selectively coloring cells by marker expression on the UMAP plot - you will also notice how this is similar to the patterns seen with t-SNE:</p>
-<pre class="r"><code>par(mfrow=c(2,2))
-for(i in c(\&quot;CD4\&quot;, \&quot;CD8\&quot;, \&quot;CD19\&quot;, \&quot;CD56\&quot;)) {
-  cols_ramp &lt;- colorRamp(c(\&quot;slategray4\&quot;, \&quot;red\&quot;))
-  marker_exprs_scaled &lt;- (live[live$sample==fcs_files[1],i] - min(live[live$sample==fcs_files[1],i]))/diff(range(live[live$sample==fcs_files[1],i]))
-  cols &lt;- rgb(cols_ramp(marker_exprs_scaled), maxColorValue = 256)
-  plot(umap$layout[,1:2], pch=21, bg=alpha(cols,0.6), col=\&quot;grey\&quot;, xlab=\&quot;\&quot;, ylab=\&quot;\&quot;, lwd=0.5, main=i)
-}</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">c</span>(\<span class="st">&quot;CD4</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD8</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD19</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD56</span><span class="ch">\&quot;</span><span class="st">)) {</span>
+<span class="st">  cols_ramp &lt;- colorRamp(c(</span><span class="ch">\&quot;</span><span class="st">slategray4</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">red</span><span class="ch">\&quot;</span><span class="st">))</span>
+<span class="st">  marker_exprs_scaled &lt;- (live[live$sample==fcs_files[1],i] - min(live[live$sample==fcs_files[1],i]))/diff(range(live[live$sample==fcs_files[1],i]))</span>
+<span class="st">  cols &lt;- rgb(cols_ramp(marker_exprs_scaled), maxColorValue = 256)</span>
+<span class="st">  plot(umap$layout[,1:2], pch=21, bg=alpha(cols,0.6), col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">, xlab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, ylab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, lwd=0.5, main=i)</span>
+<span class="st">}</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/irRiEXw.jpg" alt="Cells highlighted by marker expression" />
 <p class="caption">Cells highlighted by marker expression</p>
@@ -1099,12 +1147,12 @@ for(i in c(\&quot;CD4\&quot;, \&quot;CD8\&quot;, \&quot;CD19\&quot;, \&quot;CD56
 <h3><span class="header-section-number">3.2.1</span> Phenograph</h3>
 <p>Phenograph is an algorithm which directly assigns single cells to a particular cluster while taking the all measured dimensions into account. Phenograph employs a k-nearest neighbor graph (k-NNG), in which each cell is a node that is connected to its nearest neighbors by edges, to cluster cells into phenotypically similar groups - cellular populations. Clusters consist of nodes with high inter-connectivity. Phenograph is implemented in the R package &quot;cytofkit&quot;.</p>
 <p>Phenograph also requires removal of duplicates (see <a href="#tsne">t-SNE section</a> above).</p>
-<pre class="r"><code>library(cytofkit)
-clusters_pg &lt;- cytof_cluster(xdata = live[live$sample==fcs_files[1],lineage_channels], method = \&quot;Rphenograph\&quot;)</code></pre>
-<pre class="r"><code># Visualize results on PCA
-getPalette = colorRampPalette(brewer.pal(9, \&quot;Set1\&quot;))
-cols &lt;- getPalette(max(clusters_pg))
-plot(pca$x[,1:2], pch=21, bg=alpha(col=cols[clusters_pg],0.6), col=\&quot;grey\&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cytofkit)
+clusters_pg &lt;-<span class="st"> </span><span class="kw">cytof_cluster</span>(<span class="dt">xdata =</span> live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[<span class="dv">1</span>],lineage_channels], <span class="dt">method =</span> \<span class="st">&quot;Rphenograph</span><span class="ch">\&quot;</span><span class="st">)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualize results on PCA</span>
+getPalette =<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">brewer.pal</span>(<span class="dv">9</span>, \<span class="st">&quot;Set1</span><span class="ch">\&quot;</span><span class="st">))</span>
+<span class="st">cols &lt;- getPalette(max(clusters_pg))</span>
+<span class="st">plot(pca$x[,1:2], pch=21, bg=alpha(col=cols[clusters_pg],0.6), col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/9LRWd3s.png" alt="2D PCA with phenograph clusters" />
 <p class="caption">2D PCA with phenograph clusters</p>
@@ -1114,10 +1162,10 @@ plot(pca$x[,1:2], pch=21, bg=alpha(col=cols[clusters_pg],0.6), col=\&quot;grey\&
 <img src="3D--PCA--with--Phenograph--clusters" alt="{&quot;type&quot;:&quot;data&quot;, &quot;dataset&quot;:&quot;59afbf1da6b06402ace2194d&quot;, &quot;subset&quot;:&quot;null&quot;}" />
 <p class="caption">{&quot;type&quot;:&quot;data&quot;, &quot;dataset&quot;:&quot;59afbf1da6b06402ace2194d&quot;, &quot;subset&quot;:&quot;null&quot;}</p>
 </div>
-<pre class="r"><code># Visualize results on t-SNE plot
-getPalette = colorRampPalette(brewer.pal(9, \&quot;Set1\&quot;))
-cols &lt;- getPalette(max(clusters_pg))
-plot(tsne$Y[,1:2], pch=21, bg=alpha(col=cols[clusters_pg],0.6), col=\&quot;grey\&quot;, xlab=\&quot;\&quot;, ylab=\&quot;\&quot;, lwd=0.5)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualize results on t-SNE plot</span>
+getPalette =<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">brewer.pal</span>(<span class="dv">9</span>, \<span class="st">&quot;Set1</span><span class="ch">\&quot;</span><span class="st">))</span>
+<span class="st">cols &lt;- getPalette(max(clusters_pg))</span>
+<span class="st">plot(tsne$Y[,1:2], pch=21, bg=alpha(col=cols[clusters_pg],0.6), col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">, xlab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, ylab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, lwd=0.5)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/sbEQxYt.png" alt="2D t-SNE with phenograph clusters" />
 <p class="caption">2D t-SNE with phenograph clusters</p>
@@ -1128,28 +1176,28 @@ plot(tsne$Y[,1:2], pch=21, bg=alpha(col=cols[clusters_pg],0.6), col=\&quot;grey\
 <p class="caption">{&quot;type&quot;:&quot;data&quot;, &quot;dataset&quot;:&quot;59afc3b6a6b06402ace2194e&quot;, &quot;subset&quot;:&quot;null&quot;}</p>
 </div>
 <p>If you want to see how multiple samples compare with clustering and t-SNE, one approach is to pool events from multiple samples, cluster them together, and plot them individually on a t-SNE canvas (recall that t-SNE will produce potentially vastly different layouts if samples are run separately). Below is an example with four samples:</p>
-<pre class="r"><code># Sample 5000 random events from each sample
-sub &lt;- NULL
-for(i in 1:4) {
-  temp &lt;- live[live$sample==fcs_files[i],]
-  sub &lt;- rbind(sub, temp[sample(nrow(temp), 5000, replace=FALSE),])
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Sample 5000 random events from each sample</span>
+sub &lt;-<span class="st"> </span><span class="ot">NULL</span>
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) {
+  temp &lt;-<span class="st"> </span>live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[i],]
+  sub &lt;-<span class="st"> </span><span class="kw">rbind</span>(sub, temp[<span class="kw">sample</span>(<span class="kw">nrow</span>(temp), <span class="dv">5000</span>, <span class="dt">replace=</span><span class="ot">FALSE</span>),])
 }
-# Check for duplicated events (remove if applicable)
-table(duplicated(sub[,lineage_channels]))
-sub &lt;- sub[-which(duplicated(sub[,lineage_channels]))]
-# Cluster using phenograph
-clusters_pg &lt;- cytof_cluster(xdata = sub[,lineage_channels], method = \&quot;Rphenograph\&quot;)
-# Run t-SNE
-set.seed(42)
-tsne &lt;- Rtsne(sub[,lineage_channels])
-# Plot each sample on t-SNE canvas consisting of all events
-getPalette = colorRampPalette(brewer.pal(9, \&quot;Set1\&quot;))
-cols &lt;- getPalette(max(clusters_pg))
-par(mfrow=c(2,2))
-for(i in 1:4) {
-  plot(tsne$Y[,1:2], pch=19, col=\&quot;slategray4\&quot;, xlab=\&quot;\&quot;, ylab=\&quot;\&quot;, lwd=0.5, main=paste(\&quot;sample\&quot;, i))
-  points(tsne$Y[sub$sample==unique(sub$sample)[i],1:2], pch=21, bg=alpha(col=cols[clusters_pg[sub$sample==unique(sub$sample)[i]]],0.6), col=\&quot;grey\&quot;, xlab=\&quot;\&quot;, ylab=\&quot;\&quot;, lwd=0.5)
-}</code></pre>
+<span class="co"># Check for duplicated events (remove if applicable)</span>
+<span class="kw">table</span>(<span class="kw">duplicated</span>(sub[,lineage_channels]))
+sub &lt;-<span class="st"> </span>sub[<span class="op">-</span><span class="kw">which</span>(<span class="kw">duplicated</span>(sub[,lineage_channels]))]
+<span class="co"># Cluster using phenograph</span>
+clusters_pg &lt;-<span class="st"> </span><span class="kw">cytof_cluster</span>(<span class="dt">xdata =</span> sub[,lineage_channels], <span class="dt">method =</span> \<span class="st">&quot;Rphenograph</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st"># Run t-SNE</span>
+<span class="st">set.seed(42)</span>
+<span class="st">tsne &lt;- Rtsne(sub[,lineage_channels])</span>
+<span class="st"># Plot each sample on t-SNE canvas consisting of all events</span>
+<span class="st">getPalette = colorRampPalette(brewer.pal(9, </span><span class="ch">\&quot;</span><span class="st">Set1</span><span class="ch">\&quot;</span><span class="st">))</span>
+<span class="st">cols &lt;- getPalette(max(clusters_pg))</span>
+<span class="st">par(mfrow=c(2,2))</span>
+<span class="st">for(i in 1:4) {</span>
+<span class="st">  plot(tsne$Y[,1:2], pch=19, col=</span><span class="ch">\&quot;</span><span class="st">slategray4</span><span class="ch">\&quot;</span><span class="st">, xlab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, ylab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, lwd=0.5, main=paste(</span><span class="ch">\&quot;</span><span class="st">sample</span><span class="ch">\&quot;</span><span class="st">, i))</span>
+<span class="st">  points(tsne$Y[sub$sample==unique(sub$sample)[i],1:2], pch=21, bg=alpha(col=cols[clusters_pg[sub$sample==unique(sub$sample)[i]]],0.6), col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">, xlab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, ylab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, lwd=0.5)</span>
+<span class="st">}</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/u693Qgl.png" alt="Sample comparison using t-SNE" />
 <p class="caption">Sample comparison using t-SNE</p>
@@ -1159,12 +1207,12 @@ for(i in 1:4) {
 <h3><span class="header-section-number">3.2.2</span> FlowSOM clustering</h3>
 <p>FlowSOM is a method for clustering and visualization of flow and mass cytometry data. FlowSOM uses two levels of clustering to visualize how the intensity of cell type markers varies across the populations, and the amount of clusters used is quite high to ensure a visualization of even small subpopulations.</p>
 <p>A standalone <a href="https://bioconductor.org/packages/release/bioc/html/FlowSOM.html">R package for FlowSOM</a> enables clustering, SOM, and MST visualizations. The package is built to run on FCS files rather than expression matrices, so here we will use the FlowSOM clustering implementation from the cytofkit package.</p>
-<pre class="r"><code>library(cytofkit)
-clusters_fs &lt;- cytof_cluster(xdata = live[live$sample==fcs_files[1],lineage_channels], method = \&quot;FlowSOM\&quot;, FlowSOM_k=25)</code></pre>
-<pre class="r"><code># Visualize results on t-SNE plot
-getPalette = colorRampPalette(brewer.pal(9, \&quot;Set1\&quot;))
-cols &lt;- getPalette(max(clusters_fs))
-plot(tsne$Y[,1:2], pch=21, bg=alpha(col=cols[clusters_fs],0.6), col=\&quot;grey\&quot;, xlab=\&quot;\&quot;, ylab=\&quot;\&quot;, lwd=0.5)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cytofkit)
+clusters_fs &lt;-<span class="st"> </span><span class="kw">cytof_cluster</span>(<span class="dt">xdata =</span> live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[<span class="dv">1</span>],lineage_channels], <span class="dt">method =</span> \<span class="st">&quot;FlowSOM</span><span class="ch">\&quot;</span><span class="st">, FlowSOM_k=25)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualize results on t-SNE plot</span>
+getPalette =<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">brewer.pal</span>(<span class="dv">9</span>, \<span class="st">&quot;Set1</span><span class="ch">\&quot;</span><span class="st">))</span>
+<span class="st">cols &lt;- getPalette(max(clusters_fs))</span>
+<span class="st">plot(tsne$Y[,1:2], pch=21, bg=alpha(col=cols[clusters_fs],0.6), col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">, xlab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, ylab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, lwd=0.5)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/QBZCQ7M.png" alt="2D t-SNE with FlowSOM cluster" />
 <p class="caption">2D t-SNE with FlowSOM cluster</p>
@@ -1178,16 +1226,16 @@ plot(tsne$Y[,1:2], pch=21, bg=alpha(col=cols[clusters_fs],0.6), col=\&quot;grey\
 <h3><span class="header-section-number">3.2.4</span> SCAFFoLD</h3>
 <p>SCAFFoLD (Single-Cell Analysis by Fixed Force- and Landmark-Directed) is, as the name indicates, a tool based on the use of force-directed graphs. First, cells are clustered, and then the clusters are spatialized in the plane. This means that similar clusters are put closer to each other than dissimilar ones. This results in a map. Furthermore, it is possible to highlight landmark populations that have been manually gated (working as references). As a result it is possible to compare a new sample to an old, to look for global structure changes. Samples can be clustered both individually and together.</p>
 <p>To use SCAFFoLD, you need a C++ compiler and once that is ready you can run the program as follows:</p>
-<pre class="r"><code># Loading required packages
-require(devtools) || install.packages(\&quot;devtools\&quot;)
-source(\&quot;http://bioconductor.org/biocLite.R\&quot;)
-biocLite(\&quot;flowCore\&quot;)
-library(devtools)
-install_github(\&quot;nolanlab/scaffold\&quot;)
-library(scaffold)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Loading required packages</span>
+<span class="kw">require</span>(devtools) <span class="op">||</span><span class="st"> </span><span class="kw">install.packages</span>(\<span class="st">&quot;devtools</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">source(</span><span class="ch">\&quot;</span><span class="st">http://bioconductor.org/biocLite.R</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">biocLite(</span><span class="ch">\&quot;</span><span class="st">flowCore</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">library(devtools)</span>
+<span class="st">install_github(</span><span class="ch">\&quot;</span><span class="st">nolanlab/scaffold</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">library(scaffold)</span>
 
-# Running SCAFFoLD (launching a GUI), please note that your current working directory should contain your files of interest before launching the GUI
-scaffold.run()</code></pre>
+<span class="st"># Running SCAFFoLD (launching a GUI), please note that your current working directory should contain your files of interest before launching the GUI</span>
+<span class="st">scaffold.run()</span></code></pre></div>
 <p>A complete use guide for the GUI is found <a href="https://github.com/nolanlab/scaffold">here</a>.</p>
 </div>
 </div>
@@ -1197,16 +1245,16 @@ scaffold.run()</code></pre>
 <div id="simple-heatmap" class="section level3">
 <h3><span class="header-section-number">3.3.1</span> Simple heatmap</h3>
 <p>The most basic way to visually show the marker profiles of clusters is with a simple heatmap of median marker expressions. This of course has the drawback of ignoring the variance of the marker expression in each cluster, but offers does offer some insights into the composition of each cluster.</p>
-<pre class="r"><code>library(miscTools)
-sub_matrix &lt;- live[live$sample==fcs_files[1],lineage_channels]
-cluster_matrix &lt;- NULL
-for(i in 1:max(clusters)) {
-  cluster_matrix &lt;- rbind(cluster_matrix, colMedians(sub_matrix[clusters==i,]))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(miscTools)
+sub_matrix &lt;-<span class="st"> </span>live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[<span class="dv">1</span>],lineage_channels]
+cluster_matrix &lt;-<span class="st"> </span><span class="ot">NULL</span>
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">max</span>(clusters)) {
+  cluster_matrix &lt;-<span class="st"> </span><span class="kw">rbind</span>(cluster_matrix, <span class="kw">colMedians</span>(sub_matrix[clusters<span class="op">==</span>i,]))
 }
-library(gplots)
-cols = colorRampPalette(c(brewer.pal(9, \&quot;Set1\&quot;)[2], brewer.pal(9, \&quot;Set1\&quot;)[1]))
-par(mar = c(2,2,2,2))
-heatmap.2(t(cluster_matrix), col=cols, trace=\&quot;none\&quot;, density.info = \&quot;none\&quot;, sepcolor = \&quot;white\&quot;, sepwidth = c(0.001, 0.001), colsep=c(1:ncol(t(cluster_matrix))), rowsep=c(1:nrow(t(cluster_matrix))), xlab=\&quot;cluster\&quot;, ylab=\&quot;channel\&quot;, scale=\&quot;row\&quot;)</code></pre>
+<span class="kw">library</span>(gplots)
+cols =<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">c</span>(<span class="kw">brewer.pal</span>(<span class="dv">9</span>, \<span class="st">&quot;Set1</span><span class="ch">\&quot;</span><span class="st">)[2], brewer.pal(9, </span><span class="ch">\&quot;</span><span class="st">Set1</span><span class="ch">\&quot;</span><span class="st">)[1]))</span>
+<span class="st">par(mar = c(2,2,2,2))</span>
+<span class="st">heatmap.2(t(cluster_matrix), col=cols, trace=</span><span class="ch">\&quot;</span><span class="st">none</span><span class="ch">\&quot;</span><span class="st">, density.info = </span><span class="ch">\&quot;</span><span class="st">none</span><span class="ch">\&quot;</span><span class="st">, sepcolor = </span><span class="ch">\&quot;</span><span class="st">white</span><span class="ch">\&quot;</span><span class="st">, sepwidth = c(0.001, 0.001), colsep=c(1:ncol(t(cluster_matrix))), rowsep=c(1:nrow(t(cluster_matrix))), xlab=</span><span class="ch">\&quot;</span><span class="st">cluster</span><span class="ch">\&quot;</span><span class="st">, ylab=</span><span class="ch">\&quot;</span><span class="st">channel</span><span class="ch">\&quot;</span><span class="st">, scale=</span><span class="ch">\&quot;</span><span class="st">row</span><span class="ch">\&quot;</span><span class="st">)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/fcAk8cO.png" alt="Simple heatmap of marker expression in each phenograph cluster" />
 <p class="caption">Simple heatmap of marker expression in each phenograph cluster</p>
@@ -1215,27 +1263,27 @@ heatmap.2(t(cluster_matrix), col=cols, trace=\&quot;none\&quot;, density.info = 
 <div id="radviz" class="section level3">
 <h3><span class="header-section-number">3.3.2</span> Radviz</h3>
 <p>Radviz is a visualization scheme that utilizes so-called dimensional anchors. Each anchor (in this case, each marker) is distributed on the circumference of a circle, and ordered in a way that markers whose expression correlate, are located closer to each other. Each event is then projected into the circular and located closer to markers that best describe them. The authors use the following descriptive analogy to explain the algorithm: &quot;In Radviz, each dimension in the dataset is represented by a dimensional anchor, and each dimensional anchor is distributed evenly on a unit circle. Each line in the data set corresponds to a point in the projection, that is linked to every dimensional anchor by a spring. Each spring’s stiffness corresponds to the value for that particular thing in that particular dimension. The position of the point is defined as the point in the 2D space where the spring’s tension is minimum.&quot; <a href="https://cran.r-project.org/web/packages/Radviz/vignettes/single_cell_projections.html">Read more here</a>.</p>
-<pre class="r"><code>library(Radviz)
-cell.S &lt;- make.S(colnames(sub_matrix))
-cell.sim &lt;- cosine(as.matrix(sub_matrix))
-optim.cell &lt;- do.optim(cell.S,cell.sim,iter=100,n=1000)
-cell.S &lt;- make.S(tail(optim.cell$best,1)[[1]])
-cell.rv &lt;- do.radviz(as.matrix(sub_matrix),cell.S)
-layout(matrix(c(1,1,1,2), nrow=1,ncol=4))
-plot(cell.rv, point.shape=19, point.color=alpha(cols[clusters], 0.6))
-plot.new()
-legend(\&quot;center\&quot;, legend=paste(\&quot;cluster\&quot;, 1:max(clusters)), col=cols, cex=1, pch=16, bty=&#39;n&#39;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Radviz)
+cell.S &lt;-<span class="st"> </span><span class="kw">make.S</span>(<span class="kw">colnames</span>(sub_matrix))
+cell.sim &lt;-<span class="st"> </span><span class="kw">cosine</span>(<span class="kw">as.matrix</span>(sub_matrix))
+optim.cell &lt;-<span class="st"> </span><span class="kw">do.optim</span>(cell.S,cell.sim,<span class="dt">iter=</span><span class="dv">100</span>,<span class="dt">n=</span><span class="dv">1000</span>)
+cell.S &lt;-<span class="st"> </span><span class="kw">make.S</span>(<span class="kw">tail</span>(optim.cell<span class="op">$</span>best,<span class="dv">1</span>)[[<span class="dv">1</span>]])
+cell.rv &lt;-<span class="st"> </span><span class="kw">do.radviz</span>(<span class="kw">as.matrix</span>(sub_matrix),cell.S)
+<span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">nrow=</span><span class="dv">1</span>,<span class="dt">ncol=</span><span class="dv">4</span>))
+<span class="kw">plot</span>(cell.rv, <span class="dt">point.shape=</span><span class="dv">19</span>, <span class="dt">point.color=</span><span class="kw">alpha</span>(cols[clusters], <span class="fl">0.6</span>))
+<span class="kw">plot.new</span>()
+<span class="kw">legend</span>(\<span class="st">&quot;center</span><span class="ch">\&quot;</span><span class="st">, legend=paste(</span><span class="ch">\&quot;</span><span class="st">cluster</span><span class="ch">\&quot;</span><span class="st">, 1:max(clusters)), col=cols, cex=1, pch=16, bty=&#39;n&#39;)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/Sm84OCA.png" alt="Radviz plot" />
 <p class="caption">Radviz plot</p>
 </div>
 <p>Clusters can be visualized more clearly in a &quot;bubble plot&quot; version of Radviz. In this plot, events are collapsed to the coordinates of their respective cluster centroid, where the size of the &quot;bubble&quot; corresponds to the size of the cluster.</p>
-<pre class="r"><code>pop.rv &lt;- do.radviz(cluster_matrix,cell.S)
-size &lt;- table(clusters)
-layout(matrix(c(1,1,1,2), nrow=1,ncol=4))
-bubbleRadviz(pop.rv, bubble.color=alpha(cols[1:nrow(cluster_matrix)],0.8), bubble.size=log(size[1:nrow(cluster_matrix)]), scale=0.2, decreasing=TRUE)
-plot.new()
-legend(\&quot;center\&quot;, legend=paste(\&quot;cluster\&quot;, 1:max(clusters)), col=cols, cex=1, pch=16, bty=&#39;n&#39;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pop.rv &lt;-<span class="st"> </span><span class="kw">do.radviz</span>(cluster_matrix,cell.S)
+size &lt;-<span class="st"> </span><span class="kw">table</span>(clusters)
+<span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">nrow=</span><span class="dv">1</span>,<span class="dt">ncol=</span><span class="dv">4</span>))
+<span class="kw">bubbleRadviz</span>(pop.rv, <span class="dt">bubble.color=</span><span class="kw">alpha</span>(cols[<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(cluster_matrix)],<span class="fl">0.8</span>), <span class="dt">bubble.size=</span><span class="kw">log</span>(size[<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(cluster_matrix)]), <span class="dt">scale=</span><span class="fl">0.2</span>, <span class="dt">decreasing=</span><span class="ot">TRUE</span>)
+<span class="kw">plot.new</span>()
+<span class="kw">legend</span>(\<span class="st">&quot;center</span><span class="ch">\&quot;</span><span class="st">, legend=paste(</span><span class="ch">\&quot;</span><span class="st">cluster</span><span class="ch">\&quot;</span><span class="st">, 1:max(clusters)), col=cols, cex=1, pch=16, bty=&#39;n&#39;)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/ry5Fffs.png" alt="Radviz bubble plot" />
 <p class="caption">Radviz bubble plot</p>
@@ -1253,87 +1301,87 @@ legend(\&quot;center\&quot;, legend=paste(\&quot;cluster\&quot;, 1:max(clusters)
 <h3><span class="header-section-number">3.4.1</span> Analysis of differential abundance of cells in clusters {dacells}</h3>
 <p>The cell counts in each cluster is the easiest to compare, as this roughly follows a negative binomial distribution and can be flexibly modeled using a generalized linear model (GLM) as implemented in, for example, the edgeR package for RNA-seq transcriptomics data. In this example, we will use the data generated by Bodenmiller et al. and identify clusters with a differential abundance of cells between conditions.</p>
 <p>First, we import the data and create a dataframe with all the samples:</p>
-<pre class="r"><code># Import data
-library(flowCore)
-setwd(\&quot;~/cytof_primer/case_control/fcs_files/\&quot;)
-fcs_files &lt;- list.files(pattern=&#39;.fcs$&#39;, full=TRUE, ignore.case = TRUE)
-exprs_set &lt;- data.frame()
-sample &lt;- c()
-for(i in fcs_files) {
-  fcs &lt;- read.FCS(filename=i, transformation=FALSE) 
-  exprs &lt;- fcs@exprs
-  colnames(exprs) &lt;- gsub(pattern = \&quot;.*_\&quot;, replacement = \&quot;\&quot;, x = as.vector(fcs@parameters@data$desc))
-  exprs &lt;- asinh(exprs/5)
-  exprs_set &lt;- rbind(exprs_set, exprs)
-  sample &lt;- append(sample, rep(i, nrow(exprs)))
-}
-exprs_set$sample &lt;- sample
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Import data</span>
+<span class="kw">library</span>(flowCore)
+<span class="kw">setwd</span>(\<span class="st">&quot;~/cytof_primer/case_control/fcs_files/</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">fcs_files &lt;- list.files(pattern=&#39;.fcs$&#39;, full=TRUE, ignore.case = TRUE)</span>
+<span class="st">exprs_set &lt;- data.frame()</span>
+<span class="st">sample &lt;- c()</span>
+<span class="st">for(i in fcs_files) {</span>
+<span class="st">  fcs &lt;- read.FCS(filename=i, transformation=FALSE) </span>
+<span class="st">  exprs &lt;- fcs@exprs</span>
+<span class="st">  colnames(exprs) &lt;- gsub(pattern = </span><span class="ch">\&quot;</span><span class="st">.*_</span><span class="ch">\&quot;</span><span class="st">, replacement = </span><span class="ch">\&quot;\&quot;</span><span class="st">, x = as.vector(fcs@parameters@data$desc))</span>
+<span class="st">  exprs &lt;- asinh(exprs/5)</span>
+<span class="st">  exprs_set &lt;- rbind(exprs_set, exprs)</span>
+<span class="st">  sample &lt;- append(sample, rep(i, nrow(exprs)))</span>
+<span class="st">}</span>
+<span class="st">exprs_set$sample &lt;- sample</span>
 
-# Set channels
-pregating_channels &lt;- c(\&quot;DNA-1\&quot;, \&quot;DNA-2\&quot;)
-lineage_channels &lt;- c(\&quot;CD45\&quot;, \&quot;CD4\&quot;, \&quot;CD20\&quot;, \&quot;CD33\&quot;, \&quot;CD123\&quot;, \&quot;CD14\&quot;, \&quot;IgM\&quot;, \&quot;HLA-DR\&quot;, \&quot;CD7\&quot;, \&quot;CD3\&quot;)
-functional_channels &lt;- c(\&quot;pNFkB\&quot;, \&quot;pp38\&quot;, \&quot;pStat5\&quot;, \&quot;pAkt\&quot;, \&quot;pStat1\&quot;, \&quot;pSHP2\&quot;, \&quot;pZap70\&quot;, \&quot;pStat3\&quot;, \&quot;pSlp76\&quot;, \&quot;pBtk\&quot;, \&quot;pPlcg2\&quot;, \&quot;pErk\&quot;, \&quot;pLat\&quot;, \&quot;pS6\&quot;)
-instrument_channels &lt;- c(\&quot;length\&quot;, \&quot;Time\&quot;, \&quot;sample\&quot;, \&quot;BC1\&quot;, \&quot;BC2\&quot;, \&quot;BC3\&quot;, \&quot;BC4\&quot;, \&quot;BC5\&quot;, \&quot;BC6\&quot;, \&quot;BC7\&quot;)</code></pre>
+<span class="st"># Set channels</span>
+<span class="st">pregating_channels &lt;- c(</span><span class="ch">\&quot;</span><span class="st">DNA-1</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">DNA-2</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">lineage_channels &lt;- c(</span><span class="ch">\&quot;</span><span class="st">CD45</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD4</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD20</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD33</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD123</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD14</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">IgM</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">HLA-DR</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD7</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">CD3</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">functional_channels &lt;- c(</span><span class="ch">\&quot;</span><span class="st">pNFkB</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pp38</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pStat5</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pAkt</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pStat1</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pSHP2</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pZap70</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pStat3</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pSlp76</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pBtk</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pPlcg2</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pErk</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pLat</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">pS6</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">instrument_channels &lt;- c(</span><span class="ch">\&quot;</span><span class="st">length</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">Time</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">sample</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">BC1</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">BC2</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">BC3</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">BC4</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">BC5</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">BC6</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">BC7</span><span class="ch">\&quot;</span><span class="st">)</span></code></pre></div>
 <p>In the interest of speed, we here down sample to 1000 random events from each sample. Remember to normalize to the total number of events in each sample if the full samples are used. We then cluster using the cytofkit implementation of phenograph and create a table with cell counts in each cluster for each sample.</p>
-<pre class="r"><code># Sample 1000 random events form each sample
-sub &lt;- NULL
-for(i in unique(exprs_set$sample)) {
-  temp &lt;- exprs_set[exprs_set$sample==i,]
-  sub &lt;- rbind(sub, temp[sample(nrow(temp), 1000, replace=FALSE),lineage_channels])
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Sample 1000 random events form each sample</span>
+sub &lt;-<span class="st"> </span><span class="ot">NULL</span>
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">unique</span>(exprs_set<span class="op">$</span>sample)) {
+  temp &lt;-<span class="st"> </span>exprs_set[exprs_set<span class="op">$</span>sample<span class="op">==</span>i,]
+  sub &lt;-<span class="st"> </span><span class="kw">rbind</span>(sub, temp[<span class="kw">sample</span>(<span class="kw">nrow</span>(temp), <span class="dv">1000</span>, <span class="dt">replace=</span><span class="ot">FALSE</span>),lineage_channels])
 }
-sample &lt;- rep(unique(exprs_set$sample), each=1000)
+sample &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">unique</span>(exprs_set<span class="op">$</span>sample), <span class="dt">each=</span><span class="dv">1000</span>)
 
-# cluster
-library(cytofkit)
-clusters_pg &lt;- cytof_cluster(xdata = sub, method = \&quot;Rphenograph\&quot;)
+<span class="co"># cluster</span>
+<span class="kw">library</span>(cytofkit)
+clusters_pg &lt;-<span class="st"> </span><span class="kw">cytof_cluster</span>(<span class="dt">xdata =</span> sub, <span class="dt">method =</span> \<span class="st">&quot;Rphenograph</span><span class="ch">\&quot;</span><span class="st">)</span>
 
-# make frequency table
-cell_counts &lt;- matrix(nrow=max(clusters_pg), ncol=0)
-for (i in unique(sample)) {
-  sample_count &lt;- table(clusters_pg[sample==i])
-  column &lt;- unname(sample_count[match(1:nrow(cell_counts), names(sample_count))])
-  column[is.na(names(sample_count[match(1:nrow(cell_counts), names(sample_count))]))] &lt;- 0
-  cell_counts &lt;- cbind(cell_counts, column)
-}
-conditions &lt;- rep(1, 16)
-conditions[grep(\&quot;BCR-XL\&quot;, fcs_files)] &lt;- \&quot;BCR-XL\&quot;
-conditions[grep(\&quot;Reference\&quot;, fcs_files)] &lt;- \&quot;Reference\&quot;
-colnames(cell_counts) &lt;- conditions</code></pre>
+<span class="st"># make frequency table</span>
+<span class="st">cell_counts &lt;- matrix(nrow=max(clusters_pg), ncol=0)</span>
+<span class="st">for (i in unique(sample)) {</span>
+<span class="st">  sample_count &lt;- table(clusters_pg[sample==i])</span>
+<span class="st">  column &lt;- unname(sample_count[match(1:nrow(cell_counts), names(sample_count))])</span>
+<span class="st">  column[is.na(names(sample_count[match(1:nrow(cell_counts), names(sample_count))]))] &lt;- 0</span>
+<span class="st">  cell_counts &lt;- cbind(cell_counts, column)</span>
+<span class="st">}</span>
+<span class="st">conditions &lt;- rep(1, 16)</span>
+<span class="st">conditions[grep(</span><span class="ch">\&quot;</span><span class="st">BCR-XL</span><span class="ch">\&quot;</span><span class="st">, fcs_files)] &lt;- </span><span class="ch">\&quot;</span><span class="st">BCR-XL</span><span class="ch">\&quot;</span>
+<span class="st">conditions[grep(</span><span class="ch">\&quot;</span><span class="st">Reference</span><span class="ch">\&quot;</span><span class="st">, fcs_files)] &lt;- </span><span class="ch">\&quot;</span><span class="st">Reference</span><span class="ch">\&quot;</span>
+<span class="st">colnames(cell_counts) &lt;- conditions</span></code></pre></div>
 <p>Lastly, we evaluate differential abundance in each cluster using a NB-GLM from the edgeR package:</p>
-<pre class="r"><code># calculate differential abundance
-library(edgeR)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate differential abundance</span>
+<span class="kw">library</span>(edgeR)
 
-dge &lt;- DGEList(cell_counts, lib.size=rep(1000,16))
-design &lt;- model.matrix(~factor(conditions))
-y &lt;- estimateDisp(dge, design)
-fit &lt;- glmQLFit(y, design, robust=TRUE)
-res &lt;- glmQLFTest(fit, coef=2)</code></pre>
+dge &lt;-<span class="st"> </span><span class="kw">DGEList</span>(cell_counts, <span class="dt">lib.size=</span><span class="kw">rep</span>(<span class="dv">1000</span>,<span class="dv">16</span>))
+design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="kw">factor</span>(conditions))
+y &lt;-<span class="st"> </span><span class="kw">estimateDisp</span>(dge, design)
+fit &lt;-<span class="st"> </span><span class="kw">glmQLFit</span>(y, design, <span class="dt">robust=</span><span class="ot">TRUE</span>)
+res &lt;-<span class="st"> </span><span class="kw">glmQLFTest</span>(fit, <span class="dt">coef=</span><span class="dv">2</span>)</code></pre></div>
 <p>We can now visualize the log2 fold change in clusters with a significant differential abundance between the two conditions:</p>
-<pre class="r"><code># visualize on t-SNE
-library(Rtsne)
-library(RColorBrewer)
-library(scales)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># visualize on t-SNE</span>
+<span class="kw">library</span>(Rtsne)
+<span class="kw">library</span>(RColorBrewer)
+<span class="kw">library</span>(scales)
 
-set.seed(42)
-tsne &lt;- Rtsne(sub)
+<span class="kw">set.seed</span>(<span class="dv">42</span>)
+tsne &lt;-<span class="st"> </span><span class="kw">Rtsne</span>(sub)
 
-# par(mfrow=c(1,2))
-layout(matrix(c(1,1,1,2,2,2,3), nrow=1,ncol=7))
+<span class="co"># par(mfrow=c(1,2))</span>
+<span class="kw">layout</span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">nrow=</span><span class="dv">1</span>,<span class="dt">ncol=</span><span class="dv">7</span>))
 
-getPalette = colorRampPalette(brewer.pal(9, \&quot;Set1\&quot;))
-cols &lt;- getPalette(max(clusters_pg))
-plot(tsne$Y, pch=21, bg=alpha(col=cols[clusters_pg],0.6), col=\&quot;grey\&quot;, xlab=\&quot;\&quot;, ylab=\&quot;\&quot;, lwd=0.5, main=\&quot;Phenograph clusters\&quot;)
+getPalette =<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">brewer.pal</span>(<span class="dv">9</span>, \<span class="st">&quot;Set1</span><span class="ch">\&quot;</span><span class="st">))</span>
+<span class="st">cols &lt;- getPalette(max(clusters_pg))</span>
+<span class="st">plot(tsne$Y, pch=21, bg=alpha(col=cols[clusters_pg],0.6), col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">, xlab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, ylab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, lwd=0.5, main=</span><span class="ch">\&quot;</span><span class="st">Phenograph clusters</span><span class="ch">\&quot;</span><span class="st">)</span>
 
-log2fc &lt;- res$table$logFC
-log2fc[res$table$PValue&gt;0.05] &lt;- 0
-colpal &lt;- colorRampPalette(c(&#39;red&#39;, \&quot;grey\&quot;, &#39;blue&#39;))
-cols &lt;- colpal(100)[as.numeric(cut(log2fc,breaks = 100))]
-plot(tsne$Y, pch=21, bg=alpha(col=cols[clusters_pg],0.6), col=\&quot;grey\&quot;, xlab=\&quot;\&quot;, ylab=\&quot;\&quot;, lwd=0.5, main=\&quot;colored by log2FC\&quot;)
+<span class="st">log2fc &lt;- res$table$logFC</span>
+<span class="st">log2fc[res$table$PValue&gt;0.05] &lt;- 0</span>
+<span class="st">colpal &lt;- colorRampPalette(c(&#39;red&#39;, </span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">, &#39;blue&#39;))</span>
+<span class="st">cols &lt;- colpal(100)[as.numeric(cut(log2fc,breaks = 100))]</span>
+<span class="st">plot(tsne$Y, pch=21, bg=alpha(col=cols[clusters_pg],0.6), col=</span><span class="ch">\&quot;</span><span class="st">grey</span><span class="ch">\&quot;</span><span class="st">, xlab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, ylab=</span><span class="ch">\&quot;\&quot;</span><span class="st">, lwd=0.5, main=</span><span class="ch">\&quot;</span><span class="st">colored by log2FC</span><span class="ch">\&quot;</span><span class="st">)</span>
 
-legend_image &lt;- as.raster(matrix(colpal(20), ncol=1))
-plot(c(0,2),c(0,1),type = &#39;n&#39;, axes = F,xlab = &#39;&#39;, ylab = &#39;&#39;, main = &#39;log2FC&#39;)
-text(x=1.5, y = seq(0,1,l=3), labels = c(round(min(log2fc), digits = 2),0,round(max(log2fc),digits=2)))
-rasterImage(legend_image, 0, 0, 1, 1)</code></pre>
+<span class="st">legend_image &lt;- as.raster(matrix(colpal(20), ncol=1))</span>
+<span class="st">plot(c(0,2),c(0,1),type = &#39;n&#39;, axes = F,xlab = &#39;&#39;, ylab = &#39;&#39;, main = &#39;log2FC&#39;)</span>
+<span class="st">text(x=1.5, y = seq(0,1,l=3), labels = c(round(min(log2fc), digits = 2),0,round(max(log2fc),digits=2)))</span>
+<span class="st">rasterImage(legend_image, 0, 0, 1, 1)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/JRscapE.png" alt="Visualizing differential abundance on t-SNE plots" />
 <p class="caption">Visualizing differential abundance on t-SNE plots</p>
@@ -1347,80 +1395,80 @@ rasterImage(legend_image, 0, 0, 1, 1)</code></pre>
 <h4><span class="header-section-number">3.4.1.1</span> cydar</h4>
 <p>The cydar tool works in much the same way as above - clustering followed by statistical testing for differential abundance of cells in each cluster. In this method, the clustering is done by creating hyperspherical clusters. This partitioning is similar to that of k-means clustering, but here a constant distance measure (the radius) is used to define the hyperspheres rather than dividing the events into Voronoi cells based on the nearest mean. This means that rather than getting a (somewhat) interpretable cluster structure (where each cluster can be labeled as a canonical cell population), hyperspherical partitioning is somewhat abstract and not directly interpretable. Another feature of the hypersphere partitioning is allowing multi-membership (which one can argue makes more biological sense than strictly allowing cells to belong to one cluster), but this again makes the partitioning harder to interpret in 2 or 3 dimensional space. Although harder to directly interpret, choosing a k that is greater than &quot;reality&quot;, is certainly better than selecting a k that is too small: &quot;under-clustering&quot; a highly heterogeneous cell mixture such as PBMC, will potentially result in comparing biologically irrelevant subsets. However, the trade-off of erring on the safe side is that in order for the cydar output to be biologically interpretable, some post-processing is necessary. The authors provide an excellent discussion of this in their <a href="https://www.nature.com/nmeth/journal/v14/n7/full/nmeth.4295.html">paper</a> and in their <a href="https://bioconductor.org/packages/release/bioc/vignettes/cydar/inst/doc/cydar.html">R package vignette</a></p>
 <p>Now for some code!</p>
-<pre class="r"><code>library(cydar)
-library(ncdfFlow)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cydar)
+<span class="kw">library</span>(ncdfFlow)
 
-# Sample 1000 random events form each sample - cydar takes data as a list of matrices
-sub &lt;- list()
-for(i in unique(exprs_set$sample)) {
-  temp &lt;- exprs_set[exprs_set$sample==i,]
-  sub[[i]] &lt;- temp[sample(nrow(temp), 1000, replace=FALSE),lineage_channels]
+<span class="co"># Sample 1000 random events form each sample - cydar takes data as a list of matrices</span>
+sub &lt;-<span class="st"> </span><span class="kw">list</span>()
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">unique</span>(exprs_set<span class="op">$</span>sample)) {
+  temp &lt;-<span class="st"> </span>exprs_set[exprs_set<span class="op">$</span>sample<span class="op">==</span>i,]
+  sub[[i]] &lt;-<span class="st"> </span>temp[<span class="kw">sample</span>(<span class="kw">nrow</span>(temp), <span class="dv">1000</span>, <span class="dt">replace=</span><span class="ot">FALSE</span>),lineage_channels]
 }
-conditions &lt;- rep(1, 16)
-conditions[grep(\&quot;BCR-XL\&quot;, fcs_files)] &lt;- \&quot;BCR-XL\&quot;
-conditions[grep(\&quot;Reference\&quot;, fcs_files)] &lt;- \&quot;Reference\&quot;
-sample.id &lt;- rep(c(1:16), each=1000)
+conditions &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">16</span>)
+conditions[<span class="kw">grep</span>(\<span class="st">&quot;BCR-XL</span><span class="ch">\&quot;</span><span class="st">, fcs_files)] &lt;- </span><span class="ch">\&quot;</span><span class="st">BCR-XL</span><span class="ch">\&quot;</span>
+<span class="st">conditions[grep(</span><span class="ch">\&quot;</span><span class="st">Reference</span><span class="ch">\&quot;</span><span class="st">, fcs_files)] &lt;- </span><span class="ch">\&quot;</span><span class="st">Reference</span><span class="ch">\&quot;</span>
+<span class="st">sample.id &lt;- rep(c(1:16), each=1000)</span>
 
-# Count the cells into hyperspheres with a radius equal to 0.5 times the square root of the number of markers
-cd_all &lt;- prepareCellData(sub)
-cd_all &lt;- countCells(cd_all, tol=0.5)
+<span class="st"># Count the cells into hyperspheres with a radius equal to 0.5 times the square root of the number of markers</span>
+<span class="st">cd_all &lt;- prepareCellData(sub)</span>
+<span class="st">cd_all &lt;- countCells(cd_all, tol=0.5)</span>
 
-# Testing for significant differences in abundance
-library(edgeR)
-y &lt;- DGEList(assay(cd_all), lib.size=cd_all$totals)
-keep &lt;- aveLogCPM(y) &gt;= aveLogCPM(5, mean(cd_all$totals))
-cd &lt;- cd_all[keep,]
-y &lt;- y[keep,]
-design &lt;- model.matrix(~factor(conditions))
-y &lt;- estimateDisp(y, design)
-fit &lt;- glmQLFit(y, design, robust=TRUE)
-res &lt;- glmQLFTest(fit, coef=2)
+<span class="st"># Testing for significant differences in abundance</span>
+<span class="st">library(edgeR)</span>
+<span class="st">y &lt;- DGEList(assay(cd_all), lib.size=cd_all$totals)</span>
+<span class="st">keep &lt;- aveLogCPM(y) &gt;= aveLogCPM(5, mean(cd_all$totals))</span>
+<span class="st">cd &lt;- cd_all[keep,]</span>
+<span class="st">y &lt;- y[keep,]</span>
+<span class="st">design &lt;- model.matrix(~factor(conditions))</span>
+<span class="st">y &lt;- estimateDisp(y, design)</span>
+<span class="st">fit &lt;- glmQLFit(y, design, robust=TRUE)</span>
+<span class="st">res &lt;- glmQLFTest(fit, coef=2)</span>
 
-# Controlling the spatial FDR
-qvals &lt;- spatialFDR(intensities(cd), res$table$PValue)
-is.sig &lt;- qvals &lt;= 0.05</code></pre>
+<span class="st"># Controlling the spatial FDR</span>
+<span class="st">qvals &lt;- spatialFDR(intensities(cd), res$table$PValue)</span>
+<span class="st">is.sig &lt;- qvals &lt;= 0.05</span></code></pre></div>
 <p>In this case we find that 253 out of 549 hyperspheres contain a significantly different number of cells between our two conditions.</p>
-<pre class="r"><code># Print the number of hypersphere with significantly different cell abundance between case and control
-summary(is.sig)
-   Mode   FALSE    TRUE 
-logical     296     253 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Print the number of hypersphere with significantly different cell abundance between case and control</span>
+<span class="kw">summary</span>(is.sig)
+   Mode   <span class="ot">FALSE</span>    <span class="ot">TRUE</span> 
+logical     <span class="dv">296</span>     <span class="dv">253</span> </code></pre></div>
 </div>
 </div>
 <div id="analysis-of-differential-expression-of-proteins-between-clusters-deprot" class="section level3">
 <h3><span class="header-section-number">3.4.2</span> Analysis of differential expression of proteins between clusters {deprot}</h3>
 <p>The expression of lineage markers between different clusters will naturally differ, as differential expression is the very basis for all the clustering algorithms discussed here. However, it may be of interest to examine whether the expression of functional markers differs within a cluster that is considered to represent the same cell type in two different conditions.</p>
 <p>Currently, the most widely utilized approach is to compare the median expression a given protein in each sample across conditions for a specific cluster. There are some potentially <strong>serious caveats to this approach</strong> which we will discuss a bit further down. But first, let’s go through a simple example of this common approach:</p>
-<pre class="r"><code># Sample 1000 random events form each sample
-sub &lt;- NULL
-for(i in unique(exprs_set$sample)) {
-  temp &lt;- exprs_set[exprs_set$sample==i,]
-  sub &lt;- rbind(sub, temp[sample(nrow(temp), 1000, replace=FALSE),c(lineage_channels, functional_channels)])
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Sample 1000 random events form each sample</span>
+sub &lt;-<span class="st"> </span><span class="ot">NULL</span>
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">unique</span>(exprs_set<span class="op">$</span>sample)) {
+  temp &lt;-<span class="st"> </span>exprs_set[exprs_set<span class="op">$</span>sample<span class="op">==</span>i,]
+  sub &lt;-<span class="st"> </span><span class="kw">rbind</span>(sub, temp[<span class="kw">sample</span>(<span class="kw">nrow</span>(temp), <span class="dv">1000</span>, <span class="dt">replace=</span><span class="ot">FALSE</span>),<span class="kw">c</span>(lineage_channels, functional_channels)])
 }
-sample &lt;- rep(unique(exprs_set$sample), each=1000)
+sample &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">unique</span>(exprs_set<span class="op">$</span>sample), <span class="dt">each=</span><span class="dv">1000</span>)
 
-# cluster
-library(cytofkit)
-clusters_pg &lt;- cytof_cluster(xdata = sub[,lineage_channels], method = \&quot;Rphenograph\&quot;)
+<span class="co"># cluster</span>
+<span class="kw">library</span>(cytofkit)
+clusters_pg &lt;-<span class="st"> </span><span class="kw">cytof_cluster</span>(<span class="dt">xdata =</span> sub[,lineage_channels], <span class="dt">method =</span> \<span class="st">&quot;Rphenograph</span><span class="ch">\&quot;</span><span class="st">)</span>
 
-# Make median expression table (samples x functional proteins) for each cluster
-# - here we generate the table for cluster 1
-library(miscTools)
-sub_cluster &lt;- sub[clusters_pg==1,functional_channels]
-sample_cluster &lt;- sample[clusters_pg==1]
-exprs_cluster &lt;- NULL
-for(i in unique(sample_cluster)) {
-  exprs_cluster &lt;- cbind(exprs_cluster, colMedians(sub_cluster[sample_cluster==i,]))
-}
-colnames(exprs_cluster) &lt;- unique(sample_cluster)</code></pre>
+<span class="st"># Make median expression table (samples x functional proteins) for each cluster</span>
+<span class="st"># - here we generate the table for cluster 1</span>
+<span class="st">library(miscTools)</span>
+<span class="st">sub_cluster &lt;- sub[clusters_pg==1,functional_channels]</span>
+<span class="st">sample_cluster &lt;- sample[clusters_pg==1]</span>
+<span class="st">exprs_cluster &lt;- NULL</span>
+<span class="st">for(i in unique(sample_cluster)) {</span>
+<span class="st">  exprs_cluster &lt;- cbind(exprs_cluster, colMedians(sub_cluster[sample_cluster==i,]))</span>
+<span class="st">}</span>
+<span class="st">colnames(exprs_cluster) &lt;- unique(sample_cluster)</span></code></pre></div>
 <p>Again we are left with a simple expression matrix, to which you can apply your favorite statistics. Here we use a linear model:</p>
-<pre class="r"><code># Basic DE test using limma
-library(limma)
-conditions_test &lt;- factor(gsub(\&quot;.*(Reference|BCR-XL).*\&quot;, \&quot;\\\\1\&quot;, colnames(exprs_cluster)))
-patient_test &lt;- factor(gsub(\&quot;.*patient(.)_.*\&quot;, \&quot;\\\\1\&quot;, colnames(exprs_cluster)))
-design &lt;- model.matrix(~patient_test+conditions_test)
-fit &lt;- lmFit(exprs_cluster, design)
-fit &lt;- eBayes(fit)
-res &lt;- topTable(fit, coef=\&quot;conditions_testReference\&quot;, number=\&quot;inf\&quot;, adjust.method=\&quot;bonferroni\&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Basic DE test using limma</span>
+<span class="kw">library</span>(limma)
+conditions_test &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">gsub</span>(\<span class="st">&quot;.*(Reference|BCR-XL).*</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;\\\\</span><span class="st">1</span><span class="ch">\&quot;</span><span class="st">, colnames(exprs_cluster)))</span>
+<span class="st">patient_test &lt;- factor(gsub(</span><span class="ch">\&quot;</span><span class="st">.*patient(.)_.*</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;\\\\</span><span class="st">1</span><span class="ch">\&quot;</span><span class="st">, colnames(exprs_cluster)))</span>
+<span class="st">design &lt;- model.matrix(~patient_test+conditions_test)</span>
+<span class="st">fit &lt;- lmFit(exprs_cluster, design)</span>
+<span class="st">fit &lt;- eBayes(fit)</span>
+<span class="st">res &lt;- topTable(fit, coef=</span><span class="ch">\&quot;</span><span class="st">conditions_testReference</span><span class="ch">\&quot;</span><span class="st">, number=</span><span class="ch">\&quot;</span><span class="st">inf</span><span class="ch">\&quot;</span><span class="st">, adjust.method=</span><span class="ch">\&quot;</span><span class="st">bonferroni</span><span class="ch">\&quot;</span><span class="st">)</span></code></pre></div>
 <p>Which results in:</p>
 <pre><code>              logFC     AveExpr           t      P.Value    adj.P.Val         B
 pNFkB   0.901599304  1.64626641  8.95197298 1.570931e-05 0.0002199304  3.567493
@@ -1458,25 +1506,25 @@ pSHP2  -0.001402016 -0.06092106 -0.07812268 9.395902e-01 1.0000000000 -7.132165<
 <h3><span class="header-section-number">3.5.2</span> Marker Enrichment Modeling</h3>
 <p>The Marker Enrichment Modeling (MEM) tools describes cellular subsets by the features that are enriched for each population using a weighted marker expression profile. MEM describes the characteristics of different clusters in the context of the other cells in the sample - e.g. certain surface markers specifically enriched in the given cluster.</p>
 <p>The output is a weighted marker expression profile of each cluster, which can be translated into a &quot;human readable&quot; label for each cluster. In this example, we use the clusters from phenograph and create a list of human readable labels for each cluster.</p>
-<pre class="r"><code># Calculate enrichment scores
-mem &lt;- MEM(cbind(live[live$sample==unique(live$sample)[1],lineage_channels], cluster&lt;-clusters_pg))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate enrichment scores</span>
+mem &lt;-<span class="st"> </span><span class="kw">MEM</span>(<span class="kw">cbind</span>(live[live<span class="op">$</span>sample<span class="op">==</span><span class="kw">unique</span>(live<span class="op">$</span>sample)[<span class="dv">1</span>],lineage_channels], cluster&lt;-clusters_pg))
 
-# This creates a table of enrichment scores for each marker in each cluster. Round these scores to get a label as presented in their paper
-mem &lt;- round(mem[[5]][[1]])
+<span class="co"># This creates a table of enrichment scores for each marker in each cluster. Round these scores to get a label as presented in their paper</span>
+mem &lt;-<span class="st"> </span><span class="kw">round</span>(mem[[<span class="dv">5</span>]][[<span class="dv">1</span>]])
 
-# Adapt label format from numeric to \&quot;--\&quot;, \&quot;-\&quot;, \&quot;+\&quot;. \&quot;++\&quot; (this is necessary for the \&quot;flowcl\&quot; package below)
-mem &lt;- mem[order(as.numeric(rownames(mem))),]
-threshold &lt;- median(abs(as.vector(mem)))
-labels &lt;- list()
-for(i in 1:nrow(mem)) {
-  lab &lt;- mem[i,abs(mem[i,])&gt;0]
-  lab[lab &lt; -threshold] &lt;- \&quot;--\&quot;
-  lab[lab &lt; 0] &lt;- \&quot;-\&quot;
-  lab[lab &gt; threshold] &lt;- \&quot;++\&quot;
-  lab[lab &gt; 0] &lt;- \&quot;+\&quot;
-  lab &lt;- paste(names(lab), lab, sep=\&quot;\&quot;)
-  labels[[rownames(mem)[i]]] &lt;- paste(lab, collapse=\&quot;\&quot;)
-}</code></pre>
+<span class="co"># Adapt label format from numeric to \&quot;--\&quot;, \&quot;-\&quot;, \&quot;+\&quot;. \&quot;++\&quot; (this is necessary for the \&quot;flowcl\&quot; package below)</span>
+mem &lt;-<span class="st"> </span>mem[<span class="kw">order</span>(<span class="kw">as.numeric</span>(<span class="kw">rownames</span>(mem))),]
+threshold &lt;-<span class="st"> </span><span class="kw">median</span>(<span class="kw">abs</span>(<span class="kw">as.vector</span>(mem)))
+labels &lt;-<span class="st"> </span><span class="kw">list</span>()
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(mem)) {
+  lab &lt;-<span class="st"> </span>mem[i,<span class="kw">abs</span>(mem[i,])<span class="op">&gt;</span><span class="dv">0</span>]
+  lab[lab <span class="op">&lt;</span><span class="st"> </span><span class="op">-</span>threshold] &lt;-<span class="st"> </span>\<span class="st">&quot;--</span><span class="ch">\&quot;</span>
+<span class="st">  lab[lab &lt; 0] &lt;- </span><span class="ch">\&quot;</span><span class="st">-</span><span class="ch">\&quot;</span>
+<span class="st">  lab[lab &gt; threshold] &lt;- </span><span class="ch">\&quot;</span><span class="st">++</span><span class="ch">\&quot;</span>
+<span class="st">  lab[lab &gt; 0] &lt;- </span><span class="ch">\&quot;</span><span class="st">+</span><span class="ch">\&quot;</span>
+<span class="st">  lab &lt;- paste(names(lab), lab, sep=</span><span class="ch">\&quot;\&quot;</span><span class="st">)</span>
+<span class="st">  labels[[rownames(mem)[i]]] &lt;- paste(lab, collapse=</span><span class="ch">\&quot;\&quot;</span><span class="st">)</span>
+<span class="st">}</span></code></pre></div>
 <p>This creates the following cluster labels:</p>
 <pre><code>[1] CD19+CD4++CD11c++CD16+CD3++CD38++CD27++CD14+CXCR5+CCR7+CD20+CD127++CD33++CD28++CD123+HLADR++CD25+
 [2] CD19-CD4++CD8-CD11c++CD16+CD3-CD38++CD27-CXCR5+CCR7-CD45RA-CD127-CD33++CD28++CD123+HLADR++CD25++
@@ -1510,8 +1558,8 @@ for(i in 1:nrow(mem)) {
 <h3><span class="header-section-number">3.5.3</span> flowCL</h3>
 <p>flowCL assigns a phenotype to a cell based on its expressed markers - it matches against the <a href="http://cellontology.org">Cell Ontology (CL)</a>. An example query could be &quot;CD16-CD14+CD33+&quot;, but it is also possible to use – and ++ for the marker levels to be more specific regarding the level of a marker.</p>
 <p>We can run flowCL directly on the list created using MEM:</p>
-<pre class="r"><code>library(\&quot;flowCL\&quot;)
-res &lt;- flowCL(MarkerList = labels, ExpMrkrLst = as.list(lineage_channels), VisualSkip = TRUE)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(\<span class="st">&quot;flowCL</span><span class="ch">\&quot;</span><span class="st">)</span>
+<span class="st">res &lt;- flowCL(MarkerList = labels, ExpMrkrLst = as.list(lineage_channels), VisualSkip = TRUE)</span></code></pre></div>
 <p><strong>NOTE: flowCL is currently times out when pinging the Cell Ontology database. The authors have been contacted and are working on fixing the problem</strong></p>
 </div>
 </div>
@@ -1522,35 +1570,35 @@ res &lt;- flowCL(MarkerList = labels, ExpMrkrLst = as.list(lineage_channels), Vi
 <div id="flowsom" class="section level3">
 <h3><span class="header-section-number">3.6.1</span> FlowSOM</h3>
 <p>Self-organizing maps (SOM) and minimum spanning tree (MST) visualizations can be generated using the kohonen package for the SOM, and the igraph package for the MST. The flowSOM implementations of these do contain some extra plotting options. If you want visualizations exactly like those presented in the <a href="http://onlinelibrary.wiley.com/doi/10.1002/cyto.a.22625/full">paper</a>, you may try their <a href="https://bioconductor.org/packages/release/bioc/html/FlowSOM.html">R package</a>. Note that it only takes FCS files as input, but individual functions can be edited if an explicit need for these visualizations exists.</p>
-<pre class="r"><code># Calculate and visualize self organizing map with the parameters used by FlowSOM
-library(kohonen)
-som &lt;- som(as.matrix(live[live$sample==fcs_files[1],lineage_channels]), grid=somgrid(xdim = 10, ydim = 10), dist.fcts=\&quot;euclidean\&quot;)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculate and visualize self organizing map with the parameters used by FlowSOM</span>
+<span class="kw">library</span>(kohonen)
+som &lt;-<span class="st"> </span><span class="kw">som</span>(<span class="kw">as.matrix</span>(live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[<span class="dv">1</span>],lineage_channels]), <span class="dt">grid=</span><span class="kw">somgrid</span>(<span class="dt">xdim =</span> <span class="dv">10</span>, <span class="dt">ydim =</span> <span class="dv">10</span>), <span class="dt">dist.fcts=</span>\<span class="st">&quot;euclidean</span><span class="ch">\&quot;</span><span class="st">)</span>
 
-# Calculate codebook clusters
-library(ConsensusClusterPlus)
-nclust &lt;- 15
-cclust &lt;- ConsensusClusterPlus(t(som$codes[[1]]), maxK = nclust, reps = 100, pItem = 0.9, pFeature = 1, title = tempdir(), plot = \&quot;pdf\&quot;, verbose = FALSE, clusterAlg = \&quot;hc\&quot;, distance = \&quot;euclidean\&quot;, seed = NULL)
-codebook_clusters &lt;- cclust[[nclust]]$consensusClass
-codebook_list &lt;- list()
-for(i in 1:max(codebook_clusters)) {
-  codebook_list[[i]] &lt;- names(codebook_clusters[codebook_clusters==i])
-}
+<span class="st"># Calculate codebook clusters</span>
+<span class="st">library(ConsensusClusterPlus)</span>
+<span class="st">nclust &lt;- 15</span>
+<span class="st">cclust &lt;- ConsensusClusterPlus(t(som$codes[[1]]), maxK = nclust, reps = 100, pItem = 0.9, pFeature = 1, title = tempdir(), plot = </span><span class="ch">\&quot;</span><span class="st">pdf</span><span class="ch">\&quot;</span><span class="st">, verbose = FALSE, clusterAlg = </span><span class="ch">\&quot;</span><span class="st">hc</span><span class="ch">\&quot;</span><span class="st">, distance = </span><span class="ch">\&quot;</span><span class="st">euclidean</span><span class="ch">\&quot;</span><span class="st">, seed = NULL)</span>
+<span class="st">codebook_clusters &lt;- cclust[[nclust]]$consensusClass</span>
+<span class="st">codebook_list &lt;- list()</span>
+<span class="st">for(i in 1:max(codebook_clusters)) {</span>
+<span class="st">  codebook_list[[i]] &lt;- names(codebook_clusters[codebook_clusters==i])</span>
+<span class="st">}</span>
 
-# Create minimum spanning tree from codebook distance matrix
-library(igraph)
-graph  &lt;- graph.adjacency(as.matrix(dist(som$codes[[1]])), weighted = TRUE)
-mst &lt;- mst(graph)
+<span class="st"># Create minimum spanning tree from codebook distance matrix</span>
+<span class="st">library(igraph)</span>
+<span class="st">graph  &lt;- graph.adjacency(as.matrix(dist(som$codes[[1]])), weighted = TRUE)</span>
+<span class="st">mst &lt;- mst(graph)</span>
 
-# Plot flowSOM-like MST output
-layout &lt;- layout.kamada.kawai(as.undirected(mst))
-marker_palette = colorRampPalette(brewer.pal(9, \&quot;Set1\&quot;))
-cluster_palette = colorRampPalette(brewer.pal(8, \&quot;Set2\&quot;))
-marker_cols &lt;- marker_palette(length(lineage_channels))
-cluster_cols &lt;- cluster_palette(max(codebook_clusters))
-medians &lt;- t(apply(som$codes[[1]], 1, function(x) x/sum(x)))
-plot(as.undirected(mst), vertex.shape=\&quot;star\&quot;, vertex.label = NA, vertex.size = rep(10, length(codebook_clusters)), vertex.data = medians, vertex.cP = marker_palette(ncol(medians)), vertex.scale = TRUE, layout = layout, edge.lty = 1, mark.groups = codebook_list, mark.col = alpha(cluster_cols,0.4), mark.border = NA, mark.shape=1)
-legend(x=1.2,y=1.1,legend=lineage_channels, col=marker_cols, pch=19, cex=0.7, bty=\&quot;n\&quot;, y.intersp=0.8)
-legend(x=-1.8,y=1.1,legend=paste(\&quot;cluster\&quot;, 1:nclust), col=cluster_cols, pch=19, cex=0.7, bty=\&quot;n\&quot;, y.intersp=0.8)</code></pre>
+<span class="st"># Plot flowSOM-like MST output</span>
+<span class="st">layout &lt;- layout.kamada.kawai(as.undirected(mst))</span>
+<span class="st">marker_palette = colorRampPalette(brewer.pal(9, </span><span class="ch">\&quot;</span><span class="st">Set1</span><span class="ch">\&quot;</span><span class="st">))</span>
+<span class="st">cluster_palette = colorRampPalette(brewer.pal(8, </span><span class="ch">\&quot;</span><span class="st">Set2</span><span class="ch">\&quot;</span><span class="st">))</span>
+<span class="st">marker_cols &lt;- marker_palette(length(lineage_channels))</span>
+<span class="st">cluster_cols &lt;- cluster_palette(max(codebook_clusters))</span>
+<span class="st">medians &lt;- t(apply(som$codes[[1]], 1, function(x) x/sum(x)))</span>
+<span class="st">plot(as.undirected(mst), vertex.shape=</span><span class="ch">\&quot;</span><span class="st">star</span><span class="ch">\&quot;</span><span class="st">, vertex.label = NA, vertex.size = rep(10, length(codebook_clusters)), vertex.data = medians, vertex.cP = marker_palette(ncol(medians)), vertex.scale = TRUE, layout = layout, edge.lty = 1, mark.groups = codebook_list, mark.col = alpha(cluster_cols,0.4), mark.border = NA, mark.shape=1)</span>
+<span class="st">legend(x=1.2,y=1.1,legend=lineage_channels, col=marker_cols, pch=19, cex=0.7, bty=</span><span class="ch">\&quot;</span><span class="st">n</span><span class="ch">\&quot;</span><span class="st">, y.intersp=0.8)</span>
+<span class="st">legend(x=-1.8,y=1.1,legend=paste(</span><span class="ch">\&quot;</span><span class="st">cluster</span><span class="ch">\&quot;</span><span class="st">, 1:nclust), col=cluster_cols, pch=19, cex=0.7, bty=</span><span class="ch">\&quot;</span><span class="st">n</span><span class="ch">\&quot;</span><span class="st">, y.intersp=0.8)</span></code></pre></div>
 <div class="figure">
 <img src="https://i.imgur.com/J9hQvVk.png" alt="MST with SOM codebook clustering" />
 <p class="caption">MST with SOM codebook clustering</p>
@@ -1919,34 +1967,34 @@ legend(x=-1.8,y=1.1,legend=paste(\&quot;cluster\&quot;, 1:nclust), col=cluster_c
 </table>
 <div id="r-session-info-sessioninfo" class="section level4">
 <h4><span class="header-section-number">4.0.0.1</span> R session info {sessioninfo}</h4>
-<pre class="r"><code>R version 3.4.1 Patched (2017-08-31 r73172)
-Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: OS X El Capitan 10.11.6
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">R version <span class="fl">3.4</span>.<span class="dv">1</span> <span class="kw">Patched</span> (<span class="dv">2017</span><span class="op">-</span><span class="dv">08</span><span class="op">-</span><span class="dv">31</span> r73172)
+Platform<span class="op">:</span><span class="st"> </span>x86_<span class="dv">64</span><span class="op">-</span>apple<span class="op">-</span><span class="kw">darwin15.6.0</span> (<span class="dv">64</span><span class="op">-</span>bit)
+Running under<span class="op">:</span><span class="st"> </span>OS X El Capitan <span class="fl">10.11</span>.<span class="dv">6</span>
 
-Matrix products: default
-BLAS: /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+Matrix products<span class="op">:</span><span class="st"> </span>default
+BLAS<span class="op">:</span><span class="st"> </span><span class="er">/</span>System<span class="op">/</span>Library<span class="op">/</span>Frameworks<span class="op">/</span>Accelerate.framework<span class="op">/</span>Versions<span class="op">/</span>A<span class="op">/</span>Frameworks<span class="op">/</span>vecLib.framework<span class="op">/</span>Versions<span class="op">/</span>A<span class="op">/</span>libBLAS.dylib
+LAPACK<span class="op">:</span><span class="st"> </span><span class="er">/</span>Library<span class="op">/</span>Frameworks<span class="op">/</span>R.framework<span class="op">/</span>Versions<span class="op">/</span><span class="fl">3.4</span><span class="op">/</span>Resources<span class="op">/</span>lib<span class="op">/</span>libRlapack.dylib
 
-locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+locale<span class="op">:</span>
+[<span class="dv">1</span>] en_US.UTF<span class="op">-</span><span class="dv">8</span><span class="op">/</span>en_US.UTF<span class="op">-</span><span class="dv">8</span><span class="op">/</span>en_US.UTF<span class="op">-</span><span class="dv">8</span><span class="op">/</span>C<span class="op">/</span>en_US.UTF<span class="op">-</span><span class="dv">8</span><span class="op">/</span>en_US.UTF<span class="op">-</span><span class="dv">8</span>
 
-attached base packages:
-[1] parallel  stats4    stats     graphics  grDevices utils     datasets  methods   base     
+attached base packages<span class="op">:</span>
+[<span class="dv">1</span>] parallel  stats4    stats     graphics  grDevices utils     datasets  methods   base     
 
-other attached packages:
- [1] cydar_1.0.0                SummarizedExperiment_1.6.3 DelayedArray_0.2.7         matrixStats_0.52.2         Biobase_2.36.2            
- [6] GenomicRanges_1.28.4       GenomeInfoDb_1.12.2        IRanges_2.10.2             S4Vectors_0.14.3           BiocGenerics_0.22.0       
-[11] BiocParallel_1.10.1        flowCore_1.42.2            BiocInstaller_1.26.0      
+other attached packages<span class="op">:</span>
+<span class="st"> </span>[<span class="dv">1</span>] cydar_<span class="fl">1.0</span>.<span class="dv">0</span>                SummarizedExperiment_<span class="fl">1.6</span>.<span class="dv">3</span> DelayedArray_<span class="fl">0.2</span>.<span class="dv">7</span>         matrixStats_<span class="fl">0.52</span>.<span class="dv">2</span>         Biobase_<span class="fl">2.36</span>.<span class="dv">2</span>            
+ [<span class="dv">6</span>] GenomicRanges_<span class="fl">1.28</span>.<span class="dv">4</span>       GenomeInfoDb_<span class="fl">1.12</span>.<span class="dv">2</span>        IRanges_<span class="fl">2.10</span>.<span class="dv">2</span>             S4Vectors_<span class="fl">0.14</span>.<span class="dv">3</span>           BiocGenerics_<span class="fl">0.22</span>.<span class="dv">0</span>       
+[<span class="dv">11</span>] BiocParallel_<span class="fl">1.10</span>.<span class="dv">1</span>        flowCore_<span class="fl">1.42</span>.<span class="dv">2</span>            BiocInstaller_<span class="fl">1.26</span>.<span class="dv">0</span>      
 
-loaded via a namespace (and not attached):
- [1] pcaPP_1.9-72            Rcpp_0.12.12            DEoptimR_1.0-8          compiler_3.4.1          plyr_1.8.4             
- [6] XVector_0.16.0          bitops_1.0-6            viridis_0.4.0           tools_3.4.1             zlibbioc_1.22.0        
-[11] digest_0.6.12           viridisLite_0.2.0       tibble_1.3.4            gtable_0.2.0            lattice_0.20-35        
-[16] rlang_0.1.2             Matrix_1.2-11           graph_1.54.0            shiny_1.0.5             mvtnorm_1.0-6          
-[21] gridExtra_2.2.1         GenomeInfoDbData_0.99.0 cluster_2.0.6           grid_3.4.1              robustbase_0.92-7      
-[26] R6_2.2.2                rrcov_1.4-3             plotrix_3.6-6           ggplot2_2.2.1           corpcor_1.6.9          
-[31] htmltools_0.3.6         scales_0.5.0            xtable_1.8-2            mime_0.5                colorspace_1.3-2       
-[36] httpuv_1.3.5            lazyeval_0.2.0          RCurl_1.95-4.8          munsell_0.4.3</code></pre>
+loaded via a <span class="kw">namespace</span> (and not attached)<span class="op">:</span>
+<span class="st"> </span>[<span class="dv">1</span>] pcaPP_<span class="fl">1.9</span><span class="op">-</span><span class="dv">72</span>            Rcpp_<span class="fl">0.12</span>.<span class="dv">12</span>            DEoptimR_<span class="fl">1.0</span><span class="op">-</span><span class="dv">8</span>          compiler_<span class="fl">3.4</span>.<span class="dv">1</span>          plyr_<span class="fl">1.8</span>.<span class="dv">4</span>             
+ [<span class="dv">6</span>] XVector_<span class="fl">0.16</span>.<span class="dv">0</span>          bitops_<span class="fl">1.0</span><span class="op">-</span><span class="dv">6</span>            viridis_<span class="fl">0.4</span>.<span class="dv">0</span>           tools_<span class="fl">3.4</span>.<span class="dv">1</span>             zlibbioc_<span class="fl">1.22</span>.<span class="dv">0</span>        
+[<span class="dv">11</span>] digest_<span class="fl">0.6</span>.<span class="dv">12</span>           viridisLite_<span class="fl">0.2</span>.<span class="dv">0</span>       tibble_<span class="fl">1.3</span>.<span class="dv">4</span>            gtable_<span class="fl">0.2</span>.<span class="dv">0</span>            lattice_<span class="fl">0.20</span><span class="op">-</span><span class="dv">35</span>        
+[<span class="dv">16</span>] rlang_<span class="fl">0.1</span>.<span class="dv">2</span>             Matrix_<span class="fl">1.2</span><span class="op">-</span><span class="dv">11</span>           graph_<span class="fl">1.54</span>.<span class="dv">0</span>            shiny_<span class="fl">1.0</span>.<span class="dv">5</span>             mvtnorm_<span class="fl">1.0</span><span class="op">-</span><span class="dv">6</span>          
+[<span class="dv">21</span>] gridExtra_<span class="fl">2.2</span>.<span class="dv">1</span>         GenomeInfoDbData_<span class="fl">0.99</span>.<span class="dv">0</span> cluster_<span class="fl">2.0</span>.<span class="dv">6</span>           grid_<span class="fl">3.4</span>.<span class="dv">1</span>              robustbase_<span class="fl">0.92</span><span class="op">-</span><span class="dv">7</span>      
+[<span class="dv">26</span>] R6_<span class="fl">2.2</span>.<span class="dv">2</span>                rrcov_<span class="fl">1.4</span><span class="op">-</span><span class="dv">3</span>             plotrix_<span class="fl">3.6</span><span class="op">-</span><span class="dv">6</span>           ggplot2_<span class="fl">2.2</span>.<span class="dv">1</span>           corpcor_<span class="fl">1.6</span>.<span class="dv">9</span>          
+[<span class="dv">31</span>] htmltools_<span class="fl">0.3</span>.<span class="dv">6</span>         scales_<span class="fl">0.5</span>.<span class="dv">0</span>            xtable_<span class="fl">1.8</span><span class="op">-</span><span class="dv">2</span>            mime_<span class="fl">0.5</span>                colorspace_<span class="fl">1.3</span><span class="op">-</span><span class="dv">2</span>       
+[<span class="dv">36</span>] httpuv_<span class="fl">1.3</span>.<span class="dv">5</span>            lazyeval_<span class="fl">0.2</span>.<span class="dv">0</span>          RCurl_<span class="fl">1.95</span><span class="op">-</span><span class="fl">4.8</span>          munsell_<span class="fl">0.4</span>.<span class="dv">3</span></code></pre></div>
 </div>
 </div>
 

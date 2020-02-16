@@ -4,6 +4,10 @@ navbar:
   left:
     - text: "Home"
       href: index.html
+    - text: "Blog"
+      href: blog.html
+    - text: "People"
+      href: group_members.html
     - text: "Research"
       menu:
         - text: "Projects"
@@ -16,12 +20,6 @@ navbar:
           href: http://kurser.dtu.dk/course/22140
         - text: "Bioinformatics for Precision Medicine"
           href: spectracular.html
-    - text: "People"
-      menu:
-        - text: "Group members"
-          href: group_members.html
-        - text: "Collaborators"
-          href: collaborators.html
     - text: "Resources"
       menu:
         - text: "CyTOF primers"
@@ -30,6 +28,8 @@ navbar:
           href: spectracular.html
 output:
   html_document:
-    theme: cosmo
-    highlight: textmate
+    theme: yeti
+    highlight: haddock
+    includes:
+      after_body: footer.html
 output_dir: docs

@@ -2,5 +2,11 @@
 title: "Primers for analysis of mass cytometry data"
 ---
 
-[![The data scientists primer to mass cytometry](cytof_files/figure-html/computer_symbol.svg)](cytof_data_scientist.html)
-[![The cytometrists primer to data analysis](cytof_files/figure-html/helios_symbol.svg)](cytof_cytometrist.html)
+```{r echo = FALSE}
+
+```
+
+<center>
+<a href="cytof_data_scientist.html"><img src="cytof_files/figure-html/computer_symbol.svg" width="200" hspace="50" vspace="50"></a>
+<a href="cytof_cytometrist.html"><img src="cytof_files/figure-html/helios_symbol.svg" width="200" hspace="50" vspace="50"></a>
+</center>
