@@ -2,11 +2,19 @@
 title: "Primers for analysis of mass cytometry data"
 ---
 
-```{r echo = FALSE}
-
-```
-
+</br>
 <center>
-<a href="cytof_data_scientist.html"><img src="cytof_files/figure-html/computer_symbol.svg" width="200" hspace="50" vspace="50"></a>
-<a href="cytof_cytometrist.html"><img src="cytof_files/figure-html/helios_symbol.svg" width="200" hspace="50" vspace="50"></a>
+
+[![](cytof_files/figure-html/computer.png){ width=40% }](cytof_data_scientist.html)
+
+The data scientist's primer to single cell mass cytometry<br>
+As described in [*Cytometry A*](https://onlinelibrary.wiley.com/doi/full/10.1002/cyto.a.23621)
+
+</br>
+
+[![](cytof_files/figure-html/helios.png){ width=40% }](cytof_cytometrist.html)
+
+The cytometrist's primer to single cell data analysis<br>
+As described in [*Immunity*](https://www.cell.com/immunity/fulltext/S1074-7613(19)30082-2?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS1074761319300822%3Fshowall%3Dtrue)
+
 </center>
