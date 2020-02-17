@@ -3,8 +3,6 @@ navbar:
   title: "The Cancer Omics group"
   type: inverse
   left:
-    - text: "Home"
-      href: index.html
     - text: "Blog"
       href: blog.html
     - text: "People"
