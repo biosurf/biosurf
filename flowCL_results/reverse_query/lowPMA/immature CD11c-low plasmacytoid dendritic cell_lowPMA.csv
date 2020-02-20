@@ -1,0 +1,4 @@
+"x","celllabel","plabel","marker","markerlabel"
+"<http://purl.obolibrary.org/obo/CL_0000992>","immature CD11c-low plasmacytoid dendritic cell","has_low_plasma_membrane_amount","<http://purl.obolibrary.org/obo/PR_000001013>","integrin alpha-X"
+"<http://purl.obolibrary.org/obo/CL_0000992>","immature CD11c-low plasmacytoid dendritic cell","has_low_plasma_membrane_amount","<http://purl.obolibrary.org/obo/PR_000001412>","CD86 molecule"
+"<http://purl.obolibrary.org/obo/CL_0000992>","immature CD11c-low plasmacytoid dendritic cell","has_low_plasma_membrane_amount","<http://purl.obolibrary.org/obo/PR_000001438>","CD80 molecule"

@@ -1,6 +1,6 @@
-name: "The Cancer Omics group"
+name: "The Cancer Omics Group"
 navbar:
-  title: "The Cancer Omics group"
+  title: "The Cancer Omics Group"
   type: inverse
   left:
     - text: "Blog"

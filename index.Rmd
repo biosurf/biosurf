@@ -2,7 +2,7 @@
 title: "The Cancer Omics Group"
 ---
 
-Welcome to the Cancer Omics group @ DTU.
+Welcome to the Cancer Omics Group @ DTU.
 
 <br>
 

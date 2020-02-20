@@ -1,0 +1,5 @@
+"x","celllabel","plabel","marker","markerlabel"
+"<http://purl.obolibrary.org/obo/CL_0002456>","CD8_alpha-positive plasmactyoid dendritic cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001014>","receptor-type tyrosine-protein phosphatase C isoform CD45R"
+"<http://purl.obolibrary.org/obo/CL_0002456>","CD8_alpha-positive plasmactyoid dendritic cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000002978>","lymphocyte antigen 6G"
+"<http://purl.obolibrary.org/obo/CL_0002456>","CD8_alpha-positive plasmactyoid dendritic cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule"
+"<http://purl.obolibrary.org/obo/CL_0002456>","CD8_alpha-positive plasmactyoid dendritic cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001084>","T-cell surface glycoprotein CD8 alpha chain"

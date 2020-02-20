@@ -1,0 +1,5 @@
+"x","celllabel","plabel","marker","markerlabel"
+"<http://purl.obolibrary.org/obo/CL_0001010>","mature dermal dendritic cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001310>","CD83 molecule"
+"<http://purl.obolibrary.org/obo/CL_0001010>","mature dermal dendritic cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001012>","integrin alpha-M"
+"<http://purl.obolibrary.org/obo/CL_0001010>","mature dermal dendritic cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001026>","lymphocyte antigen 75"
+"<http://purl.obolibrary.org/obo/CL_0001010>","mature dermal dendritic cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001084>","T-cell surface glycoprotein CD8 alpha chain"
