@@ -4,5 +4,6 @@ title: "The Cancer Omics Group"
 
 Welcome to the Cancer Omics group @ DTU.
 
-Main object: Summary
-Main object: Newest blog posts
+<br>
+
+### Under construction - coming soon!

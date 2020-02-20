@@ -26,5 +26,3 @@ output: html_document
 |<br>![SDU](https://www.sdu.dk/-/media/images/om_sdu/organisationen/designguide/sdu_black_rgb.jpg?la=da&h=81&w=300&hash=024F90C17087D1BA6AF95C4148D28C3D){width=550px}<br>   |   | <span style="color: #008CBA;">**The Clinical Immunology Research Unit, University of Southern Denmark**</span>  |   |
 |<br>![HIMC](https://identity.stanford.edu/img/block-s-2color.png){width=550px}<br>   |   | <span style="color: #008CBA;">**Human Immune Monitoring Center, Stanford Univeristy**</span>  |   |
 
-
-
