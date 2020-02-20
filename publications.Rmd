@@ -8,7 +8,7 @@ title: "Publications"
 ## 2019
 **Pedersen, C. B.**, & **Olsen, L. R.** (2019). Analysis of Mass Cytometry Data. In Mass Cytometry (pp. 267-279). *Humana, New York, NY.* [doi:10.1007/978-1-4939-9454-0_17](https://doi.org/10.1007/978-1-4939-9454-0_17)
 
-Simon, C., Davidsen, K., Hansen, C., Seymour, E., Barnkob, M. B., & **Olsen, L. R.** (2019). BioReader: a text mining tool for performing classification of biomedical literature. *BMC bioinformatics, 19(13), 57.* [doi:10.1186/s12859-019-2607-x](https://doi.org/10.1186/s12859-019-2607-x)
+Simon, C., Davidsen, K., **Hansen, C.**, Seymour, E., Barnkob, M. B., & **Olsen, L. R.** (2019). BioReader: a text mining tool for performing classification of biomedical literature. *BMC bioinformatics, 19(13), 57.* [doi:10.1186/s12859-019-2607-x](https://doi.org/10.1186/s12859-019-2607-x)
 
 Jurtz, V. I., & **Olsen, L. R.** (2019). Computational methods for identification of T cell neoepitopes in tumors. In Cancer Bioinformatics (pp. 157-172). Humana Press, New York, NY. [doi:10.1007/978-1-4939-8868-6_9](https://doi.org/10.1007/978-1-4939-8868-6_9)
 
@@ -23,4 +23,4 @@ Napolitani, G., Kurupati, P., Teng, K. W. W., Gibani, M. M., Rei, M., Aulicino, 
 
 Leipold, M. D., Obermoser, G., Fenwick, C., Kleinstuber, K., Rashidi, N., McNevin, J. P., Nau, A. N., Wagar, L. E., Rozot, V., Davis, M. M., DeRosa, S., Pantaleo, G., Scriba, T. J., Walker, B. D., **Olsen, L. R.** & Maecker, H. T. (2018). Comparison of CyTOF assays across sites: Results of a six-center pilot study. *Journal of immunological methods, 453, 37-43.* [doi:10.1016/j.jim.2017.11.008](https://doi.org/10.1016/j.jim.2017.11.008)
 
-Pedersen, C. B., Nielsen, F. C., Rossing, M., & Olsen, L. R. (2018). Using microarray‐based subtyping methods for breast cancer in the era of high‐throughput RNA sequencing. *Molecular oncology, 12(12), 2136-2146.* [doi:10.1002/1878-0261.12389](https://doi.org/10.1002/1878-0261.12389)
+**Pedersen, C. B.**, Nielsen, F. C., Rossing, M., & **Olsen, L. R.** (2018). Using microarray‐based subtyping methods for breast cancer in the era of high‐throughput RNA sequencing. *Molecular oncology, 12(12), 2136-2146.* [doi:10.1002/1878-0261.12389](https://doi.org/10.1002/1878-0261.12389)
