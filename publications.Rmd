@@ -5,6 +5,9 @@ title: "Publications"
 ## 2020
 **Pedersen, C. B.**, & **Olsen, L. R.** (In press). Algorithmic Clustering Of Single‐Cell Cytometry Data—How Unsupervised Are These Analyses Really?. *Cytometry Part A.* [doi:10.1002/cyto.a.23917](https://doi.org/10.1002/cyto.a.23917)
 
+<br><br>
+
+
 ## 2019
 **Pedersen, C. B.**, & **Olsen, L. R.** (2019). Analysis of Mass Cytometry Data. In Mass Cytometry (pp. 267-279). *Humana, New York, NY.* [doi:10.1007/978-1-4939-9454-0_17](https://doi.org/10.1007/978-1-4939-9454-0_17)
 
@@ -17,6 +20,9 @@ Jurtz, V. I., & **Olsen, L. R.** (2019). Computational methods for identificatio
 Li, S., Sun, J., **Allesøe, R.**, Datta, K., Bao, Y., Oliveira, G., Forman, J., Jin, R., **Olsen, L. R.**, Keskin, D. B., Shukla, S. A., Wu, C. J. & Livak, K. J. (2019). RNase H–dependent PCR-enabled T-cell receptor sequencing for highly specific and efficient targeted sequencing of T-cell receptor mRNA for single-cell and repertoire analysis. *Nature protocols, 14(8), 2571-2594.* [doi:10.1038/s41596-019-0195-x](https://doi.org/10.1038/s41596-019-0195-x)
 
 **Olsen, L. R.**, Leipold, M. D., **Pedersen, C. B.**, & Maecker, H. T. (2019). The anatomy of single cell mass cytometry data. *Cytometry Part A, 95(2), 156-172.* [doi:10.1002/cyto.a.23621](https://doi.org/10.1002/cyto.a.23621)
+
+<br><br>
+
 
 ## 2018
 Napolitani, G., Kurupati, P., Teng, K. W. W., Gibani, M. M., Rei, M., Aulicino, A., Preciado-Llanes, L., Wong, M. T.; Becht, E., Howson, L., de Haas, P., Salio, M., Blohmke, C. J., **Olsen, L. R.**, Pinto, D. M. S., Scifo, L., Jones, C., Dobinson, H. Campbell, D., Juel, H. B., Thomaides-Brears, H., Pickard, D., Bumann, D., Baker, S., Dougan, G., Simmons, A., Gordon, M. A., Newell, E. W., Pollard, A. J. & Cerundolo, Vincenzo (2018). Clonal analysis of Salmonella-specific effector T cells reveals serovar-specific and cross-reactive T cell responses. *Nature immunology, 19(7), 742-754.* [doi:10.1038/s41590-018-0133-z](https://doi.org/10.1038/s41590-018-0133-z)
