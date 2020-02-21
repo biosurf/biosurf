@@ -2,8 +2,33 @@
 title: "The Cancer Omics Group"
 ---
 
-Welcome to the Cancer Omics group @ DTU.
+@ <span style="color: #008CBA;">[Section for Bioinformatics](https://www.healthtech.dtu.dk/english/research/digital-health-and-biological-modelling/section-bioinformatics)</span> | <span style="color: #008CBA;">[Department of Health Technology](www.healthtech.dtu)</span> | <span style="color: #008CBA;">[Technical University of Denmark](www.dtu.dk)</span>
 
 <br>
 
-### Under construction - coming soon!
+##Research profile
+
+We are a bioinformatics outfit working on various aspects of data analysis related to cancer research. We collaborate with clinician on prognostics, dianostics, and therapeutics of cancer through our three pillars of research.
+
+<br><br>
+
+### Single cell immune oncology
+<table style="width:100%">
+<col width="25%">
+<col width="75%">
+<tr>
+![sc](images/sysbio.png)
+<td>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</td>
+
+<td>
+
+</td>
+
+</tr>
+</table>
+
+### Systems biology
+
+### Clinical bioinformatics
