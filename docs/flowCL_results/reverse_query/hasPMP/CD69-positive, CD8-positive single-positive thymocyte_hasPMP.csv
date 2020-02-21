@@ -1,0 +1,4 @@
+"x","celllabel","plabel","marker","markerlabel"
+"<http://purl.obolibrary.org/obo/CL_0002435>","CD69-positive, CD8-positive single-positive thymocyte","has plasma membrane part","<http://purl.obolibrary.org/obo/GO_0042105>","alpha-beta T cell receptor complex"
+"<http://purl.obolibrary.org/obo/CL_0002435>","CD69-positive, CD8-positive single-positive thymocyte","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000025402>","T cell receptor co-receptor CD8"
+"<http://purl.obolibrary.org/obo/CL_0002435>","CD69-positive, CD8-positive single-positive thymocyte","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001343>","CD69 molecule"

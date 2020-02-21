@@ -12,3 +12,5 @@ title: "Improvement ideas"
 * Make nicer tables
 * Make nicer FlowSOM MST
 
+### Cytometrist's wiki:
+* Comparison of dimensionality reduction methods (and local vs global conservation)

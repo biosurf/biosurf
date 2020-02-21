@@ -1,0 +1,7 @@
+"x","celllabel","plabel","marker","markerlabel"
+"<http://purl.obolibrary.org/obo/CL_0002128>","Tc17 cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000025402>","T cell receptor co-receptor CD8"
+"<http://purl.obolibrary.org/obo/CL_0002128>","Tc17 cell","has plasma membrane part","<http://purl.obolibrary.org/obo/GO_0042105>","alpha-beta T cell receptor complex"
+"<http://purl.obolibrary.org/obo/CL_0002128>","Tc17 cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001343>","CD69 molecule"
+"<http://purl.obolibrary.org/obo/CL_0002128>","Tc17 cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001380>","interleukin-2 receptor subunit alpha"
+"<http://purl.obolibrary.org/obo/CL_0002128>","Tc17 cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001202>","C-C chemokine receptor type 6"
+"<http://purl.obolibrary.org/obo/CL_0002128>","Tc17 cell","has plasma membrane part","<http://purl.obolibrary.org/obo/GO_0042101>","T cell receptor complex"
