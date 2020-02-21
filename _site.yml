@@ -15,10 +15,10 @@ navbar:
           href: publications.html
     - text: "Teaching"
       menu:
-        - text: "Introduction to Systems Biology"
+        - text: "Course: Introduction to Systems Biology"
           href: http://kurser.dtu.dk/course/22140
-        - text: "Bioinformatics for Precision Medicine"
-          href: spectracular.html
+        - text: "Course: Health, Diseases, and Technology"
+          href: http://kurser.dtu.dk/course/22104
     - text: "Resources"
       menu:
         - text: "CyTOF primers"
