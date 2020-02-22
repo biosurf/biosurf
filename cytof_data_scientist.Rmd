@@ -79,6 +79,7 @@ We will use this dataset for demonstration of the basic FCS file handling and pr
 ```{r, results='hide', message=F}
 # Download two bead-normalized FCS files and save them in current working direcotry
 sapply(8:9, function(i) { download.file(url = paste0('http://flowrepository.org/experiments/1363/fcs_files/15422', i, '/download'), destfile = paste0('pbmc_healthy_', i-7, '.fcs'))})
+
 ```
 
 An R data object with the pre-processed healthy control samples (normalized, pre-gated, transformed - the entire process is detailed below) can be downloaded [here](https://github.com/biosurf/CyTOF/blob/master/biosurf/cytof/live_2samples.Rdata) if you are mostly interested in post-processing analyses. If so, you may skip to [Data analysis section](#analysistasks).
