@@ -6,8 +6,8 @@ output:
     toc: true
     toc_float: true
     number_sections: true
-    theme: cayman
     highlight: github
+    df_print: paged
 ---
 
 <br>
@@ -20,7 +20,7 @@ Along with discussions, we have included code for common processing and analysis
 
 We will also present a selection of common analysis tools. Not with the explicit purpose of applying them in their packaged form, but to explain what goes on under the hood to enable these useful analyses to be applied in a more flexible and customizable way. The main aim here is enabling a high level of autonomy for data scientists working with mass cytometry data by dissecting both the data and common algorithms to its core workable components.
 
-The site consists of a series of code snippets for preparing and analyzing the data. The entire collection of scripts without can be downloaded [here](https://raw.githubusercontent.com/biosurf/CyTOF/master/primer.R). The examples are based on 21 FCS files from healthy control individuals (described below and available from [flowrepository](http://flowrepository.org/experiments/1363/download_ziped_files)). Save the files locally and replace the paths in the code below to work with the example data or use your own data.
+The site consists of a series of code snippets for preparing and analyzing the data. The examples are based on two different datasets: One is a dataset of 21 healthy control individuals (described below and available from [flowrepository](http://flowrepository.org/experiments/1363/download_ziped_files)), and the other is a case/control set from [Bodenmiller et al. (2012)](https://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html), which contains 16 samples in total.
 
 <br>
 
@@ -62,25 +62,36 @@ The site consists of a series of code snippets for preparing and analyzing the d
 | Er170Di   | CD161     | **General protein marker** marker of IL17 producing T cells                                                                     |
 | Er167Di   | CD28      | **General protein marker** found on T cells, necessary for immune activation                                                    |
 | Gd156Di   | CD94      | **General protein marker** found on CD8+ T cells and NK cells, modulates immune function                                        |
-| Gd157Di   | CD86      | **General protein marker** found on T cells, necessary for immune activation and survival                                       |
+| Gd157Di   | CD86      | **General protein marker** found on monocytes, necessary for immune activation and survival                                     |
 | Eu151Di   | CD38      | **General protein marker** found on T cells, B cells, and NK cells, necessary for immune function                               |
-| Sm152Di   | CD27      | **General protein marker** found on B and T cells, involved in modulation and activation of immune function                     |
+| Sm152Di   | CD27      | **General protein marker** found on B and T cells, involved in modulation and activation of immune function                  |
 | Eu153Di   | CD11b     | **General protein marker** found on cell of the innate immune system                                                            |
-| Sm147Di   | CD85j     | **General protein marker** found on T cells, regulates immune activation                                                        |
+| Sm147Di   | CD85j     | **General protein marker** found on T and NK cells, regulates immune activation (inhibitory receptor)                           |
 | BCKG190Di | 190BCKG   | **Background** not used in gating                                                                                               |
 | Pb208Di   | 208Pb     | **Background** not used in gating                                                                                               |
 | Sn120Di   | 120Sn     | **Background** not used in gating                                                                                               |
 | I127Di    | 127I      | **Background** not used in gating                                                                                               |
 | Xe131Di   | 131Xe     | **Background** not used in gating                                                                                               |
 
-An R data object with the pre-processed healthy control samples (normalized, pre-gated, transformed - the entire process is detailed below) can be downloaded [here](https://github.com/biosurf/CyTOF/raw/master/biosurf/cytof/live.Rdata) if you are mostly interested in post-processing analyses. If so, you may skip to [Data analysis section](#analysistasks).
+
+We will use this dataset for demonstration of the basic FCS file handling and pre-processing steps as well as to demonstrate many of the tools, but for speed and ease, we will download and process 2/21 samples.
+
+```{r, results='hide', message=F}
+# Download two bead-normalized FCS files and save them in current working direcotry
+sapply(8:9, function(i) { download.file(url = paste0('http://flowrepository.org/experiments/1363/fcs_files/15422', i, '/download'), destfile = paste0('pbmc_healthy_', i-7, '.fcs'))})
+
+```
+
+An R data object with the pre-processed healthy control samples (normalized, pre-gated, transformed - the entire process is detailed below) can be downloaded [here](https://github.com/biosurf/CyTOF/blob/master/biosurf/cytof/live_2samples.Rdata) if you are mostly interested in post-processing analyses. If so, you may skip to [Data analysis section](#analysistasks).
 
 
 <br>
+
 ### Case/control samples
-To exemplify analysis of differential abundance, we also use a case/control dataset. We here use the data described by [Bodenmiller et al. (2012)](https://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html), which consists of 8 samples of PBMC responding to B-cell receptor (BCR)/Fc receptor (FCR) cross-linking and 8 control PBMC samples. The raw data can be downloaded [here](https://community.cytobank.org/cytobank/experiments/15713/download_files) (download the files with "reference" and "BCR-XL" in the filename). These data are pregated and transformed. Alternatively, the data is included in the HDCytoData R package and can be loaded directly in R.
+To exemplify analysis of differential abundance, we also use a case/control dataset. We here use the data described by [Bodenmiller et al. (2012)](https://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html), which consists of 8 samples of PBMC responding to B-cell receptor (BCR)/Fc receptor (FCR) cross-linking and 8 control PBMC samples. The data is included in the HDCytoData R package and can be loaded directly in R. Alternatively, the raw data can be downloaded [here](https://community.cytobank.org/cytobank/experiments/15713/download_files) (download the files with "reference" and "BCR-XL" in the filename). These data are pregated and transformed.
 
 <br>
+
 ## Installing the R packages you will need
 We use a variety of packages for the analyses below. In case you are missing some of them, here's what you will need:
 
@@ -126,8 +137,8 @@ Example of basic FCS file handling:
 # Load the flowCore package
 library(flowCore)
 
-# Read an fcs file - remember to set the directory
-fcs_files <- list.files(path = '~/fcs_files/', pattern='.fcs$', full=TRUE, ignore.case = TRUE)
+# Read a single fcs file - remember to set the directory if you changed it since downloading the files
+fcs_files <- list.files(path = '.', pattern='.fcs$', full=TRUE, ignore.case = TRUE)
 fcs <- read.FCS(filename=fcs_files[1], transformation=FALSE)
 
 # Extract expression matrix
@@ -165,6 +176,7 @@ instrument_channels <- c("Time", "Event_length", "Center", "Offset", "Width", "R
 ```
 
 <br>
+
 ## Bead Normalization {#beadnorm}
 Because CyTOF  instrument performance may vary over time (both within a single run, but more prominently between different runs), it is important to normalize data in a way that limits the impact of the technical variation. The most commonly employed methods are the Fluidigm normalization (DVS Sciences, 2013) and MATLAB normalization ([Finck et al., 2013](https://doi.org/10.1002/cyto.a.22271)). Both methods are based on adding beads carrying different heavy metal isotopes to the biological sample, and relying on the beads to leave an extractable signature that can be used to correct signal fluctuations. The Fluidigm normalization method uses a bead "passport" to normalize data to a global standard, while the MATLAB method normalizes using median bead intensities calculated across given experimental data files (e.g. files from different runs on the same machine). 
 
@@ -254,11 +266,50 @@ plot_grid(p1, p2, align = 'v', scale = 0.9)
 
 Both the classic Logicle transformation and ArcSinh works by compressing values in the upper end of the spectrum and enhancing the resolution on the lower end:
 
+```{r logicle and asinh, echo = F}
+raw = -100:100
+asinh = cbind.data.frame(raw = rep(raw, 3), asinh = c(asinh(raw/1), asinh(raw/2), asinh(raw/5)), cofactor = as.factor(rep(c(1,2,5), each = length(raw))))
+
+p2 <- ggplot(asinh, aes(x = raw, y = asinh)) +
+      geom_abline(intercept = 0, color = 'grey') +
+      geom_line(aes(color = cofactor)) + ggtitle('ArcSinh transformation') + 
+      theme_bw() + xlab("Untransformed counts") + ylab("ArcSinh transformed values") +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      guides(colour = guide_legend(title = 'Co-factor')) + 
+      annotate('text', x = 14, y = 5, label = 'x = y', color = 'grey')
+
+```
+
+
 ![Logicle vs arcsinh transformation](https://i.imgur.com/t2XTC1P.png)
 
 When plotting the variation for each marker before and after transformation, the difference is quite clear:
 
-![The effect of transformation on data distribution](https://i.imgur.com/oWAJwoG.png)
+```{r boxplot asinh, message=F, results = 'hide', fig.height=8, fig.width=10}
+library(ggplot2)
+library(reshape2)
+
+melt_exprs <- melt(exprs[,lineage_channels]); melt_exprs_trans <- melt(exprs_trans[,lineage_channels])
+
+p1 <- ggplot(melt_exprs, aes(y = value, x = Var2)) +
+      geom_boxplot(outlier.size=0.05) +
+      ggtitle('Raw ion counts') + 
+      theme_bw() + xlab("") +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+
+p2 <- ggplot(melt_exprs_trans, aes(y = value, x = variable)) +
+      geom_boxplot(outlier.size=0.05) +
+      ggtitle('ArcSinh transformed counts') + 
+      theme_bw() + xlab("") +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+
+plot_grid(p1, p2, align = 'v', ncol = 1)
+
+```
+
+
 
 <br>
 
@@ -270,17 +321,18 @@ library(flowCore)
 
 # Read in your normalized files and concatenate in a data frame (in this example we subset each matrix to 10,000 random events)
 # Remember to set working directory to the normalized samples
-fcs_files <- list.files(path = "~/fcs_files/", pattern='.fcs$', full=TRUE, ignore.case = TRUE)
+fcs_files <- list.files(path = ".", pattern='.fcs$', full=TRUE, ignore.case = TRUE)
 exprs_set <- data.frame()
 sample <- c()
 
-for (i in fcs_files) {
-  fcs <- read.FCS(filename=i, transformation=FALSE) 
+for (f in fcs_files) {
+  fcs <- read.FCS(filename=f, transformation=FALSE) 
   exprs <- fcs@exprs
   markers <- gsub(pattern = ".*_", replacement = "", x = as.vector(fcs@parameters@data$desc))
   colnames(exprs)[which(!is.na(markers))] <- markers[which(!is.na(markers))]
+  set.seed(134)
   exprs_set <- rbind(exprs_set, exprs[sample(nrow(exprs), 10000),])
-  sample <- append(sample, rep(i, 10000))
+  sample <- append(sample, rep(basename(f), 10000))
 }
 exprs_set$sample <- sample
 instrument_channels <- append(instrument_channels, "sample")
@@ -295,7 +347,7 @@ exprs_set_trans <- cbind(asinh(exprs_set[,c(pregating_channels[1:4], lineage_cha
 ### Batch correction
 Insofar as all samples are run on the same instrument, with the same panel, by the same operator, and bead normalized together, it should be possible to avoid pre-gating all your samples one at the time, and rather doing it in one go. You may check that the distributions of bead, DNA, and live/dead measurements are somewhat similar:
 
-```{r batch, results='hide', fig.keep='all', message=FALSE, fig.width = 10}
+```{r batch, results='hide', fig.keep='all', message=FALSE, fig.width = 10, fig.height=2}
 library(RColorBrewer)
 library(ggplot2)
 library(ggridges)
@@ -315,14 +367,19 @@ plot_grid(plotlist = p, ncol = 5)
 
 ```
 
-As can be seen all five pre-gating channels are largely comparable in all samples, and batch correction is not necesarry for pre-gating.
+Here we only have two samples. For the whole healthy PBMC dataset with 21 samples, the plot looks like this:
+![](https://i.imgur.com/IiwAih8.png)
 
+As can be seen all five pre-gating channels are largely comparable in all samples, and batch correction is not necesarry for pre-gating.
 
 In case your data doesn't look quite as nice (these samples were run on the same instrument, by the same operator, during the course of a single day), you can correct for batch effect channel-by-channel using a range based approach (basically a linear alignment of densities) or a warping normalization that enables non-linear adjustments to individual peaks in the data (frequently referred to as landmarks).
 
 First, let's construct an example:
 
 ```{r batch uncorrected, message=F, results='hide', fig.show='all'}
+library(ggplot2)
+library(reshape2)
+
 # Create two toy batches of bimodal densities (the cydar packages only takes lists of lists as input)
 batches <- list()
 x <- list()
@@ -336,8 +393,14 @@ x[["sample_Y"]] <- ex
 batches[["Batch2"]] <- x
 
 # Plot the marker distributions
-plot(density(batches$Batch1$sample_Y), main="uncorrected samples", ylim=c(0,0.11))
-points(density(batches$Batch2$sample_Y), type="l", col="red")
+plot_df <- cbind.data.frame(rbind(melt(batches$Batch1), melt(batches$Batch2)), rep(paste0('batch', 1:2), each = 1000)); colnames(plot_df)[5] <- 'batch'
+
+ggplot(plot_df, aes(x = value)) +
+  geom_density(aes(color = batch), position = 'identity', show.legend = F) +
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlim(-10,40) +
+  ggtitle(paste('Uncorrected samples'))
 
 ```
 
@@ -350,8 +413,15 @@ library(cydar)
 corrected <- normalizeBatch(batches, batch.comp = NULL, mode="warp")
 
 # Plot the results
-plot(density(corrected$Batch1$sample_Y), main="batch corrected samples")
-points(density(corrected$Batch2$sample_Y), type="l", col="red")
+plot_df <- cbind.data.frame(rbind(melt(corrected$Batch1), melt(corrected$Batch2)), rep(paste0('batch', 1:2), each = 1000)); colnames(plot_df)[5] <- 'batch'
+
+ggplot(plot_df, aes(x = value)) +
+  geom_density(aes(color = batch), position = 'identity', show.legend = F) +
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlim(-10,40) +
+  ggtitle(paste('Batch corrected samples'))
+  
 
 ```
 
@@ -407,7 +477,7 @@ p <- ggplot(cells, aes(x = DNA1, y = DNA2)) +
       theme_bw()
 
 # Set gate boundaries - the values should be manually adjusted
-left <- 5.53; right <- 7.2; lower <- 6.1; upper <- 7.85
+left <- 5.75; right <- 7.3; lower <- 6.35; upper <- 7.95
 
 # Gating intact cells
 intact <- cells[cells[,"DNA1"] > left & cells[,"DNA1"] < right,]; intact <- intact[intact[,"DNA2"] > lower & intact[,"DNA2"] < upper,]
@@ -433,7 +503,7 @@ p <- ggplot(intact, aes(x = Event_length, y = DNA1)) +
       theme_bw()
 
 # Set gate boundaries - the values should be manually adjusted
-left <- 11; lower <- 5.4; right <- 24; upper <- 7.3
+left <- 12; lower <- 5.65; right <- 22; upper <- 7.35
 
 # Gating intact singlets
 singlets <- intact[intact[,"Event_length"] > left & intact[,"Event_length"] < right,]
@@ -459,7 +529,7 @@ p <- ggplot(intact, aes(x = Dead, y = DNA1)) +
       theme_bw()
 
 # Set gate boundaries - the values should be manually adjusted
-left <- 0; lower <- 5.4; right <- 4; upper <- 7.3
+left <- 0; lower <- 5.65; right <- 3.5; upper <- 7.35
 
 # Gating live intact singlets
 live <- singlets[singlets[,"Dead"] < right,]
@@ -472,8 +542,8 @@ p + geom_rect(xmin = left, xmax = right, ymin = lower, ymax = upper, fill = NA, 
 Finally, you can print the recovery percentage for each sample and save the live intact singlets to a new FCS file if you need to.
 
 ```{r pregating 5}
-for (i in fcs_files) {
-  print(paste("Total recovery for ", basename(i), ": ", round((nrow(live[live$sample==i,])/nrow(exprs_set_trans[exprs_set_trans$sample==i,]))*100, digits=2), "%", sep=""))
+for (f in basename(fcs_files)) {
+  print(paste("Total recovery for ", f, ": ", round((nrow(live[live$sample==f,])/nrow(exprs_set_trans[exprs_set_trans$sample==f,]))*100, digits=2), "%", sep=""))
 }
 
 # # Save FCS containing live intact singlets
@@ -487,7 +557,7 @@ More automated options for pre-gating can be conceived. One option is to train a
 <br>
 
 ## Compensation
-Compensation is a method for correcting signal overlap, or "spillover", between the different channels used in cytomtetry experiments. While being an established method in flow cytometry, a recent study ([Chevrier et al., 2018](http://dx.doi.org/10.1016/j.cels.2018.02.010)) highlight that mass cytometry experiments are also affected by signal spillover.  This leads to noisy expression matrices, and as a consequence, compensation must be applied. 
+Compensation is a method for correcting signal overlap, or "spillover", between the different channels used in cytomtetry experiments. While being an established method in flow cytometry, a recent study ([Chevrier et al., 2018](http://dx.doi.org/10.1016/j.cels.2018.02.010)) highlight that mass cytometry experiments are also affected by signal spillover. This leads to noisy expression matrices, and as a consequence, compensation must be applied. 
 
 To perform compensation, you need to directly quantify the overlap between isotopes using beads (or cells) stained with a single isotope. Using these single-stained beads it is possible to estimate a spillover matrix from the populations identified as belonging to each isotope, and then one can apply the inverse of the matrix to compensate the data for CyTOF runs through multiplication.
 
@@ -496,6 +566,8 @@ The [CATALYST tool](http://bioconductor.org/packages/release/bioc/html/CATALYST.
 But how can you tell if your data needs compensation? In reality this may be hard, but one approach could be to use a biaxial plot to look for unexpected correlations between channels in your dataset. E.g. you would *usually* not expect a correlation between a barcoding channel and a surface marker, but you may expect a correlation between two maturity markers or two activation markers. So if you see something like the leftmost plot below (which shows a barcoding vs. a marker channel), you have a strong indication that something is wrong. Fortunately, it can be corrected using CATALYST to yield the rightmost plot. For this dataset (which is one of our own), none of the single-stained beads were actually stained with <sup>110</sup>Pd, and consequently any signal detected in this channel must be spillover.
 
 ![Compensation example. Left: Uncompensated data with a large spillover from the Cd114 channel to the Pd110 channel. Right: Compensated data.](https://i.imgur.com/a6FzOTC.png)
+
+It is actually important to note here that while what the CyTOF user will observe is a spillover from <sup>114</sup>Cd to <sup>110</sup>Pd, this does not really reflect what is happening inside the machine. The problem here is that <sup>114</sup>Cd is not "clean", and naturally occuring Cd will also contain some other isotopes including <sup>110</sup>Cd (see this [Cytoforum discussion](http://cytoforum.stanford.edu/viewtopic.php?f=6&t=417#p1329)). The CyTOF machine is unable to distinguish different isotopes with the same mass and the signal from <sup>110</sup>Cd is cosequently read as <sup>110</sup>Pd.
 
 <br>
 
@@ -514,6 +586,7 @@ A GUI implementation of the single cell debarcoder may be installed from [here](
 The most commonly used algorithm for dimensionality reduction in the biological sciences is principal component analysis (PCA). For mass cytometry data, a PCA will often capture 40-50% of the variance on the first 2-3 PCs, but since the distance between events is linear, data existing on a nonlinear manifold will be misrepresented [(Chester & Maecker 2015)](http://www.jimmunol.org/content/195/3/773.long). Whether this is an issue with CyTOF data or not depends heavily on the source of data. For example, as cells in the hematopoietic system develop in a hierarchical structure, the transition between some cells will result in a continuum rather than distinct clusters, which may not be entirely captured by PCA. 
 
 ```{r pca}
+fcs_files <- basename(fcs_files)
 pca <- prcomp(live[live$sample==fcs_files[1],lineage_channels], scale. = TRUE)
 
 ggplot(as.data.frame(pca$x), aes(x = PC1, y = PC2)) +
@@ -554,7 +627,7 @@ library(reshape2)
 sub <- cbind.data.frame(live[live$sample==fcs_files[1],], tsne$Y); colnames(sub)[(ncol(sub)-1):ncol(sub)] <- c('tSNE1', 'tSNE2')
 
 p <- list()
-for (c in c("CD4", "CD8", "CD19", "CD56")) {
+for (c in c("CD3", "CD33", "CD19", "CD56")) {
   
   p[[c]] <- ggplot(sub, aes(x = tSNE1, y = tSNE2)) +
             geom_point(aes_string(color = c), size = 0.5) +
@@ -592,7 +665,7 @@ Again, it is possible to get a pretty good insight into cell composition in a sa
 sub <- cbind.data.frame(live[live$sample==fcs_files[1],], umap); colnames(sub)[(ncol(sub)-1):ncol(sub)] <- c('UMAP1', 'UMAP2')
 
 p <- list()
-for (c in c("CD4", "CD8", "CD19", "CD56")) {
+for (c in c("CD3", "CD33", "CD19", "CD56")) {
   
   p[[c]] <- ggplot(sub, aes(x = UMAP1, y = UMAP2)) +
             geom_point(aes_string(color = c), size = 0.5) +
@@ -658,35 +731,36 @@ ggplot(plot_df, aes(x = UMAP1, y = UMAP2)) +
 <br>
 
 
-If you want to see how multiple samples compare with clustering and UMAP, one approach is to pool events from multiple samples, cluster them together, and plot them individually on a UMAP canvas (recall that UMAP can potentially produce vastly different layouts if samples are run separately). Below is an example with four samples:
+If you want to see how multiple samples compare with clustering and UMAP, one approach is to pool events from multiple samples, cluster them together, and plot them individually on a UMAP canvas (recall that UMAP can potentially produce vastly different layouts if samples are run separately). Below is an example with two samples:
 
 ```{r umap background, results='hide', message=F, fig.show='all', fig.width = 10}
 # Sample 5000 random events from each sample
 sub <- NULL
-for(i in 1:4) {
+for(i in 1:2) {
   temp <- live[live$sample==fcs_files[i],]
+  set.seed(58)
   sub <- rbind(sub, temp[sample(nrow(temp), 5000, replace=FALSE),])
 }
 
 # Cluster using phenograph
-clusters_pg_4 <- cytof_cluster(xdata = sub[,lineage_channels], method = "Rphenograph")
+clusters_pg_2 <- cytof_cluster(xdata = sub[,lineage_channels], method = "Rphenograph")
 
 # Run UMAP
 set.seed(135)
-umap_4 <- umap(sub[,lineage_channels], n_neighbors = 15, min_dist = 0.2, metric = 'euclidean')
+umap_2 <- umap(sub[,lineage_channels], n_neighbors = 15, min_dist = 0.2, metric = 'euclidean')
 
 # Make color scale
 getPalette = colorRampPalette(brewer.pal(9, "Set1"))
-cols <- getPalette(max(clusters_pg_4))
+cols <- getPalette(max(clusters_pg_2))
 
 # Plot each sample on UMAP canvas consisting of all events
-plot_df <- cbind.data.frame(umap_4, clusters_pg_4, sub$sample); plot_df$clusters_pg_4 <- as.factor(plot_df$clusters_pg_4); colnames(plot_df) <- c(paste0('UMAP', 1:2), 'Cluster', 'Sample')
+plot_df <- cbind.data.frame(umap_2, clusters_pg_2, sub$sample); plot_df$clusters_pg_2 <- as.factor(plot_df$clusters_pg_2); colnames(plot_df) <- c(paste0('UMAP', 1:2), 'Cluster', 'Sample')
 
 p <- list()
-for (s in 1:4) {
+for (s in 1:2) {
   
   p[[s]] <- ggplot(plot_df[plot_df$Sample==levels(plot_df$Sample)[s],], aes(x = UMAP1, y = UMAP2)) +
-            geom_point(data = plot_df, color = 'grey', size = 0.5) +
+            geom_point(data = plot_df, pch = 21, color = 'grey80', size = 0.5) +
             geom_point(aes(color = Cluster), alpha = 0.6, size = 0.5, show.legend = F) +
             scale_color_manual(values = cols) +
             ggtitle(paste('Sample', s)) + 
@@ -707,7 +781,7 @@ A standalone [R package for FlowSOM](https://bioconductor.org/packages/release/b
 
 ```{r flowsom, results='hide', message=F, fig.show='all'}
 library(cytofkit)
-clusters_fs <- cytof_cluster(xdata = live[live$sample==fcs_files[1],lineage_channels], method = "FlowSOM", FlowSOM_k=25)
+clusters_fs <- cytof_cluster(xdata = live[live$sample==fcs_files[1],lineage_channels], method = "FlowSOM", FlowSOM_k = 25, flowSeed = 462)
 ```
 
 ```{r flowsom umap}
@@ -732,6 +806,7 @@ VorteX is a clustering tool, which is implemented in Java and available as a gra
 
 
 <br>
+
 ### SCAFFoLD
 SCAFFoLD (Single-Cell Analysis by Fixed Force- and Landmark-Directed) is, as the name indicates, a tool based on the use of force-directed graphs. First, cells are clustered, and then the clusters are spatialized in the plane. This means that similar clusters are put closer to each other than dissimilar ones. This results in a map. Furthermore, it is possible to highlight landmark populations that have been manually gated (working as references). As a result it is possible to compare a new sample to an old, to look for global structure changes. Samples can be clustered both individually and together.
 
@@ -746,6 +821,8 @@ library(scaffold)
 # Running SCAFFoLD (launching a GUI), please note that your current working directory should contain your files of interest before launching the GUI
 scaffold.run()
 ```
+
+
 A complete use guide for the GUI is found [here](https://github.com/nolanlab/scaffold).
 
 <br><br>
@@ -758,7 +835,7 @@ Once cells have been clustered, examining the expression profiles of the cells i
 ### Simple heatmap
 The most basic way to visually show the marker profiles of clusters is with a simple heatmap of median marker expressions. This of course has the drawback of ignoring the variance of the marker expression in each cluster, but offers does offer some insights into the composition of each cluster.
 
-```{r heatmap, results='hide', message=F, fig.show='all'}
+```{r heatmap, results='hide', message=F, fig.show='all', fig.width=10}
 library(miscTools)
 library(reshape2)
 
@@ -783,8 +860,10 @@ library(Radviz)
 library(dplyr)
 library(RColorBrewer)
 
+
 cell.S <- make.S(colnames(sub_matrix))
 cell.sim <- cosine(as.matrix(sub_matrix))
+set.seed(946)
 optim.cell <- do.optim(cell.S,cell.sim,iter=100,n=1000)
 cell.S <- make.S(tail(optim.cell$best,1)[[1]])
 cell.rv <- do.radviz(as.matrix(sub_matrix),cell.S)
@@ -858,6 +937,7 @@ In the interest of speed, we here down sample to 1000 random events from each sa
 sub <- NULL
 for(i in unique(exprs_set$sample_id)) {
   temp <- exprs_set[exprs_set$sample_id==i,]
+  set.seed(46)
   sub <- rbind(sub, temp[sample(nrow(temp), 1000, replace=FALSE),lineage_channels])
 }
 sample <- rep(unique(exprs_set$sample_id), each=1000)
@@ -874,7 +954,7 @@ patients <- data_bcrxl@metadata$experiment_info$patient_id
 
 Lastly, we evaluate differential abundance in each cluster using a NB-GLM from the edgeR package:
 
-```{r edgeR, results='hide', message=F, fig.show='all'}
+```{r edgeR, message=F, fig.show='all'}
 # calculate differential abundance accounting for paired design
 library(edgeR)
 
@@ -882,7 +962,7 @@ dge <- DGEList(cell_counts, lib.size=rep(1000,16))
 design <- model.matrix(~patients + conditions)
 y <- estimateDisp(dge, design)
 fit <- glmQLFit(y, design, robust=TRUE)
-res <- glmQLFTest(fit)
+res <- glmQLFTest(fit, coef = 'conditionsBCR-XL')
 
 topTags(res)
 ```
@@ -936,7 +1016,7 @@ p <- list()
 for (s in 1:2) {
   
   p[[s]] <- ggplot(plot_df[plot_df$Group==levels(plot_df$Group)[s],], aes(x = UMAP1, y = UMAP2)) +
-            geom_point(data = plot_df, color = 'grey', size = 0.5) +
+            geom_point(data = plot_df, pch = 21, color = 'grey80', size = 0.5) +
             geom_point(aes(color = Cluster), alpha = 0.6, size = 0.5, show.legend = F) +
             scale_color_manual(values = getPalette(max(clusters_pg))) +
             ggtitle(paste(levels(plot_df$Group)[s], "samples")) + 
@@ -964,6 +1044,7 @@ library(ncdfFlow)
 sub <- list()
 for(i in unique(exprs_set$sample)) {
   temp <- exprs_set[exprs_set$sample==i,]
+  set.seed(23)
   sub[[i]] <- temp[sample(nrow(temp), 1000, replace=FALSE),lineage_channels]
 }
 
@@ -973,6 +1054,7 @@ sample.id <- rep(data_bcrxl@metadata$experiment_info$sample_id, each = 1000)
 
 
 # Count the cells into hyperspheres with a radius equal to 0.5 times the square root of the number of markers
+set.seed(12)
 cd_all <- prepareCellData(sub)
 cd_all <- countCells(cd_all, tol=0.5)
 
@@ -986,14 +1068,14 @@ y <- y[keep,]
 design <- model.matrix(~patient.id+conditions)
 y <- estimateDisp(y, design)
 fit <- glmQLFit(y, design, robust=TRUE)
-res <- glmQLFTest(fit, coef=2)
+res <- glmQLFTest(fit)
 
 # Controlling the spatial FDR
 qvals <- spatialFDR(intensities(cd), res$table$PValue)
 is.sig <- qvals <= 0.05
 ```
 
-In this case we find that 253 out of 549 hyperspheres contain a significantly different number of cells between our two conditions.
+In this case we find that 325 out of 551 hyperspheres contain a significantly different number of cells between our two conditions.
 
 ```{r cydar significant}
 # Print the number of hypersphere with significantly different cell abundance between case and control
@@ -1012,6 +1094,7 @@ Currently, the most widely utilized approach is to compare the median expression
 sub <- NULL
 for(i in unique(exprs_set$sample)) {
   temp <- exprs_set[exprs_set$sample==i,]
+  set.seed(84)
   sub <- rbind(sub, temp[sample(nrow(temp), 1000, replace=FALSE),c(lineage_channels, functional_channels)])
 }
 sample <- rep(unique(exprs_set$sample), each=1000)
@@ -1046,7 +1129,7 @@ fit <- eBayes(fit)
 topTable(fit, coef="conditions_testReference", number="inf", adjust.method="bonferroni")
 ```
 
-So in cluster 1 we have four significantly differentially expressed proteins between the Reference and BCR-XL samples, based on the median expression of the protein.
+So in cluster 1, we have six significantly differentially expressed proteins between the Reference and BCR-XL samples, based on the median expression of the protein.
 
 The most glaring (potential) issue with using the median expression is that we assume homoscedasticity and ignore the variance of the expression within each sample. Another potential issue is that for the linear models, we assume that the expression values (and median values) follow a Gaussian distribution. As mentioned earlier, the arcsinh transformation is first and foremost a cosmetic operation for biaxial plots, and the raw counts (without the default randomization by the Fluidigm software) roughly follows a (somewhat zero-inflated) negative binomial distribution. As such, a more appropriate statistic may be adopted from common practices in single cell transcriptomics analyses, but the error model has to be adapted: for example, dropout events are not an issue in mass cytometry, but the isotope counts are subject to stochastic noise and antibody binding introduces some fairly systematic noise (as discussed in our manuscript) that should be modeled appropriately. Lastly, we measure far fewer features in mass cytometry, but vastly more observations compared with single cell transcriptomics. Until such a model is formulated, linear modeling of median marker expression remains the state-of-the-art.
 
@@ -1116,9 +1199,10 @@ flowCL assigns a phenotype to a cell based on its expressed markers - it matches
 
 We can run flowCL directly on the list created using MEM:
 
-```{r flowCL, results='hide', fig.keep='all', message=FALSE}
+```{r flowCL, fig.keep='all', message=FALSE}
 library(flowCL)
-res <- flowCL(MarkerList = labels)
+res <- flowCL(MarkerList = labels, ExpMrkrLst = list(c(lineage_channels, functional_channels)))
+
 ```
 
 
@@ -1131,10 +1215,11 @@ Cells of the immune system exist in a hierarchy of different developmental and a
 Wanderlust is a graph-based approach to uncovering cell development trajectories. It works by first constructing a k-nearest neighbor graph, connecting each cell to its k nearest neighbors based on Euclidean distance. Then, the shortest path between an initiator node (a user selected root cell) and every other cell in the network is used to estimate the development trajectory of each event (Bendall et al. 2014). Wanderlust is implemented in Matlab.
 
 <br>
+
 ### FlowSOM
 Self-organizing maps (SOM) and minimum spanning tree (MST) visualizations can be generated using the kohonen package for the SOM, and the igraph package for the MST. The flowSOM implementations of these do contain some extra plotting options. If you want visualizations exactly like those presented in the [paper](http://onlinelibrary.wiley.com/doi/10.1002/cyto.a.22625/full), you may try their [R package](https://bioconductor.org/packages/release/bioc/html/FlowSOM.html). Note that it only takes FCS files as input, but individual functions can be edited if an explicit need for these visualizations exists.
 
-```{r flowsom MST, results='hide', fig.show='all', message=FALSE}
+```{r flowsom MST, results='hide', fig.show='all', message=FALSE, fig.width=10, fig.height=8}
 # Calculate and visualize self organizing map with the parameters used by FlowSOM
 library(kohonen)
 som <- som(as.matrix(sub[,lineage_channels]), grid=somgrid(xdim = 10, ydim = 10), dist.fcts="euclidean")
@@ -1190,6 +1275,7 @@ add.vertex.shape("star", clip=igraph.shape.noclip, plot=mystar,
                  parameters=list(vertex.data=NULL,vertex.cP = cluster_cols,
                                  vertex.scale=FALSE, vertex.bg = "transparent"))
 
+
 # Generate the MST plot          
 plot(as.undirected(mst), vertex.shape="star", vertex.label = NA, vertex.size = rep(10, length(codebook_clusters)), vertex.data = medians, vertex.cP = marker_palette(ncol(medians)), vertex.scale = TRUE, layout = layout, edge.lty = 1, mark.groups = codebook_list, mark.col = alpha(cluster_cols,0.4), mark.border = NA, mark.shape=1)
 legend(x=1.2,y=1.1,legend=lineage_channels, col=marker_cols, pch=19, cex=0.7, bty="n", y.intersp=0.8)
@@ -1199,7 +1285,7 @@ legend(x=-1.8,y=1.1,legend=paste("cluster", 1:nclust), col=cluster_cols, pch=19,
 
 Note that this visualization was developed for flow cytometry where fewer markers are measured. For higher-dimensionality data, such as from the CyTOF, it can be difficult to discern the expression of the individual markers, so selecting a subset representing major parent populations could be useful.
 
-<br>
+<br><br>
 
 # Analysis tool overview
 
