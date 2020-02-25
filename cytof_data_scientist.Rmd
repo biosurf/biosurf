@@ -2,7 +2,7 @@
 title: "Data scientist's primer to analysis of mass cytometry data"
 author: "Contributors: Lars Rønn Olsen, Christina Bligaard Pedersen, Mike Leipold, and Holden Maecker"
 output:
-  prettydoc::html_pretty:
+  html_document:
     toc: true
     toc_float: true
     number_sections: true
@@ -264,19 +264,37 @@ plot_grid(p1, p2, align = 'v', scale = 0.9)
 
 Both the classic Logicle transformation and ArcSinh works by compressing values in the upper end of the spectrum and enhancing the resolution on the lower end:
 
-```{r logicle and asinh, echo = F}
+```{r logicle and arcsinh, echo = F, fig.width=10, fig.height=5}
+library(ggplot2)
+library(reshape2)
+library(cowplot)
+
+biexp <- function(x){0.5*exp(1*(x-1))-0.5*exp(-1*(x-1))+0}
+
 raw = -100:100
 asinh = cbind.data.frame(raw = rep(raw, 3), asinh = c(asinh(raw/1), asinh(raw/2), asinh(raw/5)), cofactor = as.factor(rep(c(1,2,5), each = length(raw))))
 
-p2 <- ggplot(asinh, aes(x = raw, y = asinh)) +
-      geom_abline(intercept = 0, color = 'grey') +
-      geom_line(aes(color = cofactor)) + ggtitle('ArcSinh transformation') + 
-      theme_bw() + xlab("Untransformed counts") + ylab("ArcSinh transformed values") +
+p1 <- ggplot(cbind.data.frame(x=seq(-5, 10, 0.1), y=biexp(seq(-5, 10, 0.1))), aes(x = x, y = y)) +
+      geom_line() +
+      ggtitle('Logicle transformation') + 
+      theme_bw() + xlab("Untransformed counts") + ylab("Logicle-transformed values") +
       theme(plot.title = element_text(hjust = 0.5)) +
+      theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+
+p2 <- ggplot(asinh, aes(x = raw, y = asinh)) +
+      geom_line(aes(color = cofactor)) +
+      geom_abline(intercept = 0, color = 'grey60') +
+      ggtitle('ArcSinh transformation') + 
       guides(colour = guide_legend(title = 'Co-factor')) + 
-      annotate('text', x = 14, y = 5, label = 'x = y', color = 'grey')
+      theme_bw() + xlab("Untransformed counts") + ylab("Arcsinh-transformed values") +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      theme(axis.text.x = element_text(angle = 90, hjust = 0.5)) +
+      annotate('text', x = -15, y = 5, label = 'x = y', color = 'grey40')
+
+plot_grid(p1, p2, align = 'h', scale = 0.9)
 
 ```
+
 
 
 ![Logicle vs arcsinh transformation](https://i.imgur.com/t2XTC1P.png)
@@ -286,6 +304,7 @@ When plotting the variation for each marker before and after transformation, the
 ```{r boxplot asinh, message=F, results = 'hide', fig.height=8, fig.width=10}
 library(ggplot2)
 library(reshape2)
+library(cowplot)
 
 melt_exprs <- melt(exprs[,lineage_channels]); melt_exprs_trans <- melt(exprs_trans[,lineage_channels])
 
