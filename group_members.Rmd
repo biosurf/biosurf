@@ -21,6 +21,7 @@ output: html_document
 |<br><br><br><br><br><br>|   | <span style="color: #008CBA;">**Steinunn Marta Fridriksdóttir**</span>    <br>  Master's student<br>DTU Health Tech <br><br> |
 |<br><br><br><br><br><br>|   | <span style="color: #008CBA;">**Jeppe Nygård Samuelsen**</span>    <br>  Bachelor's student<br>DTU Health Tech <br><br> |
 
+
 <br><br><br>
 
 
