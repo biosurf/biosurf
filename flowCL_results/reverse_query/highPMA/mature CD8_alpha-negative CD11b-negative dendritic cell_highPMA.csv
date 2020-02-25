@@ -1,5 +1,0 @@
-"x","celllabel","plabel","marker","markerlabel"
-"<http://purl.obolibrary.org/obo/CL_0001002>","mature CD8_alpha-negative CD11b-negative dendritic cell","has_high_plasma_membrane_amount","<http://purl.obolibrary.org/obo/GO_0042613>","MHC class II protein complex"
-"<http://purl.obolibrary.org/obo/CL_0001002>","mature CD8_alpha-negative CD11b-negative dendritic cell","has_high_plasma_membrane_amount","<http://purl.obolibrary.org/obo/PR_000001412>","CD86 molecule"
-"<http://purl.obolibrary.org/obo/CL_0001002>","mature CD8_alpha-negative CD11b-negative dendritic cell","has_high_plasma_membrane_amount","<http://purl.obolibrary.org/obo/PR_000001438>","CD80 molecule"
-"<http://purl.obolibrary.org/obo/CL_0001002>","mature CD8_alpha-negative CD11b-negative dendritic cell","has_high_plasma_membrane_amount","<http://purl.obolibrary.org/obo/PR_000001013>","integrin alpha-X"

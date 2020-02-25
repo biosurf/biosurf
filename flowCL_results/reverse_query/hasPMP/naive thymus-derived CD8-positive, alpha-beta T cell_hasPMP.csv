@@ -1,7 +1,0 @@
-"x","celllabel","plabel","marker","markerlabel"
-"<http://purl.obolibrary.org/obo/CL_0000900>","naive thymus-derived CD8-positive, alpha-beta T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000025402>","T cell receptor co-receptor CD8"
-"<http://purl.obolibrary.org/obo/CL_0000900>","naive thymus-derived CD8-positive, alpha-beta T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/GO_0042105>","alpha-beta T cell receptor complex"
-"<http://purl.obolibrary.org/obo/CL_0000900>","naive thymus-derived CD8-positive, alpha-beta T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001015>","receptor-type tyrosine-protein phosphatase C isoform CD45RA"
-"<http://purl.obolibrary.org/obo/CL_0000900>","naive thymus-derived CD8-positive, alpha-beta T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001203>","C-C chemokine receptor type 7"
-"<http://purl.obolibrary.org/obo/CL_0000900>","naive thymus-derived CD8-positive, alpha-beta T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001869>","interleukin-7 receptor subunit alpha"
-"<http://purl.obolibrary.org/obo/CL_0000900>","naive thymus-derived CD8-positive, alpha-beta T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/GO_0042101>","T cell receptor complex"
