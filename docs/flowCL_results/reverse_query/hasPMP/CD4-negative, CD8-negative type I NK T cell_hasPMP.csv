@@ -1,0 +1,4 @@
+"x","celllabel","plabel","marker","markerlabel"
+"<http://purl.obolibrary.org/obo/CL_0000924>","CD4-negative, CD8-negative type I NK T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/GO_0042105>","alpha-beta T cell receptor complex"
+"<http://purl.obolibrary.org/obo/CL_0000924>","CD4-negative, CD8-negative type I NK T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001874>","KLRB1-like protein"
+"<http://purl.obolibrary.org/obo/CL_0000924>","CD4-negative, CD8-negative type I NK T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/GO_0042101>","T cell receptor complex"
