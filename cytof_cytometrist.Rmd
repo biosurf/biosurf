@@ -31,7 +31,60 @@ Within cytometry, three methods are commonly applied: 'Principal component analy
 ### Principal component analysis
 Principal component analysis (PCA) is the fastest, most easily interpretable, and most wide-spread way of projecting high-dimensional data onto a low dimensional subspace. To understand how it works, let us consider a three-dimensional CyTOF dataset (a dataset with three channels). We now wish to find a representation which maintains as much of the dataset variability in the data as possible and therefore, we identify the first "principal component": The straight line along which the data is most spread out (see orange arrow below). How this is done does not matter too much but if you want the basics in place check out this [page](https://georgemdallas.wordpress.com/2013/10/30/principal-component-analysis-4-dummies-eigenvectors-eigenvalues-and-dimension-reduction/). The next step will then be to detect the straight line, which is perpendicular to the first, along which the data has the most variance (green arrow below). This can in principal go on until you have as many principal components as you have dimensions in your data. What the method does is essentially to create a new coordinate system, in which the data set is centered as seen below.
 
+<br>
+
+```{r read and gate data, echo = FALSE, fig.show='hide', results='hide', message=FALSE}
+library(flowCore)
+library(FlowSOM)
+library(Rtsne)
+library(ggplot2)
+library(uwot)
+library(RColorBrewer)
+
+setwd('~/Documents/PhD/biosurf/') # Needs to be updated
+load('live.Rdata')
+
+# select protein marker columns to use for clustering
+marker_cols <- lineage_channels
+
+
+# Manual gating of CD3+/CD19+
+sample <- live[live$sample %in% fcs_files[1:5],lineage_channels]
+plot(sample[,'CD3'], sample[,'CD19'], pch = '.')
+
+labels <- rep(NA, nrow(sample))
+labels[(sample[,'CD3'] >= 3.2 & sample[,'CD19'] < 2.6)] <- 'Other CD3+ cells'
+labels[(sample[,'CD3'] < 2.9 & sample[,'CD19'] >= 2.5)] <- 'B-cells'
+labels[(sample[,'CD3'] > 2.9 & sample[,'CD19'] >= 2.6)] <- 'Noise'
+
+# T-cell populations
+plot(sample[labels=='Other CD3+ cells','CD8'], sample[labels=='Other CD3+ cells', 'CD4'], pch = '.')
+
+labels[(labels == 'Other CD3+ cells' & sample[,'CD8'] >= 3.8 & sample[,'CD4'] < 2.4)] <- 'CD8+ T-cells'
+labels[(labels == 'Other CD3+ cells' & sample[,'CD8'] < 2.6 & sample[,'CD4'] >= 3)] <- 'CD4+ T-cells'
+labels[(labels == 'Other CD3+ cells' & sample[,'CD8'] < 3 & sample[,'CD4'] < 2 & sample[,'TCRgd'] >= 3)] <- 'Gamma/delta T-cells'
+
+# NK cells
+plot(sample[,'CD56'], sample[, 'CD16'], pch = '.')
+labels[(is.na(labels) & sample[,'CD56'] >= 3 & sample[,'CD16'] > 4)] <- 'NK-cells'
+
+# Myeloid cells
+plot(sample[is.na(labels),'CD11c'], sample[is.na(labels), 'CD33'], pch = '.')
+labels[(is.na(labels) & sample[,'CD11c'] >= 3 & sample[,'CD33'] > 3.8)] <- 'Myeloid cells'
+
+labels[labels == 'Noise'] <- NA; labels[is.na(labels)] <- 'Unassigned'
+
+# summary of cluster sizes and number of clusters
+
+table(labels)
+length(table(labels))
+
+```
+
+
+
 ```{r pca 3d, echo = F, message=F}
+# Old version where we use plots from plotly webpage
 library("knitr")
 library("devtools")
 url<-"https:///plot.ly/~cbligaard/2.embed?width=450&height=400" 
@@ -43,8 +96,77 @@ plotly_iframe2 <- paste("<iframe scrolling='no' seamless='seamless' style='borde
     "/350/400' width='350' height='400'></iframe>", sep = "")
 
 ```
-`r I(plotly_iframe)`
-`r I(plotly_iframe2)`
+<!-- `r I(plotly_iframe)` 
+`r I(plotly_iframe2)`-->
+
+
+```{r pca 3d code, message=FALSE, echo = F, fig.show='hide', warning=FALSE}
+# New version - plots generated in-line
+library(plotly)
+library(htmltools)
+
+#### Let's keep only one cell type
+new_labels <- labels[labels == 'Myeloid cells']
+data <- sample[labels == 'Myeloid cells',]
+
+marker1 <- 'HLADR'; marker2 <- 'CD4'; marker3 <- 'CD123'
+
+
+#### Make a 3d plot with PCs in it
+pca <- prcomp(data[,c(marker1, marker2, marker3)])
+pc_lengthts <- summary(pca)$importance[2,]
+vector <- -t(pca$rotation) * 9 * pc_lengthts # Scale eigenvectors with the variance captured
+
+set.seed(417)
+
+p1 <- plot_ly(x=data[,marker1], y=data[,marker2], z=data[,marker3], type="scatter3d", mode="markers", size = 0.6, marker=list(opacity=0.1), name = 'CyTOF')  %>%
+  layout(title = "CyTOF data with three channels", scene = list(xaxis = list(title=marker1, range=c(0,9)), yaxis = list(title=marker2, range=c(0,9)), zaxis = list(title=marker3, range=c(0,9)), aspectmode = 'cube')) %>%
+  
+  add_trace(x = c(pca$center[marker1], pca$center[marker1] + vector[1,marker1]), y = c(pca$center[marker2], pca$center[marker2] + vector[1,marker2]), z = c(pca$center[marker3], pca$center[marker3] + vector[1,marker3]), name = "PC1", type = "scatter3d", mode = "lines", 
+            showlegend = FALSE, line = list(width = 15)) %>%
+  add_trace(x = c(pca$center[marker1], pca$center[marker1] + vector[2,marker1]), y = c(pca$center[marker2], pca$center[marker2] + vector[2,marker2]), z = c(pca$center[marker3], pca$center[marker3] + vector[2,marker3]), name = "PC2", type = "scatter3d", mode = "lines",
+           showlegend = FALSE, line = list(width = 15)) %>%
+  add_trace(x = c(pca$center[marker1], pca$center[marker1] + vector[3,marker1]), y = c(pca$center[marker2], pca$center[marker2] + vector[3,marker2]), z = c(pca$center[marker3], pca$center[marker3] + vector[3,marker3]), name = "PC3", type = "scatter3d", mode = "lines",
+            showlegend = FALSE, line = list(width = 15)) %>%
+  
+  add_trace(x = pca$center[marker1] + vector[1,marker1], y = pca$center[marker2] + vector[1,marker2], z = pca$center[marker3] + vector[1,marker3],
+            u = vector[1,marker1]/(pc_lengthts[1]*6), v = vector[1,marker2]/(pc_lengthts[1]*6), w = vector[1,marker3]/(pc_lengthts[1]*6), showlegend = FALSE, type = "cone",
+            showscale = F, name = 'PC1', hoverinfo = 'x+y+z+name',
+            color = '#ff7f0e', autocolorscale = F, cauto = F, cmax = 1.52, cmin = 1.482, colorscale = 'YlOrRd',
+            hoverlabel = list(bgcolor = '#ff7f0e')) %>%
+  add_trace(x = pca$center[marker1] + vector[2,marker1], y = pca$center[marker2] + vector[2,marker2], z = pca$center[marker3] + vector[2,marker3],
+            u = vector[2,marker1]/(pc_lengthts[2]*6), v = vector[2,marker2]/(pc_lengthts[2]*6), w = vector[2,marker3]/(pc_lengthts[2]*6), showlegend = FALSE, type = "cone",
+            showscale = F, name = 'PC2', hoverinfo = 'x+y+z+name',
+            color = '#2ca02c', autocolorscale = F, cauto = F, cmax = 1.54, cmin = 1.48, colorscale = 'Greens',
+            hoverlabel = list(bgcolor = '#2ca02c')) %>%
+  add_trace(x = pca$center[marker1] + vector[3,marker1], y = pca$center[marker2] + vector[3,marker2], z = pca$center[marker3] + vector[3,marker3],
+            u = vector[3,marker1]/(pc_lengthts[3]*6), v = vector[3,marker2]/(pc_lengthts[3]*6), w = vector[3,marker3]/(pc_lengthts[3]*6), showlegend = FALSE, type = "cone",
+            showscale = F, name = 'PC3', hoverinfo = 'x+y+z+name',
+            color = '#d52729', autocolorscale = F, cauto = F, cmax = 1.505, cmin = 1.4, colorscale = 'Reds',
+            hoverlabel = list(bgcolor = '#d52729'))
+
+
+
+# 2D pca projection
+p2 <- plot_ly(x=pca$x[,1], y=pca$x[,2], type="scatter", marker=list(opacity=0.1), name = 'CyTOF_PCA')  %>%
+  layout(title = "PCA projection", scene = list(xaxis = list(title='PC1'), yaxis = list(title='PC2')))
+
+
+# Show plots side by side
+tagList(list(
+    tags$div(
+      style = 'width:60%;display:block;float:left;',
+      p1
+    ),
+    tags$div(
+      style = 'width:40%;display:block;float:left;',
+      p2
+    )
+  )
+)
+
+```
+
 
 PCA works well for many cases, it is extremely fast, and it always yields the same result for the same dataset. You can also project new data into an existing PCA plot, which provides great flexibility when adding new samples to a study, and the results are easily interpretable because the distances plotted in a PCA plot are linearly related to the actual distances between cells in the high-dimensional space. Finally, it is directly quantifiable how much of the actual data variance is contained within a certain dimensionality. 
 
@@ -52,7 +174,37 @@ The problem is that PCA will likely only capture less than half of the total var
 
 If we look at an example for 5 PBMC samples, in which populations were defined using manual gating, it is clear that the CD4+ and CD8+ T-cells are not separated in 2D. However, we do get some insights — it seems that B-cells are more distinct from the rest of the cell types.
 
-![PCA of 5 healthy PBMC samples colored by manually assigned populations.](https://i.imgur.com/fJFOnNa.png)
+
+```{r pca, echo = FALSE, results='hide', message=F}
+# Run PCA
+out_PCA <- prcomp(sample, scale. = TRUE)
+
+
+## Create plot
+
+# prepare PCA output data for plot
+data_plot <- as.data.frame(out_PCA$x[,1:2])
+colnames(data_plot) <- c("PCA1", "PCA2")
+
+data_plot[, "Population"] <- as.factor(labels)
+
+
+# plot 2-dimensional PCA projection
+ggplot(data_plot, aes(x = PCA1, y = PCA2, color = Population)) + 
+  geom_point(size = 0.2, alpha = 0.5) + 
+  ylab('PC2') + xlab('PC1') +
+  ggtitle("PCA projection of 5 PBMC samples") + 
+  theme_bw() +
+  scale_colour_manual(values = c("#08ccc2", "#FC8D62", "#8DA0CB", "#a52978", "#A6D854", "#FFD92F", "#E5C494", "#D4D7DB")) +
+  guides(color = guide_legend(override.aes = list(size = 2, alpha = 1))) +
+  theme(legend.title = element_text(size = 15),
+        legend.text = element_text(size = 14),
+        plot.title = element_text(hjust = 0.5, size = 16, face = 'bold'),
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 14))
+
+```
+
 
 <br>
 
@@ -61,7 +213,38 @@ t-distributed Stochastic Neighbor Embedding (t-SNE) was presented in [van der Ma
 
 t-SNE is a 'neighbor graph' tool, which means that it relies on a completely different approach to dimensionality reduction. What it does is to quantify distances between each cell and its closest neighbors and preserves these, while distorting the global distances in its output. Therefore, you can *not* use distances between clusters in a t-SNE plot or count on the cluster sizes as a measure of variability, but the approach is conversely better at grasping high-dimensional patterns and at separating different populations completely. This is also seen in the following plot, which represents the same data as shown with PCA. 
 
-![t-SNE of 5 healthy PBMC samples colored by manually assigned populations.](https://i.imgur.com/UGAvFxl.png)
+
+```{r tSNE, echo = FALSE, message=FALSE, results='hide'}
+# Run t-SNE
+set.seed(42)
+out_Rtsne <- Rtsne(sample, pca = FALSE, verbose = TRUE)
+
+
+## Create plot
+
+# prepare t-SNE output data for plot
+data_plot <- as.data.frame(out_Rtsne$Y)
+colnames(data_plot) <- c("tSNE_1", "tSNE_2")
+
+data_plot[, "Population"] <- as.factor(labels)
+
+
+# plot 2-dimensional tSNE projection
+ggplot(data_plot, aes(x = tSNE_1, y = tSNE_2, color = Population)) + 
+  geom_point(size = 0.2, alpha = 0.5) + 
+  ylab('t-SNE2') + xlab('t-SNE1') +
+  ggtitle(paste0("t-SNE projection of 5 PBMC samples")) + 
+  theme_bw() +
+  scale_colour_manual(values = c("#08ccc2", "#FC8D62", "#8DA0CB", "#a52978", "#A6D854", "#FFD92F", "#E5C494", "#D4D7DB")) +
+  guides(color = guide_legend(override.aes = list(size = 2, alpha = 1))) +
+  theme(legend.title = element_text(size = 15),
+        legend.text = element_text(size = 14),
+        plot.title = element_text(hjust = 0.5, size = 16, face = 'bold'),
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 14))
+
+
+```
 
 t-SNE is not as fast as PCA and its speed unfortunately scales poorly for large datasets. Furthermore, it is not possible to project new data into an existing t-SNE embedding, and you have to be careful with initialization, since t-SNE starts randomly by default. However, this last disadvantage is easily overcome in any programming language by setting the 'seed'. Finally, t-SNE does not allow duplicate data points, i.e. two identical cells, and these must be removed before running. Because of these limitations, the use of UMAP in CyTOF analysis is expected to increase rapidly.
 
@@ -70,7 +253,38 @@ t-SNE is not as fast as PCA and its speed unfortunately scales poorly for large 
 ### UMAP
 Uniform Manifold Approximation and Projection (UMAP) was first introduced for CyTOF data by [Becht et al. (2018)](http://dx.doi.org/10.1038/nbt.4314). This approach to dimensionality reduction also relies on information of a cells neighbors and is non-linear like t-SNE, but it yields much better preservation of the global data structure - distances between clusters are actually somewhat meaningful. This is also highlighted by the plot below, which again depicts the same set of cells as for PCA and t-SNE. We notice that all the T-cell types are separated but that they closer together than the rest of the clusters. Like the PCA, we again see that B-cells are highly separated from the rest on the second axis, and we also observe that the individual cluster shapes in the UMAP are somewhat similar to the t-SNE plot. This simple example highlights that UMAP preserves local and global structures of high-dimensional data well.
 
-![UMAP of 5 healthy PBMC samples colored by manually assigned populations.](https://i.imgur.com/L0OCPio.png)
+
+```{r umap, echo = FALSE, message=FALSE, results='hide'}
+# Run UMAP
+set.seed(1)
+out_UMAP <- umap(sample, n_neighbors = 15, min_dist = 0.2, metric = 'euclidean')
+
+
+## Create plot
+
+# prepare UMAP output data for plot
+data_plot <- as.data.frame(out_UMAP)
+colnames(data_plot) <- c("UMAP1", "UMAP2")
+  
+data_plot[, "Population"] <- as.factor(labels)
+
+
+# plot 2-dimensional UMAP projection
+ggplot(data_plot, aes(x = UMAP1, y = UMAP2, color = Population)) + 
+  geom_point(size = 0.2, alpha = 0.5) + 
+  ylab('UMAP2') + xlab('UMAP1') +
+  ggtitle("UMAP projection of 5 PBMC samples") + 
+  theme_bw() +
+  scale_colour_manual(values = c("#08ccc2", "#FC8D62", "#8DA0CB", "#a52978", "#A6D854", "#FFD92F", "#E5C494", "#D4D7DB")) +
+  guides(color = guide_legend(override.aes = list(size = 2, alpha = 1))) +
+  theme(legend.title = element_text(size = 15),
+        legend.text = element_text(size = 14),
+        plot.title = element_text(hjust = 0.5, size = 16, face = 'bold'),
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 14))
+
+
+```
 
 UMAP provides faster runtimes for larger datasets than t-SNE, because the time scales linearly with the number of cells, and like PCA, it is actually possible to project new cells into an existing UMAP. Like t-SNE it has a random start, which again can be fixed for reproducibility.
 

@@ -6,7 +6,7 @@ title: "The Cancer Omics Group"
 
 <br>
 
-##Research profile
+## Research profile
 
 We are a bioinformatics outfit working on various aspects of data analysis related to cancer research. We collaborate with clinician on prognostics, dianostics, and therapeutics of cancer through our three pillars of research.
 
@@ -19,7 +19,8 @@ We are a bioinformatics outfit working on various aspects of data analysis relat
 <tr>
 
 <td>
-![sc](images/immune_oncology.png)
+![sc](images/immune_ocnology_2.png) 
+<span style="font-size:0.4em">Made in ©BioRender - biorender.com</span>
 </td>
 
 <td>
@@ -43,7 +44,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 </td>
 
 <td>
-![sc](images/sysbio.png)
+![sc](images/sysbio2.png)
+<div align="right"><span style="font-size:0.4em">Made in ©BioRender - biorender.com</span></div>
 </td>
 
 </tr>
@@ -57,7 +59,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 <tr>
 
 <td>
-![sc](images/clinical_bioinformatics.png)
+![sc](images/clinical_bioinformatics_2.png)
+<span style="font-size:0.4em">Made in ©BioRender - biorender.com</span>
 </td>
 
 <td>
