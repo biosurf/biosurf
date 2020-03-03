@@ -1,0 +1,4 @@
+"x","celllabel","plabel","marker","markerlabel"
+"<http://purl.obolibrary.org/obo/CL_0000920>","CD8-positive, CD28-negative, alpha-beta regulatory T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000025402>","T cell receptor co-receptor CD8"
+"<http://purl.obolibrary.org/obo/CL_0000920>","CD8-positive, CD28-negative, alpha-beta regulatory T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/GO_0042105>","alpha-beta T cell receptor complex"
+"<http://purl.obolibrary.org/obo/CL_0000920>","CD8-positive, CD28-negative, alpha-beta regulatory T cell","has plasma membrane part","<http://purl.obolibrary.org/obo/GO_0042101>","T cell receptor complex"

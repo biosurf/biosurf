@@ -1,0 +1,6 @@
+"x","celllabel","plabel","marker","markerlabel"
+"<http://purl.obolibrary.org/obo/CL_0002400>","Fraction B/C precursor B cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001898>","neprilysin"
+"<http://purl.obolibrary.org/obo/CL_0002400>","Fraction B/C precursor B cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001002>","CD19 molecule"
+"<http://purl.obolibrary.org/obo/CL_0002400>","Fraction B/C precursor B cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001879>","leukosialin"
+"<http://purl.obolibrary.org/obo/CL_0002400>","Fraction B/C precursor B cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000001932>","signal transducer CD24"
+"<http://purl.obolibrary.org/obo/CL_0002400>","Fraction B/C precursor B cell","has plasma membrane part","<http://purl.obolibrary.org/obo/PR_000002037>","complement component C1q receptor"

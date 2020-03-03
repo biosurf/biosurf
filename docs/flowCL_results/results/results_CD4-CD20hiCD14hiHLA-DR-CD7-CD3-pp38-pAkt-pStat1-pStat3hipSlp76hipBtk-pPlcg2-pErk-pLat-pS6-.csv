@@ -1,0 +1,606 @@
+"x","celllabel","plabel","marker","markerlabel","penalties","Number Of Hits","Score"
+"<http://purl.obolibrary.org/obo/CL_0001026>","CD34-positive, CD38-positive common myeloid progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001836>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD7 molecule
+CD3 epsilon","0","3","3"
+"<http://purl.obolibrary.org/obo/CL_0001027>","CD7-negative lymphoid progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001836>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD7 molecule
+CD3 epsilon","0","3","3"
+"<http://purl.obolibrary.org/obo/CL_0000037>","hematopoietic stem cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001008>","Kit and Sca1-positive hematopoietic stem cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001024>","CD34-positive, CD38-negative hematopoietic stem cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002033>","short term hematopoietic stem cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002034>","long term hematopoietic stem cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002246>","peripheral blood stem cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002352>","gestational hematopoietic stem cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002353>","fetal liver hematopoietic progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002354>","yolk sac hematopoietic stem cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002359>","placental hematopoietic stem cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002360>","AGM hematopoietic stem cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_2000095>","cord blood hematopoietic stem cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000547>","proerythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002004>","CD34-negative, GlyA-negative proerythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002012>","Kit-low proerythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000553>","megakaryocyte progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002023>","CD34-positive, CD41-positive, CD42-positive megakaryocyte progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002025>","CD34-positive, CD41-positive, CD42-negative megakaryocyte progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002024>","Kit-positive megakaryocyte progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000558>","reticulocyte","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002421>","nucleated reticulocyte","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002422>","enucleated reticulocyte","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002019>","Ly-76 high reticulocyte","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002020>","GlyA-positive reticulocytes","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000611>","eosinophil progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002007>","Kit-low, CD34-positive eosinophil progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002008>","CD34-positive, CD38-positive eosinophil progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000613>","basophil progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002030>","Fc-epsilon RIalpha-high basophil progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000549>","basophilic erythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000765>","erythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000550>","polychromatophilic erythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000552>","orthochromatic erythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002013>","GlyA-positive basophillic erythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002014>","Kit-negative, Ly-76 high basophilic erythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002015>","Kit-negative, Ly-76 high polychromatophilic erythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002016>","CD71-low, GlyA-positive polychromatic erythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002017>","Kit-negative, Ly-76 high orthochromatophilic erythroblasts","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002018>","CD71-negative, GlyA-positive orthochromatic erythroblast","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000831>","mast cell progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002029>","Fc-epsilon RIalpha-low mast cell progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000837>","hematopoietic multipotent progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000936>","early lymphoid progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002035>","Slamf1-negative multipotent progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002043>","CD34-positive, CD38-negative multipotent progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002036>","Slamf1-positive multipotent progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000998>","CD8_alpha-negative CD11b-negative dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001001>","immature CD8_alpha-negative CD11b-negative dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001002>","mature CD8_alpha-negative CD11b-negative dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001000>","CD8_alpha-positive CD11b-negative dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001004>","immature CD8_alpha-positive CD11b-negative dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001005>","mature CD8_alpha-positive CD11b-negative dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001029>","common dendritic progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000557>","granulocyte monocyte progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001012>","CD7-negative lymphoid progenitor OR granulocyte monocyte progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000995>","CD34-positive, CD38-positive common myeloid progenitor OR CD34-positive, CD38-positive common lymphoid progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001021>","CD34-positive, CD38-positive common lymphoid progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001060>","hematopoietic oligopotent progenitor cell, lineage-negative","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001025>","Kit-positive, Sca1-positive common lymphoid progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002001>","CD34-positive, CD38-positive granulocyte monocyte progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001023>","Kit-positive, CD34-positive common myeloid progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001030>","CD117-positive common myeloid progenitor OR CD217-positive common lymphoid progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002002>","Kit-positive granulocyte monocyte progenitor","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0001066>","erythroid progenitor cell, mammalian","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002000>","Kit-positive erythroid progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002003>","CD34-positive, GlyA-negative erythroid progenitor cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002010>","pre-conventional dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002089>","group 2 innate lymphoid cell, mouse","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002454>","Cd4-negative, CD8_alpha-negative, CD11b-positive dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002505>","liver CD103-negative dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002506>","liver CD103-positive dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002509>","CD103-positive, langerin-positive lymph node dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002510>","CD103-negative, langerin-positive lymph node dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002511>","CD11b-low, CD103-negative, langerin-negative lymph node dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002512>","CD11b-high, CD103-negative, langerin-negative lymph node dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002507>","langerin-positive lymph node dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0002508>","langerin-negative, CD103-negative lymph node dendritic cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>
+<http://purl.obolibrary.org/obo/PR_000001020>","CD4 molecule
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000938>","CD16-negative, CD56-bright natural killer cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000002015>
+<http://purl.obolibrary.org/obo/PR_000001020>","MHC class II histocompatibility antigen alpha chain HLA-DRA
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000939>","CD16-positive, CD56-dim natural killer cell","lacks_plasma_membrane_part
+lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000002015>
+<http://purl.obolibrary.org/obo/PR_000001020>","MHC class II histocompatibility antigen alpha chain HLA-DRA
+CD3 epsilon","0","2","2"
+"<http://purl.obolibrary.org/obo/CL_0000625>","CD8-positive, alpha-beta T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000794>","CD8-positive, alpha-beta cytotoxic T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000906>","activated CD8-positive, alpha-beta T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000795>","CD8-positive, alpha-beta regulatory T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000900>","naive thymus-derived CD8-positive, alpha-beta T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002437>","mature CD8 single-positive thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000907>","central memory CD8-positive, alpha-beta T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000909>","CD8-positive, alpha-beta memory T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000908>","CD8-positive, alpha-beta cytokine secreting effector T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000913>","effector memory CD8-positive, alpha-beta T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000917>","Tc1 cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000918>","Tc2 cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001052>","CD8-positive, CXCR3-negative, CCR6-negative, alpha-beta T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000919>","CD8-positive, CD25-positive, alpha-beta regulatory T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000920>","CD8-positive, CD28-negative, alpha-beta regulatory T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001041>","CD8-positive, CXCR3-positive, alpha-beta regulatory T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001049>","activated CD8-positive, alpha-beta T cell, human","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001050>","effector CD8-positive, alpha-beta T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001062>","effector memory CD8-positive, alpha-beta T cell, terminally differentiated","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002128>","Tc17 cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000803>","CD4-negative CD8-negative gamma-delta intraepithelial T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000805>","immature single positive thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000806>","DN2 thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002423>","DN2a thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002424>","DN2b thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000807>","DN3 thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000808>","DN4 thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000811>","CD8-positive, alpha-beta thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002434>","CD24-positive, CD8 single-positive thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002435>","CD69-positive, CD8-positive single-positive thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000894>","DN1 thymic pro-T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000924>","CD4-negative, CD8-negative type I NK T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000928>","activated CD4-negative, CD8-negative type I NK T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000929>","CD4-negative, CD8-negative type I NK T cell secreting interferon-gamma","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000930>","CD4-negative, CD8-negative type I NK T cell secreting interleukin-4","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000935>","CD4-negative, CD8-negative, alpha-beta intraepithelial T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002405>","gamma-delta thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002406>","immature Vgamma2-positive thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002407>","mature Vgamma2-positive thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002408>","immature Vgamma2-negative thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002409>","mature Vgamma2-negative thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002411>","Vgamma1.1-positive, Vdelta6.3-negative thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002412>","Vgamma1.1-positive, Vdelta6.3-positive thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002413>","mature Vgamma1.1-positive, Vdelta6.3-negative thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002414>","immature Vgamma1.1-positive, Vdelta6.3-negative thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002415>","immature Vgamma1.1-positive, Vdelta6.3-positive thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002416>","mature Vgamma1.1-positive, Vdelta6.3-positive thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002489>","double negative thymocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000041>","mature eosinophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000771>","eosinophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000774>","band form eosinophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000043>","mature basophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000767>","basophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000770>","band form basophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000094>","granulocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000096>","mature neutrophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000775>","neutrophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000560>","band form neutrophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000582>","neutrophilic metamyelocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000580>","neutrophilic myelocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000776>","immature neutrophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000612>","eosinophilic myelocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000772>","immature eosinophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000614>","basophilic myelocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000768>","immature basophil","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000769>","basophilic metamyelocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000773>","eosinophilic metamyelocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0011114>","segmented neutrophil of bone marrow","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000451>","dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000453>","Langerhans cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000990>","conventional dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000782>","myeloid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000784>","plasmacytoid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000840>","immature conventional dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000841>","mature conventional dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000941>","thymic conventional dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000942>","thymic plasmacytoid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000989>","CD11c-low plasmacytoid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000991>","CD11c-negative plasmacytoid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000992>","immature CD11c-low plasmacytoid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000993>","mature CD11c-low plasmacytoid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000994>","immature CD11c-negative plasmacytoid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000996>","mature CD11c-negative plasmacytoid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000997>","immature CD8_alpha-negative CD11b-positive dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000999>","CD4-positive CD11b-positive dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002465>","CD11b-positive dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001003>","mature CD8_alpha-negative CD11b-positive dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001006>","dermal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001007>","interstitial dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001009>","immature dermal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001010>","mature dermal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001011>","immature interstitial dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001013>","mature interstitial dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001014>","CD1a-positive Langerhans cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001015>","CD8_alpha-low Langerhans cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001016>","immature CD1a-positive Langerhans cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001017>","mature CD1a-positive Langerhans cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001018>","immature CD8_alpha-low Langerhans cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001020>","mature CD8_alpha-low Langerhans cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001056>","dendritic cell, human","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001057>","myeloid dendritic cell, human","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001058>","plasmacytoid dendritic cell, human","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002059>","CD8alpha-positive thymic conventional dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002394>","CD141-positive myeloid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002399>","CD1c-positive myeloid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002455>","CD8_alpha-negative plasmactyoid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002456>","CD8_alpha-positive plasmactyoid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002457>","epidermal Langerhans cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002458>","langerin-positive dermal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002461>","CD103-positive dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002459>","langerin-negative dermal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002460>","CD8alpha-negative thymic conventional dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002462>","adipose dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002463>","SIRPa-positive adipose dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002464>","SIRPa-negative adipose dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002466>","small intestine serosal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002526>","CD14-positive dermal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002527>","immature CD14-positive dermal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002528>","mature CD14-positive dermal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002529>","CD1a-positive dermal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002530>","immature CD1a-positive dermal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002531>","mature CD1a-positive dermal dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002532>","CD16-positive myeloid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002533>","immature CD16-positive myeloid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002534>","mature CD16-positive myeloid dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_1000699>","kidney resident dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_2000055>","liver dendritic cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000623>","natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000823>","immature natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000937>","pre-natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000824>","mature natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002338>","CD56-positive, CD161-positive immature natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002344>","CD56-negative, CD161-positive immature natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002343>","decidual natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002345>","CD27-low, CD11b-low immature natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002346>","Dx5-negative, NK1.1-positive immature natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002347>","CD27-high, CD11b-high natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002426>","CD11b-positive, CD27-positive natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002349>","CD27-high, CD11b-low natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002348>","CD27-low, CD11b-high natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002438>","NK1.1-positive natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002439>","NKGA2-positive natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002440>","Ly49D-positive natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002441>","CD94-positive natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002442>","CD94-negative, Ly49CI-negative natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002446>","Ly49CI-negative natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002447>","CD94-negative natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002443>","Ly49CI-positive natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002444>","Ly49H-positive natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002445>","Ly49D-negative natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002448>","Ly49H-negative natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002449>","CD94-positive Ly49CI-positive natural killer cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_2000054>","hepatic pit cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000860>","classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002057>","CD14-positive, CD16-negative classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002395>","Gr1-high classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002469>","MHC-II-negative classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002470>","MHC-II-positive classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002474>","lymphoid MHC-II-negative classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002475>","lymphoid MHC-II-negative non-classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000875>","non-classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002058>","Gr1-low non-classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002396>","CD14-low, CD16-positive monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002471>","MHC-II-negative non-classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002472>","MHC-II-low non-classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002473>","MHC-II-high non-classical monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000945>","lymphocyte of B lineage","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000236>","B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000785>","mature B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000818>","transitional stage B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000816>","immature B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000817>","precursor B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000786>","plasma cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000946>","antibody secreting cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000980>","plasmablast","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000787>","memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000788>","naive B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000954>","small pre-B-II cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000819>","B-1 B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000820>","B-1a B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000821>","B-1b B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000822>","B-2 B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000843>","follicular B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000844>","germinal center B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000845>","marginal zone B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000943>","Be1 Cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000968>","Be cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000944>","Be2 cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000947>","IgE plasma cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000974>","long lived plasma cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000948>","IgE memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000972>","class switched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000949>","IgD plasmablast","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000950>","IgE plasmablast","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000951>","IgE short lived plasma cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000975>","short lived plasma cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000952>","preBCR-positive large pre-B-II cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000957>","large pre-B-II cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000953>","preBCR-negative large pre-B-II cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000955>","pre-B-II cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000956>","pre-B-I cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000958>","T1 B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000959>","T2 B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000960>","T3 B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000961>","Bm1 B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002056>","Fraction F mature B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000962>","Bm2 B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000963>","Bm3-delta B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000965>","Bm3 B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000964>","Bm2' B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000966>","Bm4 B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000967>","Bm5 B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001053>","IgD-negative memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000969>","regulatory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000970>","unswitched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000971>","IgM memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000973>","IgA memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000976>","IgA short lived plasma cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000977>","IgG short lived plasma cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000978>","IgM short lived plasma cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000979>","IgG memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000981>","double negative memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000982>","IgG plasmablast","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000983>","IgM plasmablast","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000984>","IgA plasmablast","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000985>","IgG plasma cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000986>","IgM plasma cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0000987>","IgA plasma cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002047>","Fraction B precursor B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002400>","Fraction B/C precursor B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002048>","late pro-B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002049>","Fraction C precursor B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002050>","Fraction C' precursor B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002051>","CD38-high pre-BCR positive cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002052>","Fraction D precursor B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002053>","CD22-positive, CD38-low small pre-B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002054>","Fraction E immature B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002055>","CD38-negative immature B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002101>","CD38-positive naive B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002102>","CD38-negative naive B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002103>","IgG-positive double negative memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002104>","IgG-negative double negative memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002105>","CD38-positive IgG memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002106>","IgD-positive CD38-positive IgG memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002107>","IgD-negative CD38-positive IgG memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002108>","CD38-negative IgG memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002109>","B220-positive CD38-positive naive B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002110>","B220-low CD38-positive naive B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002111>","CD38-negative unswitched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002112>","B220-positive CD38-negative unswitched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002113>","B220-low CD38-negative unswitched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002114>","CD38-positive unswitched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002115>","B220-positive CD38-positive unswitched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002116>","B220-low CD38-positive unswitched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002117>","IgG-negative class switched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002118>","CD38-negative IgG-negative class switched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002119>","CD38-positive IgG-negative class switched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002120>","CD24-positive CD38-negative IgG-negative class switched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002121>","CD24-negative CD38-negative IgG-negative class switched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002122>","B220-positive CD38-positive IgG-negative class switched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002123>","B220-low CD38-positive IgG-negative class switched memory B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002402>","Peyer's patch B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_2000006>","tonsil germinal center B cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001054>","CD14-positive monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001055>","CD14-positive, CD16-low monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002397>","CD14-positive, CD16-positive monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001067>","group 1 innate lymphoid cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001065>","innate lymphoid cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001068>","ILC1","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001069>","group 2 innate lymphoid cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0001071>","group 3 innate lymphoid cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002393>","intermediate monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002398>","Gr1-positive, CD43-positive monocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002476>","bone marrow macrophage","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
+"<http://purl.obolibrary.org/obo/CL_0002679>","natural helper lymphocyte","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001020>","CD3 epsilon","0","1","1"
