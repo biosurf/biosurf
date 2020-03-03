@@ -16,7 +16,7 @@ output: html_document
 |<br>![PANMAN](images/PANMAN.png){width=150px}<br>   |   | <span style="color: #008CBA;">**Panagiotis Mantas**</span>    <br>   Ph.D. student<br>DTU Health Tech <br><br><a href="mailto:panman@dtu.dk" class="fa fa-envelope"></a>|
 |<br><br><br><br><br><br>|   | <span style="color: #008CBA;">**Anna Guldberg Lund**</span>    <br>  Master's student<br>DTU Health Tech <br><br> |
 |<br>![Cecilia](images/Cecilia.jpg){width=150px}<br>  |   | <span style="color: #008CBA;">**Cecilia Bang Jensen**</span>    <br>  Master's student<br>DTU Health Tech <br><br> |
-|<br><br><br><br><br><br>|   | <span style="color: #008CBA;">**Christian Højte Schouw**</span>    <br>  Master's student<br>DTU Health Tech <br><br> |
+|<br>![Cecilia](images/Christian.jpg){width=150px}<br>  |   | <span style="color: #008CBA;">**Christian Højte Schouw**</span>    <br>  Master's student<br>DTU Health Tech <br><br> |
 |<br><br><br><br><br><br>|   | <span style="color: #008CBA;">**Giorgia Moranzoni**</span>    <br>  Master's student<br>DTU Health Tech & University of Milan <br><br> |
 |<br>![Steinunn](images/Steinunn.jpg){width=150px}<br>   |   | <span style="color: #008CBA;">**Steinunn Marta Fridriksdóttir**</span>    <br>  Master's student<br>DTU Health Tech <br><br> |
 |<br><br><br><br><br><br>|   | <span style="color: #008CBA;">**Jeppe Nygård Samuelsen**</span>    <br>  Bachelor's student<br>DTU Health Tech <br><br> |
