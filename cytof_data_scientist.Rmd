@@ -297,7 +297,6 @@ plot_grid(p1, p2, align = 'h', scale = 0.9)
 
 
 
-![Logicle vs arcsinh transformation](https://i.imgur.com/t2XTC1P.png)
 
 When plotting the variation for each marker before and after transformation, the difference is quite clear:
 
