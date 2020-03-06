@@ -1,21 +1,20 @@
 # Improvement ideas
 
 ### Data scientist's wiki:
-* Link for raw code for dat scientist’s primer needs an update
+* Link for raw code for data scientist’s primer needs an update
 * CATALYST bead norm. should be mentioned
-* Live.Rdata object should be updated to reflect changes
 * 3D + interactive plot embeddings dont work: {“type”:“data”, “dataset”:“59afbf1da6b06402ace2194d”, “subset”:“null”}, {“type”:“data”, “dataset”:“59afc3b6a6b06402ace2194e”, “subset”:“null”}
 * Add clustree to data scientist’s primer
-* Come up with better cydar example - nothing significant in current?
 * Make nicer tables
 * Make nicer FlowSOM MST
 * Clustering - Bayesian framework https://arxiv.org/abs/2002.08609
-* Get section numbering back
 * "uncleaned" tSNE (or clustering) example - what happens when you don't pre-gate (people do this and it's hard to diagnose the problem)
 * Expand on batch correction algorithms
 * Mike: "In the Cytometrist's Primer, under Citrus:  "Since the clustering is hierarchical, one should be aware that the clusters are not mutually exclusive and some cells will be present in more than one cluster. The central cluster (Number 1 on the figure below) contains all cells, Cluster 2 contains a subset of the cells in cluster 1, cluster 3 contains a subset of the cells in cluster 2, etc."
 - Is there a figure missing there?  I don't see any node labelings.  I seem to recall a nice "nested" set of circles in the previous version of Biosurf, which more clearly explained the point....."
 * Consider adding data sets from mike's list
+* MetaCyto tool looks very interesting
+* clustRcheck could also be valuable
 
 ### Cytometrist's wiki:
 * Comparison of dimensionality reduction methods (and local vs global conservation)
