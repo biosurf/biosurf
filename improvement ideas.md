@@ -10,8 +10,6 @@
 * Clustering - Bayesian framework https://arxiv.org/abs/2002.08609
 * "uncleaned" tSNE (or clustering) example - what happens when you don't pre-gate (people do this and it's hard to diagnose the problem)
 * Expand on batch correction algorithms
-* Mike: "In the Cytometrist's Primer, under Citrus:  "Since the clustering is hierarchical, one should be aware that the clusters are not mutually exclusive and some cells will be present in more than one cluster. The central cluster (Number 1 on the figure below) contains all cells, Cluster 2 contains a subset of the cells in cluster 1, cluster 3 contains a subset of the cells in cluster 2, etc."
-- Is there a figure missing there?  I don't see any node labelings.  I seem to recall a nice "nested" set of circles in the previous version of Biosurf, which more clearly explained the point....."
 * Consider adding data sets from mike's list
 * MetaCyto tool looks very interesting
 * clustRcheck could also be valuable
