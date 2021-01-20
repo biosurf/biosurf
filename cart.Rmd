@@ -7,8 +7,8 @@ title: "Evaluation of CAR T cell targets in clinical trials"
 This page summarizes the evaluations of 60 protein targets for chimeric antigen receptor T cell therapy. Click  protein names for a detailed summary. Details of the evaluation criteria is described here.
 
 <details>
-  <summary>Target 1</summary>
-      ```{r child="./cartcontent/target1.Rmd"}
+  <summary>ALPP</summary>
+      ```{r child="./cartcontent/ALPP.Rmd"}
       ```
 </details>
 

@@ -1,5 +1,0 @@
----
-title: "Projects"
----
-
-<br>Figures. Some text.<br><br>
