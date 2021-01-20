@@ -1,4 +1,0 @@
-"x","celllabel","plabel","marker","markerlabel"
-"<http://purl.obolibrary.org/obo/CL_0001052>","CD8-positive, CXCR3-negative, CCR6-negative, alpha-beta T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001004>","CD4 molecule"
-"<http://purl.obolibrary.org/obo/CL_0001052>","CD8-positive, CXCR3-negative, CCR6-negative, alpha-beta T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001202>","C-C chemokine receptor type 6"
-"<http://purl.obolibrary.org/obo/CL_0001052>","CD8-positive, CXCR3-negative, CCR6-negative, alpha-beta T cell","lacks_plasma_membrane_part","<http://purl.obolibrary.org/obo/PR_000001207>","C-X-C chemokine receptor type 3"

@@ -21,6 +21,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 
 
@@ -320,6 +323,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -327,6 +393,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -413,20 +489,20 @@ $(document).ready(function () {
 
 
 <p><br></p>
-<div id="preamble" class="section level1">
-<h1>Preamble</h1>
-<div id="the-purpose-of-this-site" class="section level2">
-<h2>The purpose of this site</h2>
+<div id="preamble" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Preamble</h1>
+<div id="the-purpose-of-this-site" class="section level2" number="1.1">
+<h2 number="1.1"><span class="header-section-number">1.1</span> The purpose of this site</h2>
 <p>The aim of this site is to introduce cytometry data - specifically mass cytometry data - to data scientists and bioinformaticians not familiar with the technology, the unique challenges relating to the technical and biological origins of the data. The content will be updated periodically as new tools and methods are published.</p>
 <p>Along with discussions, we have included code for common processing and analysis tasks for R. Flow cytometry as a scientific discpline has been around for half a century at this point, and a plethora of software and data analysis packages has been created using a multitude of different programming languages. Common to the majority of them, is the heavy focus on the use of The Flow Cytometry Standard (FCS) format. While this format certainly has its strengths, it (and the analysis software developed for it) can seem somewhat convoluted to the uninitiated. Rather than attempting to update these packages for mass cytometry or introduce workarounds, we here focus on extracting and working with the raw expression matrices that most bioinformaticians know from other data types - such as for example transcriptomics (probe and sequence-based alike). The rationale is that once a bioinformatician has an expression matrix and a working understanding of the technical and biological idiosyncracies of the data, most, if not all, common analysis algorithms for expression data can be adapted and applied.</p>
 <p>We will also present a selection of common analysis tools. Not with the explicit purpose of applying them in their packaged form, but to explain what goes on under the hood to enable these useful analyses to be applied in a more flexible and customizable way. The main aim here is enabling a high level of autonomy for data scientists working with mass cytometry data by dissecting both the data and common algorithms to its core workable components.</p>
 <p>The site consists of a series of code snippets for preparing and analyzing the data. The examples are based on two different datasets: One is a dataset of 21 healthy control individuals (described below and available from <a href="http://flowrepository.org/experiments/1363/download_ziped_files">flowrepository</a>), and the other is a case/control set from <a href="https://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html">Bodenmiller et al. (2012)</a>, which contains 16 samples in total.</p>
 <p><br></p>
 </div>
-<div id="the-example-data-sets" class="section level2">
-<h2>The example data sets</h2>
-<div id="healthy-donor-samples" class="section level3">
-<h3>Healthy donor samples</h3>
+<div id="the-example-data-sets" class="section level2" number="1.2">
+<h2 number="1.2"><span class="header-section-number">1.2</span> The example data sets</h2>
+<div id="healthy-donor-samples" class="section level3" number="1.2.1">
+<h3 number="1.2.1"><span class="header-section-number">1.2.1</span> Healthy donor samples</h3>
 <p>21 samples of PBMC from healthy control individuals, stained with the <a href="http://www.bio-protocol.org/e1382">Leipold and Maecker 2015 protocol</a>, mixed with EQ normalization beads (Fluidigm Corp), and acquired on a Fluidigm CyTOF Helios mass cytometer using default acquisition parameters. The data exists in two forms: 1) the raw FCS files as generated by the Helios, 2) the samples normalized using the MATLAB method (described <a href="#beadnorm">below</a>) - these are files with “normalized” in the file name. Each row in the expression matrix is an event, of which we are only interested in those that represent live, intact, singlet cells (i.e. we want to filter out beads, dead cells, doublets, debris, etc.). Each column contains information about the cells - some are parameters from the data collection by the instrument (e.g. event length, time, etc.), some are markers primarily used for pre-gating (DNA stain, live/dead stain, beads, etc.), some are lineage markers (needed to determine the cell type), and some are activation or cell state makers. Here is a table with descriptions of each column in the example expression files.</p>
 <table>
 <colgroup>
@@ -660,14 +736,14 @@ $(document).ready(function () {
 <p>An R data object with the pre-processed healthy control samples (normalized, pre-gated, transformed - the entire process is detailed below) can be downloaded <a href="https://github.com/biosurf/CyTOF/blob/master/biosurf/cytof/live_2samples.Rdata">here</a> if you are mostly interested in post-processing analyses. If so, you may skip to <a href="#analysistasks">Data analysis section</a>.</p>
 <p><br></p>
 </div>
-<div id="casecontrol-samples" class="section level3">
-<h3>Case/control samples</h3>
+<div id="casecontrol-samples" class="section level3" number="1.2.2">
+<h3 number="1.2.2"><span class="header-section-number">1.2.2</span> Case/control samples</h3>
 <p>To exemplify analysis of differential abundance, we also use a case/control dataset. We here use the data described by <a href="https://www.nature.com/nbt/journal/v30/n9/full/nbt.2317.html">Bodenmiller et al. (2012)</a>, which consists of 8 samples of PBMC responding to B-cell receptor (BCR)/Fc receptor (FCR) cross-linking and 8 control PBMC samples. The data is included in the HDCytoData R package and can be loaded directly in R. Alternatively, the raw data can be downloaded <a href="https://community.cytobank.org/cytobank/experiments/15713/download_files">here</a> (download the files with “reference” and “BCR-XL” in the filename). These data are pregated and transformed.</p>
 <p><br></p>
 </div>
 </div>
-<div id="installing-the-r-packages-you-will-need" class="section level2">
-<h2>Installing the R packages you will need</h2>
+<div id="installing-the-r-packages-you-will-need" class="section level2" number="1.3">
+<h2 number="1.3"><span class="header-section-number">1.3</span> Installing the R packages you will need</h2>
 <p>We use a variety of packages for the analyses below. In case you are missing some of them, here’s what you will need:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">## From CRAN</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>cran_packages &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;scales&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;ggridges&quot;</span>, <span class="st">&quot;RColorBrewer&quot;</span>, <span class="st">&quot;MASS&quot;</span>, <span class="st">&quot;Rtsne&quot;</span>, <span class="st">&quot;kohonen&quot;</span>, <span class="st">&quot;miscTools&quot;</span>, <span class="st">&quot;gplots&quot;</span>, <span class="st">&quot;Radviz&quot;</span>, <span class="st">&quot;igraph&quot;</span>, <span class="st">&quot;statmod&quot;</span>, <span class="st">&quot;devtools&quot;</span>, <span class="st">&quot;uwot&quot;</span>, <span class="st">&quot;cowplot&quot;</span>, <span class="st">&quot;limma&quot;</span>)</span>
@@ -686,12 +762,12 @@ $(document).ready(function () {
 <p><br><br></p>
 </div>
 </div>
-<div id="the-structure-of-data-from-the-cytof-system" class="section level1">
-<h1>The structure of data from the CyTOF system</h1>
+<div id="the-structure-of-data-from-the-cytof-system" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> The structure of data from the CyTOF system</h1>
 <p>The following sections include lots of code snippets you can use in your CyTOF workflow.</p>
 <p><br></p>
-<div id="FCS" class="section level2">
-<h2>The Flow Cytometry Standard (FCS) format</h2>
+<div id="FCS" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> The Flow Cytometry Standard (FCS) format</h2>
 <p>The FCS format is a binary data file standard originally developed for storage of flow cytometry data. As well as the ion count matrix, it has slots for experiment information, channel information, etc. Traditionally, ion counts have been analyzed visually using <a href="https://www.flowjo.com/solutions/flowjo">FlowJo</a> - a commercial software platform for analysis of single-cell cytometry experiments. FlowJo is largely GUI-based and requires a license for both academic and non-academic users. For more automated analysis, the following tools for R can be used to import, manipulate and convert FCS files - or extract the ion counts for downstream analysis in R or other programming environments.</p>
 <ul>
 <li><a href="http://bioconductor.org/packages/release/bioc/html/flowCore.html">flowCore</a>: facilitates many FCS file related functions. Includes the option to write new FCS files.</li>
@@ -722,31 +798,31 @@ $(document).ready(function () {
 <span id="cb3-20"><a href="#cb3-20"></a><span class="co"># cytofCore.concatenateDirectoryFiles(inputDir=&quot;./&quot;, outputDir=&quot;.&quot;, pattern=NULL, overwrite=F, timeParam=&quot;time&quot;)</span></span></code></pre></div>
 <p><br></p>
 </div>
-<div id="harmonize" class="section level2">
-<h2>Parameter harmonization</h2>
+<div id="harmonize" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> Parameter harmonization</h2>
 <p>Note that these channels are <strong>freetext editable</strong> in the Fluidigm CyTOF software. This means that if you are dealing with files from multiple different runs from different instruments and/or different operators (or in some cases even different staining panels), you will need to <strong>harmonize your channel names</strong> to compare samples. The mass information (in the “name” column) is <em>usually</em> the most reliable, but even here errors can occur. When in doubt, consult with the operator before renaming the channels.</p>
 <p><br><br></p>
 </div>
 </div>
-<div id="data-preprocessing" class="section level1">
-<h1>Data preprocessing</h1>
+<div id="data-preprocessing" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Data preprocessing</h1>
 <p>Preprocessing is essential in any mass cytometry analysis process. Key steps in preprocessing include: <strong>bead normalization</strong>, in which one adjusts for varying instrument performance over time; <strong>pre-gating</strong>, in which live intact singlet cells are obtained; <strong>compensation</strong>, which (if applicable) is used to correct for spillover between the signals of different heavy metal isotopes, and <strong>debarcoding</strong>, which (if applicable) is used to separate different samples in a multiplexed experiment.</p>
 <p>For convenience, we here define the different types of channels (columns in the data matrix) used for different purposes:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>pregating_channels &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Bead&quot;</span>, <span class="st">&quot;DNA1&quot;</span>, <span class="st">&quot;DNA2&quot;</span>, <span class="st">&quot;Dead&quot;</span>, <span class="st">&quot;Event_length&quot;</span>)</span>
 <span id="cb4-2"><a href="#cb4-2"></a>lineage_channels &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;CD57&quot;</span>, <span class="st">&quot;CD19&quot;</span>, <span class="st">&quot;CD4&quot;</span>, <span class="st">&quot;CD8&quot;</span>, <span class="st">&quot;IgD&quot;</span>, <span class="st">&quot;CD11c&quot;</span>, <span class="st">&quot;CD16&quot;</span>, <span class="st">&quot;CD3&quot;</span>, <span class="st">&quot;CD38&quot;</span>, <span class="st">&quot;CD27&quot;</span>, <span class="st">&quot;CD14&quot;</span>, <span class="st">&quot;CXCR5&quot;</span>, <span class="st">&quot;CCR7&quot;</span>, <span class="st">&quot;CD45RA&quot;</span>, <span class="st">&quot;CD20&quot;</span>, <span class="st">&quot;CD127&quot;</span>, <span class="st">&quot;CD33&quot;</span>, <span class="st">&quot;CD28&quot;</span>, <span class="st">&quot;CD161&quot;</span>, <span class="st">&quot;TCRgd&quot;</span>, <span class="st">&quot;CD123&quot;</span>, <span class="st">&quot;CD56&quot;</span>, <span class="st">&quot;HLADR&quot;</span>, <span class="st">&quot;CD25&quot;</span>)</span>
 <span id="cb4-3"><a href="#cb4-3"></a>instrument_channels &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Time&quot;</span>, <span class="st">&quot;Event_length&quot;</span>, <span class="st">&quot;Center&quot;</span>, <span class="st">&quot;Offset&quot;</span>, <span class="st">&quot;Width&quot;</span>, <span class="st">&quot;Residual&quot;</span>)</span></code></pre></div>
 <p><br></p>
-<div id="beadnorm" class="section level2">
-<h2>Bead Normalization</h2>
+<div id="beadnorm" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Bead Normalization</h2>
 <p>Because CyTOF instrument performance may vary over time (both within a single run, but more prominently between different runs), it is important to normalize data in a way that limits the impact of the technical variation. The most commonly employed methods are the Fluidigm normalization (DVS Sciences, 2013) and MATLAB normalization (<a href="https://doi.org/10.1002/cyto.a.22271">Finck et al., 2013</a>). Both methods are based on adding beads carrying different heavy metal isotopes to the biological sample, and relying on the beads to leave an extractable signature that can be used to correct signal fluctuations. The Fluidigm normalization method uses a bead “passport” to normalize data to a global standard, while the MATLAB method normalizes using median bead intensities calculated across given experimental data files (e.g. files from different runs on the same machine).</p>
 <p><br></p>
-<div id="fluidigm-bead-normalization" class="section level3">
-<h3>Fluidigm bead normalization</h3>
+<div id="fluidigm-bead-normalization" class="section level3" number="3.1.1">
+<h3 number="3.1.1"><span class="header-section-number">3.1.1</span> Fluidigm bead normalization</h3>
 <p>The Fluidigm bead normalization method is based on the calculation of the mean isotope counts of the beads during production. This global bead profile, called the “Bead Passport”, is unique to each lot of beads synthesized and cannot be adjusted by the user. The first step in the normalization process is for the software to distinguish the beads from the cell sample in question. This is performed using all the major isotopes of the beads (Ce140, Eu151, Eu153, Ho165, and Lu175 for the current Fluidigm EQ beads). The normalization factor is calculated as the ratio between the Bead Passport and the measured counts for each of the beads. The bead channels span a large range of the mass spectrum, and using linear interpolation to masses between or beyond the bead masses allows for the calculation of normalization factors that are then multiplied to each remaining mass channel distributed across the course of the run using the time stamp. This allows for correction of decline in instrument sensitivity during the course of running a sample, and also normalization across samples (see figure below). However, if the instrument used to acquire a sample differs from the Bead Passport in overall signal intensity or in sensitivity across the mass range, the Fluidigm normalization will “force” the sample data to conform to the shape and signal of the Passport (see Figure 4, especially CyTOFv1 red line).</p>
 <p><br></p>
 </div>
-<div id="matlab-bead-normalization-finck-et-al." class="section level3">
-<h3>MATLAB bead normalization (Finck et al.)</h3>
+<div id="matlab-bead-normalization-finck-et-al." class="section level3" number="3.1.2">
+<h3 number="3.1.2"><span class="header-section-number">3.1.2</span> MATLAB bead normalization (Finck et al.)</h3>
 <p>The MATLAB implemented normalization algorithm created by <a href="https://doi.org/10.1002/cyto.a.22271">Finck et al. (2013)</a> works by modelling the sample specific drift in count reporting. Briefly, bead singlets are manually identified by biaxial gating of each of the five bead channels against a DNA channel. The intensities of each bead channel over the course of a sample run, are smoothed by calculating local medians in a 500 bead event sliding window. Then, a baseline is calculated by taking the mean of the smoothed intensities for each bead channel. For each bead channel, for each time point, the slope of the linear regression from the channel origin to the given time point is calculated, such that the residual sum of squares between the smoothed bead intensities and the baseline is minimized. For each recorded event, the intensity is multiplied by the slope of corresponding the time point at which is was recorded. Since the MATLAB normalization compares each file to the other files rather than to an externally-determined set of values, there is typically less “forcing” or reshaping of the data than in Fluidigm normalization (see figure below).</p>
 <div class="figure">
 <img src="https://i.imgur.com/ATkadu0.png" alt="" />
@@ -756,18 +832,18 @@ $(document).ready(function () {
 <p>It should be noted that although the bead normalization is useful for adjusting for signal changes due primarily to the instrument performance, it does have some limitations. First, there may be some decrease in signal intensity in the sample that is not reflected in the bead signal. For example, while proper fixation does generally allow cells to withstand the osmotic force of MilliQ water, users have reported decreases in signal intensity during acquisition of large volume barcoded samples. Since the beads are not affected by lengthy suspension in water, the bead signals would not change in the same way that cell signals may. Generally, samples fixed with paraformaldehyde seem more robust than those fixed only with commercial fix/perm solutions. Additionally, samples are typically more stable as pellets. Therefore, this sample signal decrease can often be limited by breaking one large sample into aliquots that would each make 3-5 mL of diluted sample, and only resuspending the pellet of each aliquot shortly before collection. Second, since the beads are not stained with the assay reagents, they are seldom sufficient for true plate-to-plate batch correction, particularly over long periods of time when reagent lots could change.</p>
 <p><br></p>
 </div>
-<div id="performing-bead-normalization" class="section level3">
-<h3>Performing bead normalization</h3>
+<div id="performing-bead-normalization" class="section level3" number="3.1.3">
+<h3 number="3.1.3"><span class="header-section-number">3.1.3</span> Performing bead normalization</h3>
 <p>Because the MATLAB method is more commonly used in practice, it is the focus on this wiki. The MATLAB normalization method is implemented with a graphical user interface (GUI), in which the user manually gates the beads using five different bi-axial plots in which each bead metal is plotted against the iridium channel (that measures DNA). This can be installed from <a href="https://github.com/nolanlab/bead-normalization/wiki/Installing-the-Normalizer">here</a>.</p>
 <p>While wet lab scientists are accustomed to working with manual gating and GUIs, such as the one in the MATLAB normalization program, this is not the preferred method for data scientists such as bioinformaticians, who commonly wish to analyze a large number of samples, making manual gating very cumbersome. CATALYST has enabled this now, but before that was possible, we implemented the MATLAB normalization algorithm in R, such that it may be called from the command-line and run completely without user interference. This process was carried out by translating the MATLAB source code (available from <a href="https://github.com/nolanlab/bead-normalization">here</a>) and making small alterations. The R version can be downloaded from our <a href="https://github.com/biosurf/CyTOF/blob/master/MATLAB_normalization.R">Github repository</a>.</p>
 <p>The biggest change from the original version is the fact that bead gating is carried out automatically in the R version using a Support Vector Machine (SVM), which was trained for this specific purpose, using the signals of five bead channels and the DNA channel for a total of seven data sets, for which beads had been gated manually by an experienced wet-lab scientist. The SVM was trained in R using svm from the <a href="https://cran.r-project.org/web/packages/e1071/">e1071 package</a>. The training data was seven samples, each comprising of 250,000 events, of which 4,068-8,715 were defined as beads. The data for each metal channel had been transformed using the formula ArcSinh(data)/c, in which c = 2 for CyTOF Helios data, and furthermore, each metal channel was normalized to values between 0 and 1 for the SVM training, to ensure maximal comparability between different samples. Consequently, new data to be classified using the developed SVM model should be transformed and normalized before “gating” - this is of course incorporated in the developed script. In order to evaluate the performance, a single-layer cross-validation setup was used, because a preliminary run on a smaller subset using a “out-of-the-box” SVM with a radial kernel, turned out to work satisfactory (mean accuracy of 99.997 %, with a mean precision of 99.920 %, and a mean recall of 99.971 %). The training was carried out using a leave-one-out method, in which six data sets was used for training and one data set was used for testing in each round. This should allow for an unbiased performance measure. Based on the obtained results the model was deemed acceptable, and all data sets were used to train a final model that can be used for future bead-normalization tasks - the developed R script requires this <a href="https://github.com/biosurf/CyTOF/blob/master/Bead_SVM_model.Rdata">final model</a> to run. Because the seven training samples for the SVM were all from the CyTOF Helios platform, and they all used EQ beads with the five bead isotopes, <sup>140</sup>Ce, <sup>151</sup>Eu, <sup>153</sup>Eu, <sup>165</sup>Ho, and <sup>175</sup>Lu, the developed method in R only works for data obtained using the EQ beads on a Helios instrument. However, it could potentially easily be extended to handle other data types - it merely requires some training data to develop the proper SVM for gating the given data set type.</p>
 <p><br></p>
 </div>
 </div>
-<div id="transformations" class="section level2">
-<h2>Data transformations</h2>
-<div id="dealing-with-randomized-values" class="section level3">
-<h3>Dealing with “randomized” values</h3>
+<div id="transformations" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Data transformations</h2>
+<div id="dealing-with-randomized-values" class="section level3" number="3.2.1">
+<h3 number="3.2.1"><span class="header-section-number">3.2.1</span> Dealing with “randomized” values</h3>
 <p>When an FCS file is exported by the Helios, non-zero values are randomized negatively and uniformly (]x-1;x]). This means that a count of, for example, 9 will be evenly distributed between 8 and 9 for each channel, for each event. This is mostly done for historical reasons, as visualizing count data from the CyTOF produce different plots than intensity data (from flow cytometers). Randomization is done (by default) during conversion of IMD to FCS by the Fluidigm software. Randomized counts can be converted back to the original value by rounding every decimal up to the nearest whole number.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Check if counts are randomized (expression matrix should only contain integers)</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>is.wholenumber &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">tol =</span> .Machine<span class="op">$</span>double.eps<span class="op">^</span><span class="fl">0.5</span>)  <span class="kw">abs</span>(x <span class="op">-</span><span class="st"> </span><span class="kw">round</span>(x)) <span class="op">&lt;</span><span class="st"> </span>tol</span>
@@ -780,8 +856,8 @@ $(document).ready(function () {
 <p>For multidimensional analysis this is definitely recommendable not to add unnecessary noise to the data, but for the purpose of the 2D visualizations we are doing for pre-gating, we will leave the randomized counts for now.</p>
 <p><br></p>
 </div>
-<div id="arcsinh-transformation" class="section level3">
-<h3>ArcSinh transformation</h3>
+<div id="arcsinh-transformation" class="section level3" number="3.2.2">
+<h3 number="3.2.2"><span class="header-section-number">3.2.2</span> ArcSinh transformation</h3>
 <p>Commonly, mass cytometry ion counts will be ArcSinh transformed - this transformation will retain linearity in the low end of the count spectrum, but it resembles a log transformation in the high end. If counts are divided by a co-factor before the transformation, the range of ion counts for which linearity is retained may be adjusted. For CyTOF data, a co-factor of 5 is typically used. Transformations are done primarily for visualization purposes and co-factors are empirically determined. In some cases, adjusting co-factors slightly may improve visualizations.</p>
 <p>Continuing from the above code snippet for loading an FCS, the data may be ArcSinh-transformed as follows:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">library</span>(MASS)</span>
@@ -813,37 +889,35 @@ $(document).ready(function () {
 <span id="cb8-27"><a href="#cb8-27"></a><span class="kw">plot_grid</span>(p1, p2, <span class="dt">align =</span> <span class="st">&#39;v&#39;</span>, <span class="dt">scale =</span> <span class="fl">0.9</span>)</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/asinh-1.png" width="960" /></p>
 <p>Both the classic Logicle transformation and ArcSinh works by compressing values in the upper end of the spectrum and enhancing the resolution on the lower end:</p>
-<div class="figure">
-<img src="https://i.imgur.com/t2XTC1P.png" alt="" />
-<p class="caption">Logicle vs arcsinh transformation</p>
-</div>
+<p><img src="cytof_data_scientist_files/figure-html/logicle%20and%20arcsinh-1.png" width="960" /></p>
 <p>When plotting the variation for each marker before and after transformation, the difference is quite clear:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">library</span>(ggplot2)</span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="kw">library</span>(reshape2)</span>
-<span id="cb9-3"><a href="#cb9-3"></a></span>
-<span id="cb9-4"><a href="#cb9-4"></a>melt_exprs &lt;-<span class="st"> </span><span class="kw">melt</span>(exprs[,lineage_channels]); melt_exprs_trans &lt;-<span class="st"> </span><span class="kw">melt</span>(exprs_trans[,lineage_channels])</span>
-<span id="cb9-5"><a href="#cb9-5"></a></span>
-<span id="cb9-6"><a href="#cb9-6"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(melt_exprs, <span class="kw">aes</span>(<span class="dt">y =</span> value, <span class="dt">x =</span> Var2)) <span class="op">+</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="st">      </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.size=</span><span class="fl">0.05</span>) <span class="op">+</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&#39;Raw ion counts&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="st">      </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="st">      </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="st">      </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb9-12"><a href="#cb9-12"></a></span>
-<span id="cb9-13"><a href="#cb9-13"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(melt_exprs_trans, <span class="kw">aes</span>(<span class="dt">y =</span> value, <span class="dt">x =</span> variable)) <span class="op">+</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="st">      </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.size=</span><span class="fl">0.05</span>) <span class="op">+</span></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&#39;ArcSinh transformed counts&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb9-16"><a href="#cb9-16"></a><span class="st">      </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span></span>
-<span id="cb9-17"><a href="#cb9-17"></a><span class="st">      </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
-<span id="cb9-18"><a href="#cb9-18"></a><span class="st">      </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb9-19"><a href="#cb9-19"></a></span>
-<span id="cb9-20"><a href="#cb9-20"></a><span class="kw">plot_grid</span>(p1, p2, <span class="dt">align =</span> <span class="st">&#39;v&#39;</span>, <span class="dt">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">library</span>(cowplot)</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a>melt_exprs &lt;-<span class="st"> </span><span class="kw">melt</span>(exprs[,lineage_channels]); melt_exprs_trans &lt;-<span class="st"> </span><span class="kw">melt</span>(exprs_trans[,lineage_channels])</span>
+<span id="cb9-6"><a href="#cb9-6"></a></span>
+<span id="cb9-7"><a href="#cb9-7"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(melt_exprs, <span class="kw">aes</span>(<span class="dt">y =</span> value, <span class="dt">x =</span> Var2)) <span class="op">+</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="st">      </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.size=</span><span class="fl">0.05</span>) <span class="op">+</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&#39;Raw ion counts&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="st">      </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="st">      </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="st">      </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb9-13"><a href="#cb9-13"></a></span>
+<span id="cb9-14"><a href="#cb9-14"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(melt_exprs_trans, <span class="kw">aes</span>(<span class="dt">y =</span> value, <span class="dt">x =</span> variable)) <span class="op">+</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="st">      </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.size=</span><span class="fl">0.05</span>) <span class="op">+</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&#39;ArcSinh transformed counts&#39;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb9-17"><a href="#cb9-17"></a><span class="st">      </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span></span>
+<span id="cb9-18"><a href="#cb9-18"></a><span class="st">      </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a><span class="st">      </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb9-20"><a href="#cb9-20"></a></span>
+<span id="cb9-21"><a href="#cb9-21"></a><span class="kw">plot_grid</span>(p1, p2, <span class="dt">align =</span> <span class="st">&#39;v&#39;</span>, <span class="dt">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/boxplot%20asinh-1.png" width="960" /></p>
 <p><br></p>
 </div>
 </div>
-<div id="pre-gating" class="section level2">
-<h2>Pre-gating</h2>
+<div id="pre-gating" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Pre-gating</h2>
 <p>Pre-gating has the purpose to filter the data to consist only of live, intact, single cells. Traditionally, this is carried out in four steps, carried out for each sample. There are number of ways one can semi or fully automate this process (using unsupervised or supervised machine learning for instance), but for clarity we will perform “old school” pre-gating below - sped up by pre-gating all samples in one go (insofar as samples are comparable to a degree that enables this). In the following sections, we will work on all the samples as a single object, so first we reload the data into a data.frame.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">library</span>(flowCore)</span>
 <span id="cb10-2"><a href="#cb10-2"></a></span>
@@ -869,8 +943,8 @@ $(document).ready(function () {
 <span id="cb10-22"><a href="#cb10-22"></a>cofac &lt;-<span class="st"> </span><span class="dv">5</span> <span class="co"># For CyTOF data, the co-factor is set to 5</span></span>
 <span id="cb10-23"><a href="#cb10-23"></a>exprs_set_trans &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">asinh</span>(exprs_set[,<span class="kw">c</span>(pregating_channels[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], lineage_channels)]<span class="op">/</span>cofac), exprs_set[,instrument_channels])</span></code></pre></div>
 <p><br></p>
-<div id="batch-correction" class="section level3">
-<h3>Batch correction</h3>
+<div id="batch-correction" class="section level3" number="3.3.1">
+<h3 number="3.3.1"><span class="header-section-number">3.3.1</span> Batch correction</h3>
 <p>Insofar as all samples are run on the same instrument, with the same panel, by the same operator, and bead normalized together, it should be possible to avoid pre-gating all your samples one at the time, and rather doing it in one go. You may check that the distributions of bead, DNA, and live/dead measurements are somewhat similar:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">library</span>(RColorBrewer)</span>
 <span id="cb11-2"><a href="#cb11-2"></a><span class="kw">library</span>(ggplot2)</span>
@@ -939,8 +1013,8 @@ $(document).ready(function () {
 <p>If none of this does help on your data (this is obviously an oversimplified example), one solution is to analyze your samples individually and then compare the results. Batch correcting mass cytometry data is definitely non-trivial, and a method for modeling and removing system-wide as well as channel-specific noise has yet to see the light of day.</p>
 <p><br><br></p>
 </div>
-<div id="gating-for-cells-beads-vs.-dna" class="section level3">
-<h3>Gating for cells (beads vs. DNA)</h3>
+<div id="gating-for-cells-beads-vs.-dna" class="section level3" number="3.3.2">
+<h3 number="3.3.2"><span class="header-section-number">3.3.2</span> Gating for cells (beads vs. DNA)</h3>
 <p>The first step is to gate out beads, cell/bead dobulets, and debris. This is done by generating a biaxial plot with a DNA channel (e.g. <sup>191</sup>Ir) on one axis and a bead-only isotope (<sup>140</sup>Ce) on the other. A single bead should be DNA-negative and <sup>140</sup>Ce-positive, and cells should be DNA-positive and <sup>140</sup>Ce-negative. Double negatives are considered to be debris and double positives are commonly doublets. Below is a code snippet for conducting this step after initializing as described <a href="#fcs">above</a>.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># Load necessary packages</span></span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="kw">library</span>(ggplot2)</span>
@@ -964,8 +1038,8 @@ $(document).ready(function () {
 <p><img src="cytof_data_scientist_files/figure-html/pregating%201-1.png" width="672" /></p>
 <p><br></p>
 </div>
-<div id="gating-for-intact-cells-dna1-vs-dna2" class="section level3">
-<h3>Gating for intact cells (DNA1 vs DNA2)</h3>
+<div id="gating-for-intact-cells-dna1-vs-dna2" class="section level3" number="3.3.3">
+<h3 number="3.3.3"><span class="header-section-number">3.3.3</span> Gating for intact cells (DNA1 vs DNA2)</h3>
 <p>The second step is to gate for intact cells - usually by generation a bixaial plot with the two DNA channels (<sup>191</sup>Ir and <sup>193</sup>Ir) and gating for events, which express both at a balanced level. If events express only little DNA it is likely debris, but if DNA expression is too high, they are likely cell doublets.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Gene rating a plot for gating visualization</span></span>
 <span id="cb15-2"><a href="#cb15-2"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(cells, <span class="kw">aes</span>(<span class="dt">x =</span> DNA1, <span class="dt">y =</span> DNA2)) <span class="op">+</span></span>
@@ -986,8 +1060,8 @@ $(document).ready(function () {
 <p><img src="cytof_data_scientist_files/figure-html/pregating%202-1.png" width="672" /></p>
 <p><br></p>
 </div>
-<div id="gating-for-singlets-event-length-vs-dna" class="section level3">
-<h3>Gating for singlets (event length vs DNA)</h3>
+<div id="gating-for-singlets-event-length-vs-dna" class="section level3" number="3.3.4">
+<h3 number="3.3.4"><span class="header-section-number">3.3.4</span> Gating for singlets (event length vs DNA)</h3>
 <p>The third step is to gate out doublets more specifically. This can be done by biaxially plotting event length against a DNA channel and gating for the events which have a length within the range of most events.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Generating a plot for gating visualization</span></span>
 <span id="cb16-2"><a href="#cb16-2"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(intact, <span class="kw">aes</span>(<span class="dt">x =</span> Event_length, <span class="dt">y =</span> DNA1)) <span class="op">+</span></span>
@@ -1008,8 +1082,8 @@ $(document).ready(function () {
 <p><img src="cytof_data_scientist_files/figure-html/pregating%203-1.png" width="672" /></p>
 <p><br></p>
 </div>
-<div id="gating-for-live-cells-livedead-stain-vs-dna" class="section level3">
-<h3>Gating for live cells (live/dead stain vs DNA)</h3>
+<div id="gating-for-live-cells-livedead-stain-vs-dna" class="section level3" number="3.3.5">
+<h3 number="3.3.5"><span class="header-section-number">3.3.5</span> Gating for live cells (live/dead stain vs DNA)</h3>
 <p>The final step is to remove dead cells. This is typically carried out by using a viability stain. This staining takes place before ligation of antibody-probes. Because dead cells have disrupted membranes, the stain can enter them and form bonds with intracellular molecules. The gating itself is carried out by biaxially plotting the viability stain and a DNA channel and gating out cells with a high amount of staining.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Generating a plot for gating visualization</span></span>
 <span id="cb17-2"><a href="#cb17-2"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(intact, <span class="kw">aes</span>(<span class="dt">x =</span> Dead, <span class="dt">y =</span> DNA1)) <span class="op">+</span></span>
@@ -1041,8 +1115,8 @@ $(document).ready(function () {
 <p><br></p>
 </div>
 </div>
-<div id="compensation" class="section level2">
-<h2>Compensation</h2>
+<div id="compensation" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> Compensation</h2>
 <p>Compensation is a method for correcting signal overlap, or “spillover”, between the different channels used in cytomtetry experiments. While being an established method in flow cytometry, a recent study (<a href="http://dx.doi.org/10.1016/j.cels.2018.02.010">Chevrier et al., 2018</a>) highlight that mass cytometry experiments are also affected by signal spillover. This leads to noisy expression matrices, and as a consequence, compensation must be applied.</p>
 <p>To perform compensation, you need to directly quantify the overlap between isotopes using beads (or cells) stained with a single isotope. Using these single-stained beads it is possible to estimate a spillover matrix from the populations identified as belonging to each isotope, and then one can apply the inverse of the matrix to compensate the data for CyTOF runs through multiplication.</p>
 <p>The <a href="http://bioconductor.org/packages/release/bioc/html/CATALYST.html">CATALYST tool</a> offers an implementation of a compensation method, which views spillover as linear (traditional approach) and uses non-negative linear least squares to avoid yielding negative expression values. Additionally, their vignette is quite extensive and helpful.</p>
@@ -1054,18 +1128,18 @@ $(document).ready(function () {
 <p>It is actually important to note here that while what the CyTOF user will observe is a spillover from <sup>114</sup>Cd to <sup>110</sup>Pd, this does not really reflect what is happening inside the machine. The problem here is that <sup>114</sup>Cd is not “clean”, and naturally occuring Cd will also contain some other isotopes including <sup>110</sup>Cd (see this <a href="http://cytoforum.stanford.edu/viewtopic.php?f=6&amp;t=417#p1329">Cytoforum discussion</a>). The CyTOF machine is unable to distinguish different isotopes with the same mass and the signal from <sup>110</sup>Cd is cosequently read as <sup>110</sup>Pd.</p>
 <p><br></p>
 </div>
-<div id="debarcoding" class="section level2">
-<h2>Debarcoding</h2>
+<div id="debarcoding" class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> Debarcoding</h2>
 <p>A GUI implementation of the single cell debarcoder may be installed from <a href="https://github.com/ParkerICI/premessa">here</a> or <a href="http://bioconductor.org/packages/release/bioc/html/CATALYST.html">here</a>, but the CATALYST implementation may also be used without the GUI. However, it is still advisable to adjust the barcode separation cut-offs manually, and for this purpose it is necessary to plot the data. The original debarcoding paper was published by <a href="http://dx.doi.org/10.1038/nprot.2015.020">Zunder et al. (2013)</a>, and the basic principle is that you use combinations of palladium isotopes to label individual samples, which you can then pool and run together on the CyTOF machine to avoid technical variation. To separate the different samples, one must identify events for which the difference in the signal between the present and absent palladium channels is clear.</p>
 <p><br></p>
 </div>
 </div>
-<div id="analysistasks" class="section level1">
-<h1>Data analysis</h1>
-<div id="dimred" class="section level2">
-<h2>Dimensionality reduction</h2>
-<div id="pca" class="section level3">
-<h3>Principal component analysis</h3>
+<div id="analysistasks" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Data analysis</h1>
+<div id="dimred" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Dimensionality reduction</h2>
+<div id="pca" class="section level3" number="4.1.1">
+<h3 number="4.1.1"><span class="header-section-number">4.1.1</span> Principal component analysis</h3>
 <p>The most commonly used algorithm for dimensionality reduction in the biological sciences is principal component analysis (PCA). For mass cytometry data, a PCA will often capture 40-50% of the variance on the first 2-3 PCs, but since the distance between events is linear, data existing on a nonlinear manifold will be misrepresented <a href="http://www.jimmunol.org/content/195/3/773.long">(Chester &amp; Maecker 2015)</a>. Whether this is an issue with CyTOF data or not depends heavily on the source of data. For example, as cells in the hematopoietic system develop in a hierarchical structure, the transition between some cells will result in a continuum rather than distinct clusters, which may not be entirely captured by PCA.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>fcs_files &lt;-<span class="st"> </span><span class="kw">basename</span>(fcs_files)</span>
 <span id="cb21-2"><a href="#cb21-2"></a>pca &lt;-<span class="st"> </span><span class="kw">prcomp</span>(live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[<span class="dv">1</span>],lineage_channels], <span class="dt">scale. =</span> <span class="ot">TRUE</span>)</span>
@@ -1075,8 +1149,8 @@ $(document).ready(function () {
 <span id="cb21-6"><a href="#cb21-6"></a><span class="st">  </span><span class="kw">theme_bw</span>()</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/pca-1.png" width="672" /></p>
 </div>
-<div id="tsne" class="section level3">
-<h3>t-SNE</h3>
+<div id="tsne" class="section level3" number="4.1.2">
+<h3 number="4.1.2"><span class="header-section-number">4.1.2</span> t-SNE</h3>
 <p>The t-Distributed Stochastic Neighbor Embedding (t-SNE) dimensionality reduction algorithm is a popular tool for dimensionality reduction of cytometry data (van der Maaten and Hinton, 2008). The distance between data points are represented by a t-distribution, meaning that multidimensional distances are preserved to a greater degree than PCA. However, there are a number of features of the algorithm that can lead to misinterpretation by the unaware user. For example, t-SNE (intentionally) does not preserve distances nor density, and it only preserves nearest-neighbors if reasonable hyperparameters are selected. This means that the sizes of the clusters are not always indicative of the variability within the cluster, and similarly, the distance between two clusters is not always proportional to how different they really are. In this regard, the algorithm is quite sensitive to the user making an informed choice of the perplexity and epsilon hyperparameters to reasonably represent the underlying structure of the data (See Martin Wattenberg et al.’s excellent blog post on <a href="http://distill.pub/2016/misread-tsne/">how to use t-SNE efficiently</a>.). Another feature that may be considered a disadvantage to some is that t-SNE depends on a random start and is non-deterministic even on the same data unless the same seed and iteration limit is used for each run. Additionally, removing or adding even a few data points from the input set will affect the layout of the remaining events, and consequently it is not directly possible to add samples to an existing t-SNE plot. Lastly, t-SNE does not allow for identical events, which, in the case of immune profiling where one would expect at least some identical cells in each cluster, means discarding or scrambling data. Dimensionality reduction definitely has a place in mass cytometry analysis pipelines, but for these reasons, it should be limited to exploratory and/or post-analysis visualizations. t-SNE is implemented in a number of languages including R, Python, C++, etc., and as a plug-in to FlowJo X. The MATLAB implementation of t-SNE often used for mass cytometry data in GUI pipelines is referred to as viSNE (<a href="https://doi.org/10.1038/nbt.2594">Amir et al., 2013</a>).</p>
 <p>Before running t-SNE, it is necessary to remove identical events (if any) from the sample (duplicate rows).</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">table</span>(<span class="kw">duplicated</span>(live[live<span class="op">$</span>sample<span class="op">==</span>fcs_files[<span class="dv">1</span>],lineage_channels]))</span></code></pre></div>
@@ -1111,8 +1185,8 @@ $(document).ready(function () {
 <p><img src="cytof_data_scientist_files/figure-html/tsne%202-1.png" width="960" /></p>
 <p><br></p>
 </div>
-<div id="umap" class="section level3">
-<h3>UMAP</h3>
+<div id="umap" class="section level3" number="4.1.3">
+<h3 number="4.1.3"><span class="header-section-number">4.1.3</span> UMAP</h3>
 <p>Uniform Manifold Approximation and Projection (UMAP) is a newer addition to the family of CyTOF-applicable dimensionality reduction methods (<a href="http://dx.doi.org/10.1038/nbt.4314">Becht et al., 2018</a>). It works in a fashion that is more similar to t-SNE than PCA, which means that it also views each cell as a member of a neighborhood of similar cells. However, it has several advantages over t-SNE. The first one is speed. For a small dataset there may not be a significant difference, bu you will surely notice it for a million cells. Furthermore, UMAP preserves global distances in the data a lot better than t-SNE. Recall that distances have no meaning in a t-SNE plot - you can not say anything about <em>how</em> different clusters are with t-SNE and distances between clusters tend to be fairly constant. In UMAP plots, distances once again have meaning, although they are not linear and directly interpretable as for PCA.</p>
 <p>UMAP, like t-SNE also requires setting a seed for each run to make it reproducible. UMAP is implemented in several languages including R and Python.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">library</span>(uwot)</span>
@@ -1141,14 +1215,14 @@ $(document).ready(function () {
 <p><br><br></p>
 </div>
 </div>
-<div id="clustering" class="section level2">
-<h2>Cell subset detection (clustering)</h2>
+<div id="clustering" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> Cell subset detection (clustering)</h2>
 <p>Deconvoluting a cell mixture may be a goal in itself, and certainly a necessity for meaningful comparison of samples or cell populations whether transversal or longitudinal. The traditional approach relies on manual gating on biaxial plots, but as the number of features are increased, the manual strategy becomes increasingly laborious. A number of methods are therefore seeking to automate or semi-automate the process - not only in the interest of speed, but unsupervised methods may also reveal cell populations overlooked when following standard gating strategies.</p>
 <p>Automated strategies are usually based on some form of clustering. Since the hematopoietic continuum is a cellular hierarchy, the obvious first choice is simply hierarchical clustering. However, this method is by some considered suboptimal, usually ascribed to the need to manually select the number of clusters based on a distance cutoff in the resulting dendrogram. This forces the user to guess the number of populations in the sample: selecting too many will over-separate the data into meaningless small clusters; selecting too few will agglomerate smaller, but potentially interesting clusters into larger ones. Additionally, with a computational complexity of O(n) and a typical yield of ~200.000 cells per sample, this can be a time consuming algorithm to run on CyTOF data. However, multiple tools still utilize hierarchical clustering in their algorithms. SPADE (Qiu et al. 2011), for example, overcomes the computational challenges and the risk of missing rare populations by performing density dependent down-sampling before hierarchical clustering.</p>
 <p>Phenograph (automatically decides the optimal number of clusters) and FlowSOM (you need to provide an informed guess of the number of clusters) were recently shown to be the best performing algorithms in a <a href="http://onlinelibrary.wiley.com/doi/10.1002/cyto.a.23030/abstract">comparison of the main algorithms by Weber and Robinson 2016</a>. It is of course worth mentioning that there are many other methods available (eg. <a href="http://www.cellaccense.com/">ACCENSE</a> and <a href="http://bioconductor.org/packages/release/bioc/vignettes/cytofkit/inst/doc/cytofkit_example.html">clusterX</a>). We will also briefly touch upon a few tools such as e.g. X-shift (Samusik et al. 2016), or force-directed layout-based methods, e.g. SCAFFoLD (Spitzer et al. 2015), which currently do not have R command based interfaces, as well as cover tools with integrated clustering (e.g. <a href="https://github.com/nolanlab/spade/wiki">SPADE</a> and <a href="https://github.com/nolanlab/citrus">citrus</a>) in greater depth in later sections.</p>
 <p><br></p>
-<div id="phenograph" class="section level3">
-<h3>Phenograph</h3>
+<div id="phenograph" class="section level3" number="4.2.1">
+<h3 number="4.2.1"><span class="header-section-number">4.2.1</span> Phenograph</h3>
 <p>Phenograph is an algorithm which directly assigns single cells to a particular cluster while taking the all measured dimensions into account. Phenograph employs a k-nearest neighbor graph (k-NNG), in which each cell is a node that is connected to its nearest neighbors by edges, to cluster cells into phenotypically similar groups - cellular populations. Clusters consist of nodes with high inter-connectivity. Phenograph is implemented in the R package “cytofkit”.</p>
 <p>Phenograph also requires removal of duplicates (see <a href="#tsne">t-SNE section</a> above).</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">library</span>(cytofkit)</span>
@@ -1217,8 +1291,8 @@ $(document).ready(function () {
 <p><img src="cytof_data_scientist_files/figure-html/umap%20background-1.png" width="960" /></p>
 <p><br></p>
 </div>
-<div id="flowsom-clustering" class="section level3">
-<h3>FlowSOM clustering</h3>
+<div id="flowsom-clustering" class="section level3" number="4.2.2">
+<h3 number="4.2.2"><span class="header-section-number">4.2.2</span> FlowSOM clustering</h3>
 <p>FlowSOM is a method for clustering and visualization of flow and mass cytometry data. FlowSOM uses two levels of clustering to visualize how the intensity of cell type markers varies across the populations, and the amount of clusters used is quite high to ensure a visualization of even small subpopulations.</p>
 <p>A standalone <a href="https://bioconductor.org/packages/release/bioc/html/FlowSOM.html">R package for FlowSOM</a> enables clustering, SOM, and MST visualizations. The package is built to run on FCS files rather than expression matrices, so here we will use the FlowSOM clustering implementation from the cytofkit package.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">library</span>(cytofkit)</span>
@@ -1237,13 +1311,13 @@ $(document).ready(function () {
 <p><img src="cytof_data_scientist_files/figure-html/flowsom%20umap-1.png" width="672" /></p>
 <p><br></p>
 </div>
-<div id="vortex" class="section level3">
-<h3>VorteX</h3>
+<div id="vortex" class="section level3" number="4.2.3">
+<h3 number="4.2.3"><span class="header-section-number">4.2.3</span> VorteX</h3>
 <p>VorteX is a clustering tool, which is implemented in Java and available as a graphical tool. VorteX includes different clustering algorithms incl. X-shift (non-parametric, density-based), hierarchical clustering, Mean-shift and K-medoids. In VorteX it is also easy to visualize the results or clusterings using different plot types.</p>
 <p><br></p>
 </div>
-<div id="scaffold" class="section level3">
-<h3>SCAFFoLD</h3>
+<div id="scaffold" class="section level3" number="4.2.4">
+<h3 number="4.2.4"><span class="header-section-number">4.2.4</span> SCAFFoLD</h3>
 <p>SCAFFoLD (Single-Cell Analysis by Fixed Force- and Landmark-Directed) is, as the name indicates, a tool based on the use of force-directed graphs. First, cells are clustered, and then the clusters are spatialized in the plane. This means that similar clusters are put closer to each other than dissimilar ones. This results in a map. Furthermore, it is possible to highlight landmark populations that have been manually gated (working as references). As a result it is possible to compare a new sample to an old, to look for global structure changes. Samples can be clustered both individually and together.</p>
 <p>To use SCAFFoLD, you need a C++ compiler and once that is ready you can run the program as follows:</p>
 <pre><code># Loading required packages
@@ -1257,12 +1331,12 @@ scaffold.run()</code></pre>
 <p><br><br></p>
 </div>
 </div>
-<div id="visualizing-marker-expression-in-different-clusters" class="section level2">
-<h2>Visualizing marker expression in different clusters</h2>
+<div id="visualizing-marker-expression-in-different-clusters" class="section level2" number="4.3">
+<h2 number="4.3"><span class="header-section-number">4.3</span> Visualizing marker expression in different clusters</h2>
 <p>Once cells have been clustered, examining the expression profiles of the cells in each cluster can be used to provide clues about the type of cells constituting the clusters. This can be done in various ways:</p>
 <p><br></p>
-<div id="simple-heatmap" class="section level3">
-<h3>Simple heatmap</h3>
+<div id="simple-heatmap" class="section level3" number="4.3.1">
+<h3 number="4.3.1"><span class="header-section-number">4.3.1</span> Simple heatmap</h3>
 <p>The most basic way to visually show the marker profiles of clusters is with a simple heatmap of median marker expressions. This of course has the drawback of ignoring the variance of the marker expression in each cluster, but offers does offer some insights into the composition of each cluster.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">library</span>(miscTools)</span>
 <span id="cb36-2"><a href="#cb36-2"></a><span class="kw">library</span>(reshape2)</span>
@@ -1279,8 +1353,8 @@ scaffold.run()</code></pre>
 <p><img src="cytof_data_scientist_files/figure-html/heatmap-1.png" width="960" /></p>
 <p><br></p>
 </div>
-<div id="radviz" class="section level3">
-<h3>Radviz</h3>
+<div id="radviz" class="section level3" number="4.3.2">
+<h3 number="4.3.2"><span class="header-section-number">4.3.2</span> Radviz</h3>
 <p>Radviz is a visualization scheme that utilizes so-called dimensional anchors. Each anchor (in this case, each marker) is distributed on the circumference of a circle, and ordered in a way that markers whose expression correlate, are located closer to each other. Each event is then projected into the circular and located closer to markers that best describe them. The authors use the following descriptive analogy to explain the algorithm: “In Radviz, each dimension in the dataset is represented by a dimensional anchor, and each dimensional anchor is distributed evenly on a unit circle. Each line in the data set corresponds to a point in the projection, that is linked to every dimensional anchor by a spring. Each spring’s stiffness corresponds to the value for that particular thing in that particular dimension. The position of the point is defined as the point in the 2D space where the spring’s tension is minimum.” <a href="https://cran.r-project.org/web/packages/Radviz/vignettes/single_cell_projections.html">Read more here</a>.</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw">library</span>(Radviz)</span>
 <span id="cb37-2"><a href="#cb37-2"></a><span class="kw">library</span>(dplyr)</span>
@@ -1315,16 +1389,16 @@ scaffold.run()</code></pre>
 <p><br></p>
 </div>
 </div>
-<div id="daanalysis" class="section level2">
-<h2>Analysis of differential abundance of cell populations and proteins</h2>
+<div id="daanalysis" class="section level2" number="4.4">
+<h2 number="4.4"><span class="header-section-number">4.4</span> Analysis of differential abundance of cell populations and proteins</h2>
 <p>Once subpopulations are clustered in each sample, the next step will often be to elucidate associations between cluster frequencies and/or protein expression and a given condition or time. These exercises closely resemble differential expression analyses used in transcriptomics for decades, and the bioinformatics toolbox contains multiple tools for basic significance tests and linear models. In addition, the GUI tools Citrus and Statistical Scaffold were developed for this purpose.</p>
 <p>Citrus (cluster identification, characterization, and regression) (Bruggner et al. 2014) works by combining hierarchical clustering of events in all samples aggregated into one. Then, descriptive metrics for each cluster are calculated, including percentage of cells assigned to each cluster, and the median expression of lineage markers in each cluster. These data are then used in regularized classification models to elucidate factors differing across conditions.</p>
 <p>The Statistical Scaffold method (Spitzer et al. 2017) works in a similar way. First, populations of interest are separated by manual gating in a representative sample. These populations will serve as landmark nodes on a scaffold map, which serves as a template for mapping events in the remaining samples using the cosine similarity between the vectors of median marker values of each cluster. Lastly, the Significance Across Microarrays permutation test (Tusher et al. 2001) is applied to test for differences in population frequencies across conditions.</p>
 <p>One major shortcoming of existing tools is the inability to handle more complex experimental setups, such as longitudinal studies, or studies with multiple factors and covariates. Generalized linear models (GLM) for differential expression analysis, popularized for transcriptomic analyses by tools such as limma (Ritchie et al. 2015) for microarray data and DEseq2 (Love et al. 2014) or EdgeR (Robinson et al. 2010) for RNA sequencing data, accepts model matrices with co-variates for complex experimental designs. Recently, Lun and colleagues leveraged GLMs from the EdgeR software specifically for mass cytometry data and showed these models outperform Citrus on legacy data (Lun et al. 2017).</p>
 <p>Lastly, it is important to consider that the immune system consists of multiple functional cell populations, which are coordinated in a complex interplay in response to various conditions. It is therefore sometimes more informative to examine population frequencies as dependent variables by examining correlations or ratios between frequencies (Bailur et al. 2017). Additionally, natural variations in the immune system are likely to mask the difference conferred by time or conditions when looking at a single variable, even if analyzing a large number of samples. Much like transcriptomics analyses, the immune system does not consist of independent variables, and neither the abundance of protein markers on individual cells nor the frequencies of individual cell populations can be assumed independent from the remaining variables.</p>
 <p><br></p>
-<div id="dacells" class="section level3">
-<h3>Analysis of differential abundance of cells in clusters</h3>
+<div id="dacells" class="section level3" number="4.4.1">
+<h3 number="4.4.1"><span class="header-section-number">4.4.1</span> Analysis of differential abundance of cells in clusters</h3>
 <p>The cell counts in each cluster is the easiest to compare, as this roughly follows a negative binomial distribution and can be flexibly modeled using a generalized linear model (GLM) as implemented in, for example, the edgeR package for RNA-seq transcriptomics data. In this example, we will use the data generated by Bodenmiller et al. and identify clusters with a differential abundance of cells between conditions.</p>
 <p>First, we import the data and create a dataframe with all the samples:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># Import data as Summarized Experiment</span></span>
@@ -1436,8 +1510,8 @@ scaffold.run()</code></pre>
 <span id="cb44-14"><a href="#cb44-14"></a><span class="kw">plot_grid</span>(<span class="dt">plotlist =</span> p)</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/umap%20background%20DA-1.png" width="960" /></p>
 <p><br></p>
-<div id="cydar" class="section level4">
-<h4>cydar</h4>
+<div id="cydar" class="section level4" number="4.4.1.1">
+<h4 number="4.4.1.1"><span class="header-section-number">4.4.1.1</span> cydar</h4>
 <p>The cydar tool works in much the same way as above - clustering followed by statistical testing for differential abundance of cells in each cluster. In this method, the clustering is done by creating hyperspherical clusters. This partitioning is similar to that of k-means clustering, but here a constant distance measure (the radius) is used to define the hyperspheres rather than dividing the events into Voronoi cells based on the nearest mean. This means that rather than getting a (somewhat) interpretable cluster structure (where each cluster can be labeled as a canonical cell population), hyperspherical partitioning is somewhat abstract and not directly interpretable. Another feature of the hypersphere partitioning is allowing multi-membership (which one can argue makes more biological sense than strictly allowing cells to belong to one cluster), but this again makes the partitioning harder to interpret in 2 or 3 dimensional space. Although harder to directly interpret, choosing a k that is greater than “reality”, is certainly better than selecting a k that is too small: “under-clustering” a highly heterogeneous cell mixture such as PBMC, will potentially result in comparing biologically irrelevant subsets. However, the trade-off of erring on the safe side is that in order for the cydar output to be biologically interpretable, some post-processing is necessary. The authors provide an excellent discussion of this in their <a href="https://www.nature.com/nmeth/journal/v14/n7/full/nmeth.4295.html">paper</a> and in their <a href="https://bioconductor.org/packages/release/bioc/vignettes/cydar/inst/doc/cydar.html">R package vignette</a></p>
 <p>Now for some code!</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="kw">library</span>(cydar)</span>
@@ -1484,8 +1558,8 @@ scaffold.run()</code></pre>
 <p><br></p>
 </div>
 </div>
-<div id="deprot" class="section level3">
-<h3>Analysis of differential expression of proteins between clusters</h3>
+<div id="deprot" class="section level3" number="4.4.2">
+<h3 number="4.4.2"><span class="header-section-number">4.4.2</span> Analysis of differential expression of proteins between clusters</h3>
 <p>The expression of lineage markers between different clusters will naturally differ, as differential expression is the very basis for all the clustering algorithms discussed here. However, it may be of interest to examine whether the expression of functional markers differs within a cluster that is considered to represent the same cell type in two different conditions.</p>
 <p>Currently, the most widely utilized approach is to compare the median expression a given protein in each sample across conditions for a specific cluster. There are some potentially <strong>serious caveats to this approach</strong> which we will discuss a bit further down. But first, let’s go through a simple example of this common approach:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a><span class="co"># Sample 1000 random events form each sample</span></span>
@@ -1540,25 +1614,25 @@ scaffold.run()</code></pre>
 <p>The most glaring (potential) issue with using the median expression is that we assume homoscedasticity and ignore the variance of the expression within each sample. Another potential issue is that for the linear models, we assume that the expression values (and median values) follow a Gaussian distribution. As mentioned earlier, the arcsinh transformation is first and foremost a cosmetic operation for biaxial plots, and the raw counts (without the default randomization by the Fluidigm software) roughly follows a (somewhat zero-inflated) negative binomial distribution. As such, a more appropriate statistic may be adopted from common practices in single cell transcriptomics analyses, but the error model has to be adapted: for example, dropout events are not an issue in mass cytometry, but the isotope counts are subject to stochastic noise and antibody binding introduces some fairly systematic noise (as discussed in our manuscript) that should be modeled appropriately. Lastly, we measure far fewer features in mass cytometry, but vastly more observations compared with single cell transcriptomics. Until such a model is formulated, linear modeling of median marker expression remains the state-of-the-art.</p>
 <p><br></p>
 </div>
-<div id="citrus" class="section level3">
-<h3>Citrus</h3>
+<div id="citrus" class="section level3" number="4.4.3">
+<h3 number="4.4.3"><span class="header-section-number">4.4.3</span> Citrus</h3>
 <p>One of the tools that utilizes this method is Citrus (cluster identification, characterization, and regression). The Citrus algorithm works by first doing an optional down-sampling to a user-specified number of events from each sample followed by hierarchical clustering of the pooled cells. When clusters are defined, Citrus utilizes algorithms from the SAM (statistical analysis of microarrays) package to calculate 1) differential abundance of cells in clusters across the defined conditions, 2) differential median protein expression in each cluster across the defined conditions, and 3) trains a lasso regularized logistic regression and nearest shrunken centroids method to identify a subset of cluster features that best stratifies the condition from the control samples. Citrus is primarily implemented as a GUI, but an <a href="https://github.com/nolanlab/citrus">R package</a> allow for command-based execution. In either case, Citrus takes only FCS files. The method is described in the <a href="http://www.pnas.org/content/111/26/E2770.long">2014 paper by Bruggner et al.</a>.</p>
 <p><br></p>
 </div>
 </div>
-<div id="celltypes" class="section level2">
-<h2>Cell type assignment</h2>
+<div id="celltypes" class="section level2" number="4.5">
+<h2 number="4.5"><span class="header-section-number">4.5</span> Cell type assignment</h2>
 <p>In order to finally draw biological conclusions from the clustering and differential population frequency and/or protein expression analyses, differential population frequency analyses, or differential marker expression analyses, it is necessary to assign a cell type to each cluster. For domain experts, this may be as simple as comparatively surveying the marker expression in each cluster, for example by generating clusters vs. markers heatmaps or aided by tools such as Marker Enrichment Modelling (MEM) (Diggins et al. 2017), which can be used to label clusters with a simpler human readable marker enrichment profile. Other tools such as flowCL (Courtot et al. 2015), ACDC (Lee et al. 2017) or the LDA-approach by <a href="https://doi.org/10.1002/cyto.a.23738">Abdelaal et al. (2019)</a> enables automated assignment of labels to clusters, but flowCL requires the user to make decisions about when a marker is expressed or not and uses the phenotype label to assign the most likely label, and ACDC requires users to define population labels with a markers x populations binary expression matrix.</p>
 <p>The lack of a fully automated cell type assignment workflow is most likely due to the fact that assigning canonical populations is trivial for domain experts, while rare populations may be subject to disagreement, and novel populations not yet named are likely to be present. However, for the computationally inclined, the Python implementation of ACDC can be used to perform a label estimate on clustered data.</p>
 <p><br></p>
-<div id="acdc" class="section level3">
-<h3>ACDC</h3>
+<div id="acdc" class="section level3" number="4.5.1">
+<h3 number="4.5.1"><span class="header-section-number">4.5.1</span> ACDC</h3>
 <p>Automated Cell-type Discovery and Classiffcation (ACDC) takes a cell type-marker table, in which each cell type is related to a marker profile. The table can contain values 1 (present), -1 (absent), 0/NA (do not consider) for each marker and cell type combination. This table can be completely customized to suit the measured markers of a study and include the cell types one wishes to study. The values should be based on the biological knowledge of marker expression of different cell types (e.g. all T cells express CD3). Then each cell is classified resulting in a clustering in which each cluster is labeled as a specific cell type. This method is consequently biased by the cell-type marker table applied, but it may be useful in certain situations. ACDC is available for Python and tutorials for running the program can be found <a href="https://github.com/howchihlee/ACDC_tutorial/tree/master/notebooks">here</a>. We have also made <a href="https://github.com/biosurf/CyTOF/blob/master/ACDC_BioSurf.ipynb">our own IPython Notebook-tutorial</a> for running ACDC.</p>
 <p>Three different cell-type marker tables can be accessed in our Git repository: The <a href="https://github.com/biosurf/CyTOF/blob/master/AML_table.csv">AML table</a>, the <a href="https://github.com/biosurf/CyTOF/blob/master/BMMC_table.csv">BMMC table</a>, and a <a href="https://github.com/biosurf/CyTOF/blob/master/Leipold_table.csv">table defined by Michael D. Leipold</a>. The two first tables were derived from <a href="https://www.cytobank.org/nolanlab/reports/Levine2015.html">Levine et al.</a> and processed into the csv format by the original ACDC-developers.</p>
 <p><br></p>
 </div>
-<div id="marker-enrichment-modeling" class="section level3">
-<h3>Marker Enrichment Modeling</h3>
+<div id="marker-enrichment-modeling" class="section level3" number="4.5.2">
+<h3 number="4.5.2"><span class="header-section-number">4.5.2</span> Marker Enrichment Modeling</h3>
 <p>The Marker Enrichment Modeling (MEM) tools describes cellular subsets by the features that are enriched for each population using a weighted marker expression profile. MEM describes the characteristics of different clusters in the context of the other cells in the sample - e.g. certain surface markers specifically enriched in the given cluster.</p>
 <p>The output is a weighted marker expression profile of each cluster, which can be translated into a “human readable” label for each cluster. In this example, we use the clusters from phenograph and create a list of human readable labels for each cluster.</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a><span class="kw">library</span>(MEM)</span>
@@ -1611,8 +1685,8 @@ scaffold.run()</code></pre>
 <p>These labels alone will not be meaningful to non-domain experts, and in order to assign a cell name to each cluster, one will need to query an ontology database.</p>
 <p><br> <br></p>
 </div>
-<div id="flowcl" class="section level3">
-<h3>flowCL</h3>
+<div id="flowcl" class="section level3" number="4.5.3">
+<h3 number="4.5.3"><span class="header-section-number">4.5.3</span> flowCL</h3>
 <p>flowCL assigns a phenotype to a cell based on its expressed markers - it matches against the <a href="http://cellontology.org">Cell Ontology (CL)</a>. An example query could be “CD16-CD14+CD33+”, but it is also possible to use – and ++ for the marker levels to be more specific regarding the level of a marker.</p>
 <p>We can run flowCL directly on the list created using MEM:</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="kw">library</span>(flowCL)</span>
@@ -1620,13 +1694,13 @@ scaffold.run()</code></pre>
 <p><br><br></p>
 </div>
 </div>
-<div id="hierarchies" class="section level2">
-<h2>Cellular hierarchies</h2>
+<div id="hierarchies" class="section level2" number="4.6">
+<h2 number="4.6"><span class="header-section-number">4.6</span> Cellular hierarchies</h2>
 <p>Cells of the immune system exist in a hierarchy of different developmental and activation states. Estimating and visualizing the proportion of cells in a complex mixture belonging to different states can be useful to identify aberrations in cellular differentiation between different conditions. The spanning-tree progression analysis of density-normalized events (SPADE) (Qiu et al. 2011) is one of the first tools to address this problem for mass cytometry data. At the core of SPADE is a minimum spanning-tree algorithm, which is applied to clusters of cells to derive possible hierarchies within the data. Events are clustered using hierarchical clustering after data is downsampled in a density-dependent manner. This serves to speed up the clustering, but also ensures equal representation of rare and dense populations. The clusters in the resulting minimum spanning-tree must then be manually labelled, but this is aided by plots highlighted by marker intensity for each sample. Early versions of SPADE relied on stochastic downsampling and stochastic minimum spanning-trees, which produced different run-to-run results, but recent updates of the software produces deterministic results (Qiu 2017). SPADE is implemented in C++, but exists with an R wrapper.</p>
 <p>Wanderlust is a graph-based approach to uncovering cell development trajectories. It works by first constructing a k-nearest neighbor graph, connecting each cell to its k nearest neighbors based on Euclidean distance. Then, the shortest path between an initiator node (a user selected root cell) and every other cell in the network is used to estimate the development trajectory of each event (Bendall et al. 2014). Wanderlust is implemented in Matlab.</p>
 <p><br></p>
-<div id="flowsom" class="section level3">
-<h3>FlowSOM</h3>
+<div id="flowsom" class="section level3" number="4.6.1">
+<h3 number="4.6.1"><span class="header-section-number">4.6.1</span> FlowSOM</h3>
 <p>Self-organizing maps (SOM) and minimum spanning tree (MST) visualizations can be generated using the kohonen package for the SOM, and the igraph package for the MST. The flowSOM implementations of these do contain some extra plotting options. If you want visualizations exactly like those presented in the <a href="http://onlinelibrary.wiley.com/doi/10.1002/cyto.a.22625/full">paper</a>, you may try their <a href="https://bioconductor.org/packages/release/bioc/html/FlowSOM.html">R package</a>. Note that it only takes FCS files as input, but individual functions can be edited if an explicit need for these visualizations exists.</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a><span class="co"># Calculate and visualize self organizing map with the parameters used by FlowSOM</span></span>
 <span id="cb54-2"><a href="#cb54-2"></a><span class="kw">library</span>(kohonen)</span>
@@ -1694,8 +1768,8 @@ scaffold.run()</code></pre>
 </div>
 </div>
 </div>
-<div id="analysis-tool-overview" class="section level1">
-<h1>Analysis tool overview</h1>
+<div id="analysis-tool-overview" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Analysis tool overview</h1>
 <table>
 <colgroup>
 <col width="9%" />
@@ -2052,8 +2126,8 @@ scaffold.run()</code></pre>
 </tr>
 </tbody>
 </table>
-<div id="sessioninfo" class="section level4">
-<h4>R session info</h4>
+<div id="sessioninfo" class="section level4" number="5.0.0.1">
+<h4 number="5.0.0.1"><span class="header-section-number">5.0.0.1</span> R session info</h4>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="kw">sessionInfo</span>()</span></code></pre></div>
 <pre><code>## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
@@ -2188,6 +2262,8 @@ scaffold.run()</code></pre>
 &nbsp;
 
 
+</div>
+</div>
 
 </div>
 
@@ -2220,6 +2296,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
