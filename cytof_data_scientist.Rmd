@@ -2,7 +2,7 @@
 title: "Data scientist's primer to analysis of mass cytometry data"
 author: "Contributors: Lars Rønn Olsen, Christina Bligaard Pedersen, Mike Leipold, and Holden Maecker"
 output:
-  prettydoc::html_pretty:
+  html_document:
     toc: true
     toc_float: true
     number_sections: true
