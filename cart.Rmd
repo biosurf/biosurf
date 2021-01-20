@@ -8,10 +8,12 @@ This page summarizes the evaluations of 60 protein targets for chimeric antigen 
 
 <details>
   <summary>Target 1</summary>
-    <br>Figures. Some text.<br><br>
+      ```{r child="./cartcontent/target1.Rmd"}
+      ```
 </details>
 
 <details>
   <summary>Target 2</summary>
-    <br>Figures. Some text.<br><br>
+      ```{r child="./cartcontent/target2.Rmd"}
+      ```
 </details>
