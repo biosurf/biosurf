@@ -6,10 +6,11 @@ title: "Projects"
 Alkaline phosphatase, placental type (ALPP) is targeted in clinical trials NCT04627740 as treatment for ovarian cancer and endometrial cancer
 
 #### Target gene expression
+![](cartcontent/images/ALPP_expression.png){width=1500px}
 
 #### Target splice variants
 
 #### Target essentiality
 
 #### Protein properties
-![ALPP](cartcontent/images/ALPP_plot.png){width=1500px}
+![](cartcontent/images/ALPP_plot.png){width=1500px}
