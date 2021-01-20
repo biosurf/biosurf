@@ -3,6 +3,8 @@ title: "Publications"
 ---
 
 ## 2020
+Helene Kretzmer, Anat Biran, Noelia Purroy, **Camilla K. Lemvigh**, Kendell Clement, Michaela Gruber, Hongcang Gu, Laura Rassenti, Arman W. Mohammad, Connie Lesnick, Susan L. Slager, Esteban Braggio, Tait D. Shanafelt, Neil E. Kay, Stacey M. Fernandes, Jennifer R. Brown, Lili Wang, Shuqiang Li, Kenneth J. Livak, Donna S. Neuberg, Sven Klages, Bernd Timmermann, Thomas J. Kipps, Elias Campo, Andreas Gnirke, Catherine J. Wu, and Alexander Meissner (2020) Preneoplastic Alterations Define CLL DNA Methylome and Persist through Disease Progression and Therapy. *Blood Cancer Discovery* [doi:10.1158/2643-3230.BCD-19-0058](https://doi.org/10.1158/2643-3230.BCD-19-0058)
+
 **Pedersen, C. B.**, & **Olsen, L. R.** (In press). Algorithmic Clustering Of Single‐Cell Cytometry Data—How Unsupervised Are These Analyses Really?. *Cytometry Part A.* [doi:10.1002/cyto.a.23917](https://doi.org/10.1002/cyto.a.23917)
 
 <br><br>
