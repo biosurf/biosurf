@@ -1,6 +1,6 @@
-name: "The Cancer Omics Group"
+name: "The Single Cell Omics Group"
 navbar:
-  title: "The Cancer Omics Group"
+  title: "The Single Cell Omics Group"
   type: inverse
   left:
     - text: "Blog"
@@ -25,7 +25,7 @@ navbar:
           href: cytof.html
         - text: "Spectracular"
           href: spectracular.html
-        - text: "CAR T target clinical trial target evaluations"
+        - text: "CAR T target evaluation"
           href: cart.html
 output:
   html_document:
