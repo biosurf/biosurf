@@ -25,6 +25,8 @@ navbar:
           href: cytof.html
         - text: "Spectracular"
           href: spectracular.html
+        - text: "CAR T target clinical trial target evaluations"
+          href: cart.html
 output:
   html_document:
     theme: yeti
