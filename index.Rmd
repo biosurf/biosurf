@@ -1,5 +1,5 @@
 ---
-title: "The Cancer Omics Group"
+title: "The Single Cell Omics Group"
 ---
 
 @ <span style="color: #008CBA;">[Section for Bioinformatics](https://www.healthtech.dtu.dk/english/research/digital-health-and-biological-modelling/section-bioinformatics)</span> | <span style="color: #008CBA;">[Department of Health Technology](https://www.healthtech.dtu.dk)</span> | <span style="color: #008CBA;">[Technical University of Denmark](https://www.dtu.dk)</span>
