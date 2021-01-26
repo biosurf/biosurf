@@ -27,6 +27,8 @@ navbar:
           href: spectracular.html
         - text: "CAR T target evaluation"
           href: cart.html
+        - text: "cyCombine vignettes"
+          href: cyCombine.html
 output:
   html_document:
     theme: yeti
