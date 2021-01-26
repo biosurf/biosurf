@@ -12,6 +12,11 @@ title: 'Vignettes for cyCombine: Robust Integration of Single-Cell Cytometry Dat
 <td><center>[![](images/cyCombine/CITEseq.png){ width=75% }](cytof_cytometrist.html)<br>Vignette for CITE-seq and CyTOF integration</center></td>
 
 </tr>
+</table>
+<br>
+
+
+<table style="width:100%">
 <tr>
 
 <td><center>[![](images/cyCombine/Flow1.png){ width=75% }](cytof_data_scientist.html)<br>Vignette for flow cytrometry and CyTOF integration</center></td>
