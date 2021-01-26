@@ -7,9 +7,20 @@ title: 'Vignettes for cyCombine: Robust Integration of Single-Cell Cytometry Dat
 <table style="width:100%">
 <tr>
 
-<td><center>[![](images/cyCombine/CyTOF.png){ width=75% }](cytof_data_scientist.html)<br>Vignette for pure CyTOF example</center></td>
+<td><center>[![](images/cyCombine/cyCombine.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/shdam/cyCombine/blob/master/vignettes/cyCombine.html)<br>General vignette</center></td>
     
-<td><center>[![](images/cyCombine/CITEseq.png){ width=75% }](cytof_cytometrist.html)<br>Vignette for CITE-seq and CyTOF integration</center></td>
+<td><center>[![](images/cyCombine/CyTOF.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/shdam/cyCombine/blob/master/vignettes/CyTOF_1panel.html)<br>Vignette for pure CyTOF example</center></td>
+
+</tr>
+</table>
+<br>
+
+<table style="width:100%">
+<tr>
+
+<td><center>[![](images/cyCombine/CyTOF2.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/shdam/cyCombine/blob/master/vignettes/CyTOF_2panels.html)<br>Vignette for two-panel CyTOF example</center></td>
+    
+<td><center>[![](images/cyCombine/CITEseq.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/shdam/cyCombine/blob/master/vignettes/CITEseq_CyTOF.html)<br>Vignette for CITE-seq and CyTOF integration</center></td>
 
 </tr>
 </table>
@@ -19,9 +30,9 @@ title: 'Vignettes for cyCombine: Robust Integration of Single-Cell Cytometry Dat
 <table style="width:100%">
 <tr>
 
-<td><center>[![](images/cyCombine/Flow1.png){ width=75% }](cytof_data_scientist.html)<br>Vignette for flow cytrometry and CyTOF integration</center></td>
+<td><center>[![](images/cyCombine/Flow1.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/shdam/cyCombine/blob/master/vignettes/Flow_CyTOF.html)<br>Vignette for flow cytrometry and CyTOF integration</center></td>
     
-<td><center>[![](images/cyCombine/Flow2.png){ width=75% }](cytof_cytometrist.html)<br>Vignette for spectral flow cytrometry and CyTOF integration</center></td>
+<td><center>[![](images/cyCombine/Flow2.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/shdam/cyCombine/blob/master/vignettes/Spectralflow_CyTOF.html)<br>Vignette for spectral flow cytrometry and CyTOF integration</center></td>
 
 </tr>
 </table>
