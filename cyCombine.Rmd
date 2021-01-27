@@ -1,5 +1,6 @@
 ---
-title: 'Vignettes for cyCombine: Robust Integration of Single-Cell Cytometry Datasets'
+title: 'Vignettes for cyCombine'
+subtitle: 'Robust Integration of Single-Cell Cytometry Datasets'
 ---
 
 <br>
@@ -36,5 +37,3 @@ title: 'Vignettes for cyCombine: Robust Integration of Single-Cell Cytometry Dat
 
 </tr>
 </table>
-<br>
-
