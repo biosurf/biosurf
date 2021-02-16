@@ -8,7 +8,9 @@ subtitle: 'Robust Integration of Single-Cell Cytometry Datasets'
 <table style="width:100%">
 <tr>
 
-<td><center>[![](images/cyCombine/cyCombine.png){ width=37.5% }](https://htmlpreview.github.io/?https://github.com/shdam/cyCombine/blob/master/vignettes/cyCombine.html)<br>Reference manual</center></td>
+<td><center>[![](images/cyCombine/cyCombine.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/shdam/cyCombine/blob/master/vignettes/cyCombine.html)<br>Reference manual</center></td>
+
+<td><center>[![](images/cyCombine/benchmarking.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/shdam/cyCombine/blob/master/vignettes/benchmarking.html)<br>Performance benchmarking</center></td>
 
 </tr>
 </table>
