@@ -43,21 +43,21 @@ subtitle: 'Robust Integration of Single-Cell Cytometry Datasets'
 <table style="width:100%">
 <tr>
 
-<td><center>[![](images/cyCombine/CITEseq.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/CITEseq_CyTOF.html)<br>Vignette for CITE-seq and CyTOF integration</center></td>
-    
+<td><center>[![](images/cyCombine/Flow2.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/Spectralflow_CyTOF.html)<br>Vignette for spectral flow cytrometry and CyTOF integration</center></td>
+
 <td><center>[![](images/cyCombine/Spectral_CITEseq.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/CITEseq_Spectral_CyTOF.html)<br>Vignette for Spectral flow cytometry, CITE-seq, and CyTOF integration</center></td>
 
 </tr>
 </table>
-<br>
+<!-- <br> -->
 
 
-<table style="width:100%">
-<tr>
+<!-- <table style="width:100%"> -->
+<!-- <tr> -->
 
-<td><center>[![](images/cyCombine/Flow1.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/Flow_CyTOF.html)<br>Vignette for flow cytrometry and CyTOF integration</center></td>
-    
-<td><center>[![](images/cyCombine/Flow2.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/Spectralflow_CyTOF.html)<br>Vignette for spectral flow cytrometry and CyTOF integration</center></td>
+<!-- <td><center>[![](images/cyCombine/Flow1.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/Flow_CyTOF.html)<br>Vignette for flow cytrometry and CyTOF integration</center></td> -->
 
-</tr>
-</table>
+<!-- <td><center>[![](images/cyCombine/CITEseq.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/CITEseq_CyTOF.html)<br>Vignette for CITE-seq and CyTOF integration</center></td> -->
+
+<!-- </tr> -->
+<!-- </table> -->
