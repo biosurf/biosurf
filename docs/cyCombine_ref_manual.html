@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Søren Helweg Dam" />
+
+<meta name="date" content="2021-02-17" />
+
+<title>cyCombine: Reference manual</title>
+
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">The Single Cell Omics Group</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="blog.html">Blog</a>
+</li>
+<li>
+  <a href="group_members.html">People</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Research
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="projects.html">Projects</a>
+    </li>
+    <li>
+      <a href="publications.html">Publications</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Teaching
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="http://kurser.dtu.dk/course/22140">Course: Introduction to Systems Biology</a>
+    </li>
+    <li>
+      <a href="http://kurser.dtu.dk/course/22104">Course: Health, Diseases, and Technology</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cytof.html">CyTOF primers</a>
+    </li>
+    <li>
+      <a href="spectracular.html">Spectracular</a>
+    </li>
+    <li>
+      <a href="cart.html">CAR T target evaluation</a>
+    </li>
+    <li>
+      <a href="cyCombine.html">cyCombine vignettes</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">cyCombine: Reference manual</h1>
+<h4 class="author">Søren Helweg Dam</h4>
+<h4 class="date">February 17, 2021</h4>
+
+</div>
+
+
+<style type="text/css">
+
+h1.title {
+  color: #004d66;
+}
+h4.author {
+  font-style: italic;
+  font-size: 18px;
+  color: #008cba;
+}
+h4.date {
+  font-style: italic;
+  font-size: 16px;
+  color: #008cba;
+}
+h1 { /* Header 1 */
+  color: #004d66;
+  font-size: 28px;
+}
+h2 { /* Header 2 */
+  color: #004d66;
+  font-size: 22px;
+}
+h3 { /* Header 3 */
+  color: #004d66;
+  font-size: 16px;
+}
+</style>
+<p><br><br> This vignette will demonstrate a general use-case of cyCombine</p>
+<p><br> Alongside a directory of FCS files, a metadata and a panel file are assumed present. The metadata is in this example assumed to have the following columns:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Filename</th>
+<th align="center">batch</th>
+<th align="center">condition</th>
+<th align="center">Patient_id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>And the panel should contain the columns:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Channel</th>
+<th align="center">Antigen</th>
+<th align="center">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p><br><br></p>
+<div id="prepare-data" class="section level1">
+<h1>Prepare data</h1>
+<p>First, the FCS files are converted into a work-able <em>tibble</em>.</p>
+<p><br></p>
+<div id="the-recommended-workflow" class="section level2">
+<h2>The recommended workflow</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(cyCombine)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Directory with FCS files</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>data_dir &lt;-<span class="st"> &quot;~/data&quot;</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co"># Extract markers from panel</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>panel_file &lt;-<span class="st"> </span><span class="kw">file.path</span>(data_dir, <span class="st">&quot;panel.csv&quot;</span>) <span class="co"># Can also be .xlsx</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>metadata_file &lt;-<span class="st"> </span><span class="kw">file.path</span>(data_dir, <span class="st">&quot;metadata.csv&quot;</span>) <span class="co"># Can also be .xlsx</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co"># Extract markers of interest</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>markers &lt;-<span class="st"> </span><span class="kw">read.csv</span>(panel_file) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="st">  </span><span class="kw">filter</span>(Type <span class="op">!=</span><span class="st"> &quot;none&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="st">  </span><span class="kw">pull</span>(Antigen)</span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co"># Prepare a tibble from directory of FCS files</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a>uncorrected &lt;-<span class="st"> </span><span class="kw">prepare_data</span>(</span>
+<span id="cb1-19"><a href="#cb1-19"></a>  <span class="dt">data_dir =</span> data_dir,</span>
+<span id="cb1-20"><a href="#cb1-20"></a>  <span class="dt">metadata =</span> metadata_file, </span>
+<span id="cb1-21"><a href="#cb1-21"></a>  <span class="dt">filename_col =</span> <span class="st">&quot;Filename&quot;</span>,</span>
+<span id="cb1-22"><a href="#cb1-22"></a>  <span class="dt">batch_ids =</span> <span class="st">&quot;batch&quot;</span>,</span>
+<span id="cb1-23"><a href="#cb1-23"></a>  <span class="dt">condition =</span> <span class="st">&quot;condition&quot;</span>,</span>
+<span id="cb1-24"><a href="#cb1-24"></a>  <span class="dt">down_sample =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb1-25"><a href="#cb1-25"></a>  <span class="dt">markers =</span> markers</span>
+<span id="cb1-26"><a href="#cb1-26"></a>)</span>
+<span id="cb1-27"><a href="#cb1-27"></a><span class="co"># Store result</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="kw">saveRDS</span>(uncorrected, <span class="dt">file =</span> <span class="kw">file.path</span>(data_dir, <span class="st">&quot;uncorrected.RDS&quot;</span>))</span></code></pre></div>
+<p><br></p>
+</div>
+<div id="modular-workflow" class="section level2">
+<h2>Modular workflow</h2>
+<p>In case you want more control, you can adjust any step of this approach. Feel free to skip this segment, if the method above worked just fine for you.</p>
+<p>This example will include all possible input parameters to give an overview of what can be modified.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Load packages</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(cyCombine)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># Directory with FCS files</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>data_dir &lt;-<span class="st"> &quot;~/data&quot;</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co"># Extract markers from panel</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>panel &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="kw">file.path</span>(data_dir, <span class="st">&quot;panel.csv&quot;</span>)) <span class="co"># Can also be .xlsx</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>metadata &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="kw">file.path</span>(data_dir, <span class="st">&quot;metadata.csv&quot;</span>))</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co"># Extract markers of interest</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a>markers &lt;-<span class="st"> </span>panel <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="st">  </span><span class="kw">filter</span>(Type <span class="op">!=</span><span class="st"> &quot;none&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="st">  </span><span class="kw">pull</span>(Antigen)</span>
+<span id="cb2-16"><a href="#cb2-16"></a></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co"># Read FCS files</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a>flowset &lt;-<span class="st"> </span><span class="kw">compile_fcs</span>(</span>
+<span id="cb2-19"><a href="#cb2-19"></a>  <span class="dt">data_dir =</span> data_dir,</span>
+<span id="cb2-20"><a href="#cb2-20"></a>  <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.fsc&quot;</span> <span class="co"># Read all FCS files</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a>)</span>
+<span id="cb2-22"><a href="#cb2-22"></a></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="co"># Convert flowset to tibble</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a>df &lt;-<span class="st"> </span><span class="kw">convert_flowset</span>(</span>
+<span id="cb2-25"><a href="#cb2-25"></a>  <span class="dt">flowset =</span> flowset,</span>
+<span id="cb2-26"><a href="#cb2-26"></a>  <span class="dt">metadata =</span> metadata,</span>
+<span id="cb2-27"><a href="#cb2-27"></a>  <span class="dt">filename_col =</span> <span class="st">&quot;Filename&quot;</span>,</span>
+<span id="cb2-28"><a href="#cb2-28"></a>  <span class="dt">sample_ids =</span> <span class="st">&quot;Filename&quot;</span>, <span class="co"># By default the filename is used to get sample ids</span></span>
+<span id="cb2-29"><a href="#cb2-29"></a>  <span class="dt">batch_ids =</span> <span class="st">&quot;batch&quot;</span>,</span>
+<span id="cb2-30"><a href="#cb2-30"></a>  <span class="dt">condition =</span> <span class="st">&quot;condition&quot;</span>,</span>
+<span id="cb2-31"><a href="#cb2-31"></a>  <span class="dt">down_sample =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb2-32"><a href="#cb2-32"></a>  <span class="dt">sample_size =</span> <span class="dv">2000000</span>,</span>
+<span id="cb2-33"><a href="#cb2-33"></a>  <span class="dt">seed =</span> <span class="dv">101</span>,</span>
+<span id="cb2-34"><a href="#cb2-34"></a>  <span class="dt">panel =</span> panel, <span class="co"># Can also be the filename. It is solely used to ensure the channel names match what you expect (i.e. what is in the panel_antigen column)</span></span>
+<span id="cb2-35"><a href="#cb2-35"></a>  <span class="dt">panel_channel =</span> <span class="st">&quot;Channel&quot;</span>,</span>
+<span id="cb2-36"><a href="#cb2-36"></a>  <span class="dt">panel_antigen =</span> <span class="st">&quot;Antigen&quot;</span></span>
+<span id="cb2-37"><a href="#cb2-37"></a>)</span>
+<span id="cb2-38"><a href="#cb2-38"></a></span>
+<span id="cb2-39"><a href="#cb2-39"></a><span class="co"># Transform data - This function also de-randomizes the data</span></span>
+<span id="cb2-40"><a href="#cb2-40"></a>uncorrected &lt;-<span class="st"> </span><span class="kw">transform_asinh</span>(</span>
+<span id="cb2-41"><a href="#cb2-41"></a>  <span class="dt">df =</span> df,</span>
+<span id="cb2-42"><a href="#cb2-42"></a>  <span class="dt">markers =</span> markers,</span>
+<span id="cb2-43"><a href="#cb2-43"></a>  <span class="dt">cofactor =</span> <span class="dv">5</span>,</span>
+<span id="cb2-44"><a href="#cb2-44"></a>  <span class="dt">.keep =</span> <span class="ot">TRUE</span> <span class="co"># Lets you keep all columns, in case they are useful to you</span></span>
+<span id="cb2-45"><a href="#cb2-45"></a>)</span>
+<span id="cb2-46"><a href="#cb2-46"></a><span class="co"># Store result</span></span>
+<span id="cb2-47"><a href="#cb2-47"></a><span class="kw">saveRDS</span>(uncorrected, <span class="dt">file =</span> <span class="kw">file.path</span>(data_dir, <span class="st">&quot;uncorrected.RDS&quot;</span>))</span></code></pre></div>
+<!-- ## Minimal input use-case 
+
+This example illustrates the minimal, runnable use-case.
+Feel free to skip.
+It is recommended to as a minimum include the batches from the metadata, either as above or as a vector of the same length as the data.
+
+
+
+```r
+# Load packages
+library(cyCombine)
+library(tidyverse)
+
+# Directory with FCS files
+data_dir <- "~/data"
+
+# Extract markers from panel
+panel_file <- "data/panel.csv" # Can also be .xlsx
+metadata <- read.csv("data/metadata.csv") # Can also be .xlsx
+
+# Extract markers of interest
+markers <- read.csv(panel_file) %>% 
+  filter(Type != "none") %>% 
+  pull(Antigen)
+
+# Prepare a tibble from directory of FCS files
+uncorrected <- prepare_data(
+  data_dir = data_dir,
+  down_sample = FALSE
+)
+
+# Extract batches
+
+  
+
+# Store result
+saveRDS(uncorrected, file = "data/uncorrected.RDS")
+```
+-->
+<p><br><br></p>
+</div>
+</div>
+<div id="batch-correct" class="section level1">
+<h1>Batch correct</h1>
+<div id="the-recommended-workflow-1" class="section level2">
+<h2>The recommended workflow</h2>
+<p>Skip this segment if you are interested in more modularity</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Load packages</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">library</span>(cyCombine)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># Load data (if not already loaded)</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co"># uncorrected &lt;- readRDS(&quot;data/uncorrected.RDS&quot;)</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co"># markers &lt;- get_markers(uncorrected)</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co"># Batch correct</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>corrected &lt;-<span class="st"> </span><span class="kw">batch_correct</span>(</span>
+<span id="cb3-11"><a href="#cb3-11"></a>  <span class="dt">df =</span> uncorrected,</span>
+<span id="cb3-12"><a href="#cb3-12"></a>  <span class="dt">covar =</span> <span class="st">&quot;condition&quot;</span>,</span>
+<span id="cb3-13"><a href="#cb3-13"></a>  <span class="dt">markers =</span> markers,</span>
+<span id="cb3-14"><a href="#cb3-14"></a>  <span class="dt">norm_method =</span> <span class="st">&quot;scale&quot;</span>, <span class="co"># &quot;rank&quot; is recommended when combining data with heavy batch effects</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a>  <span class="dt">rlen =</span> <span class="dv">10</span> <span class="co"># Higher values are recommended when using rank normalization and 10 does not appear to perform well</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a>)</span>
+<span id="cb3-17"><a href="#cb3-17"></a></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co"># Save result</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="kw">saveRDS</span>(corrected, <span class="kw">file.path</span>(data_dir, <span class="st">&quot;corrected.RDS&quot;</span>))</span></code></pre></div>
+<p><br></p>
+</div>
+<div id="modular-workflow-1" class="section level2">
+<h2>Modular workflow</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Load packages</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">library</span>(cyCombine)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co"># Load data (if not already loaded)</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co"># uncorrected &lt;- readRDS(&quot;data/uncorrected.RDS&quot;)</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co"># markers &lt;- get_markers(uncorrected)</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co"># Create cell type labels using a SOM grid (if you want to use your own labels, they can be added manually and this step should not be run)</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a>labels &lt;-<span class="st"> </span>uncorrected <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="st">  </span><span class="kw">normalize</span>(<span class="dt">markers =</span> markers,</span>
+<span id="cb4-12"><a href="#cb4-12"></a>            <span class="dt">norm_method =</span> <span class="st">&quot;rank&quot;</span>, <span class="co"># &quot;scale&quot; is recommended in cases with light batch effects (e.g. when combining similar data)</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a>            <span class="dt">ties.method =</span> <span class="st">&quot;average&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Can also be minimum</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="st">  </span><span class="kw">create_som</span>(<span class="dt">markers =</span> markers,</span>
+<span id="cb4-15"><a href="#cb4-15"></a>             <span class="dt">rlen =</span> <span class="dv">10</span>, <span class="co"># If results are not convincing, consider using a higher value (e.g. 100)</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a>             <span class="dt">seed =</span> <span class="dv">101</span>,</span>
+<span id="cb4-17"><a href="#cb4-17"></a>             <span class="dt">xdim =</span> <span class="dv">8</span>,</span>
+<span id="cb4-18"><a href="#cb4-18"></a>             <span class="dt">ydim =</span> <span class="dv">8</span>)</span>
+<span id="cb4-19"><a href="#cb4-19"></a></span>
+<span id="cb4-20"><a href="#cb4-20"></a><span class="co"># Batch correct</span></span>
+<span id="cb4-21"><a href="#cb4-21"></a>corrected &lt;-<span class="st"> </span><span class="kw">correct_data</span>(</span>
+<span id="cb4-22"><a href="#cb4-22"></a>  <span class="dt">df =</span> uncorrected,</span>
+<span id="cb4-23"><a href="#cb4-23"></a>  <span class="dt">label =</span> labels <span class="co"># Add custom labels here, if desired</span></span>
+<span id="cb4-24"><a href="#cb4-24"></a>  <span class="dt">covar =</span> <span class="st">&quot;condition&quot;</span>,</span>
+<span id="cb4-25"><a href="#cb4-25"></a>  <span class="dt">markers =</span> markers,</span>
+<span id="cb4-26"><a href="#cb4-26"></a>  <span class="dt">parametric =</span> <span class="ot">TRUE</span></span>
+<span id="cb4-27"><a href="#cb4-27"></a>  )</span>
+<span id="cb4-28"><a href="#cb4-28"></a></span>
+<span id="cb4-29"><a href="#cb4-29"></a><span class="co"># Save result</span></span>
+<span id="cb4-30"><a href="#cb4-30"></a><span class="kw">saveRDS</span>(corrected, <span class="kw">file.path</span>(data_dir, <span class="st">&quot;corrected.RDS&quot;</span>))</span></code></pre></div>
+<p><br><br></p>
+</div>
+</div>
+<div id="evaluate-performance-using-earth-movers-distance" class="section level1">
+<h1>Evaluate performance using Earth Mover’s Distance</h1>
+<p>The EMD reduction is implemented as the performance metric; EMDs were computed for both the uncorrected and corrected data, removing those values where both had an EMD &lt; 2.</p>
+<p><br></p>
+<p><span class="math display">\[Reduction = \frac{\sum{EMD_{before}} - \sum{EMD_{after}}}{\sum{EMD_{before}}}\]</span> <br></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Load packages</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">library</span>(cyCombine)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co"># Load data (if not already loaded)</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co"># data_dir &lt;- &quot;~/data&quot;</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co"># uncorrected &lt;- readRDS(file.path(data_dir, &quot;uncorrected.RDS&quot;))</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co"># corrected &lt;- readRDS(file.path(data_dir, &quot;corrected.RDS&quot;))</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co"># markers &lt;- get_markers(uncorrected)</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co"># Re-run clustering on corrected data</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a>labels &lt;-<span class="st"> </span>corrected <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="st">  </span><span class="kw">create_som</span>(<span class="dt">markers =</span> markers,</span>
+<span id="cb5-14"><a href="#cb5-14"></a>             <span class="dt">rlen =</span> <span class="dv">10</span>)</span>
+<span id="cb5-15"><a href="#cb5-15"></a>uncorrected<span class="op">$</span>label &lt;-<span class="st"> </span>corrected<span class="op">$</span>label &lt;-<span class="st"> </span>labels</span>
+<span id="cb5-16"><a href="#cb5-16"></a></span>
+<span id="cb5-17"><a href="#cb5-17"></a><span class="co"># Evaluate EMD</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a>emd &lt;-<span class="st"> </span><span class="kw">evaluate_emd</span>(uncorrected, corrected, <span class="dt">cell_col =</span> <span class="st">&quot;label&quot;</span>)</span>
+<span id="cb5-19"><a href="#cb5-19"></a></span>
+<span id="cb5-20"><a href="#cb5-20"></a><span class="co"># Reduction</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a>emd<span class="op">$</span>reduction</span>
+<span id="cb5-22"><a href="#cb5-22"></a></span>
+<span id="cb5-23"><a href="#cb5-23"></a><span class="co"># Violin plot</span></span>
+<span id="cb5-24"><a href="#cb5-24"></a>emd<span class="op">$</span>violin</span>
+<span id="cb5-25"><a href="#cb5-25"></a></span>
+<span id="cb5-26"><a href="#cb5-26"></a><span class="co"># Scatter plot</span></span>
+<span id="cb5-27"><a href="#cb5-27"></a>emd<span class="op">$</span>scatter</span></code></pre></div>
+<p><br><br></p>
+</div>
+<div id="create-umaps-and-density-plots" class="section level1">
+<h1>Create UMAPs and density plots</h1>
+<p>This segment will demonstrate the built-in functions for generating UMAPs and density plots.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># Load packages</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">library</span>(cyCombine)</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co"># Load data (if not already loaded)</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co"># data_dir &lt;- &quot;~/data&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># uncorrected &lt;- readRDS(file.path(data_dir, &quot;uncorrected.RDS&quot;))</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co"># corrected &lt;- readRDS(file.path(data_dir, &quot;corrected.RDS&quot;))</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co"># markers &lt;- get_markers(uncorrected)</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co"># Create UMAPs</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a>sam &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(uncorrected), <span class="dv">30000</span>)</span>
+<span id="cb6-13"><a href="#cb6-13"></a>plot1 &lt;-<span class="st"> </span><span class="kw">plot_dimred</span>(uncorrected[sam, ], <span class="st">&quot;Uncorrected&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;umap&quot;</span>, <span class="dt">plot =</span> <span class="st">&quot;batch&quot;</span>, <span class="dt">markers =</span> markers)</span>
+<span id="cb6-14"><a href="#cb6-14"></a>plot2 &lt;-<span class="st"> </span><span class="kw">plot_dimred</span>(corrected[sam, ], <span class="st">&quot;Corrected&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;umap&quot;</span>, <span class="dt">plot =</span> <span class="st">&quot;batch&quot;</span>, <span class="dt">markers =</span> markers)</span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="kw">plot_save_two</span>(plot1, plot2, <span class="st">&quot;figs/umap.png&quot;</span>)</span>
+<span id="cb6-16"><a href="#cb6-16"></a></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co"># Density plots</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="kw">plot_density</span>(uncorrected,</span>
+<span id="cb6-19"><a href="#cb6-19"></a>             corrected,</span>
+<span id="cb6-20"><a href="#cb6-20"></a>             <span class="dt">markers =</span> markers,</span>
+<span id="cb6-21"><a href="#cb6-21"></a>             <span class="dt">filename =</span> <span class="st">&quot;figs/density.png&quot;</span>,</span>
+<span id="cb6-22"><a href="#cb6-22"></a>             <span class="dt">y =</span> <span class="st">&quot;batch&quot;</span>,</span>
+<span id="cb6-23"><a href="#cb6-23"></a>             <span class="dt">ncol =</span> <span class="dv">6</span>,</span>
+<span id="cb6-24"><a href="#cb6-24"></a>             <span class="dt">xlim =</span> <span class="dv">10</span>)</span></code></pre></div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: center;">Contact</p>
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+    <a href="mailto:lronn@dtu.dk" class="fa fa-envelope"></a>
+    <a href="https://www.linkedin.com/in/larsronnolsen/" class="fa fa-linkedin"></a>
+    <a href="https://github.com/biosurf/" class="fa fa-github"></a>
+</p>
+
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

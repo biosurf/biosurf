@@ -2,14 +2,32 @@
 title: "Publications"
 ---
 
-## 2020
-Helene Kretzmer, Anat Biran, Noelia Purroy, **Camilla K. Lemvigh**, Kendell Clement, Michaela Gruber, Hongcang Gu, Laura Rassenti, Arman W. Mohammad, Connie Lesnick, Susan L. Slager, Esteban Braggio, Tait D. Shanafelt, Neil E. Kay, Stacey M. Fernandes, Jennifer R. Brown, Lili Wang, Shuqiang Li, Kenneth J. Livak, Donna S. Neuberg, Sven Klages, Bernd Timmermann, Thomas J. Kipps, Elias Campo, Andreas Gnirke, Catherine J. Wu, and Alexander Meissner (2020) Preneoplastic Alterations Define CLL DNA Methylome and Persist through Disease Progression and Therapy. *Blood Cancer Discovery* [doi:10.1158/2643-3230.BCD-19-0058](https://doi.org/10.1158/2643-3230.BCD-19-0058)
+<br>
 
-**Pedersen, C. B.**, & **Olsen, L. R.** (2020). Algorithmic Clustering Of Single‐Cell Cytometry Data—How Unsupervised Are These Analyses Really?. *Cytometry Part A.* [doi:10.1002/cyto.a.23917](https://doi.org/10.1002/cyto.a.23917)
+## 2021
+Rossing, M., **Pedersen, C. B.**, Tvedskov, T., Vejborg, I., Talman, M. L., **Olsen, L. R.**, Kroman, N., Nielsen, F. C., Jensen, M. B., & Ejlertsen, B. (2021). Clinical implications of intrinsic molecular subtypes of breast cancer for sentinel node status. *Scientific Reports, 11(1), [2259]*. [doi:10.1038/s41598-021-81538-4](https://doi.org/10.1038/s41598-021-81538-4)
 
-Derin B Keskin, Annabelle J Anandappa, Jing Sun, Itay Tirosh, Nathan Mathewson, Shuqiang Li, Giacomo Oliveira, Anita Giobbie-Hurder, Kristen Felt, Evisa Gjini, Sachet A Shukla, Zhuting Hu, Letitia Li, Phuong M Le, Rosa L Allesøe, Alyssa R Richman, Monika S Kowalczyk, Sara Abdelrahman, Jack E Geduldig, Sarah Charbonneau, Kristine Pelton, Julian Iorgulescu, Liudmila Elagina, Wandi Zhang, Oriol Olive, Christine McCluskey, **Lars R Olsen**, Jonathan Stevens, William Lane, Andres M Salazar, Heather Daley, Patrick Y Wen, E Antonio Chiocca, Maegan Harden, Niall J Lennon, Stacey Gabriel, Gad Getz, Eric S Lander, Aviv Regev, Jerome Ritz, Donna Neuberg, Scott J Rodig, Keith L Ligon, Mario L Suvà, Kai Wucherpfennig, Nir Hacohen, Edward F Fritsch, Kenneth J Livak, Patrick A Ott, Catherine Wu, David A Reardon, Derin Keskin, Mario Sulva (2020). Intratumoral T cell response detected after personal neoantigen vaccine in a phase Ib glioblastoma trial. *Nature.* [doi:10.1038/s41586-018-0792-9](https://doi.org/10.1038/s41586-018-0792-9)
+Kretzmer, H., Biran, A., Purroy, N., **Lemvigh, C. K.**, Clement, K., Gruber, M., Gu, H., Rassenti, L., Mohammad, A. W., Lesnick, C., Slager, S. L., Braggio, E., Shanafelt, T. D., Kay, N. E., Fernandes, S., Brown, J. R., Wang, L., Li, S., Livak, K. J., Neuberg, D. S., Klages, S., Timmermann, B., Kipps, T. J., Campo, E., Gnirke, A., Wu, C. J., & Meissner, A. (2021). Preneoplastic alterations define CLL DNA methylome and persist through disease progression and therapy. *Blood cancer discovery, 2(1), 54.* [doi:10.1158/2643-3230.BCD-19-0058](https://doi.org/10.1158/2643-3230.BCD-19-0058)
+
+Choudry, F. A., Bagger, F. O., Macaulay, I. C., Farrow, S., Burden, F., Kempster, C., McKinney, H., **Olsen, L. R.**, Huang, N., Downes, K., Voet, T., Uppal, R., Martin, J. F., Mathur, A., Ouwehand, W. H., Laurenti, E., Teichmann, S. A., & Frontini, M. (2021). Transcriptional characterization of human megakaryocyte polyploidization and lineage commitment. *Journal of Thrombosis and Haemostasis*. [doi:10.1111/jth.15271](https://doi.org/10.1111/jth.15271)
+
+Hu, Z., Leet, D. E., Allesøe, R. L., Oliveira, G., Li, S., Luoma, A. M., Liu, J., Forman, J., Huang, T., Iorgulescu, J. B., Holden, R., Sarkizova, S., Gohil, S. H., Redd, R. A., Sun, J., Elagina, L., Giobbie-Hurder, A., Zhang, W., Peter, L., Ciantra, Z., Rodig, S., Olive, O., Shetty, K., Pyrdol, J., Uduman, M., Lee, P. C., Bachireddy, P., Buchbinder, E. I., Yoon, C. H., Neuberg, D., Pentelute, B. L., Hacohen, N., Livak, K. J., Shukla, S. A., **Olsen, L. R.**, Barouch, D. H.,  Wucherpfennig, K. W, Fritsch, E. F., Keskin, D. B., Wu, C. J., & Ott, P. A. (2021). Personal neoantigen vaccines induce persistent memory T cell responses and epitope spreading in patients with melanoma. *Nature Medicine, 1-11.* [doi:10.1038/s41591-020-01206-4](https://doi.org/10.1038/s41591-020-01206-4)
 
 <br><br>
+
+
+## 2020
+**Pedersen, C. B.**, & **Olsen, L. R.** (2020). Algorithmic Clustering Of Single‐Cell Cytometry Data—How Unsupervised Are These Analyses Really?. *Cytometry Part A.* [doi:10.1002/cyto.a.23917](https://doi.org/10.1002/cyto.a.23917)
+
+Kverneland, A. H., Pedersen, M., Westergaard, M. C. W., Nielsen, M., Borch, T. H., **Olsen, L. R.**, **Aasbjerg, G.**, Santegoets, S. J., van der Burg, S. H., Milne, K., Nelson, B. H., Met, Ö., Donia, M., & Svane, I. M. (2020). Adoptive cell therapy in combination with checkpoint inhibitors in ovarian cancer. *OncoTarget, 11(22), 2092-2105*. [doi:10.18632/oncotarget.27604](https://doi.org/10.18632/oncotarget.27604)
+
+Westergaard, M. C. W., Milne, K., Pedersen, M., Hasselager, T., **Olsen, L. R.**, Anglesio, M. S., Borch, T. H., Kennedy, M., Briggs, G., Ledoux, S., Kreuzinger, C., von der Decken, I., Donia, M., Castillo-Tong, D. C., Nelson, B. H., & Svane, I. M. (2020). Changes in the tumor immune microenvironment during disease progression in patients with ovarian cancer. *Cancers, 12(12), [3828]*. [doi:10.3390/cancers12123828](https://doi.org/10.3390/cancers12123828)
+
+Jørgensen, N. G., Klausen, U., Grauslund, J. H., Helleberg, C., Aagaard, T. G., Do, T. H., Ahmad, S. M., **Olsen, L. R.**, Klausen, T. W., Breinholt, M. F., Hansen, M., Martinenaite, E., Met, Ö., Svane, I. M., Knudsen, L. M., & Andersen, M. H. (2020). Peptide Vaccination Against PD-L1 With IO103 a Novel Immune Modulatory Vaccine in Multiple Myeloma: A Phase I First-in-Human Trial. *Frontiers in Immunology, 11, [595035]*. [doi:10.3389/fimmu.2020.595035](https://doi.org/10.3389/fimmu.2020.595035)
+
+<br><br>
+
+
 
 ## 2019
 **Pedersen, C. B.**, & **Olsen, L. R.** (2019). Analysis of Mass Cytometry Data. In Mass Cytometry (pp. 267-279). *Humana, New York, NY.* [doi:10.1007/978-1-4939-9454-0_17](https://doi.org/10.1007/978-1-4939-9454-0_17)
@@ -24,7 +42,11 @@ Li, S., Sun, J., **Allesøe, R.**, Datta, K., Bao, Y., Oliveira, G., Forman, J.,
 
 **Olsen, L. R.**, Leipold, M. D., **Pedersen, C. B.**, & Maecker, H. T. (2019). The anatomy of single cell mass cytometry data. *Cytometry Part A, 95(2), 156-172.* [doi:10.1002/cyto.a.23621](https://doi.org/10.1002/cyto.a.23621)
 
+Keskin, D. B., Anandappa, A. J., Sun, J., Tirosh, I., Mathewson, N. D., Li, S., Oliveira, G., Giobbie-Hurder, A., Felt, K., Gjini, E., Shukla, S. A., Hu, Z., Li, L., Le, P. M., **Allesøe, R. L.**, Richman, A. R., Kowalczyk, M. S., Abdelrahman, S., Geduldig, J. E., Charbonneau, S., Pelton, K., Iorgulescu, J. B., Elagina, L., Zhang, W., Olive, O., McCluskey, C., **Olsen, L. R.**, Stevens, J., Lane, W. J., Salazar, A. M., Daley, H., Wen, P .Y., Chiocca, E. A., Harden, M., Lennon, N. J., Gabriel, S., Getz, G., Lander, E. S., Regev, A., Ritz, J., Neuberg, D., Rodig, S. J., Ligon, K. L., Suvà, M. L., Wucherpfennig, K. W., Hacohen, N., Fritsch, E. F., Livak, K. J., Ott, P. A., Wu, C. J., Reardon, D. A. (2018). Neoantigen vaccine generates intratumoral T cell responses in phase Ib glioblastoma trial. *Nature, 565, 234-239*. [doi:10.1038/s41586-018-0792-9](https://doi.org/10.1038/s41586-018-0792-9)
+
 <br><br>
+
+
 
 ## 2018
 Napolitani, G., Kurupati, P., Teng, K. W. W., Gibani, M. M., Rei, M., Aulicino, A., Preciado-Llanes, L., Wong, M. T.; Becht, E., Howson, L., de Haas, P., Salio, M., Blohmke, C. J., **Olsen, L. R.**, Pinto, D. M. S., Scifo, L., Jones, C., Dobinson, H. Campbell, D., Juel, H. B., Thomaides-Brears, H., Pickard, D., Bumann, D., Baker, S., Dougan, G., Simmons, A., Gordon, M. A., Newell, E. W., Pollard, A. J. & Cerundolo, Vincenzo (2018). Clonal analysis of Salmonella-specific effector T cells reveals serovar-specific and cross-reactive T cell responses. *Nature immunology, 19(7), 742-754.* [doi:10.1038/s41590-018-0133-z](https://doi.org/10.1038/s41590-018-0133-z)

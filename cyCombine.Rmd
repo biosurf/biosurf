@@ -8,9 +8,9 @@ subtitle: 'Robust Integration of Single-Cell Cytometry Datasets'
 <table style="width:100%">
 <tr>
 
-<td><center>[![](images/cyCombine/cyCombine.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/cyCombine.html)<br>Reference manual</center></td>
+<td><center>[![](images/cyCombine/logos/cyCombine.png){ width=75% }](cyCombine_ref_manual.html)<br>Reference manual</center></td>
 
-<td><center>[![](images/cyCombine/benchmarking.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/benchmarking.html)<br>Performance benchmarking</center></td>
+<td><center>[![](images/cyCombine/logos/benchmarking.png){ width=75% }](cyCombine_benchmarking.html)<br>Performance benchmarking</center></td>
 
 </tr>
 </table>
@@ -20,9 +20,9 @@ subtitle: 'Robust Integration of Single-Cell Cytometry Datasets'
 <table style="width:100%">
 <tr>
 
-<td><center>[![](images/cyCombine/detect_effect.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/detect_batch_effects.html)<br>Vignette for batch effect detection</center></td>
+<td><center>[![](images/cyCombine/logos/detect_effect.png){ width=75% }](cyCombine_detect_batch_effects.html)<br>Vignette for batch effect detection</center></td>
     
-<td><center>[![](images/cyCombine/Panel_merging.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/panel_merging.html)<br>Vignette for panel merging module</center></td>
+<td><center>[![](images/cyCombine/logos/Panel_merging.png){ width=75% }](cyCombine_panel_merging.html)<br>Vignette for panel merging module</center></td>
 
 </tr>
 </table>
@@ -32,9 +32,9 @@ subtitle: 'Robust Integration of Single-Cell Cytometry Datasets'
 <table style="width:100%">
 <tr>
 
-<td><center>[![](images/cyCombine/CyTOF.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/CyTOF_1panel.html)<br>Vignette for pure CyTOF example</center></td>
+<td><center>[![](images/cyCombine/logos/CyTOF.png){ width=75% }](cyCombine_CyTOF_1panel.html)<br>Vignette for pure CyTOF example</center></td>
     
-<td><center>[![](images/cyCombine/CyTOF2.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/CyTOF_2panels.html)<br>Vignette for two-panel CyTOF example</center></td>
+<td><center>[![](images/cyCombine/logos/CyTOF2.png){ width=75% }](cyCombine_CyTOF_2panels.html)<br>Vignette for two-panel CyTOF example</center></td>
 
 </tr>
 </table>
@@ -43,9 +43,9 @@ subtitle: 'Robust Integration of Single-Cell Cytometry Datasets'
 <table style="width:100%">
 <tr>
 
-<td><center>[![](images/cyCombine/Flow2.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/Spectralflow_CyTOF.html)<br>Vignette for spectral flow cytrometry and CyTOF integration</center></td>
+<td><center>[![](images/cyCombine/logos/Flow2.png){ width=75% }](cyCombine_Spectralflow_CyTOF.html)<br>Vignette for spectral flow cytrometry and CyTOF integration</center></td>
 
-<td><center>[![](images/cyCombine/Spectral_CITEseq.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/CITEseq_Spectral_CyTOF.html)<br>Vignette for Spectral flow cytometry, CITE-seq, and CyTOF integration</center></td>
+<td><center>[![](images/cyCombine/logos/Spectral_CITEseq.png){ width=75% }](cyCombine_CITEseq_Spectral_CyTOF.html)<br>Vignette for Spectral flow cytometry, CITE-seq, and CyTOF integration</center></td>
 
 </tr>
 </table>
@@ -55,9 +55,9 @@ subtitle: 'Robust Integration of Single-Cell Cytometry Datasets'
 <!-- <table style="width:100%"> -->
 <!-- <tr> -->
 
-<!-- <td><center>[![](images/cyCombine/Flow1.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/Flow_CyTOF.html)<br>Vignette for flow cytrometry and CyTOF integration</center></td> -->
+<!-- <td><center>[![](images/cyCombine/Flow1.png){ width=75% }](cyCombine/Flow_CyTOF.html)<br>Vignette for flow cytrometry and CyTOF integration</center></td> -->
 
-<!-- <td><center>[![](images/cyCombine/CITEseq.png){ width=75% }](https://htmlpreview.github.io/?https://github.com/biosurf/cyCombine/blob/master/vignettes/CITEseq_CyTOF.html)<br>Vignette for CITE-seq and CyTOF integration</center></td> -->
+<!-- <td><center>[![](images/cyCombine/CITEseq.png){ width=75% }](cyCombine/CITEseq_CyTOF.html)<br>Vignette for CITE-seq and CyTOF integration</center></td> -->
 
 <!-- </tr> -->
 <!-- </table> -->
