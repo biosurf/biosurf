@@ -48,6 +48,8 @@ knitr::opts_knit$set(root.dir = '/home/projects/dp_immunoth/people/s134891/cycom
 knitr::opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
 ```
 
+<br>
+
 This vignette will introduce the panel merging module of cyCombine which has two main functions:
 
 
@@ -60,13 +62,14 @@ These modules rely on the same main workflow, as represented by this figure:
 
 <br>
 
-![](images/Panel_merging.png)
+![](images/cyCombine/Panel_merging.png)
 
 <br>
 In this vignette, we will look at these functions separately and also provide some discussion performance metrics.
 
+<br>
 
-## Imputation of non-overlapping channels for whole data sets
+# Imputation of non-overlapping channels for whole data sets
 Mass cytometry and spectral flow cytometry enables quantification of ~40 proteins in parallel on millions of cells. But sometimes that is not enough to deeply characterize the populations of interest. The solution: Use two or more panels on the same cells - i.e. split you samples before staining. When this is done, however, one essentially ends up with two different datasets. Usually, these overlap partially - after all, most cytometry panels contain some of the most important cell type markers; CD3, CD4, CD8, CD14, CD19, CD56 etc. But it still is challenging to jointly analyze the data. The panel merging module of cyCombine can help researchers facing this exact challenge. Based on the overlapping markers, cyCombine is able to impute the values for the non-overlapping set, enabling co-analysis with all the markers across the applied panels.
 
 <br>
@@ -74,12 +77,12 @@ Another example, which may be important for larger dataset integration - either 
 
 <br>
 
-### Methodology
+## Methodology
 cyCombine's cross-dataset merging works by first performing a SOM-based (default 8x8) clustering of the datasets based on all of the overlapping markers. Then, for each cell in one of the datasets, the values for the missing markers are imputed by using the values from cells in the other dataset that fall within the same SOM node. The imputations are made by simulating a multi-dimensional kernel density estimate: Each cell’s missing values are imputed by randomly drawing a cell from the other dataset and adding a Gaussian error, which is based on a draw from a Normal distribution with mean 0 and standard deviation corresponding to the bandwidth of each marker.
 
 However, if there are less than 50 cells from the other dataset within the SOM node, the values for the missing channels are set to NA as imputation would be unreliable.
 
-We refer to the cyCombine vignette with a [two-panel CyTOF dataset](https://htmlpreview.github.io/?https://github.com/shdam/cyCombine/blob/master/vignettes/CyTOF_2panels.html) for a panel merging use-case.
+We refer to the cyCombine vignette with a [two-panel CyTOF dataset](https://biosurf.org/cyCombine_CyTOF_2panels.html) for a panel merging use-case.
 
 In this vignette, we will instead focus a bit on the landscape of integration and imputation, before proceeding to an introduction to imputation  of single misstained channels.
 
@@ -87,7 +90,7 @@ In this vignette, we will instead focus a bit on the landscape of integration an
 
 <br>
 
-### Discussion
+## Discussion
 In terms of advantages, the approach of cyCombine is designed to account for the underlying biology by using density draws. This is particularly important because cytometry data are not normally distributed.
 
 In some cases, in which the variance in the marker expression is very low, and measures like the median provide a good estimate of the values to be imputed. The unfortunate thing is that those cases are often biologically uninteresting, whereas markers with bimodal expression are often the center of attention. Such markers can either be relevant for distinguishing populations and downstream differential abundance analysis, or within a cluster they may provide insight into differential expression between experimental states. 
@@ -105,7 +108,7 @@ Furthermore, we will advise against using imputed values for differential expres
 
 <br>
 
-#### Other integration anf imputation tools
+### Other integration anf imputation tools
 Previous work by [Abdelaal et al. (2019)](https://doi.org/10.1093/bioinformatics/btz180) suggested the CyTOFmerge approaches for 1) designing panels with an optimal overlap for imputation and 2) imputation based on k-Nearest Neighbors (kNN) and medians. However, the authors state that it is best to use their own panel design tool if panel merging is to work optimally. 
 
 While the idea of designing multiple panels so they have an ideal information-carrying overlap is very good and should be considered best-practice, it is also not carried out in many real-life studies, in which the bioinformatician analyzing the data may only have been included after the data was generated on the CyTOF instrument. This often results in a situation where two panels with sub-optimal overlap have been run, but this is the available data.
@@ -129,7 +132,7 @@ For combining and integrating datasets, approaches like QFMatch by [Orlova et al
 
 <br>
 
-#### Mini-benchmark
+### Mini-benchmark
 
 Along with the CytoBackBone publication, a whole blood dataset from a healthy donor was published (FlowRepository ID: [FR-FCM-ZYV2](http://flowrepository.org/id/FR-FCM-ZYV2)). This donor was stained with five different panels, four of which were subsets of the full panel (#E). We downloaded the five pregated files from the repository and now we will read them and perform panel merging.
 
@@ -219,7 +222,7 @@ plot_density(uncorrected = panel_E,
 Overall, this looks quite good. Even looking at a marker like CD3, which was a part of all five panels, the distributions are not completely identical, so it would be a hard requirement to impose on imputations. Now, we will use the Earth Mover's Distance (EMD) to look at the imputations more quantitatively. 
 
 
-```{r cycombine evaluation, results='hide', message=F, warning=F, fig.width=20, fig.height=12}
+```{r cycombine evaluation, results='hide', message=F, warning=F, fig.width=20, fig.height=9}
 # Combine all datasets
 combined <- rbind(panel_AB[,colnames(panel_E)], panel_CD[,colnames(panel_E)], panel_E)
 
@@ -299,7 +302,7 @@ plot_density(uncorrected = panel_E_CBB_exp,
 
 Again, we will use the Earth Mover's Distance (EMD) to look at the imputations more quantitatively. 
 
-```{r cytobackbone evaluation, results='hide', message=F, warning=F, fig.width=20, fig.height=12}
+```{r cytobackbone evaluation, results='hide', message=F, warning=F, fig.width=20, fig.height=9}
 # Combine all datasets
 combined_CBB <- rbind(panel_AB_CBB_exp[,colnames(panel_E_CBB_exp)], panel_CD_CBB_exp[,colnames(panel_E_CBB_exp)], panel_E_CBB_exp)
 combined_CBB$sample <- '1'
@@ -335,7 +338,7 @@ In conclusion, the two tools have very similar performance in terms of the globa
 
 <br><br>
 
-## Imputation of single misstained channels
+# Imputation of single misstained channels
 Imagine that you have run an expensive and time-consuming cytometry experiment. You have 100+ samples and despite the ability to use barcoding for sample multiplexing you have run several batches. However, now that you visualize the data, you notice that the expression level for a marker in one of the batches looks very different than in the others. It may be strongly over-stained - or maybe there is no signal at all - maybe the antibody was damaged during the sample preparation. 
 
 
@@ -346,7 +349,7 @@ But first, we will discuss when using this function is a good idea as opposed to
 
 <br>
 
-### When to apply imputation
+## When to apply imputation
 In some experiments with misstained channels, the analyst may be faced with the dilemma of whether to use batch correction or imputation. The answer will depend on the individual case, but in general, if we consider a problem similar to the one presented for XCL1 in panel 1 of the DFCI data (below), it becomes a question of whether one believes that the channel is simply over-stained, but with a direct correlation between measurements and actual expression, or if there is no relation between the two. In the first case, batch correction is the answer, as it represents the most data-preserving approach. However, if the data cannot be trusted it is better to rely on imputation.
 
 Another case could be that a marker was completely left out - maybe there was no more left - or maybe it was forgotten during staining. In that case, the answer is imputation since there is no signal in the raw dataset to rely on for batch correction. But if the problem is due to using a different antibody lot with a markedly different signal or perhaps a different concentration, it is likely that batch correction would suffice. The same holds for cases with higher background in some batches.
@@ -354,7 +357,7 @@ Another case could be that a marker was completely left out - maybe there was no
 
 <br>
 
-### Methodology
+## Methodology
 The misstained channel correction relies on the same principles as the across-panel imputation, but instead of transferring information in one dataset to another, it utilizes the different batches of a single dataset.
 
 First, a SOM (default 8x8) is calculated based on overlapping proteins. Then it applies the simulated multidimensional kernel density estimates (kde) on non-overlapping proteins, and performs imputations using probability draws from the kde. 
@@ -363,13 +366,13 @@ First, a SOM (default 8x8) is calculated based on overlapping proteins. Then it 
 
 <br>
 
-### Imputation example
+## Imputation example
 This is data from a study of CLL patients and healthy donors at the Dana-Farber Cancer Institute (DFCI). The protein expression was quantified using mass cytometry for 126 samples (20 healthy donors). In this dataset, the XCL1 staining was very strong for batch 1 compared to the other six batches. The signal is so much stronger that imputation seems like a relevant solution.
 
 
 <br>
 
-#### Pre-processing data
+### Pre-processing data
 
 We start by loading some packages.
 
@@ -435,7 +438,7 @@ imputed <- salvage_problematic(df = dfci,
 
 <br>
 
-#### Evaluating performance
+### Evaluating performance
 
 Let us look at some plots to visualize the correction - the marker distributions before and after:
 

@@ -35,10 +35,16 @@ h3 { /* Header 3 */
   color: #004d66;
   font-size: 16px;
 }
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
 </style>
 
 
-
+<br>
 
 This vignette will demonstrate the integration of spectral flow cytometry (SFC) and CyTOF protein expression measurements using cyCombine.
 
@@ -79,8 +85,8 @@ library(tidyverse)
 <br>
 
 
-#### Loading data
-##### Spectral flow cytometry data
+# Loading data
+## Spectral flow cytometry data
 We are now ready to load the spectral flow data. We have set up a panel file in csv format, so the correct information is extractable from there. Let us have a look at the contents:
 
 ```{r loading spectral flow data 1, paged.print = T, message=F, warning=F}
@@ -120,9 +126,11 @@ spectral <- prepare_data(data_dir = data_dir,
 ```
 
 
+<br><br>
 
 
-##### CyTOF
+
+## CyTOF data
 We are now ready to load the CyTOF data. Once again, let us have a look at the panel - we also need it here to make our file reading a bit easier.
 
 ```{r loading cytof data 1, paged.print = T, message=F, warning=F}
@@ -164,10 +172,10 @@ cytof <- prepare_data(data_dir = data_dir,
 
 
 
+<br><br>
 
 
-
-#### Processing datasets - batch correction
+# Batch correction
 
 Next, we need to figure out which markers to use when integrating the two datasets. From the publication, we know that the overlap is 20 markers - let's verify that to make sure naming matches 1:1.
 
@@ -206,9 +214,9 @@ corrected <- uncorrected %>%
 <br>
 
 
-#### Evaluating performance
+# Evaluating performance
 
-We now evaluate the correction using EMD - each marker is evaluated across all cells. Should we maybe do the gating???
+We now evaluate the correction using EMD - each marker is evaluated across all cells.
 
 ```{r global emd, message=FALSE, fig.height=6, fig.width=12}
 corrected$label <- uncorrected$label <- 1 # We set all labels to 1 in order to evaluate globally
@@ -242,16 +250,6 @@ plot2 <- plot_dimred(corrected[sample,], name = 'Corrected', type = 'umap')
 cowplot::plot_grid(plot1, plot2)
 
 ```
-
-
-
-
-
-
-
-
-
-
 
 
 

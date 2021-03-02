@@ -35,6 +35,12 @@ h3 { /* Header 3 */
   color: #004d66;
   font-size: 16px;
 }
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
 </style>
 
 <br><br> 
@@ -134,7 +140,7 @@ markers <- panel %>%
 # Read FCS files
 flowset <- compile_fcs(
   data_dir = data_dir,
-  pattern = "\\.fsc" # Read all FCS files
+  pattern = "\\.fcs" # Read all FCS files
 )
 
 # Convert flowset to tibble

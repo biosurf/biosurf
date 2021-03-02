@@ -35,7 +35,15 @@ h3 { /* Header 3 */
   color: #004d66;
   font-size: 16px;
 }
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
 </style>
+
+<br>
 
 This vignette will demonstrate the batch correction of a CyTOF dataset, where samples were measured using two different panels. Not only will batch correction be performed, but we will also impute the non-overlapping markers allowing for a much more direct integration of these data.
 
@@ -55,7 +63,7 @@ This is data from a study of CLL patients and healthy donors at the Dana-Farber 
 <br>
 
 
-#### Pre-processing data
+# Pre-processing data
 
 In this dataset, it seems reasonable to start by looking at the two panels.
 
@@ -109,7 +117,7 @@ We observe that there is a total of 15 overlapping markers. These span a lot of 
 
 The workflow presented in this vignette can be visualized with the following schematic. Dataset a and b are the the datasets for the two panels here.
 
-![](images/Cases_easy.png)
+![](images/cyCombine/Cases_easy.png)
 
 
 <br>
@@ -146,9 +154,9 @@ dfci2 <- prepare_data(data_dir = "dfci2_2",
 
 <br>
 
-#### Processing data - batch correction
+# Processing data - batch correction
 
-#### Panel 1 - batch correction
+## Panel 1 - batch correction
 
 In this case, the dataset for each panel is, as mentioned, run in eight batches - this means that there are likely some batch effects to correct for within each panel as well. We take of this first, before we start integrating across panels!
 
@@ -233,7 +241,7 @@ cowplot::plot_grid(emd_val1$violin, emd_val1$scatterplot)
 
 <br>
 
-#### Panel 2 - batch correction
+## Panel 2 - batch correction
 
 Now, it is time to do the same with the data from panel 2. First, we batch correct:
 
@@ -322,7 +330,7 @@ For both panels, we find EMD reductions of 0.67 and 0.65, respectively, when con
 
 <br>
 
-#### Combined batch correction
+## Combined batch correction
 
 Based on the marker distributions after correction and the UMAPs, it looks like the batch effects within the data for each panel are minimized. Now we can focus on the integration of the two sets. The first step here, is to batch correct the datasets based on the overlapping markers.
 
@@ -421,7 +429,7 @@ For this correction, we obtain an EMD of 0.85.
 <br>
 
 
-#### Imputing non-overlapping markers
+# Imputing non-overlapping markers
 
 Now that we have batch corrected the overlapping markers from the two panels, they are directly comparable. However, when limiting ourselves only to the overlapping set, we also remove all information contained in the non-overlapping markers. In this case, panel 1 contains 21 markers not found in panel 2 - and panel 2 has 19 markers not found in panel 1. These markers include CD16, which is important for NK cells and monocyte distinction and Granzyme A, which is important to deeply characterize cytotoxic T cells and NK cells. 
 
