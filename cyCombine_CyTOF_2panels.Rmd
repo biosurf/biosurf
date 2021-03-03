@@ -7,6 +7,7 @@ output:
     toc: true
     toc_float: true
     highlight: kate
+    df_print: paged
 ---
 <style type="text/css">
 

@@ -35,6 +35,12 @@ h3 { /* Header 3 */
   color: #004d66;
   font-size: 16px;
 }
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
 </style>
 
 
@@ -221,9 +227,14 @@ plot_density(uncorrected = panel_E,
 
 Overall, this looks quite good. Even looking at a marker like CD3, which was a part of all five panels, the distributions are not completely identical, so it would be a hard requirement to impose on imputations. Now, we will use the Earth Mover's Distance (EMD) to look at the imputations more quantitatively. 
 
+<br>
+
+Because CytoBackBone merging does not maintain the information about the original panel of each cell, we cannot look at per-sample EMDs after correction for CytoBackBone. In order to look at the same metrics for the two tools, we consequently relabel our merged cells from panels A and B with `batch = 'A+B'` and analagously for panels C and D. We can now calculate the EMDs for all batch-batch comparisons.
+
 
 ```{r cycombine evaluation, results='hide', message=F, warning=F, fig.width=20, fig.height=9}
 # Combine all datasets
+panel_AB$batch <- 'A+B'; panel_CD$batch <- 'C+D'
 combined <- rbind(panel_AB[,colnames(panel_E)], panel_CD[,colnames(panel_E)], panel_E)
 
 # EMD calculations for all batches - here we perform these globally, since the datasets are from the same healthy donor sample
@@ -315,7 +326,7 @@ boxplot(emd_all_CBB, main = 'EMD for all markers (CytoBackBone)', ylab = 'EMD', 
 legend("topright", legend = c('Overlap', 'Imputed'), col = c('#619CFF', '#F8766D'), pch = 15, cex = 2, bty = 'n')
 ```
 
-Since the CytoBackBone function does not maintain the information about which panel, which cell originally came from after merging, there is no way to obtain all five EMD values. However, we will still compare the EMD boxplots directly. The EMD ranges are similar - i.e. both tools seem to be most challenged with markers such as CXCR4 and MIP1b. 
+The EMD ranges for cyCombine and CytoBackBone are similar - i.e. both tools seem to be most challenged with markers such as CXCR4 and MIP1b. 
 
 
 A final comparison is the runtime. Here we do a small comparison of cyCombine and CytoBackBone on a machine with 40 cores and 100 gb memory:

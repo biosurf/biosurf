@@ -141,8 +141,8 @@ citeseq <- NormalizeData(citeseq, assay = "ADT", normalization.method = "CLR", m
 # We will now cluster based on the protein levels
 citeseq <- RunPCA(citeseq, features = overlap_markers, verbose = F, npcs = 11, approx = F) %>%
   RunUMAP(features = overlap_markers, seed.use = seed, verbose = F) %>%
-  FindNeighbors(features = overlap_markers, verbose = F) %>%
-  FindClusters(resolution = 0.3, verbose = F, graph.name = "ADT_snn")
+  FindNeighbors(features = overlap_markers, verbose = F, k.param = 10) %>%
+  FindClusters(resolution = 0.2, verbose = F, graph.name = "ADT_snn")
 
 # Visualization
 DimPlot(citeseq, reduction = 'umap')
@@ -152,7 +152,7 @@ VlnPlot(citeseq, features = c('nFeature_RNA', 'nCount_RNA', 'percent.mt', 'nFeat
 ```
 
 <br>
-Looking at these initial UMAPs, we notice cluster 7 being very spread-out. Cluster 10 looks slightly odd as it is situated in the very middle of the plot. Also, when we consider the nFeature_RNA and nCount_RNA and _ADT, these two clusters look a bit off. Perhaps these are cell-cell doublets? Let us look at the protein expression for the 11 markers.
+Looking at these initial UMAPs, we notice cluster 10 being quite spread-out. Cluster 11 looks slightly odd as it is very small and situated in the middle of the plot. Also, when we consider the nFeature_RNA and nCount_RNA and _ADT, these two clusters look a bit off. Perhaps these are cell-cell doublets? Let us look at the protein expression for the 11 markers.
 
 
 
@@ -165,7 +165,7 @@ VlnPlot(citeseq, features = overlap_markers, pt.size = 0)
 
 <br>
 
-Based on these plots, cluster 7 is definetly strange. It appears to be bimodal for CD3 and CD4. it has some CD14, relatively high CD16-levels and a bit of CD14. Based on the weird nCount_RNA/nFeature_RNA stats, we decide to exclude those cells. For cluster 10, we also see a strange pattern: CD56+ CD16+ CD19+ indicates B-NK doublets - and based on the high nFeature_RNA values, these cells are also removed from downstream analysis.
+Based on these plots, cluster 10 is definetly strange. It appears to be bimodal for CD4 and CD8a. It relatively high CD16-levels, with a hint of CD56, but it also expresses CD3. Based on the weird nCount_RNA/nFeature_RNA stats, we decide to exclude those cells. For cluster 11, we also see a strange pattern: CD56+ CD16+ CD19+ indicates B-NK doublets - and based on the high nFeature_RNA values, these cells are also removed from downstream analysis.
 
 <br>
 
@@ -175,10 +175,10 @@ Consequently, we move on with the cells in clusters 0-6 and 8-9. Now, we will la
 # Labels for the 11 clusters
 citeseq_cl_names <- c('0' = 'Myeloid cells', '1' = 'CD4+ T cells (naive)',
                       '2' = 'CD4+ T cells (memory)', '3' = 'NK cells',
-                      '4' = 'CD8+ T cells (memory)', '5' = 'B cells',
-                      '6' = 'CD8+ T cells (naive)', '7' = 'Doublets',
-                      '8' = 'Tregs', '9' = 'Dbl. neg. T cells',
-                      '10' = 'Doublets')
+                      '4' = 'CD8+ T cells (memory)', '5' = 'CD8+ T cells (naive)',
+                      '6' = 'B cells', '7' = 'Tregs',
+                      '8' = 'Dbl. neg. T cells', '9' = 'Myeloid cells',
+                      '10' = 'Doublets', '11' = 'Doublets')
 
 citeseq <- RenameIdents(citeseq, citeseq_cl_names)
 
@@ -187,7 +187,7 @@ citeseq <- subset(citeseq, idents = 'Doublets', invert = T)
 ```
 
 <br>
-Now there is 6,656 cells left in the CITE-seq dataset and before we move on to the other two datasets, let us extract the protein-part of the CITE-seq data for integration using cyCombine.
+Now there is 6,949 cells left in the CITE-seq dataset and before we move on to the other two datasets, let us extract the protein-part of the CITE-seq data for integration using cyCombine.
 
 ```{r extract cite-seq}
 # Extract CITE-seq data (normalized)
@@ -514,7 +514,7 @@ uncorrected <- bind_rows(cytof[,overlap_cols], citeseq[,overlap_cols], spectral[
 
 ```
 
-So now we have 6,656 cells from each platform in our final set. This is perhaps not the best approach for biological downstream analysis - but for the purpose of displaying the output from cyCombine, it makes the results easier to interpret.
+So now we have 6,949 cells from each platform in our final set. This is perhaps not the best approach for biological downstream analysis - but for the purpose of displaying the output from cyCombine, it makes the results easier to interpret.
 
 <br>
 
