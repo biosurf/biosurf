@@ -1,7 +1,8 @@
 ---
 title: 'Vignettes for cyCombine'
-subtitle: 'Robust Integration of Single-Cell Cytometry Datasets'
 ---
+
+### Robust Integration of Single-Cell Cytometry Datasets | R Package on [GitHub](https://github.com/biosurf/cyCombine)
 
 <br>
 <br>

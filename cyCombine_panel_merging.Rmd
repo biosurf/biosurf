@@ -229,7 +229,7 @@ Overall, this looks quite good. Even looking at a marker like CD3, which was a p
 
 <br>
 
-Because CytoBackBone merging does not maintain the information about the original panel of each cell, we cannot look at per-sample EMDs after correction for CytoBackBone. In order to look at the same metrics for the two tools, we consequently relabel our merged cells from panels A and B with `batch = 'A+B'` and analagously for panels C and D. We can now calculate the EMDs for all batch-batch comparisons.
+Because CytoBackBone merging does not maintain the information about the original panel of each cell, we cannot look at per-sample EMDs after correction for CytoBackBone. In order to look at the same metrics for the two tools, we consequently relabel our merged cells from panels A and B with `batch = 'A+B'` and analogously for panels C and D. We can now calculate the EMDs for all batch-batch comparisons.
 
 
 ```{r cycombine evaluation, results='hide', message=F, warning=F, fig.width=20, fig.height=9}
