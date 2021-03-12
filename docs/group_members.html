@@ -13,7 +13,7 @@
 
 <title>Group members</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -21,15 +21,7 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-
-<style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 
@@ -60,7 +52,6 @@ h6 {
   text-align: left;
 }
 </style>
-
 
 
 
@@ -317,6 +308,9 @@ $(document).ready(function () {
     <li>
       <a href="cart.html">CAR T target evaluation</a>
     </li>
+    <li>
+      <a href="cyCombine.html">cyCombine vignettes</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -356,7 +350,7 @@ $(document).ready(function () {
 <td><span style="color: #008CBA;"><strong>Benito Campos</strong></span><br>Adjunct Associate Professor, MD, MBA<br>DTU Health Tech &amp; Heidelberg University Hospital <br> <br> <a href="mailto:b_campos@young-alliance.org" class="fa fa-envelope"></a></td>
 </tr>
 <tr class="odd">
-<td><br><img src="images/KVS.png" width="150" alt="CAKL" /><br></td>
+<td><br><img src="images/KVS.png" width="150" alt="KVS" /><br></td>
 <td></td>
 <td><span style="color: #008CBA;"><strong>Kristoffer Vitting-Seerup</strong></span> <br> Assistant Professor, Ph.D.<br>DTU Health Tech<br> <br><a href="mailto:kristoffer.vittingseerup@bio.ku.dk" class="fa fa-envelope"></a> <a href="https://www.linkedin.com/in/kristoffervs/" class="fa fa-linkedin"></a></td>
 </tr>
@@ -465,7 +459,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
