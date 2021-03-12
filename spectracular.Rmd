@@ -1,14 +1,23 @@
 ---
-title: "spectracular"
+title: "Spectracular"
 ---
 
 <br>
 
 Welcome to Spectracular, the online tool for minimizing spectra overlap in multicolor flow cytometry panels.
 <br><br>
+
 <table style="width:100%">
 <tr>
 <td><center>[![](spectracular_files/figure-html/launch.png){ width=50% }](https://services.healthtech.dtu.dk/shiny/spectracular/)</center></td>
-
 </tr>
 </table>
+<br>
+
+### What is Spectracular?
+<br>
+
+### How to use Spectracular
+<br>
+
+### Problems?
