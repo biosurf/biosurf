@@ -9,15 +9,21 @@ Welcome to Spectracular, the online tool for minimizing spectra overlap in multi
 
 <table style="width:100%">
 <tr>
-<td><center>[![](spectracular_files/figure-html/launch.png){ width=50% }](https://services.healthtech.dtu.dk/shiny/spectracular/)</center></td>
+<td><center>[![](spectracular_files/figure-html/launch.png){ width=50% }](https://services.healthtech.dtu.dk/shiny/spectracular/){ :target="_blank" }</center></td>
 </tr>
 </table>
 <br>
 
 ### What is Spectracular?
-<br>
+Spectracular is a computational tool to support selection of fluorochromes for multicolor flow cytometry panels. Specifically, Spectracular finds the optimal (or near-optimal) combination of fluorochromes from a user-defined pool of fluorochromes to choose from.
+<br><br>
 
 ### How to use Spectracular
-<br>
+Step 0: click the link above to lauch Spectracular. 
+<br><br>
+
+### How does Spectracular work?
+<br><br>
 
 ### Problems?
+Questions, comments, or issues? Please contact [us](mailto:lronn@dtu.dk?subject=Spectracular)
