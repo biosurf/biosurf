@@ -357,15 +357,73 @@ $(document).ready(function () {
 </div>
 <div id="how-to-use-spectracular" class="section level3">
 <h3>How to use Spectracular</h3>
-<p>Step 0: click the link above to lauch Spectracular. <br><br></p>
+<p>In order to use spectracular, you need to know how many fluorochromes you would like in your panel, out of which pool of fluorochromes you want to choose, and the laser configuration of your flow cytometer. <br><br></p>
+First, you will be required to select a number of fluorochromes in your desired panel (denoted <em>k</em> in the following). You can do this by adjusting the slider in the input panel on the left. <br><br>
+<table style="width:100%">
+<tr>
+<td>
+<center>
+<img src="spectracular_files/figure-html/slider.png" style="width:50.0%" />
+</center>
+</td>
+</tr>
+</table>
+<p><br><br> Note that as a default, you can choose between 2 and 43 - this is because the default pool of fluorochromes that Spectracular consideres consist of 44 commonly used fluorochromes. The slider will automatically increase and decrease in range as you add or remove fluorochromes to consider. <br><br></p>
+This is done by clicking the light blue &quot;Fluorochromes to consider&quot; button immediately below the slider. <br><br>
+<table style="width:100%">
+<tr>
+<td>
+<center>
+<img src="spectracular_files/figure-html/consider.png" style="width:50.0%" />
+</center>
+</td>
+</tr>
+</table>
+<p><br><br></p>
+<p>This reveals the full list of 133 fluorochromes to choose from. While it will not change the runtime of the algorithm much to include all of them, we recommend selecting a reasonable subset based on what fluorochromes are available for the antibodies you intend to use. <br><br></p>
+<p>Immediately below that, is a dark blue &quot;Fluorochromes to include&quot;&quot; button. Clicking this will reveal a list consisting of the fluorochromes selected above. From these, you may select a subset of no more than <em>k</em> fluorochromes that will be included in your solution, regardless of their overlap. This option allows users to force Spectracular to consider fluorochromes that they may want to use for reasons beyond overlap.</p>
+<br><br>
+<table style="width:100%">
+<tr>
+<td>
+<center>
+<img src="spectracular_files/figure-html/include.png" style="width:50.0%" />
+</center>
+</td>
+</tr>
+</table>
+<p><br><br></p>
+<p>Lastly, clicking the red &quot;Instrument laser configuration&quot; button reveals the following dialog box:</p>
+<br><br>
+<table style="width:100%">
+<tr>
+<td>
+<center>
+<img src="spectracular_files/figure-html/laser.png" style="width:50.0%" />
+</center>
+</td>
+</tr>
+</table>
+<p><br><br></p>
+</div>
+<div id="examples" class="section level3">
+<h3>Examples</h3>
 </div>
 <div id="how-does-spectracular-work" class="section level3">
 <h3>How does Spectracular work?</h3>
-<p><br><br></p>
+Calculating the total overlap of every combination of k fluorochromes out of a pool of n, is a combinatorial problem with the complexity: <br>
+<center>
+<span class="math inline">\(\frac{n!}{k!(n-k)}\)</span>
+</center>
+<br> This means that if you wish to find the optimal combination of, say, 20 fluorochromes out of 133 fluorochromes currently available in spectracular, we would need to calculate the sum overlap coefficient of:<br> <br>
+<center>
+<span class="math inline">\(\frac{133!}{20!(133-20)}=2.74\times10^{23}\)</span>
+</center>
+<p><br> This is <em>a lot</em> of combinations to calculate. For comparison, there are an estimated <span class="math inline">\(7.5\times10^{18}\)</span> grains of sand on earth and somewhere between <span class="math inline">\(10^{22}\)</span> and <span class="math inline">\(10^{24}\)</span> stars in the observable universe. Given that the computational problem is NP hard (which roughly means that the effort required to solve the problem grows exponentially with the size of <span class="math inline">\(N\)</span>), this number of combinations is essentially not possibly to calculate using a brute force approach. Spectracular approximates the optimal solution by intelligently reducing the combinatorial complexity (the precise algorithm is detailed in our bioRxiv paper). <br><br></p>
 </div>
 <div id="problems" class="section level3">
 <h3>Problems?</h3>
-<p>Questions, comments, or issues? Please contact <a href="mailto:lronn@dtu.dk?subject=Spectracular">us</a></p>
+<p>Questions, comments, or issues? Please contact us (see contact info at the bottom of this page).</p>
 </div>
 
 &nbsp;
