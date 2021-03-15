@@ -9,7 +9,7 @@ Welcome to Spectracular, the online tool for minimizing spectra overlap in multi
 
 <table style="width:100%">
 <tr>
-<td><center>[![](spectracular_files/figure-html/launch.png){ width=50% }](https://services.healthtech.dtu.dk/shiny/spectracular/){ :target="_blank" }</center></td>
+<td><center>[![](spectracular_files/figure-html/launch.png){ width=50% }](https://services.healthtech.dtu.dk/shiny/spectracular/){ target="_blank" }</center></td>
 </tr>
 </table>
 <br>
