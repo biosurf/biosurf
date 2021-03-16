@@ -13,6 +13,7 @@
 
 <title>Spectracular</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -20,8 +21,6 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -61,6 +60,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 
 
@@ -369,7 +369,7 @@ First, you will be required to select a number of fluorochromes in your desired 
 </tr>
 </table>
 <p><br><br> Note that as a default, you can choose between 2 and 43 - this is because the default pool of fluorochromes that Spectracular consideres consist of 44 commonly used fluorochromes. The slider will automatically increase and decrease in range as you add or remove fluorochromes to consider. <br><br></p>
-This is done by clicking the light blue &quot;Fluorochromes to consider&quot; button immediately below the slider. <br><br>
+This is done by clicking the light blue “Fluorochromes to consider” button immediately below the slider. <br><br>
 <table style="width:100%">
 <tr>
 <td>
@@ -381,7 +381,7 @@ This is done by clicking the light blue &quot;Fluorochromes to consider&quot; bu
 </table>
 <p><br><br></p>
 <p>This reveals the full list of 133 fluorochromes to choose from. While it will not change the runtime of the algorithm much to include all of them, we recommend selecting a reasonable subset based on what fluorochromes are available for the antibodies you intend to use. <br><br></p>
-<p>Immediately below that, is a dark blue &quot;Fluorochromes to include&quot;&quot; button. Clicking this will reveal a list consisting of the fluorochromes selected above. From these, you may select a subset of no more than <em>k</em> fluorochromes that will be included in your solution, regardless of their overlap. This option allows users to force Spectracular to consider fluorochromes that they may want to use for reasons beyond overlap.</p>
+<p>Immediately below that, is a dark blue “Fluorochromes to include”" button. Clicking this will reveal a list consisting of the fluorochromes selected above. From these, you may select a subset of no more than <em>k</em> fluorochromes that will be included in your solution, regardless of their overlap. This option allows users to force Spectracular to consider fluorochromes that they may want to use for reasons beyond overlap.</p>
 <br><br>
 <table style="width:100%">
 <tr>
@@ -393,7 +393,7 @@ This is done by clicking the light blue &quot;Fluorochromes to consider&quot; bu
 </tr>
 </table>
 <p><br><br></p>
-<p>Lastly, clicking the red &quot;Instrument laser configuration&quot; button reveals the following dialog box:</p>
+<p>Lastly, clicking the red “Instrument laser configuration” button reveals the following dialog box:</p>
 <br><br>
 <table style="width:100%">
 <tr>
@@ -405,9 +405,15 @@ This is done by clicking the light blue &quot;Fluorochromes to consider&quot; bu
 </tr>
 </table>
 <p><br><br></p>
+<p>Lasers are added by typing the wavelength (in positive integers between 300 and 900) and hitting enter. Lasers can be removed by placing the cursor in front of a laser and hitting delete. The minimal excitation ratio, is a threshold for including fluorochromes in the final solution. A minimal excitation ratio of 25% means that in order for a fluorochrome to be considered for the final solution, it must be excited to at least 25% of the theoretical maximum excitation. A fluorochrome will be assumed to be excited by the laser which leads to the highest emission signal. <br><br></p>
+</div>
+<div id="functionalities-on-the-drawing-board" class="section level3">
+<h3>Functionalities on the drawing board</h3>
+<p>In the coming months, we will be implementing an advanced “Fluorochromes to include” option, in which users can create lists of targets and couple these to any subset of fluorochromes. This is useful when several reagents are already available in the laboratory or when a researcher wants to identify a suitable new antibody that is only available with limited fluorochromes. We will also be implementing support for instrument filters. <br><br></p>
 </div>
 <div id="examples" class="section level3">
 <h3>Examples</h3>
+<p><br><br></p>
 </div>
 <div id="how-does-spectracular-work" class="section level3">
 <h3>How does Spectracular work?</h3>
