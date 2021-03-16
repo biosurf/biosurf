@@ -1,7 +1,7 @@
 ---
 title: "cyCombine: Reference manual"
-author: "Søren Helweg Dam"
-date: February 17, 2021
+author: "Søren Helweg Dam & Christina Bligaard Pedersen"
+date: March 16, 2021
 output: 
   html_document:
     toc: true
@@ -44,7 +44,8 @@ pre code, pre, code {
 </style>
 
 <br><br> 
-This vignette will demonstrate a general use-case of cyCombine
+Welcome to the cyCombine reference manual!
+This manual will show how to use the main functions of cyCombine - either using the recommended (all-in-one) workflow or the modular workflow, which is more customizable to fit specific data inputs.
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -53,8 +54,21 @@ knitr::opts_chunk$set(
 ```
 
 <br>
-Alongside a directory of FCS files, a metadata and a panel file are assumed present.
-The metadata is in this example assumed to have the following columns:
+
+cyCombine works on dataframes/tibbles in R. If you already have data in R or in a readable text format, the conversion to dataframe/tibble should be relatively straightforward. However, it is expected that most users will start their analysis from FCS files. 
+
+<br>
+
+Alongside a directory of FCS files, a metadata and a panel file are assumed to be present. These files are helpful in generating the tibble structure, which is processable with cyCombine. I.e. besides containing the protein marker expression per cell, the tibble should also contain information regarding the batch of origin per cell, and generally it is easier to work with data that also encompasses the sample IDs - and potential conditions. This information should be contained in a metadata file. 
+
+The panel information is also nice to have for several reasons: 
+
+#. FCS files contain some columns, which should not be included in batch correction - such as "Time" and "Event_length". Furthermore, there may be "empty" channels, which should also be ignored during analysis
+#. Sometimes, FCS files do not contain the proper protein names and a panel file can help ensure that the FCS files are read correctly. 
+
+<br>
+
+The metadata of our example has the following columns:
 
 | Filename | batch | condition | Patient_id |
 |:--------:|:-----:|:---------:|:----------:|
@@ -68,13 +82,16 @@ And the panel should contain the columns:
 |:-------:|:-------:|:----:|
 |         |         |      |
 
+<br>
+
+By setting Type = 'none' in a panel file, the columns to exclude are easy to identify.
 
 <br><br>
 
 
 # Prepare data
 
-First, the FCS files are converted into a work-able *tibble*.
+The first step of a cyCombine analysis is to convert the relevant FCS files into a work-able *tibble*. We introduce two approaches for this.
 
 <br>
 
@@ -210,11 +227,16 @@ saveRDS(uncorrected, file = "data/uncorrected.RDS")
 -->
 <br><br>
 
-# Batch correct
+# Batch correction
+
+Now that the data is converted to a tibble format, it is straightforward to perform batch correction with cyCombine. Again, we demonstrate two different workflows.
+
+<br>
+
 
 ## The recommended workflow
 
-Skip this segment if you are interested in more modularity
+Skip this segment if you are interested in more modularity.
 
 ```{r, eval=FALSE}
 # Load packages
@@ -279,7 +301,7 @@ saveRDS(corrected, file.path(data_dir, "corrected.RDS"))
 
 # Evaluate performance using Earth Mover's Distance
 
-The EMD reduction is implemented as the performance metric; EMDs were computed for both the uncorrected and corrected data, removing those values where both had an EMD < 2.
+The EMD reduction is implemented as the performance metric; EMDs are computed for both the uncorrected and corrected data, removing those values where both had an EMD < 2.
 
 <br>
 

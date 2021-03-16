@@ -355,8 +355,8 @@ model <- CytoNorm.train(files = paste0(data_dir, "/", train_data$FCS_name, ".fcs
                         channels = panel$channel,
                         transformList = transformList,
                         FlowSOM.params = list(nCells = 2842208, # All cells in the Control1 samples
-                                              xdim = 8,
-                                              ydim = 8,
+                                              xdim = 10,
+                                              ydim = 10,
                                               nClus = 25,
                                               scale = FALSE),
                         normMethod.train = QuantileNorm.train,
