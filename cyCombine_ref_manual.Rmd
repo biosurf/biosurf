@@ -305,7 +305,7 @@ The EMD reduction is implemented as the performance metric; EMDs are computed fo
 
 <br>
 
-$$Reduction = \frac{\sum{EMD_{before}} - \sum{EMD_{after}}}{\sum{EMD_{before}}}$$
+$$EMD_{reduction} = \frac{\sum_{i=1}^n {(EMD_{before_i} - EMD_{after_i})}} {\sum_{i=1}^n {EMD_{before_i}}}$$
 <br>
 
 ```{r, eval=FALSE}

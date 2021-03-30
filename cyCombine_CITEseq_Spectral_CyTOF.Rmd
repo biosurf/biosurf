@@ -66,7 +66,7 @@ For the CITE-seq data, we will use the '10k PBMCs from a Healthy Donor - Gene Ex
 For spectral flow cytometry data, we will use the dataset from [Park et al. (2020)](https://doi.org/10.1002/cyto.a.24213). The data is based on healthy donor PBMCs, and contains four samples, which were frozen and thawed, stained with 40 different antibodies in one panel, and analysed using a 5-laser full spectrum flow cytometer (Cytek Biosciences Aurora). We downloaded these from FlowRepository (ID: [FR-FCM-Z2QV](https://flowrepository.org/id/FR-FCM-Z2QV)) and pre-gated to live single cells in FlowJo version 10 (Tree Star Inc). Singlets and non-debris were identified using forward and side-scatter. Dead cells were excluded using live/dead stains. Data from these gates were then exported in FCS format.
 
 
-For the CyTOF data, we use the data from a single healthy donor processed at the Human Immune Monitoring Center. The sample was derived from FlowRepository (ID: [FR-FCM-ZYAJ](https://flowrepository.org/id/FR-FCM-ZYAJ)) and pre-gated to live intact singlets. 
+For the CyTOF data, we use the data from a single healthy donor processed at the Human Immune Monitoring Center. The sample was derived from FlowRepository (ID: [FR-FCM-ZYAJ](https://flowrepository.org/id/FR-FCM-ZYAJ)) and pre-gated to live intact singlets in FlowJo version 10 (Tree Star Inc). 
 
 <br>
 
@@ -120,7 +120,7 @@ Now that the CITE-seq data is pre-processed, we are ready to include the other t
 
 These are the following 11 markers: CD3, CD4, CD8(a), CD14, CD16, CD19, CD25, CD45RA, CD56, CD127, and PD1.
 
-A word of caution here - sometimes matches cannot be made directly, due to different naming in different sets. I.e. PD-1 can be spelled as PD1 and CD8 may be referred to as CD8a in some sets. Furthermore, many proteins have different names - e.g. CCR7 and CD197. As a consequence, one has to look at these carefully and not just apply `ìntersect`.
+A word of caution here - sometimes matches cannot be made directly, due to different naming in different sets. I.e. PD-1 can be spelled as PD1 and CD8 may be referred to as CD8a in some sets. Furthermore, many proteins have different names - e.g. CCR7 = CD197. As a consequence, one has to look at these carefully and not just apply `intersect`.
 
 <br>
 
@@ -152,7 +152,7 @@ VlnPlot(citeseq, features = c('nFeature_RNA', 'nCount_RNA', 'percent.mt', 'nFeat
 ```
 
 <br>
-Looking at these initial UMAPs, we notice cluster 10 being quite spread-out. Cluster 11 looks slightly odd as it is very small and situated in the middle of the plot. Also, when we consider the nFeature_RNA and nCount_RNA and _ADT, these two clusters look a bit off. Perhaps these are cell-cell doublets? Let us look at the protein expression for the 11 markers.
+Looking at these initial UMAPs, we notice cluster 10 being quite spread-out. Cluster 11 looks slightly odd as it is very small and situated quite far from the large clusters. Also, when we consider the nFeature_RNA and nCount_RNA and _ADT, these two clusters look a bit off. Perhaps these are cell-cell doublets? Let us look at the protein expression for the 11 markers.
 
 
 
@@ -165,7 +165,7 @@ VlnPlot(citeseq, features = overlap_markers, pt.size = 0)
 
 <br>
 
-Based on these plots, cluster 10 is definetly strange. It appears to be bimodal for CD4 and CD8a. It relatively high CD16-levels, with a hint of CD56, but it also expresses CD3. Based on the weird nCount_RNA/nFeature_RNA stats, we decide to exclude those cells. For cluster 11, we also see a strange pattern: CD56+ CD16+ CD19+ indicates B-NK doublets - and based on the high nFeature_RNA values, these cells are also removed from downstream analysis.
+Based on these plots, cluster 10 is definitely strange. It appears to be bimodal for CD4 and CD8a. It has relatively high CD16-levels, with a hint of CD56, but it also expresses CD3. Based on the weird nCount_RNA/nFeature_RNA stats, we decide to exclude those cells. For cluster 11, we also see a strange pattern: CD56+ CD16+ CD19+ indicates B-NK doublets - and based on the high nFeature_RNA values, these cells are also removed from downstream analysis.
 
 <br>
 
@@ -229,7 +229,7 @@ data_dir <- "Park_et_al_2020_Live+/"
 sfc_panel <- read_csv(paste0(data_dir, "/panel_Park2020.csv"))
 
 sfc_markers <- sfc_panel %>%
-  filter(Type != "none") %>%
+  dplyr::filter(Type != "none") %>%
   pull(Marker) %>%
   str_remove_all("[ _-]")
 
@@ -247,7 +247,7 @@ spectral <- prepare_data(data_dir = data_dir,
 
 # Subset to a single sample, since CITE-seq is only from one donor and we want the data to be more directly comparable
 spectral <- spectral %>%
-  filter(sample == "303444")
+  dplyr::filter(sample == "303444")
 ```
 
 Now, we a single sample consisting of 582,005 cells. Similarly to the CITE-seq data, we now need some cell labels - based on the overlapping markers only. Let us look at this:
@@ -321,7 +321,7 @@ p2 <- ggpubr::ggarrange(plotlist = p, common.legend = T)
 p2
 ```
 
-Based on these plots and the UMAP, there are two clusters whose labeling is impossible. Cluster 6 and cluster 11 both do not express any of the overlapping lineage markers, and although cluster 6 is clearly CD45RA+ it is not sufficient to provide a label for these. Analogously to a manual gating, we will exclude the cells in these tow clusters in the downstream analysis.
+Based on these plots and the UMAP, there are two clusters whose labeling is impossible. Cluster 6 and cluster 11 both do not express any of the overlapping lineage markers, and although cluster 6 is clearly CD45RA+ it is not sufficient to provide a label for these. Analogously to a manual gating, we will exclude the cells in these two clusters in the downstream analysis.
 
 <br>
 
@@ -337,7 +337,7 @@ spectral$label <- spectral_cl_names[spectral$label]
 
 # Removing the unlabeled cells
 spectral <- spectral %>%
-  filter(label != 'Unlabeled')
+  dplyr::filter(label != 'Unlabeled')
 
 ```
 
@@ -362,7 +362,7 @@ Then it is time to read the CyTOF data. We use a single sample (ctrls-001) from 
 cytof_panel <- read_csv("cytof_panel_HIMC.csv")
 
 cytof_markers <- cytof_panel %>%
-  filter(Type != "none") %>%
+  dplyr::filter(Type != "none") %>%
   pull(Marker) %>%
   str_remove_all("[ _-]")
 
@@ -379,7 +379,7 @@ cytof <- prepare_data(data_dir = '.',
 
 
 
-Now, we a single sample consisting of 174,601 cells. Similarly to the other datasets, we now need some cell labels - based on the overlapping markers only. Let us look at this:
+Now, we a single sample consisting of 174,601 cells. Similarly to the other datasets, we now need to generate some cell labels - based on the overlapping markers only. Let us look at this:
 
 ```{r label cytof, message=F, warning=F, results = 'hide', fig.show='hide'}
 # Subset to overlap
@@ -467,7 +467,7 @@ p2 <- ggpubr::ggarrange(plotlist = p, common.legend = T)
 p2
 ```
 
-Based on these plots and the UMAP, there are two clusters whose labeling is impossible. Cluster 8, 9, 15, and 18 are tricky - they could be myeloid, but the patterns are not very clear. The middle two are relatively high in CD56, but the levels of CD4 are a little contradictory. Because of these doubts, all cells of these four clusters are excluded now.
+Based on these plots and the UMAP, there are four clusters whose labeling is impossible. Clusters 8, 9, 15, and 18 are tricky - they could be myeloid, but the patterns are not very clear. The middle two are relatively high in CD56, but the levels of CD4 are a little contradictory. Because of these doubts, all cells of these four clusters are excluded now.
 
 <br>
 
@@ -483,7 +483,7 @@ cytof$label <- cytof_cl_names[cytof$label]
 
 # Removing the unlabeled cells
 cytof <- cytof %>%
-  filter(label != 'Unlabeled')
+  dplyr::filter(label != 'Unlabeled')
 
 ```
 
@@ -499,7 +499,7 @@ We still have 165,669 cells remaining in the CyTOF dataset and this portion of t
 
 # Batch correction
 
-Now, we are ready to combine the three datasets on the overlapping columns. As discussed above, are 11 markers which overlap between the sets. We also choose to downsample to have the same number of cells from each platform.
+Now, we are ready to combine the three datasets on the overlapping columns. As discussed above, there are 11 markers which overlap between the sets. We also choose to downsample to have the same number of cells from each platform.
 
 ```{r combine sets}
 # Get overlapping column names

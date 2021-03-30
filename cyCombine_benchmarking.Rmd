@@ -1,7 +1,7 @@
 ---
 title: "Performance benchmarking"
 author: "Christina Bligaard Pedersen"
-date: "March 4, 2021"
+date: "March 29, 2021"
 output: 
   html_document:
     toc: true
@@ -121,13 +121,13 @@ The last case is a tricky one, which we demonstrate using a small synthetic exam
 
 ```{r systemic information loss 1}
 # Generate dataset 2
-df <- data.frame('exp' = c(c(rnorm(n = 3750, mean = 1, sd = 0.5), rnorm(n = 1250, mean = 7, sd = 1)),
-                           c(rnorm(n = 3500, mean = 1, sd = 0.5), rnorm(n = 1500, mean = 5, sd = 1))),
-                 'batch' = rep(c("1","2"), each = 5000),
-                 'label' = 1)
+df1 <- data.frame('exp' = c(c(rnorm(n = 3750, mean = 1, sd = 0.5), rnorm(n = 1250, mean = 7, sd = 1)),
+                            c(rnorm(n = 3500, mean = 1, sd = 0.5), rnorm(n = 1500, mean = 5, sd = 1))),
+                  'batch' = rep(c("1","2"), each = 5000),
+                  'label' = 1)
 
 library(ggplot2)
-ggplot(df, aes(x = exp)) +
+ggplot(df1, aes(x = exp)) +
   geom_density(aes(color = batch, fill = batch), alpha = 0.3) + 
   coord_cartesian(xlim = c(0,10)) + ggtitle('Uncorrected')
 
@@ -138,29 +138,29 @@ You then decide to perform batch correction using two different tools. They prod
 
 ```{r systemic information loss 2}
 # Generate dataset 2
-df <- data.frame('exp' = c(c(rnorm(n = 3750, mean = 1, sd = 0.5), rnorm(n = 1250, mean = 6, sd = 1)),
-                           c(rnorm(n = 3500, mean = 1, sd = 0.5), rnorm(n = 1500, mean = 6, sd = 1))),
-                 'batch' = rep(c("1","2"), each = 5000),
-                 'label' = 1)
+df2 <- data.frame('exp' = c(c(rnorm(n = 3750, mean = 1, sd = 0.5), rnorm(n = 1250, mean = 6, sd = 1)),
+                            c(rnorm(n = 3500, mean = 1, sd = 0.5), rnorm(n = 1500, mean = 6, sd = 1))),
+                  'batch' = rep(c("1","2"), each = 5000),
+                  'label' = 1)
 
-ggplot(df, aes(x = exp)) +
+ggplot(df2, aes(x = exp)) +
   geom_density(aes(color = batch, fill = batch), alpha = 0.3) + 
   coord_cartesian(xlim = c(0,10)) + ggtitle('Tool 1')
 
-emd_1 <- cyCombine::compute_emd(df, markers = 'exp', cell_col = 'label')[[1]]$exp[1,2]
+emd_1 <- cyCombine::compute_emd(df2, markers = 'exp', cell_col = 'label')[[1]]$exp[1,2]
 
 
 # Generate dataset 2
-df <- data.frame('exp' = c(rnorm(n = 5000, mean = 1, sd = 0.5),
-                           rnorm(n = 5000, mean = 1, sd = 0.5)),
-                 'batch' = rep(c("1","2"), each = 5000),
-                 'label' = 1)
+df3 <- data.frame('exp' = c(rnorm(n = 5000, mean = 1, sd = 0.5),
+                            rnorm(n = 5000, mean = 1, sd = 0.5)),
+                  'batch' = rep(c("1","2"), each = 5000),
+                  'label' = 1)
 
-ggplot(df, aes(x = exp)) +
+ggplot(df3, aes(x = exp)) +
   geom_density(aes(color = batch, fill = batch), alpha = 0.3) + 
   coord_cartesian(xlim = c(0,10)) + ggtitle('Tool 2')
 
-emd_2 <- cyCombine::compute_emd(df, markers = 'exp', cell_col = 'label')[[1]]$exp[1,2]
+emd_2 <- cyCombine::compute_emd(df3, markers = 'exp', cell_col = 'label')[[1]]$exp[1,2]
 
 
 # Print EMDs
@@ -169,11 +169,43 @@ cat('The EMD for tool 2 is', round(emd_2, 2), '\n')
 
 ```
 <br>
-You calculate the the EMD between the two batches for both tools. Tool 1 yields a much larger EMD - but looking at the plot for tool 2, it is clear that this is only because of systemic information loss. Tool 2 has removed all the potentially interesting variation for the marker in question. This is yet another reason to always inspect some plots when performing batch correction.
+
+You calculate the the EMD between the two batches for both tools. Tool 1 yields a much larger EMD - but looking at the plot for tool 2, it is clear that this is only because of systemic information loss. Tool 2 has removed all the potentially interesting variation for the marker in question. This is yet another reason to always inspect some plots when performing batch correction. Because of this, we introduced a second performance metric, the Median Absolute Deviation (MAD) score. This score is meant to detect potential systemic information loss by quantifying the variability of each marker in the dataset before and after correction. In practice, it is calculated very similarly to the EMD reduction: The MAD is calculated for the dataset after performing a SOM-based clustering, and is calculated per-cluster, per-marker, per-batch. So, the MAD is calculated per-batch, whereas the EMD calculations are performed for each pairwise batch-batch comparison. This means that the MAD score quantifies intra-batch effects of the correction and the EMD reduction quantifies inter-batch effects. After calculating the MAD per-cluster, per-marker, per-batch for both the corrected and uncorrected datasets, the MAD score is calculated as the median of the absolute difference in MAD per value:
 
 <br>
 
-With all this being said, the EMD reduction does provide a nice quantitative measure for batch effect removal. It holds some strong positive qualities for this purpose and could prove useful for many future studies on the topic.
+$$MAD_{score} = \mathrm{median}_{i=1}^n (|MAD_{before_i} - MAD_{after_i}|)$$
+<br>
+Because the MAD score quantifies the information 'loss', the ideal tool has a *small* MAD score.
+
+<br>
+
+In the simple example, the MAD score calculations for tools 1 and 2 would be:
+
+```{r mad calculation}
+mad_bf <- cyCombine::compute_mad(df1, markers = 'exp', cell_col = 'label') %>% unlist()
+mad_1 <- cyCombine::compute_mad(df2, markers = 'exp', cell_col = 'label') %>% unlist()
+mad_2 <- cyCombine::compute_mad(df3, markers = 'exp', cell_col = 'label') %>% unlist()
+
+# Print MADs
+cat('The MADs for the unccorrected set are', paste(round(mad_bf, 2), collapse = ' and '), '\n')
+cat('The MADs for tool 1 are', paste(round(mad_1, 2), collapse = ' and '), '\n')
+cat('The MADs for tool 2 are', paste(round(mad_2, 2), collapse = ' and '), '\n\n')
+
+# Calculate MAD scores
+cat('The MAD score for tool 1 is', round(median(abs(mad_bf - mad_1)), 2), '\n')
+cat('The MAD score for tool 2 is', round(median(abs(mad_bf - mad_2)), 2), '\n')
+
+```
+
+<br> 
+
+Here, it is clearly seen that the MAD score is efficient in detecting the systemic information loss of tool 2, which has a much higher MAD score. Tool 1 has a MAD score very close to 0, which fits our idea that this tool does not remove biological variation, but only corrects batch effects. For calculation of the MAD score in a real dataset, we recommend using the `evaluate_mad` function.
+
+
+<br>
+
+With the EMD reduction and the MAD score, we have provided two quantitative measures for batch effect and information removal. They each hold some strong positive qualities for this purpose and could prove useful for many future studies on the topic.
 
 <br><br>
 
@@ -287,14 +319,13 @@ celltype_col <- "som"
 
 ## cyCombine
 
-```{r cyCombine, fig.height=5, fig.width=10, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
+```{r cyCombine 1, fig.height=5, fig.width=10, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
 # Run batch correction
 corrected <- uncorrected %>%
   batch_correct(markers = markers,
                 rlen = 10,
                 norm_method = 'scale',
-                covar = 'condition',
-                seed = 101)
+                covar = 'condition')
 
 # Cluster on corrected data
 labels <- corrected %>%
@@ -320,6 +351,19 @@ emd_val <- uncorrected %>%
 
 # Show plots
 cowplot::plot_grid(emd_val$violin, emd_val$scatterplot)
+
+
+# Evaluation using MAD
+mad_val <- uncorrected %>%
+      cyCombine::evaluate_mad(corrected,
+                              filter_limit = NULL,
+                              markers = markers,
+                              cell_col = celltype_col)
+
+```
+
+```{r cyCombine 2, message=FALSE, warning=FALSE, error=FALSE}
+cat('The MAD score is:', mad_val$score, '\n')
 ```
 
 
@@ -333,7 +377,7 @@ data_dir <- '/home/projects/dp_immunoth/people/s153398/cyCombine/cytonorm/data'
 ```
 
 
-```{r CytoNorm, fig.height=5, fig.width=10, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
+```{r CytoNorm 1, fig.height=5, fig.width=10, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
 # Define the samples to correct and the reference samples
 train_data <- meta %>% 
   dplyr::filter(`Sample ID` %>% startsWith("Control1"))
@@ -395,8 +439,14 @@ uncorrected_down <- uncorrected %>%
   dplyr::select(-any_of(celltype_col)) %>%
   dplyr::filter(sample %in% c("Control2_Unstim", "Control2_IFNa_LPS"))
 
+# Capping values at 300 to avoid very large values
 corrected_down <- corrected %>%
-  dplyr::mutate(id = uncorrected_down$id)
+  dplyr::mutate(id = uncorrected_down$id) %>%
+  dplyr::mutate_at(dplyr::vars(all_of(markers)),
+                   function(x) {
+                     x[x > 300] <- 300
+                     return(x)
+                   })
 
 
 # Cluster on corrected data
@@ -424,7 +474,22 @@ emd_val <- uncorrected_down %>%
 
 # Show plots
 cowplot::plot_grid(emd_val$violin, emd_val$scatterplot)
+
+
+# Evaluation using MAD
+mad_val <- uncorrected_down %>%
+      cyCombine::evaluate_mad(corrected_down,
+                              filter_limit = NULL,
+                              markers = markers,
+                              cell_col = celltype_col)
+
 ```
+
+```{r CytoNorm 2, message=FALSE, warning=FALSE, error=FALSE}
+cat('The MAD score is:', mad_val$score, '\n')
+```
+
+
 
 <br><br>
 
@@ -461,7 +526,7 @@ pd %>% openxlsx::write.xlsx(file = file.path(data_dir, "panel.xlsx"))
 # Loading the data
 data <- load_data(data_dir, 'metadata.xlsx', 'panel.xlsx')
 
-# Cluster the data
+# Cluster the data on the lineage markers (n = 24)
 data$daf <- cluster_data(data$daf, seed = 473, markers_to_use = data$lineage_markers, clusters_nb = 20)
 
 # Normalization setup
@@ -492,20 +557,19 @@ normalise_data(data = data,
                raw_data = raw_data, 
                rep_samples = rep_samples, 
                norm_clusters = cluster_list_rep_samples, 
-               k = 5, 
+               k = 10, 
                num_clusters = 20, 
                wd_data = '.', 
-               dir_norm_data = "cytofruv_normed_c1_k5")
-
+               dir_norm_data = "cytofruv_normed_c1_k10")
 
 
 ## The data in the output FCS files is already asinh-transformed, so we read them back into R in two steps to avoid applying a second asinh transformation
 # Compile directory to flowset
-flowset <- compile_fcs('cytofruv_normed_c1_k5')
+flowset <- compile_fcs('cytofruv_normed_c1_k10')
 
 # Convert flowset to dataframe
 corrected <- convert_flowset(flowset,
-                             metadata = "cytofruv_normed_c1_k5/Norm_Metadata.xlsx",
+                             metadata = "cytofruv_normed_c1_k10/Norm_Metadata.xlsx",
                              sample_ids = "sample_id",
                              batch_ids = "batch",
                              condition = "condition",
@@ -544,7 +608,21 @@ emd_val <- uncorrected %>%
 
 # Show plots
 cowplot::plot_grid(emd_val$violin, emd_val$scatterplot)
+
+
+# Evaluation using MAD
+mad_val <- uncorrected %>%
+      cyCombine::evaluate_mad(corrected,
+                              filter_limit = NULL,
+                              markers = markers,
+                              cell_col = celltype_col)
 ```
+
+
+```{r CytofRUV 3, message=FALSE, warning=FALSE, error=FALSE}
+cat('The MAD score is:', mad_val$score, '\n')
+```
+
 
 
 
@@ -589,7 +667,7 @@ sce <- iMUBAC::prepSCE(
 # Batch-correction
 sce_down <- iMUBAC::batchCorrection(
   sce,
-  maxN = 1000000, ## A maximum of 50000 cells are randomly selected from each batch.
+  maxN = 200000, ## A maximum of 200,000 cells are randomly selected from each batch.
   seed = 473  ## a random seed
 )
 
@@ -652,8 +730,19 @@ emd_val <- uncorrected %>%
 ```{r iMUBAC 2, fig.height=5, fig.width=10, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
 # Show plots
 cowplot::plot_grid(emd_val$violin, emd_val$scatterplot)
+
+
+# Evaluation using MAD
+mad_val <- uncorrected %>%
+      cyCombine::evaluate_mad(corrected,
+                              filter_limit = NULL,
+                              markers = markers,
+                              cell_col = celltype_col)
 ```
 
+```{r iMUBAC 3, message=FALSE, warning=FALSE, error=FALSE}
+cat('The MAD score is:', mad_val$score, '\n')
+```
 
 
 
@@ -711,7 +800,6 @@ uncorrected <- prepare_data(data_dir = data_dir,
                             sample_ids = "FCS_name",
                             markers = markers,
                             down_sample = FALSE,
-                            derand = T,
                             cofactor = 5)
 
 corrected <- prepare_data(data_dir = out_dir,
@@ -721,11 +809,10 @@ corrected <- prepare_data(data_dir = out_dir,
                           sample_ids = "FCS_name",
                           markers = markers,
                           down_sample = FALSE,
-                          derand = T,
                           cofactor = 5)
 
-# CytofBatchAdjust introduces some Inf values in the corrected data - they inhibit the EMD calculations, so we cap them to a large value
-corrected[,markers][corrected[,markers] == Inf] <- 100
+# CytofBatchAdjust introduces some Inf values in the corrected data - they inhibit the SOM/EMD calculations, so we cap them to a large value
+corrected[,markers][corrected[,markers] > 300] <- 300
 
 
 # Cluster on corrected data
@@ -752,6 +839,19 @@ emd_val <- uncorrected %>%
 
 # Show plots
 cowplot::plot_grid(emd_val$violin, emd_val$scatterplot)
+
+
+# Evaluation using MAD
+mad_val <- uncorrected %>%
+      cyCombine::evaluate_mad(corrected,
+                              filter_limit = NULL,
+                              markers = markers,
+                              cell_col = celltype_col)
+
+```
+
+```{r CytofBatchAdjust 3, message=FALSE, warning=FALSE, error=FALSE}
+cat('The MAD score is:', mad_val$score, '\n')
 ```
 
 <br>

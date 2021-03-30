@@ -1,7 +1,7 @@
 ---
 title: "Integrating spectral flow and CyTOF data"
 author: "Christina Bligaard Pedersen"
-date: "February 19, 2021"
+date: "March 16, 2021"
 output: 
   html_document:
     toc: true
@@ -60,13 +60,9 @@ knitr::opts_knit$set(root.dir = '/home/projects/dp_immunoth/people/s134891/cycom
 
 <br>
 
-In this vignette, we will perform and dataset integration of the paired CITE-seq/CyTOF dataset from [Ferrer-Font et al. (2020)](https://doi.org/10.1002/cyto.a.24016).
+For this purpose, we will utilize a paired dataset from [Ferrer-Font et al. (2020)](https://doi.org/10.1002/cyto.a.24016). This group studied the comparability of CyTOF and SFC data by using splenocytes from the same samples which had been quantified using the two technologies. They were able to conclude that the results were indeed very similar. However, this analysis was carried out by analyzing the sets separately. Here, we would like to demonstrate the *direct* integration of the sets.
 
-<br>
-
-[Ferrer-Font et al. (2020)](https://doi.org/10.1002/cyto.a.24016), studied the comparability of CyTOF and SFC data. They used splenocytes from the same samples which had been quantified using the two technologies and were able to conclude that the results were indeed very similar. However, this analysis was carried out by analyzing the sets separately. Here, we would like to demonstrate the *direct* integration of the sets.
-
-According to the article, the SFC panel of this study contained 21 protein markers, and the CyTOF panel comprised 36 markers. 20 of these were overlapping. A total of five samples are included for each technology, and they are stored at FlowRepository (ID: [FR-FCM-Z2GZ](https://flowrepository.org/id/FR-FCM-Z2GZ)) or [GitHub](https://github.com/SameOldSamOld/CyTOFAuroraComparison). All files were downsampled to 19,858 cells in the analysis of the article and the uploaded FCS files. We downloaded these and relied on one of the GitHub scripts for accurate mapping of channels and markers.
+According to the article, the SFC panel of this study contained 21 protein markers, and the CyTOF panel comprised 36 markers. 20 of these were overlapping. A total of five samples are included for each technology, and they are available from FlowRepository (ID: [FR-FCM-Z2GZ](https://flowrepository.org/id/FR-FCM-Z2GZ)) or [GitHub](https://github.com/SameOldSamOld/CyTOFAuroraComparison). All files were downsampled to 19,858 cells in the analysis of the article and the uploaded FCS files. We downloaded these and relied on one of the GitHub scripts for accurate mapping of channels and markers.
 
 
 In the original study, they focused on 11 immune cell populations, which were manually gated. Some of these assignments overlap - i.e. T cells were considered as a combined population and after gating on CD4/CD8. The included populations were "T cells", "CD4 T cells", "CD8 T cells", "DN T cells", "B cells", "NK cells", "Monocytes", "DCs", "DC1s", "DC2s", and "Neutrophils". However, the authors have not shared the cell labels in their FCS files, so we replicated their gating to the best of our ability. 
@@ -74,7 +70,7 @@ In the original study, they focused on 11 immune cell populations, which were ma
 It was already established that the frequencies of these populations correlated nicely between the two technologies, however the article also states that they were unable to overlay the two data types due to the different data structures of the platforms. With this in mind, we enter the path of cyCombine.
 
 
-We start by loading some packages
+We start by loading some packages:
 
 ```{r libraries, results = 'hide', warning=FALSE, message=FALSE}
 library(cyCombine)
@@ -90,7 +86,7 @@ library(tidyverse)
 ## Spectral flow cytometry data
 We are now ready to load the spectral flow data. We have set up a panel file in csv format, so the correct information is extractable from there. Let us have a look at the contents:
 
-```{r loading spectral flow data 1, paged.print = T, message=F, warning=F}
+```{r loading spectral flow data 1, message=F, warning=F}
 # Directory with raw .fcs files
 data_dir <- "FR-FCM-Z2GZ/SFC/"
 
@@ -134,7 +130,7 @@ spectral <- prepare_data(data_dir = data_dir,
 ## CyTOF data
 We are now ready to load the CyTOF data. Once again, let us have a look at the panel - we also need it here to make our file reading a bit easier.
 
-```{r loading cytof data 1, paged.print = T, message=F, warning=F}
+```{r loading cytof data 1, message=F, warning=F}
 # Directory with raw .fcs files
 data_dir <- "FR-FCM-Z2GZ/CyTOF/"
 
@@ -238,6 +234,7 @@ plot_density(uncorrected, corrected, ncol = 4)
 
 ```
 
+<br>
 Finally, some UMAPs to visualize the correction. I will downsample to 10,000 cells from each dataset so it is easier to see what is going on.
 
 ```{r umaps, fig.height=8, fig.width=16}
@@ -252,6 +249,8 @@ cowplot::plot_grid(plot1, plot2)
 
 ```
 
+<br>
+When studying the plots it is apparent that the datasets from the two platforms are much more comparable after batch correction. The two data types occupy the same regions of the UMAP to a much larger extent post-correction. 
 
 
 <!-- <br><br> -->
