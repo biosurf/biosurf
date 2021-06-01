@@ -1,0 +1,54 @@
+---
+title: "ALPP"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_file = paste(xfun::sans_ext(input), '_', Sys.Date(), sep = ""),
+      output_format = "html_document",
+      output_dir = "../biosurf/cartcontent/results/html_docs",
+    )
+  })
+---
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+<br>
+
+#### Description
+Alkaline phosphatase, placental type ([ALPP](https://www.uniprot.org/uniprot/P05187)). 
+
+<br> 
+
+#### Clinical trials 
+
+[NCT04627740](https://clinicaltrials.gov/ct2/show/NCT04627740) - Ovarian Cancer, Endometrial Cancer
+
+<br>
+
+#### Target gene expression
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 12}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "ALPP")
+```
+
+<br>
+
+#### Target splice variants
+
+<br>
+
+#### Target essentiality
+
+<br>
+
+#### Protein properties
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 20, fig.height= 12}
+setwd("../../")
+plot_function("ALPP")
+```
+
