@@ -108,10 +108,11 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
     theme_light() +
     xlab(" ") +
     ylab("expression level") +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 15),
-          axis.title = element_text(size = 17),
-          plot.title = element_text(size = 20),
-          legend.text = element_text(size = 15)) +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 18),
+          axis.title = element_text(size = 19),
+          plot.title = element_text(size = 22),
+          legend.text = element_text(size = 18), 
+          legend.title = element_text(size = 20)) +
     ggtitle(label = paste("Target isoforms expression ", hgnc))
   
   # ggsave(filename = paste(hgnc, "_", ensgID, "_plot.pdf", sep = ""), plot = plot, device = "pdf", 
@@ -120,13 +121,9 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
 
     return(plot)
 }
-
 # -------------------------------------------------------------------------------------------------
 
 # PLOT OF PROTEIN PROPERTIES
-
-# importing list of target used in clinical trials with TCGA tumors (blood tumors are excluded)
-targets <- read.table("cartcontent/data/targets_tcga.txt") 
 
 plot_function <- function(genename) {
   
@@ -283,10 +280,9 @@ plot_function <- function(genename) {
   #ggsave(filename = paste(genename, "_plot.pdf", sep = ""), plot = p, device = "pdf", 
   #       path = "../results/_Plots/", width = 30, height = 15, units = "cm")
   
+  return(p)
+  
 }
-
-
-plot_function(genename =  targets$V1[1])
 
 
 
