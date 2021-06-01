@@ -1,0 +1,1 @@
+seq_0	193	1	False	newrun	14.810563	sp|P32970|CD70_HUMAN CD70 antigen OS=Homo sapiens OX=9606 GN=CD70 PE=1 SV=2	2020-11-28 16:39:04 CET

@@ -1,0 +1,329 @@
+##############################################################################
+TOPCONS2 result file
+Generated from http://www.topcons.net at 2020-12-03 13:39:02 CET
+Total request time: 0.0 seconds.
+##############################################################################
+Sequence number: 1
+Sequence name: tr|A0A0A0N0N1|A0A0A0N0N1_HUMAN CD133 isoform I OS=Homo sapiens OX=9606 GN=CD133 PE=2 SV=1
+Sequence length: 160 aa.
+Sequence:
+MALVLGSLLLLGLCGNSFSGGQPSSTDAPKAWNYELPATNYETQDSHKAGPIGILFELVHIFLYVVQPRDFPEGAAAQEPGPWPIALSGSPSPAAPSSGWLHCNGQDIRLQEIPGASLHPVQPEYSLPLKELEMIIFPVTGWAVPHATSRYFEKILTEGI
+
+
+TOPCONS predicted topology:
+SSSSSSSSSSSSSSSSSSSSSooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+OCTOPUS predicted topology:
+oMMMMMMMMMMMMMMMMMMMMMiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+
+
+Philius predicted topology:
+SSSSSSSSSSSSSSSSSSSooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+PolyPhobius predicted topology:
+SSSSSSSSSSSSSSSSSSSooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+SCAMPI predicted topology:
+oMMMMMMMMMMMMMMMMMMMMMiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+
+
+SPOCTOPUS predicted topology:
+SSSSSSSSSSSSSSSSSSSSoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+Homology:
+No homologous hits found
+
+
+
+Predicted Delta-G-values (kcal/mol) (left column=sequence position; right column=Delta-G)
+
+10 0.888
+11 1.495
+12 1.968
+13 2.945
+14 3.850
+15 5.017
+16 5.377
+17 5.556
+18 6.843
+19 7.716
+20 8.786
+21 9.875
+22 9.978
+23 10.580
+24 11.523
+25 11.324
+26 11.347
+27 11.066
+28 12.123
+29 11.940
+30 11.695
+31 11.963
+32 11.041
+33 10.614
+34 9.992
+35 10.055
+36 10.347
+37 10.228
+38 10.888
+39 10.933
+40 10.964
+41 11.616
+42 12.700
+43 12.251
+44 12.694
+45 11.972
+46 11.450
+47 10.094
+48 10.024
+49 8.949
+50 7.648
+51 7.782
+52 6.431
+53 5.695
+54 4.557
+55 3.714
+56 2.869
+57 2.045
+58 2.438
+59 3.226
+60 3.259
+61 3.737
+62 3.960
+63 4.402
+64 5.426
+65 6.555
+66 7.389
+67 7.239
+68 8.017
+69 8.834
+70 8.996
+71 9.639
+72 10.140
+73 10.628
+74 10.202
+75 10.361
+76 9.931
+77 9.198
+78 8.340
+79 8.639
+80 8.361
+81 8.910
+82 8.758
+83 8.412
+84 8.420
+85 8.259
+86 8.038
+87 8.347
+88 7.927
+89 7.684
+90 7.836
+91 7.379
+92 6.734
+93 7.585
+94 7.182
+95 7.951
+96 8.323
+97 9.272
+98 9.447
+99 9.128
+100 8.936
+101 8.147
+102 8.320
+103 8.456
+104 8.528
+105 9.232
+106 9.224
+107 9.313
+108 9.656
+109 9.009
+110 9.731
+111 10.235
+112 9.286
+113 9.476
+114 9.015
+115 9.060
+116 8.623
+117 8.810
+118 8.670
+119 9.097
+120 9.137
+121 9.184
+122 9.430
+123 9.605
+124 10.160
+125 10.097
+126 10.097
+127 9.657
+128 9.373
+129 8.838
+130 7.900
+131 7.418
+132 6.866
+133 5.633
+134 4.569
+135 4.212
+136 4.073
+137 4.929
+138 4.614
+139 5.031
+140 5.337
+141 4.848
+142 5.300
+143 4.680
+144 5.713
+145 6.429
+146 6.888
+147 7.141
+148 7.261
+149 8.472
+150 9.165
+151 9.085
+
+Predicted TOPCONS reliability (left column=sequence position; right column=reliability)
+
+11	55.24
+12	55.24
+13	55.24
+14	55.24
+15	55.24
+16	55.24
+17	55.24
+18	55.24
+19	55.24
+20	55.24
+21	55.24
+22	55.24
+23	55.24
+24	55.24
+25	55.24
+26	55.24
+27	55.24
+28	55.24
+29	55.24
+30	55.24
+31	57.14
+32	60.00
+33	60.00
+34	60.00
+35	60.00
+36	60.00
+37	60.00
+38	60.00
+39	60.00
+40	60.00
+41	60.00
+42	60.00
+43	60.00
+44	60.00
+45	60.00
+46	60.00
+47	60.00
+48	60.00
+49	60.00
+50	60.00
+51	60.00
+52	60.00
+53	60.00
+54	60.00
+55	60.00
+56	60.00
+57	60.00
+58	60.00
+59	60.00
+60	60.00
+61	60.00
+62	60.00
+63	60.00
+64	60.00
+65	60.00
+66	60.00
+67	60.00
+68	60.00
+69	60.00
+70	60.00
+71	60.00
+72	60.00
+73	60.00
+74	60.00
+75	60.00
+76	60.00
+77	60.00
+78	60.00
+79	60.00
+80	60.00
+81	60.00
+82	60.00
+83	60.00
+84	60.00
+85	60.00
+86	60.00
+87	60.00
+88	60.00
+89	60.00
+90	60.00
+91	60.00
+92	60.00
+93	60.00
+94	60.00
+95	60.00
+96	60.00
+97	60.00
+98	60.00
+99	60.00
+100	60.00
+101	60.00
+102	60.00
+103	60.00
+104	60.00
+105	60.00
+106	60.00
+107	60.00
+108	60.00
+109	60.00
+110	60.00
+111	60.00
+112	60.00
+113	60.00
+114	60.00
+115	60.00
+116	60.00
+117	60.00
+118	60.00
+119	60.00
+120	60.00
+121	60.00
+122	60.00
+123	60.00
+124	60.00
+125	60.00
+126	60.00
+127	60.00
+128	60.00
+129	60.00
+130	60.00
+131	60.00
+132	60.00
+133	60.00
+134	60.00
+135	60.00
+136	60.00
+137	60.00
+138	60.00
+139	60.00
+140	60.00
+141	60.00
+142	60.00
+143	60.00
+144	60.00
+145	60.00
+146	60.00
+147	60.00
+148	60.00
+149	60.00
+
+##############################################################################

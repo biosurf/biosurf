@@ -1,0 +1,1 @@
+seq_0	1255	1	True	cached	0.0	sp|P04626|ERBB2_HUMAN Receptor tyrosine-protein kinase erbB-2 OS=Homo sapiens OX=9606 GN=ERBB2 PE=1 SV=1	2020-11-20 10:24:05 UTC

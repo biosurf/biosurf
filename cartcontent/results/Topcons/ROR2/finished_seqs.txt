@@ -1,0 +1,1 @@
+seq_0	943	1	True	cached	0.0	sp|Q01974|ROR2_HUMAN Tyrosine-protein kinase transmembrane receptor ROR2 OS=Homo sapiens OX=9606 GN=ROR2 PE=1 SV=2	2020-11-20 10:25:42 UTC
