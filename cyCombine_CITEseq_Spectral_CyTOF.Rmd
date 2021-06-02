@@ -1,7 +1,7 @@
 ---
 title: "Integrating CITE-seq, spectral flow cytometry and mass cytometry data"
 author: "Christina Bligaard Pedersen"
-date: "February 24, 2021"
+date: "June 2, 2021"
 output: 
   html_document:
     toc: true
@@ -174,8 +174,8 @@ Consequently, we move on with the cells in clusters 0-6 and 8-9. Now, we will la
 ```{r subset to good citeseq, message=F, warning=F, fig.height=5, fig.width=8}
 # Labels for the 11 clusters
 citeseq_cl_names <- c('0' = 'Myeloid cells', '1' = 'CD4+ T cells (naive)',
-                      '2' = 'CD4+ T cells (memory)', '3' = 'NK cells',
-                      '4' = 'CD8+ T cells (memory)', '5' = 'CD8+ T cells (naive)',
+                      '2' = 'CD4+ T cells (non-naive)', '3' = 'NK cells',
+                      '4' = 'CD8+ T cells (non-naive)', '5' = 'CD8+ T cells (naive)',
                       '6' = 'B cells', '7' = 'Tregs',
                       '8' = 'Dbl. neg. T cells', '9' = 'Myeloid cells',
                       '10' = 'Doublets', '11' = 'Doublets')
@@ -187,7 +187,7 @@ citeseq <- subset(citeseq, idents = 'Doublets', invert = T)
 ```
 
 <br>
-Now there is 6,949 cells left in the CITE-seq dataset and before we move on to the other two datasets, let us extract the protein-part of the CITE-seq data for integration using cyCombine.
+Now there is 6,776 cells left in the CITE-seq dataset and before we move on to the other two datasets, let us extract the protein-part of the CITE-seq data for integration using cyCombine.
 
 ```{r extract cite-seq}
 # Extract CITE-seq data (normalized)
@@ -330,8 +330,8 @@ Regarding cluster 10, this was also tricky, but considering both its UMAP locati
 ```{r label sfc naming}
 spectral_cl_names <- c('1' = 'Myeloid cells', '2' = 'Myeloid cells', '3' = 'B cells', '4' = 'NK cells', '5' = 'Myeloid cells',
                        '6' = 'Unlabeled', '7' = 'NK cells', '8' = 'Dbl. neg. T cells', '9' = 'CD8+ T cells (naive)', '10' = 'Myeloid cells',
-                       '11' = 'Unlabeled', '12' = 'Dbl. neg. T cells', '13' = 'CD8+ T cells (naive)', '14' = 'CD8+ T cells (memory)', '15' = 'Tregs',
-                       '16' = 'CD4+ T cells (memory)', '17' = 'Dbl. neg. T cells', '18' = 'CD4+ T cells (naive)', '19' = 'CD8+ T cells (naive)', '20' = 'Tregs')
+                       '11' = 'Unlabeled', '12' = 'Dbl. neg. T cells', '13' = 'CD8+ T cells (naive)', '14' = 'CD8+ T cells (non-naive)', '15' = 'Tregs',
+                       '16' = 'CD4+ T cells (non-naive)', '17' = 'Dbl. neg. T cells', '18' = 'CD4+ T cells (naive)', '19' = 'CD8+ T cells (naive)', '20' = 'Tregs')
 
 spectral$label <- spectral_cl_names[spectral$label]
 
@@ -474,10 +474,10 @@ Based on these plots and the UMAP, there are four clusters whose labeling is imp
 Regarding cluster 3, this was also tricky, but considering its UMAP location, the intermediate level of CD4, which is comparable to clusters 19 and 20, and its expression of CD16, which is expected in non-classical monocytes, we are comfortable with labeling these as myeloid cells. The rest of the labels are assigned below.
 
 ```{r label cytof naming}
-cytof_cl_names <- c('1' = 'CD8+ T cells (memory)', '2' = 'CD8+ T cells (naive)', '3' = 'Myeloid cells', '4' = 'NK cells', '5' = 'NK cells',
-                    '6' = 'Dbl. neg. T cells', '7' = 'CD8+ T cells (memory)', '8' = 'Unlabeled', '9' = 'Unlabeled', '10' = 'CD4+ T cells (naive)',
+cytof_cl_names <- c('1' = 'CD8+ T cells (non-naive)', '2' = 'CD8+ T cells (naive)', '3' = 'Myeloid cells', '4' = 'NK cells', '5' = 'NK cells',
+                    '6' = 'Dbl. neg. T cells', '7' = 'CD8+ T cells (non-naive)', '8' = 'Unlabeled', '9' = 'Unlabeled', '10' = 'CD4+ T cells (naive)',
                     '11' = 'CD8+ T cells (naive)', '12' = 'Dbl. neg. T cells', '13' = 'B cells', '14' = 'NK cells', '15' = 'Unlabeled',
-                    '16' = 'CD4+ T cells (memory)', '17' = 'Tregs', '18' = 'Unlabeled', '19' = 'Myeloid cells', '20' = 'Myeloid cells')
+                    '16' = 'CD4+ T cells (non-naive)', '17' = 'Tregs', '18' = 'Unlabeled', '19' = 'Myeloid cells', '20' = 'Myeloid cells')
 
 cytof$label <- cytof_cl_names[cytof$label]
 
@@ -514,7 +514,7 @@ uncorrected <- bind_rows(cytof[,overlap_cols], citeseq[,overlap_cols], spectral[
 
 ```
 
-So now we have 6,949 cells from each platform in our final set. This is perhaps not the best approach for biological downstream analysis - but for the purpose of displaying the output from cyCombine, it makes the results easier to interpret.
+So now we have 6,776 cells from each platform in our final set. This is perhaps not the best approach for biological downstream analysis - but for the purpose of displaying the output from cyCombine, it makes the results easier to interpret.
 
 <br>
 
@@ -523,11 +523,11 @@ Now, batch correction can be performed with cyCombine. Because these are dataset
 ```{r batch correction, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
 # Run batch correction
 corrected <- uncorrected %>%
-  batch_correct(xdim = 8,
+  batch_correct(seed = seed,
+                xdim = 8,
                 ydim = 8,
                 norm_method = 'rank',
-                ties.method = 'average',
-                rlen = 100)
+                ties.method = 'average')
 
 # Add labels back from uncorrected
 corrected$label <- uncorrected$label
@@ -564,6 +564,24 @@ emd <- uncorrected %>%
 
 # Show plots
 cowplot::plot_grid(emd$violin, emd$scatterplot)
+
+```
+
+
+<br>
+
+We also use the MAD score for evaluation.
+
+```{r mad, message=FALSE}
+
+# MAD
+mad <- uncorrected %>%
+  cyCombine::evaluate_mad(corrected,
+                          markers = get_markers(corrected),
+                          cell_col = celltype_col,
+                          filter_limit = NULL)
+
+cat('The MAD score is: ', mad$score, '\n')
 
 ```
 

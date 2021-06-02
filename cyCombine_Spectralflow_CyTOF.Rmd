@@ -1,7 +1,7 @@
 ---
 title: "Integrating spectral flow and CyTOF data"
 author: "Christina Bligaard Pedersen"
-date: "March 16, 2021"
+date: "June 2, 2021"
 output: 
   html_document:
     toc: true
@@ -195,7 +195,7 @@ uncorrected <- bind_rows(cytof[,overlap_cols], spectral[,overlap_cols]) %>%
 
 ```
 
-And now, batch correction can be performed with cyCombine. We use rank for normalization and rlen = 100 because these are data from two different technologies.
+And now, batch correction can be performed with cyCombine. We use rank for normalization because these are data from two different technologies so they are likely to have more different distributions, and ranking is more appropriate in such cases.
 
 ```{r batch correction, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
 # Run batch correction 
@@ -204,7 +204,7 @@ corrected <- uncorrected %>%
                 ydim = 8,
                 norm_method = 'rank',
                 ties.method = 'average',
-                rlen = 100)
+                seed = 9369)
 
 ```
 
@@ -222,8 +222,22 @@ emd <- evaluate_emd(uncorrected = uncorrected,
                     corrected = corrected)
 
 cowplot::plot_grid(emd$violin, emd$scatterplot)
+```
+<br>
+
+We also use the MAD score for evaluation.
+```{r mad, message=FALSE}
+
+# MAD
+mad <- uncorrected %>%
+  cyCombine::evaluate_mad(corrected,
+                          filter_limit = NULL)
+
+cat('The MAD score is: ', mad$score, '\n')
 
 ```
+
+
 <br>
 
 
@@ -368,7 +382,7 @@ When studying the plots it is apparent that the datasets from the two platforms 
 <!--                 ydim = 8, -->
 <!--                 norm_method = 'rank', -->
 <!--                 ties.method = 'average', -->
-<!--                 rlen = 100) -->
+<!--                 rlen = 10) -->
 
 <!-- ``` -->
 

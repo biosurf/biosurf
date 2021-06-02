@@ -1,7 +1,7 @@
 ---
 title: "cyCombine: Reference manual"
 author: "Søren Helweg Dam & Christina Bligaard Pedersen"
-date: March 16, 2021
+date: June 2, 2021
 output: 
   html_document:
     toc: true
@@ -253,7 +253,8 @@ corrected <- batch_correct(
   covar = "condition",
   markers = markers,
   norm_method = "scale", # "rank" is recommended when combining data with heavy batch effects
-  rlen = 10 # Higher values are recommended when using rank normalization and 10 does not appear to perform well
+  rlen = 10 # Higher values are recommended if 10 does not appear to perform wells
+  seed = 101 # Recommended to use your own random seed
 )
 
 # Save result
@@ -290,7 +291,8 @@ corrected <- correct_data(
   label = labels # Add custom labels here, if desired
   covar = "condition",
   markers = markers,
-  parametric = TRUE
+  parametric = TRUE,
+  seed = 101
   )
 
 # Save result

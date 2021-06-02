@@ -205,7 +205,7 @@ Here, it is clearly seen that the MAD score is efficient in detecting the system
 
 <br>
 
-With the EMD reduction and the MAD score, we have provided two quantitative measures for batch effect and information removal. They each hold some strong positive qualities for this purpose and could prove useful for many future studies on the topic.
+With the EMD reduction and the MAD score, we have provided two quantitative measures for batch effect and information removal. They each hold some strong positive qualities for this purpose and could prove useful for many future studies on the topic. We would also like to mention the approach presented in [BatchBench](https://doi.org/10.1093/nar/gkab004), which relies on entropy metrics. This is a strong alternative to the EMD/MAD approaches presented here.
 
 <br><br>
 
