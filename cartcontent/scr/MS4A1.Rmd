@@ -18,7 +18,7 @@ source("cartcontent/scr/00_functions.R")
 <br>
 
 #### Description
-B-lymphocyte antigen CD20 ([CD20](https://www.uniprot.org/uniprot/P11836)). B-lymphocyte-specific membrane protein that plays a role in the regulation of cellular calcium influx necessary for the development, differentiation, and activation of B-lymphocytes.
+B-lymphocyte antigen CD20 ([MS4A1](https://www.uniprot.org/uniprot/P11836)). B-lymphocyte-specific membrane protein that plays a role in the regulation of cellular calcium influx necessary for the development, differentiation, and activation of B-lymphocytes.
 <br> 
 
 #### Clinical trials 

@@ -29,7 +29,7 @@ CD276 antigen ([CD276](https://www.uniprot.org/uniprot/Q5ZPR3)). May participate
 <br>
 
 #### Target gene expression
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 40, fig.height= 12}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "CD276") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```

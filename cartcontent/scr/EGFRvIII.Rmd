@@ -35,7 +35,8 @@ Epidermal growth factor receptor, variant 3 ([EGFRvIII](https://www.uniprot.org/
 #### Target gene expression
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
 setwd("../../")
-boxplot_isoforms_all_tissues(hgnc = "EGFRvIII") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+boxplot_isoforms_all_tissues(hgnc = "EGFR") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+# same ensgID than EGFR, different isoform ?
 ```
 <br>
 

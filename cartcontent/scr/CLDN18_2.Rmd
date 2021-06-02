@@ -38,7 +38,7 @@ boxplot_isoforms_all_tissues(hgnc = "CLDN18") # it creates the boxplot in the ht
 #### Target splice variants
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
 setwd("../../")
-plot_function("CLDN18") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+plot_function("CLDN18_2") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
 ```
 <br>
 
