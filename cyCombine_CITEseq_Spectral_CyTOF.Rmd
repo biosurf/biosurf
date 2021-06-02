@@ -653,3 +653,5 @@ umap6 <- umap4 + facet_wrap(~batch)
 # Show plots
 cowplot::plot_grid(umap5, umap6, nrow = 2)
 ```
+
+
