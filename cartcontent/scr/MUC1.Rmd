@@ -1,0 +1,54 @@
+---
+title: "MUC1"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+<br>
+
+#### Description
+Mucin-1 ([MUC1](https://www.uniprot.org/uniprot/P15941)). Can act both as an adhesion and an anti-adhesion protein. May provide a protective layer on epithelial cells against bacterial and enzyme attack. Promotes tumor progression.
+
+<br> 
+
+#### Clinical trials 
+[NCT03356795](https://clinicaltrials.gov/ct2/show/NCT03356795) - Cervical Cancer <br>
+[NCT02839954](https://clinicaltrials.gov/ct2/show/NCT02839954)	- Colorectal Carcinoma, Hepatocellular Carcinoma, Pancreatic Carcinoma <br>
+[NCT02617134](https://clinicaltrials.gov/ct2/show/NCT02617134)	- Colorectal Carcinoma <br>
+[NCT02587689](https://clinicaltrials.gov/ct2/show/NCT02587689)	- Hepatocellular Carcinoma, Pancreatic Carcinoma <br>
+[NCT04025216](https://clinicaltrials.gov/ct2/show/NCT04025216) -	Ovarian Cancer <br>
+[NCT03267173](https://clinicaltrials.gov/ct2/show/NCT03267173)	- Pancreatic Carcinoma <br>
+
+<br>
+
+#### Target gene expression
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width =50, fig.height= 12}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "MUC1") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+<br>
+
+#### Target splice variants
+
+<br>
+
+#### Target essentiality
+
+<br>
+
+#### Protein properties
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
+setwd("../../")
+plot_function("MUC1") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```

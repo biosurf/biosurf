@@ -1,0 +1,1 @@
+seq_0	261	sp|P56856-2|CLD18_HUMAN Isoform A2 of Claudin-18 OS=Homo sapiens OX=9606 GN=CLDN18

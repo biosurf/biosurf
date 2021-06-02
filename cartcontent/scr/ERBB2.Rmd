@@ -1,0 +1,56 @@
+---
+title: "ERBB2"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+<br>
+
+#### Description
+Receptor tyrosine-protein kinase erbB-2 ([ERBB2](https://www.uniprot.org/uniprot/P04626)). Protein tyrosine kinase that is part of several cell surface receptor complexes. In the nucleus it is involved in transcriptional regulation. Enhances protein synthesis and cell growth.
+
+<br> 
+
+#### Clinical trials 
+[NCT03740256](https://clinicaltrials.gov/ct2/show/NCT03740256)	- Bladder Cancer, Breast Cancer, Colorectal    Cancer, Esophagus Cancer, Head and Neck Squamous Cell Carcinoma, Lung Cancer, Pancreatic Adenocarcinoma <br>
+[NCT03696030](https://clinicaltrials.gov/ct2/show/NCT03696030)	- Breast Cancer <br>
+[NCT02547961](https://clinicaltrials.gov/ct2/show/NCT02547961) -	Breast Cancer <br>
+[NCT04511871](https://clinicaltrials.gov/ct2/show/NCT04511871) -	Breast Cancer, Ovarian Cancer, Sarcoma <br>
+[NCT02713984](https://clinicaltrials.gov/ct2/show/NCT02713984)	- Breast Cancer, Colorectal Cancer, Lung Cancer, Ovarian Cancer, Pancreatic Adenocarcinoma <br>
+[NCT01109095](https://clinicaltrials.gov/ct2/show/NCT01109095)	- Glioblastoma Multiforme <br>
+[NCT03267173](https://clinicaltrials.gov/ct2/show/NCT03267173)	- Pancreatic Cancer <br>
+[NCT00902044](https://clinicaltrials.gov/ct2/show/NCT00902044) -	Sarcoma 
+
+<br>
+
+#### Target gene expression
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "ERBB2") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+<br>
+
+#### Target splice variants
+
+<br>
+
+#### Target essentiality
+
+<br>
+
+#### Protein properties
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
+setwd("../../")
+plot_function("ERBB2") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```

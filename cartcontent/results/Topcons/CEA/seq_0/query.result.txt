@@ -1,0 +1,291 @@
+##############################################################################
+TOPCONS2 result file
+Generated from http://commonbackend.computenode.pcons3.se at 2020-11-20 11:30:59 CET
+Total request time: 19.9 seconds.
+##############################################################################
+Sequence number: 1
+Sequence name: query
+Sequence length: 141 aa.
+Sequence:
+MGPPSASPHRECIPWQGLLLTASLLNFWNPPTTAKLTIESTPFNVAEGKEVLLLVHNLPQHLFGYSWYKGERVDGNSLIVGYVIGTQQATPGAAYSGRETIYTNASLLIHNVTQNDIGFYTLQVIKSDLVNEEATGQFHVY
+
+
+TOPCONS predicted topology:
+SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+OCTOPUS predicted topology:
+ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+Philius predicted topology:
+SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+PolyPhobius predicted topology:
+SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+SCAMPI predicted topology:
+ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+SPOCTOPUS predicted topology:
+SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+Homology:
+No homologous hits found
+
+
+
+Predicted Delta-G-values (kcal/mol) (left column=sequence position; right column=Delta-G)
+
+10 9.601
+11 9.089
+12 8.443
+13 7.431
+14 6.694
+15 5.685
+16 4.851
+17 4.882
+18 3.787
+19 2.781
+20 3.137
+21 2.845
+22 3.411
+23 3.863
+24 3.999
+25 4.625
+26 4.646
+27 4.476
+28 5.224
+29 5.859
+30 6.857
+31 7.411
+32 7.473
+33 7.463
+34 7.430
+35 8.298
+36 7.724
+37 7.889
+38 8.546
+39 7.893
+40 7.660
+41 8.031
+42 8.087
+43 7.877
+44 7.541
+45 6.877
+46 7.305
+47 7.699
+48 8.440
+49 7.246
+50 7.236
+51 7.699
+52 7.676
+53 7.646
+54 6.887
+55 7.208
+56 6.996
+57 6.595
+58 6.006
+59 5.469
+60 4.931
+61 5.453
+62 6.999
+63 7.943
+64 8.697
+65 9.454
+66 9.580
+67 9.808
+68 10.844
+69 10.447
+70 9.926
+71 8.974
+72 9.130
+73 8.625
+74 7.740
+75 7.080
+76 6.508
+77 6.360
+78 6.374
+79 6.412
+80 5.822
+81 5.075
+82 5.635
+83 6.182
+84 6.062
+85 6.171
+86 5.711
+87 5.716
+88 6.430
+89 6.726
+90 7.804
+91 7.862
+92 8.144
+93 8.177
+94 8.323
+95 8.505
+96 8.724
+97 8.956
+98 8.223
+99 7.880
+100 7.378
+101 7.207
+102 7.061
+103 6.837
+104 6.670
+105 7.135
+106 7.066
+107 7.000
+108 6.907
+109 6.756
+110 6.745
+111 6.970
+112 7.130
+113 6.736
+114 6.584
+115 6.739
+116 6.332
+117 7.060
+118 7.907
+119 8.279
+120 7.469
+121 6.929
+122 7.530
+123 7.944
+124 8.182
+125 7.716
+126 7.403
+127 7.919
+128 8.312
+129 8.407
+130 9.222
+131 9.219
+132 9.388
+
+Predicted TOPCONS reliability (left column=sequence position; right column=reliability)
+
+11	100.00
+12	100.00
+13	100.00
+14	100.00
+15	100.00
+16	100.00
+17	100.00
+18	100.00
+19	100.00
+20	100.00
+21	95.24
+22	90.48
+23	85.71
+24	80.95
+25	80.95
+26	80.95
+27	80.95
+28	80.95
+29	80.95
+30	80.95
+31	80.95
+32	80.95
+33	80.95
+34	80.95
+35	80.95
+36	80.95
+37	80.95
+38	80.95
+39	80.95
+40	80.95
+41	80.95
+42	85.71
+43	90.48
+44	95.24
+45	100.00
+46	100.00
+47	100.00
+48	100.00
+49	100.00
+50	100.00
+51	100.00
+52	100.00
+53	100.00
+54	100.00
+55	100.00
+56	100.00
+57	100.00
+58	100.00
+59	100.00
+60	100.00
+61	100.00
+62	100.00
+63	100.00
+64	100.00
+65	100.00
+66	100.00
+67	100.00
+68	100.00
+69	100.00
+70	100.00
+71	100.00
+72	100.00
+73	100.00
+74	100.00
+75	100.00
+76	100.00
+77	100.00
+78	100.00
+79	100.00
+80	100.00
+81	100.00
+82	100.00
+83	100.00
+84	100.00
+85	100.00
+86	100.00
+87	100.00
+88	100.00
+89	100.00
+90	100.00
+91	100.00
+92	100.00
+93	100.00
+94	100.00
+95	100.00
+96	100.00
+97	100.00
+98	100.00
+99	100.00
+100	100.00
+101	100.00
+102	100.00
+103	100.00
+104	100.00
+105	100.00
+106	100.00
+107	100.00
+108	100.00
+109	100.00
+110	100.00
+111	100.00
+112	100.00
+113	100.00
+114	100.00
+115	100.00
+116	100.00
+117	100.00
+118	100.00
+119	100.00
+120	100.00
+121	100.00
+122	100.00
+123	100.00
+124	100.00
+125	100.00
+126	100.00
+127	100.00
+128	100.00
+129	100.00
+130	100.00
+
+##############################################################################

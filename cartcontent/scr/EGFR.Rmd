@@ -1,0 +1,50 @@
+---
+title: "EGFR"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+<br>
+
+#### Description
+Epidermal growth factor receptor ([EGFR](https://www.uniprot.org/uniprot/P00533)). Receptor tyrosine kinase binding ligands of the EGF family and activating several signaling cascades to convert extracellular cues into appropriate cellular responses. 
+
+<br> 
+
+#### Clinical trials 
+[NCT03542799](https://clinicaltrials.gov/ct2/show/NCT03542799) - Metastatic Colorectal Cancer <br>
+[NCT01818323](https://clinicaltrials.gov/ct2/show/NCT01818323) - Head and Neck Cancer
+
+<br>
+
+#### Target gene expression
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "EGFR") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+<br>
+
+#### Target splice variants
+
+<br>
+
+#### Target essentiality
+
+<br>
+
+#### Protein properties
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
+setwd("../../")
+plot_function("EGFR") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```
