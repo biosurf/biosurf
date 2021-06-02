@@ -1,0 +1,49 @@
+---
+title: "CLDN18.2"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+<br>
+
+#### Description
+Claudin-18, isoform 2 ([CLDN18.2](https://www.uniprot.org/uniprot/P56856)). Plays a major role in tight junction-specific obliteration of the intercellular space, through calcium-independent cell-adhesion activity.
+
+<br> 
+
+#### Clinical trials 
+[NCT04404595](https://clinicaltrials.gov/ct2/show/NCT04404595) - Pancreatic Cancer <br>
+[NCT03159819](https://clinicaltrials.gov/ct2/show/NCT03159819) - Pancreatic Cancer
+
+<br>
+
+#### Target gene expression
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "CLDN18") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+<br>
+
+#### Target splice variants
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
+setwd("../../")
+plot_function("CLDN18") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```
+<br>
+
+#### Target essentiality
+
+<br>
+
+#### Protein properties

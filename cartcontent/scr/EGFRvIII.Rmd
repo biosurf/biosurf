@@ -1,0 +1,54 @@
+---
+title: "EGFRvIII"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+<br>
+
+#### Description
+Epidermal growth factor receptor, variant 3 ([EGFRvIII](https://www.uniprot.org/uniprot/P00533)). Receptor tyrosine kinase binding ligands of the EGF family and activating several signaling cascades to convert extracellular cues into appropriate cellular responses.
+
+<br> 
+
+#### Clinical trials 
+[NCT03638206](https://clinicaltrials.gov/ct2/show/NCT03638206) -	Hepatoma, Pancreatic Cancer, Colorectal Cancer, Esophagus Cancer, Lung Cancer, Melanoma, Ovarian Cancer, Renal Carcinoma <br> 
+[NCT03941626](https://clinicaltrials.gov/ct2/show/NCT03941626)	- Esophagus Cancer, Hepatoma <br>
+[NCT01454596](https://clinicaltrials.gov/ct2/show/NCT01454596)	- Glioblastoma Multiforme <br>
+[NCT02664363](https://clinicaltrials.gov/ct2/show/NCT02664363)	- Glioblastoma Multiforme <br>
+[NCT02844062](https://clinicaltrials.gov/ct2/show/NCT02844062)	- Glioblastoma Multiforme <br>
+[NCT03267173](https://clinicaltrials.gov/ct2/show/NCT03267173)	- Pancreatic Cancer 
+
+<br>
+
+#### Target gene expression
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "EGFRvIII") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+<br>
+
+#### Target splice variants
+
+<br>
+
+#### Target essentiality
+
+<br>
+
+#### Protein properties
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
+setwd("../../")
+plot_function("EGFRvIII") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```

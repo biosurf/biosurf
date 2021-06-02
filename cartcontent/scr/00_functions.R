@@ -115,9 +115,9 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
           legend.title = element_text(size = 20)) +
     ggtitle(label = paste("Target isoforms expression ", hgnc))
   
-  # ggsave(filename = paste(hgnc, "_", ensgID, "_plot.pdf", sep = ""), plot = plot, device = "pdf", 
-  #         path = "cartcontent/results/plots/target_isoforms_expression_level/", 
-  #       width = 100, height = 20, units = "cm", limitsize = F)
+  ggsave(filename = paste(hgnc, "_", ensgID, "_plot.pdf", sep = ""), plot = plot, device = "pdf", 
+           path = "cartcontent/results/plots/isoform_expression/", 
+         width = 100, height = 20, units = "cm", limitsize = F)
 
     return(plot)
 }
@@ -277,8 +277,8 @@ plot_function <- function(genename) {
           axis.ticks = element_blank()) +
     scale_fill_manual(values = palette) 
   
-  #ggsave(filename = paste(genename, "_plot.pdf", sep = ""), plot = p, device = "pdf", 
-  #       path = "../results/_Plots/", width = 30, height = 15, units = "cm")
+  ggsave(filename = paste(genename, "_plot.pdf", sep = ""), plot = p, device = "pdf", 
+         path = "cartcontent/results/plots/protein_properties/", width = 30, height = 15, units = "cm")
   
   return(p)
   

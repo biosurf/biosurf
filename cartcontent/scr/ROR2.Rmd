@@ -1,0 +1,50 @@
+---
+title: "ROR2"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+<br>
+
+#### Description
+Tyrosine-protein kinase transmembrane receptor ROR2 ([ROR2](https://www.uniprot.org/uniprot/Q01974)). Tyrosine-protein kinase receptor which may be involved in the early formation of the chondrocytes. It seems to be required for cartilage and growth plate development. Phosphorylates YWHAB, leading to induction of osteogenesis and bone formation.
+
+<br> 
+
+#### Clinical trials 
+[NCT03960060](https://clinicaltrials.gov/ct2/show/NCT03960060) -	Bladder Cancer, Pancreatic Cancer <br>
+[NCT03393936](https://clinicaltrials.gov/ct2/show/NCT03393936) -	Renal Cell Carcinoma
+
+<br>
+
+#### Target gene expression
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "ROR2") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+<br>
+
+#### Target splice variants
+
+<br>
+
+#### Target essentiality
+
+<br>
+
+#### Protein properties
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
+setwd("../../")
+plot_function("ROR2") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```
