@@ -291,5 +291,3 @@ plot_function <- function(genename) {
 
 
 
-
-
