@@ -15,33 +15,32 @@ setwd("../../")
 source("cartcontent/scr/00_functions.R")
 ```
 
-<br>
 
-#### Description
+<h4>Description</h4>
 B-lymphocyte antigen CD20 ([MS4A1](https://www.uniprot.org/uniprot/P11836)). B-lymphocyte-specific membrane protein that plays a role in the regulation of cellular calcium influx necessary for the development, differentiation, and activation of B-lymphocytes.
 <br> 
 
-#### Clinical trials 
+<h4>Clinical trials</h4>
 [NCT03893019](https://clinicaltrials.gov/ct2/show/NCT03893019) - Melanoma
 
 <br>
 
-#### Target gene expression
+<h4>Target gene expression</h4>
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "MS4A1") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```
 <br>
 
-#### Target splice variants
+<h4>Target splice variants</h4>
 
 <br>
 
-#### Target essentiality
+<h4>Target essentiality</h4>
 
 <br>
 
-#### Protein properties
+<h4>Protein properties</h4>
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
 setwd("../../")
 plot_function("MS4A1") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder

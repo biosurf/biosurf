@@ -15,35 +15,34 @@ setwd("../../")
 source("cartcontent/scr/00_functions.R")
 ```
 
-<br>
 
-#### Description
+<h4>Description</h4>
 Prostate stem cell antigen ([PSCA](https://www.uniprot.org/uniprot/O43653)). May be involved in the regulation of cell proliferation. Has a cell-proliferation inhibition activity in vitro. 
 
 <br> 
 
-#### Clinical trials 
+<h4>Clinical trials</h4>
 [NCT03267173](https://clinicaltrials.gov/ct2/show/NCT03267173) - Pancreatic Cancer <br>
 [NCT02744287](https://clinicaltrials.gov/ct2/show/NCT02744287) - Prostate Adenocarcinoma, Pancreatic Cancer <br>
 
 <br>
 
-#### Target gene expression
+<h4>Target gene expression</h4>
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "PSCA") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```
 <br>
 
-#### Target splice variants
+<h4>Target splice variants</h4>
 
 <br>
 
-#### Target essentiality
+<h4>Target essentiality</h4>
 
 <br>
 
-#### Protein properties
+<h4>Protein properties</h4>
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
 setwd("../../")
 plot_function("PSCA") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder

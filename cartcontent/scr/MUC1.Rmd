@@ -15,14 +15,13 @@ setwd("../../")
 source("cartcontent/scr/00_functions.R")
 ```
 
-<br>
 
-#### Description
+<h4>Description</h4>
 Mucin-1 ([MUC1](https://www.uniprot.org/uniprot/P15941)). Can act both as an adhesion and an anti-adhesion protein. May provide a protective layer on epithelial cells against bacterial and enzyme attack. Promotes tumor progression.
 
 <br> 
 
-#### Clinical trials 
+<h4>Clinical trials</h4> 
 [NCT03356795](https://clinicaltrials.gov/ct2/show/NCT03356795) - Cervical Cancer <br>
 [NCT02839954](https://clinicaltrials.gov/ct2/show/NCT02839954)	- Colorectal Carcinoma, Hepatocellular Carcinoma, Pancreatic Carcinoma <br>
 [NCT02617134](https://clinicaltrials.gov/ct2/show/NCT02617134)	- Colorectal Carcinoma <br>
@@ -32,22 +31,22 @@ Mucin-1 ([MUC1](https://www.uniprot.org/uniprot/P15941)). Can act both as an adh
 
 <br>
 
-#### Target gene expression
+<h4>Target gene expression</h4>
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width =50, fig.height= 12}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "MUC1") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```
 <br>
 
-#### Target splice variants
+<h4>Target splice variants</h4>
 
 <br>
 
-#### Target essentiality
+<h4>Target essentiality</h4>
 
 <br>
 
-#### Protein properties
+<h4>Protein properties</h4>
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
 setwd("../../")
 plot_function("MUC1") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder

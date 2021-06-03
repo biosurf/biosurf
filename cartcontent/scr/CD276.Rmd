@@ -15,35 +15,33 @@ setwd("../../")
 source("cartcontent/scr/00_functions.R")
 ```
 
-<br>
-
-#### Description
+<h4>Description</h4>
 CD276 antigen ([CD276](https://www.uniprot.org/uniprot/Q5ZPR3)). May participate in the regulation of T-cell-mediated immune response. May play a protective role in tumor cells by inhibiting natural-killer mediated cell lysis as well as a role of marker for detection of neuroblastoma cells. May be involved in the development of acute and chronic transplant rejection and in the regulation of lymphocytic activity at mucosal surfaces. Could also play a key role in providing the placenta and fetus with a suitable immunological environment throughout pregnancy.
 
 <br> 
 
-#### Clinical trials 
+<h4>Clinical trials</h4> 
 
 [NCT04483778](https://clinicaltrials.gov/ct2/show/NCT04483778) - Melanoma 
 
 <br>
 
-#### Target gene expression
+<h4>Target gene expression</h4>
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 40, fig.height= 12}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "CD276") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```
 <br>
 
-#### Target splice variants
+<h4>Target splice variants</h4>
 
 <br>
 
-#### Target essentiality
+<h4>Target essentiality</h4>
 
 <br>
 
-#### Protein properties
+<h4>Protein properties</h4>
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
 setwd("../../")
 plot_function("CD276") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
