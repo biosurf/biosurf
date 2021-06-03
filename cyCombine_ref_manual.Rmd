@@ -1,7 +1,7 @@
 ---
 title: "cyCombine: Reference manual"
 author: "Søren Helweg Dam & Christina Bligaard Pedersen"
-date: June 2, 2021
+date: June 3, 2021
 output: 
   html_document:
     toc: true
@@ -301,14 +301,28 @@ saveRDS(corrected, file.path(data_dir, "corrected.RDS"))
 
 <br><br>
 
-# Evaluate performance using Earth Mover's Distance (EMD) reduction
+# Evaluate performance
 
-The EMD reduction is implemented as a performance metric; EMDs are computed for both the uncorrected and corrected data, removing those values where both had an EMD < 2.
+The cyCombine package includes two performance metrics. The Earth Mover's Distance (EMD) reduction and the Median Absolute Deviation (MAD) score
+
+The EMD reduction is implemented as the first performance metric; EMDs are computed for both the uncorrected and corrected data, removing those values where both had an EMD < 2.
 
 <br>
 
 $$EMD_{reduction} = \frac{\sum_{i=1}^n {(EMD_{before_i} - EMD_{after_i})}} {\sum_{i=1}^n {EMD_{before_i}}}$$
 <br>
+
+
+
+The MAD score is implemented as the second performance metric; MADs are computed for both the uncorrected and corrected data per-cluster, per-marker, per-batch. The MAD score is then calculated as the median of the absolute difference in MAD per value:
+
+<br>
+
+$$MAD_{score} = \mathrm{median}_{i=1}^n (|MAD_{before_i} - MAD_{after_i}|)$$
+<br>
+
+Because the MAD score quantifies the information 'loss', the ideal tool has a *small* MAD score.
+
 
 ```{r, eval=FALSE}
 # Load packages
@@ -339,23 +353,7 @@ emd$violin
 # Scatter plot
 emd$scatter
 
-```
 
-
-<br><br>
-
-# Evaluate performance using Median Absolute Deviation (MAD) score
-
-The MAD score is implemented as another performance metric; MADs are computed for both the uncorrected and corrected data per-cluster, per-marker, per-batch. The MAD score is then calculated as the median of the absolute difference in MAD per value:
-
-<br>
-
-$$MAD_{score} = \mathrm{median}_{i=1}^n (|MAD_{before_i} - MAD_{after_i}|)$$
-<br>
-
-Because the MAD score quantifies the information 'loss', the ideal tool has a *small* MAD score.
-
-```{r, eval=FALSE}
 
 # Evaluate MAD
 mad <- evaluate_mad(uncorrected, corrected, cell_col = "label")
