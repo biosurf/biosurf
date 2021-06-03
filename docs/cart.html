@@ -13,45 +13,37 @@
 
 <title>Evaluation of CAR T cell targets in clinical trials</title>
 
-<script src="site_libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-
-
-
 
 <style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
 
 
 
@@ -61,10 +53,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -81,40 +69,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 45px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h2 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h3 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h4 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h5 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h6 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -142,7 +103,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -154,7 +115,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -165,10 +126,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -180,7 +154,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -321,7 +294,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -333,48 +306,891 @@ $(document).ready(function () {
 <p><br></p>
 <p>This page summarizes the evaluations of 60 protein targets for chimeric antigen receptor T cell therapy. Click protein names for a detailed summary. Details of the evaluation criteria is described here [paper].</p>
 <details>
-<p><summary>ALPP</summary></p>
+<summary>
+ALPP
+</summary>
+<h4>
+Description
+</h4>
+<p>Alkaline phosphatase, placental type (<a href="https://www.uniprot.org/uniprot/P05187">ALPP</a>).</p>
 <p><br></p>
-<div id="description" class="section level4">
-<h4>Description</h4>
-<p>Alkaline phosphatase, placental type (<a href="https://www.uniprot.org/uniprot/P05187">ALPP</a>) is targeted in clinical trials (<a href="https://www.clinicaltrials.gov/ct2/show/NCT04627740">NCT04627740</a>) as treatment for ovarian cancer and endometrial cancer.</p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT04627740">NCT04627740</a> - Ovarian Cancer, Endometrial Cancer</p>
 <p><br></p>
-</div>
-<div id="target-gene-expression" class="section level4">
-<h4>Target gene expression</h4>
-<p><img src="cartcontent/images/ALPP_expression.png" width="1500" /></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-30-1.png" width="2592" /></p>
 <p><br></p>
-</div>
-<div id="target-splice-variants" class="section level4">
-<h4>Target splice variants</h4>
+<h4>
+Target splice variants
+</h4>
 <p><br></p>
-</div>
-<div id="target-essentiality" class="section level4">
-<h4>Target essentiality</h4>
+<h4>
+Target essentiality
+</h4>
 <p><br></p>
-</div>
-<div id="protein-properties" class="section level4">
-<h4>Protein properties</h4>
-<img src="cartcontent/images/ALPP_plot.png" width="1500" />
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-31-1.png" width="1152" />
 </details>
 <details>
-<p><summary>Target 2</summary></p>
-<br>Figures. Some text.<br><br>
+<summary>
+AXL
+</summary>
+<h4>
+Description
+</h4>
+<p>Tyrosine-protein kinase receptor UFO (<a href="https://www.uniprot.org/uniprot/P30530">AXL</a>). Receptor tyrosine kinase that transduces signals from the extracellular matrix into the cytoplasm by binding growth factor GAS6 and which is thus regulating many physiological processes including cell survival, cell proliferation, migration and differentiation. <br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03393936">NCT03393936</a> - Renal Cancer</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-33-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-34-1.png" width="1152" />
 </details>
-</div>
+<details>
+<summary>
+CD19
+</summary>
+<h4>
+Description
+</h4>
+<p>B-lymphocyte antigen CD19 (<a href="https://www.uniprot.org/uniprot/P15391">CD19</a>). Functions as coreceptor for the B-cell antigen receptor complex (BCR) on B-lymphocytes. Decreases the threshold for activation of downstream signaling pathways and for triggering B-cell responses to antigens.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT02465983">NCT02465983</a> - Pancreatic Cancer</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-36-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-37-1.png" width="1152" />
+</details>
+<details>
+<summary>
+CD22
+</summary>
+<h4>
+Description
+</h4>
+<p>B-cell receptor CD22 (<a href="https://www.uniprot.org/uniprot/P20273">CD22</a>). Mediates B-cell B-cell interactions. May be involved in the localization of B-cells in lymphoid tissues. It seems to be involved in regulation of B-cell antigen receptor signaling.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT04556669">NCT04556669</a> - Cervical Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03638206">NCT03638206</a> - Colorectal Cancer, Esophagus Cancer, Renal Carcinoma, Hepatoma, Lung Cancer, Mesothelioma, Ovarian Cancer, Pancreatic Cancer, Melanoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT04556669">NCT04556669</a> - Sarcoma <br></p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-39-1.png" width="2880" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-40-1.png" width="1152" />
+</details>
+<details>
+<summary>
+CD276
+</summary>
+<h4>
+Description
+</h4>
+<p>CD276 antigen (<a href="https://www.uniprot.org/uniprot/Q5ZPR3">CD276</a>). May participate in the regulation of T-cell-mediated immune response. May play a protective role in tumor cells by inhibiting natural-killer mediated cell lysis as well as a role of marker for detection of neuroblastoma cells. May be involved in the development of acute and chronic transplant rejection and in the regulation of lymphocytic activity at mucosal surfaces. Could also play a key role in providing the placenta and fetus with a suitable immunological environment throughout pregnancy.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT04483778">NCT04483778</a> - Melanoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-42-1.png" width="3840" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-43-1.png" width="1152" />
+</details>
+<details>
+<summary>
+CD33
+</summary>
+<h4>
+Description
+</h4>
+<p>Myeloid cell surface antigen CD33 (<a href="https://www.uniprot.org/uniprot/P20138">CD33</a>). Sialic-acid-binding immunoglobulin-like lectin (Siglec) that plays a role in mediating cell-cell interactions and in maintaining immune cells in a resting state.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03638206">NCT03638206</a> - Esophagus Cancer, Renal Carcinoma, Hepatoma, Lung Cancer, Mesothelioma, Ovarian Cancer, Pancreatic Cancer, Melanoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-45-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-46-1.png" width="1152" />
+</details>
+<details>
+<summary>
+CD38
+</summary>
+<h4>
+Description
+</h4>
+<p>ADP-ribosyl cyclase/cyclic ADP-ribose hydrolase 1 (<a href="https://www.uniprot.org/uniprot/P28907">CD38</a>). Synthesizes the second messengers cyclic ADP-ribose and nicotinate-adenine dinucleotide phosphate, the former a second messenger for glucose-induced insulin secretion. Also has cADPr hydrolase activity. Also moonlights as a receptor in cells of the immune system.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03638206">NCT03638206</a> - Colorectal Cancer, Esophagus Cancer, Renal Carcinoma, Hepatoma, Lung Cancer, Mesothelioma, Ovarian Cancer, Pancreatic Cancer, Melanoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-48-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-49-1.png" width="1152" />
+</details>
+<details>
+<summary>
+CD70
+</summary>
+<h4>
+Description
+</h4>
+<p>CD70 antigen (<a href="https://www.uniprot.org/uniprot/P32970">CD70</a>). Cytokine which is the ligand for CD27. The CD70-CD27 pathway plays an important role in the generation and maintenance of T cell immunity, in particular during antiviral responses.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT02830724">NCT02830724</a> - Breast Cancer, Renal Cell Cancer, Ovarian Cancer, Pancreatic Cancer, Melanoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-51-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-52-1.png" width="1152" />
+</details>
+<details>
+<summary>
+CEA
+</summary>
+<h4>
+Description
+</h4>
+<p>Carcinoembryonic antigen (<a href="https://www.uniprot.org/uniprot/Q13982">CEA</a>).</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT02349724">NCT02349724</a> - Lung Cancer, Colorectal Cancer, Breast Cancer, Pancreatic Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03267173">NCT03267173</a> - Pancreatic Cancer</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-54-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-55-1.png" width="1152" /></p>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+</details>
+<details>
+<summary>
+CLDN18.2
+</summary>
+<h4>
+Description
+</h4>
+<p>Claudin-18, isoform 2 (<a href="https://www.uniprot.org/uniprot/P56856">CLDN18.2</a>). Plays a major role in tight junction-specific obliteration of the intercellular space, through calcium-independent cell-adhesion activity.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT04404595">NCT04404595</a> - Pancreatic Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03159819">NCT03159819</a> - Pancreatic Cancer</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-57-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-58-1.png" width="1152" /> <br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+</details>
+<details>
+<summary>
+EGFR
+</summary>
+<h4>
+Description
+</h4>
+<p>Epidermal growth factor receptor (<a href="https://www.uniprot.org/uniprot/P00533">EGFR</a>). Receptor tyrosine kinase binding ligands of the EGF family and activating several signaling cascades to convert extracellular cues into appropriate cellular responses.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03542799">NCT03542799</a> - Metastatic Colorectal Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT01818323">NCT01818323</a> - Head and Neck Cancer</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-60-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-61-1.png" width="1152" />
+</details>
+<details>
+<summary>
+EGFRvIII
+</summary>
+<h4>
+Description
+</h4>
+<p>Epidermal growth factor receptor, variant 3 (<a href="https://www.uniprot.org/uniprot/P00533">EGFRvIII</a>). Receptor tyrosine kinase binding ligands of the EGF family and activating several signaling cascades to convert extracellular cues into appropriate cellular responses.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03638206">NCT03638206</a> - Hepatoma, Pancreatic Cancer, Colorectal Cancer, Esophagus Cancer, Lung Cancer, Melanoma, Ovarian Cancer, Renal Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03941626">NCT03941626</a> - Esophagus Cancer, Hepatoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT01454596">NCT01454596</a> - Glioblastoma Multiforme <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02664363">NCT02664363</a> - Glioblastoma Multiforme <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02844062">NCT02844062</a> - Glioblastoma Multiforme <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03267173">NCT03267173</a> - Pancreatic Cancer</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-63-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-64-1.png" width="1152" />
+</details>
+<details>
+<summary>
+EPCAM
+</summary>
+<h4>
+Description
+</h4>
+<p>Epithelial cell adhesion molecule (<a href="https://www.uniprot.org/uniprot/P16422">EPCAM</a>). May act as a physical homophilic interaction molecule between intestinal epithelial cells (IECs) and intraepithelial lymphocytes (IELs) at the mucosal epithelium for providing immunological barrier as a first line of defense against mucosal infection. Plays a role in embryonic stem cells proliferation and differentiation. Up-regulates the expression of FABP5, MYC and cyclins A and E.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03013712">NCT03013712</a> - Colon Cancer, Esophagus Cancer, Hepatic Carcinoma, Pancreatic Cancer, Prostate Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02729493">NCT02729493</a> - Liver Neoplasms <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02725125">NCT02725125</a> - Stomach Neoplasms <br></p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-66-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-67-1.png" width="1152" />
+</details>
+<details>
+<summary>
+ERBB2
+</summary>
+<h4>
+Description
+</h4>
+<p>Receptor tyrosine-protein kinase erbB-2 (<a href="https://www.uniprot.org/uniprot/P04626">ERBB2</a>). Protein tyrosine kinase that is part of several cell surface receptor complexes. In the nucleus it is involved in transcriptional regulation. Enhances protein synthesis and cell growth.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03740256">NCT03740256</a> - Bladder Cancer, Breast Cancer, Colorectal Cancer, Esophagus Cancer, Head and Neck Squamous Cell Carcinoma, Lung Cancer, Pancreatic Adenocarcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03696030">NCT03696030</a> - Breast Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02547961">NCT02547961</a> - Breast Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT04511871">NCT04511871</a> - Breast Cancer, Ovarian Cancer, Sarcoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02713984">NCT02713984</a> - Breast Cancer, Colorectal Cancer, Lung Cancer, Ovarian Cancer, Pancreatic Adenocarcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT01109095">NCT01109095</a> - Glioblastoma Multiforme <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03267173">NCT03267173</a> - Pancreatic Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT00902044">NCT00902044</a> - Sarcoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-69-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-70-1.png" width="1152" />
+</details>
+<details>
+<summary>
+FOLH1
+</summary>
+<h4>
+Description
+</h4>
+<p>Glutamate carboxypeptidase 2 (<a href="https://www.uniprot.org/uniprot/Q04609">FOLH1</a>) Has both folate hydrolase and N-acetylated-alpha-linked-acidic dipeptidase (NAALADase) activity. Has a preference for tri-alpha-glutamate peptides. In the intestine, required for the uptake of folate. In the brain, modulates excitatory neurotransmission through the hydrolysis of the neuropeptide, N-aceylaspartylglutamate (NAAG), thereby releasing glutamate. Involved in prostate tumor progression.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT04633148">NCT04633148</a> - Breast Cancer, Colorectal Cancer, Renal Cancer, Prostate Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03356795">NCT03356795</a> - Cervical Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT04249947">NCT04249947</a> - Prostate Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT01140373">NCT01140373</a> - Prostate Cancer <br></p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-72-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-73-1.png" width="1152" />
+</details>
+<details>
+<summary>
+GPC3
+</summary>
+<h4>
+Description
+</h4>
+<p>Glypican-3 (<a href="https://www.uniprot.org/uniprot/P51654">GPC3</a>). Cell surface proteoglycan that bears heparan sulfate. Used as a marker for hepatocellular carcinoma (HCC). When attached to the cell surface, stimulates the growth of HCC cells by increasing canonical Wnt signaling.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03884751">NCT03884751</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02905188">NCT02905188</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT04377932">NCT04377932</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02932956">NCT02932956</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT04093648">NCT04093648</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02723942">NCT02723942</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT04121273">NCT04121273</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03146234">NCT03146234</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03130712">NCT03130712</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02715362">NCT02715362</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03084380">NCT03084380</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02395250">NCT02395250</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02959151">NCT02959151</a> - Hepatocellular Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02876978">NCT02876978</a> - Lung Squamous Cell Carcinoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-75-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-76-1.png" width="1152" />
+</details>
+<details>
+<summary>
+IL3RA
+</summary>
+<h4>
+Description
+</h4>
+<p>Interleukin-3 receptor subunit alpha (<a href="https://www.uniprot.org/uniprot/P26951">IL3RA</a>. Receptor for interleukin-3.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT02541370">NCT02541370</a> - Breast Cancer, Colorectal Cancer, Hepatoma, Ovarian Cancer, Pancreatic Cancer</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-78-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-79-1.png" width="1152" />
+</details>
+<details>
+<summary>
+MET
+</summary>
+<h4>
+Description
+</h4>
+<p>Hepatocyte growth factor receptor (<a href="https://www.uniprot.org/uniprot/P08581">MET</a>). Receptor tyrosine kinase that transduces signals from the extracellular matrix into the cytoplasm by binding to hepatocyte growth factor/HGF ligand.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03060356">NCT03060356</a> - Breast Cancer, Melanoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03638206">NCT03638206</a> - Colorectal Cancer, Esophagus Cancer, Renal Carcinoma, Hepatoma, Lung Cancer, Mesothelioma, Ovarian Cancer, Pancreatic Cancer, Melanoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03672305">NCT03672305</a> - Hepatoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-81-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-82-1.png" width="1152" />
+</details>
+<details>
+<summary>
+MS4A1
+</summary>
+<h4>
+Description
+</h4>
+<p>B-lymphocyte antigen CD20 (<a href="https://www.uniprot.org/uniprot/P11836">MS4A1</a>). B-lymphocyte-specific membrane protein that plays a role in the regulation of cellular calcium influx necessary for the development, differentiation, and activation of B-lymphocytes. <br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03893019">NCT03893019</a> - Melanoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-84-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-85-1.png" width="1152" />
+</details>
+<details>
+<summary>
+MSLN
+</summary>
+<h4>
+Description
+</h4>
+<p>Mesothelin (<a href="https://www.uniprot.org/uniprot/Q13421">MSLN</a>). It plays a role in cell adhesion.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT02792114">NCT02792114</a> - Breast Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03356795">NCT03356795</a> - Cervical Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT04503980">NCT04503980</a> – Colorectal Cancer, Ovarian Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03638206">NCT03638206</a> – Colorectal Cancer, Esophagus Cancer, Renal Carcinoma, Hepatoma, Lung Cancer, Mesothelioma, Ovarian Cancer, Pancreatic Cancer, Melanoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03941626">NCT03941626</a> – Esophagus Cancer, Hepatoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02959151">NCT02959151</a> – Hepatoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03054298">NCT03054298</a> - Lung Adenocarcinoma, Ovarian Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT04489862">NCT04489862</a> - Mesothelioma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02580747">NCT02580747</a> – Mesothelioma, Ovarian Cancer, Pancreatic Cancer, Endometrial Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03814447">NCT03814447</a> – Ovarian Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03497819">NCT03497819</a> – Pancreatic Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03323944">NCT03323944</a> - Pancreatic Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03638193">NCT03638193</a> - Pancreatic Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02706782">NCT02706782</a> - Pancreatic Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02465983">NCT02465983</a> - Pancreatic Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03267173">NCT03267173</a> - Pancreatic Cancer <br></p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-87-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-88-1.png" width="1152" />
+</details>
+<details>
+<summary>
+MUC1
+</summary>
+<h4>
+Description
+</h4>
+<p>Mucin-1 (<a href="https://www.uniprot.org/uniprot/P15941">MUC1</a>). Can act both as an adhesion and an anti-adhesion protein. May provide a protective layer on epithelial cells against bacterial and enzyme attack. Promotes tumor progression.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03356795">NCT03356795</a> - Cervical Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02839954">NCT02839954</a> - Colorectal Carcinoma, Hepatocellular Carcinoma, Pancreatic Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02617134">NCT02617134</a> - Colorectal Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02587689">NCT02587689</a> - Hepatocellular Carcinoma, Pancreatic Carcinoma <br> <a href="https://clinicaltrials.gov/ct2/show/NCT04025216">NCT04025216</a> - Ovarian Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03267173">NCT03267173</a> - Pancreatic Carcinoma <br></p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-90-1.png" width="4800" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-91-1.png" width="1152" />
+</details>
+<details>
+<summary>
+PSCA
+</summary>
+<h4>
+Description
+</h4>
+<p>Prostate stem cell antigen (<a href="https://www.uniprot.org/uniprot/O43653">PSCA</a>). May be involved in the regulation of cell proliferation. Has a cell-proliferation inhibition activity in vitro.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03267173">NCT03267173</a> - Pancreatic Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT02744287">NCT02744287</a> - Prostate Adenocarcinoma, Pancreatic Cancer <br></p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-93-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-94-1.png" width="1152" />
+</details>
+<details>
+<summary>
+RAET1E
+</summary>
+<h4>
+Description
+</h4>
+<p>Retinoic acid early transcript 1E (<a href="https://www.uniprot.org/uniprot/Q8TD07">RAET1E</a>). Binds and activates the KLRK1/NKG2D receptor, mediating natural killer cell cytotoxicity.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT04107142">NCT04107142</a> - Colorectal Cancer, Prostate Cancer, Sarcoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-96-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-97-1.png" width="1152" />
+</details>
+<details>
+<summary>
+ROR2
+</summary>
+<h4>
+Description
+</h4>
+<p>Tyrosine-protein kinase transmembrane receptor ROR2 (<a href="https://www.uniprot.org/uniprot/Q01974">ROR2</a>). Tyrosine-protein kinase receptor which may be involved in the early formation of the chondrocytes. It seems to be required for cartilage and growth plate development. Phosphorylates YWHAB, leading to induction of osteogenesis and bone formation.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03960060">NCT03960060</a> - Bladder Cancer, Pancreatic Cancer <br> <a href="https://clinicaltrials.gov/ct2/show/NCT03393936">NCT03393936</a> - Renal Cell Carcinoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-99-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-100-1.png" width="1152" />
+</details>
+<details>
+<summary>
+TNFRSF10B
+</summary>
+<h4>
+Description
+</h4>
+<p>Tumor necrosis factor receptor superfamily member 10B (<a href="https://www.uniprot.org/uniprot/O14763">TNFRSF10B</a>). Receptor for the cytotoxic ligand TNFSF10/TRAIL. Promotes the activation of NF-kappa-B. Essential for ER stress-induced apoptosis.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT03638206">NCT03638206</a> - Colorectal Cancer, Esophagus Cancer, Renal Carcinoma, Hepatoma, Lung Cancer, Mesothelioma, Ovarian Cancer, Pancreatic Cancer, Melanoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-102-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-103-1.png" width="1152" />
+</details>
+<!-- <details> -->
+<!--   <summary>TNFRSF17</summary> -->
+<!-- ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE} -->
+<!-- res <- knitr::knit_child('cartcontent/scr/TNFRSF17.Rmd', quiet = TRUE) -->
+<!-- cat(res, sep = '\n') -->
+<!-- ``` -->
+<!-- </details> -->
+<details>
+<summary>
+ULBP1
+</summary>
+<h4>
+Description
+</h4>
+<p>UL16-binding protein 1 (<a href="https://www.uniprot.org/uniprot/Q9BZM6">ULBP1</a>). Binds and activates the KLRK1/NKG2D receptor, mediating natural killer cell cytotoxicity.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT04107142">NCT04107142</a> - Colorectal Cancer, Prostate Cancer, Sarcoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-105-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-106-1.png" width="1152" />
+</details>
+<details>
+<summary>
+ULBP2
+</summary>
+<h4>
+Description
+</h4>
+<p>UL16-binding protein 2 (<a href="https://www.uniprot.org/uniprot/Q9BZM5">ULBP2</a>). Binds and activates the KLRK1/NKG2D receptor, mediating natural killer cell cytotoxicity.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT04107142">NCT04107142</a> - Colorectal Cancer, Prostate Cancer, Sarcoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-108-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-109-1.png" width="1152" />
+</details>
+<details>
+<summary>
+ULBP3
+</summary>
+<h4>
+Description
+</h4>
+<p>UL16-binding protein 3 (<a href="https://www.uniprot.org/uniprot/Q9BZM4">ULBP3</a>). Binds and activates the KLRK1/NKG2D receptor, mediating natural killer cell cytotoxicity.</p>
+<p><br></p>
+<h4>
+Clinical trials
+</h4>
+<p><a href="https://clinicaltrials.gov/ct2/show/NCT04107142">NCT04107142</a> - Colorectal Cancer, Prostate Cancer, Sarcoma</p>
+<p><br></p>
+<h4>
+Target gene expression
+</h4>
+<p><img src="cart_files/figure-html/unnamed-chunk-111-1.png" width="2592" /> <br></p>
+<h4>
+Target splice variants
+</h4>
+<p><br></p>
+<h4>
+Target essentiality
+</h4>
+<p><br></p>
+<h4>
+Protein properties
+</h4>
+<img src="cart_files/figure-html/unnamed-chunk-112-1.png" width="1152" />
+</details>
 
 &nbsp;
 <hr />
 <p style="text-align: center;">Contact</p>
 
 <!-- Add icon library -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/2089613833.js" crossorigin="anonymous"></script>
 
 <!-- Add font awesome icons -->
 <p style="text-align: center;">
-    <a href="mailto:lronn@dtu.dk" class="fa fa-envelope"></a>
-    <a href="https://www.linkedin.com/in/larsronnolsen/" class="fa fa-linkedin"></a>
-    <a href="https://github.com/biosurf/" class="fa fa-github"></a>
+    <a href="mailto:lronn@dtu.dk" class="fas fa-envelope"></a>
+    <a href="https://www.linkedin.com/in/larsronnolsen/" class="fab fa-linkedin-in"></a>
+    <a href="https://github.com/biosurf/" class="fab fa-github"></a>
 </p>
 
 &nbsp;
@@ -387,7 +1203,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -405,7 +1221,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

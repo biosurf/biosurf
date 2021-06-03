@@ -1,0 +1,68 @@
+<HTML>
+<head>
+<title>TOPCONS2 predictions</title>
+<link rel="stylesheet" href="http://topcons.net/static/css/jquery.dataTables.css" type="text/css" />
+<link rel="stylesheet" href="http://topcons.net/static/css/template_css.css" type="text/css" />
+<script src="http://topcons.net/static/js/sorttable.js"></script>
+<script src="http://topcons.net/static/js/jquery.js"></script>
+<script src="http://topcons.net/static/js/jquery.dataTables.min.js"></script>
+<script>
+$(function(){
+  $("#jobtable").dataTable();
+  })
+</script>
+</head>
+<BODY>
+<dir id="Content">
+<a name="table1"></a><h4></h4>
+<table class="sortable" id="jobtable" border=1>
+<thead>
+<tr>
+<th>
+No.
+</th>
+<th>
+Length
+</th>
+<th>
+numTM
+</th>
+<th>
+SignalPeptide
+</th>
+<th>
+RunTime(s)
+</th>
+<th>
+SequenceName
+</th>
+<th>
+Prediction
+</th>
+<th>
+Source
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>993</td>
+<td>2</td>
+<td>Yes</td>
+<td>0.0</td>
+<td>sp|P36888|FLT3_HUMAN Receptor-type tyrosine-protein kinase FLT3 OS=Homo sapiens OX=9606 GN=FLT3 PE=1 SV=2</td>
+<td>
+<a href="seq_0/Topcons/total_image.png">Fig_all</a>
+<a href="seq_0/Topcons/topcons.png">Fig_topcons</a><br>
+<a href="seq_0/query.result.txt">Dumped prediction</a><br>
+<a href="seq_0/dg.txt">deltaG</a><br>
+<a href="seq_0/nicetop.html">Topology view</a><br>
+</td>
+<td>cached</td>
+</tr>
+</tbody>
+</table>
+</dir>
+</BODY>
+</HTML>

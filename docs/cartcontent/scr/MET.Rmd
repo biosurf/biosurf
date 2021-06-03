@@ -1,0 +1,50 @@
+---
+title: "MET"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+
+<h4>Description</h4>
+Hepatocyte growth factor receptor ([MET](https://www.uniprot.org/uniprot/P08581)). Receptor tyrosine kinase that transduces signals from the extracellular matrix into the cytoplasm by binding to hepatocyte growth factor/HGF ligand. 
+
+<br> 
+
+<h4>Clinical trials</h4>
+[NCT03060356](https://clinicaltrials.gov/ct2/show/NCT03060356) - Breast Cancer, Melanoma <br>
+[NCT03638206](https://clinicaltrials.gov/ct2/show/NCT03638206) - Colorectal Cancer, Esophagus Cancer, Renal Carcinoma, Hepatoma, Lung Cancer, Mesothelioma, Ovarian Cancer, Pancreatic Cancer, Melanoma <br>
+[NCT03672305](https://clinicaltrials.gov/ct2/show/NCT03672305) - Hepatoma
+
+<br>
+
+<h4>Target gene expression</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "MET") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+<br>
+
+<h4>Target splice variants</h4>
+
+<br>
+
+<h4>Target essentiality</h4>
+
+<br>
+
+<h4>Protein properties</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
+setwd("../../")
+plot_function("MET") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```

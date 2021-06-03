@@ -1,0 +1,1 @@
+seq_0	314	1	True	cached	0.0	sp|P16422|EPCAM_HUMAN Epithelial cell adhesion molecule OS=Homo sapiens OX=9606 GN=EPCAM PE=1 SV=2	2020-11-20 11:23:30 CET

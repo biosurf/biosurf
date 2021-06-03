@@ -1,0 +1,1 @@
+seq_0	300	1	False	cached	0.0	sp|P28907|CD38_HUMAN ADP-ribosyl cyclase/cyclic ADP-ribose hydrolase 1 OS=Homo sapiens OX=9606 GN=CD38 PE=1 SV=2	2020-11-28 14:38:38 UTC

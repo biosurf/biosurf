@@ -1,0 +1,49 @@
+---
+title: "CEA"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+<h4>Description</h4>
+Carcinoembryonic antigen ([CEA](https://www.uniprot.org/uniprot/Q13982)). 
+
+<br> 
+
+<h4>Clinical trials</h4> 
+[NCT02349724](https://clinicaltrials.gov/ct2/show/NCT02349724)  - Lung Cancer, Colorectal Cancer, Breast Cancer, Pancreatic Cancer <br>
+[NCT03267173](https://clinicaltrials.gov/ct2/show/NCT03267173) - Pancreatic Cancer 
+
+
+<br>
+
+<h4>Target gene expression</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "CEA") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+<br>
+
+<h4>Target splice variants</h4>
+
+<br>
+
+<h4>Target essentiality</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
+setwd("../../")
+plot_function("CEA") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```
+
+<br>
+
+<h4>Protein properties</h4>
