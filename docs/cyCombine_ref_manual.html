@@ -2069,9 +2069,9 @@ saveRDS(uncorrected, file = "data/uncorrected.RDS")
 <p><br><br></p>
 </div>
 </div>
-<div id="evaluate-performance-using-earth-movers-distance" class="section level1">
-<h1>Evaluate performance using Earth Mover’s Distance</h1>
-<p>The EMD reduction is implemented as the performance metric; EMDs are computed for both the uncorrected and corrected data, removing those values where both had an EMD &lt; 2.</p>
+<div id="evaluate-performance-using-earth-movers-distance-emd-reduction" class="section level1">
+<h1>Evaluate performance using Earth Mover’s Distance (EMD) reduction</h1>
+<p>The EMD reduction is implemented as a performance metric; EMDs are computed for both the uncorrected and corrected data, removing those values where both had an EMD &lt; 2.</p>
 <p><br></p>
 <p><span class="math display">\[EMD_{reduction} = \frac{\sum_{i=1}^n {(EMD_{before_i} - EMD_{after_i})}} {\sum_{i=1}^n {EMD_{before_i}}}\]</span> <br></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Load packages</span></a>
@@ -2103,33 +2103,46 @@ saveRDS(uncorrected, file = "data/uncorrected.RDS")
 <a class="sourceLine" id="cb5-27" data-line-number="27">emd<span class="op">$</span>scatter</a></code></pre></div>
 <p><br><br></p>
 </div>
+<div id="evaluate-performance-using-median-absolute-deviation-mad-score" class="section level1">
+<h1>Evaluate performance using Median Absolute Deviation (MAD) score</h1>
+<p>The MAD score is implemented as another performance metric; MADs are computed for both the uncorrected and corrected data per-cluster, per-marker, per-batch. The MAD score is then calculated as the median of the absolute difference in MAD per value:</p>
+<p><br></p>
+<p><span class="math display">\[MAD_{score} = \mathrm{median}_{i=1}^n (|MAD_{before_i} - MAD_{after_i}|)\]</span> <br></p>
+<p>Because the MAD score quantifies the information ‘loss’, the ideal tool has a <em>small</em> MAD score.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Evaluate MAD</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">mad &lt;-<span class="st"> </span><span class="kw">evaluate_mad</span>(uncorrected, corrected, <span class="dt">cell_col =</span> <span class="st">&quot;label&quot;</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co"># Score</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">mad<span class="op">$</span>score</a></code></pre></div>
+<p><br><br></p>
+</div>
 <div id="create-umaps-and-density-plots" class="section level1">
 <h1>Create UMAPs and density plots</h1>
 <p>This segment will demonstrate the built-in functions for generating UMAPs and density plots.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Load packages</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">library</span>(cyCombine)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co"># Load data (if not already loaded)</span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co"># data_dir &lt;- &quot;~/data&quot;</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co"># uncorrected &lt;- readRDS(file.path(data_dir, &quot;uncorrected.RDS&quot;))</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co"># corrected &lt;- readRDS(file.path(data_dir, &quot;corrected.RDS&quot;))</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co"># markers &lt;- get_markers(uncorrected)</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co"># Create UMAPs</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12">sam &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(uncorrected), <span class="dv">30000</span>)</a>
-<a class="sourceLine" id="cb6-13" data-line-number="13">plot1 &lt;-<span class="st"> </span><span class="kw">plot_dimred</span>(uncorrected[sam, ], <span class="st">&quot;Uncorrected&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;umap&quot;</span>, <span class="dt">plot =</span> <span class="st">&quot;batch&quot;</span>, <span class="dt">markers =</span> markers)</a>
-<a class="sourceLine" id="cb6-14" data-line-number="14">plot2 &lt;-<span class="st"> </span><span class="kw">plot_dimred</span>(corrected[sam, ], <span class="st">&quot;Corrected&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;umap&quot;</span>, <span class="dt">plot =</span> <span class="st">&quot;batch&quot;</span>, <span class="dt">markers =</span> markers)</a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="kw">plot_save_two</span>(plot1, plot2, <span class="st">&quot;figs/umap.png&quot;</span>)</a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co"># Density plots</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="kw">plot_density</span>(uncorrected,</a>
-<a class="sourceLine" id="cb6-19" data-line-number="19">             corrected,</a>
-<a class="sourceLine" id="cb6-20" data-line-number="20">             <span class="dt">markers =</span> markers,</a>
-<a class="sourceLine" id="cb6-21" data-line-number="21">             <span class="dt">filename =</span> <span class="st">&quot;figs/density.png&quot;</span>,</a>
-<a class="sourceLine" id="cb6-22" data-line-number="22">             <span class="dt">y =</span> <span class="st">&quot;batch&quot;</span>,</a>
-<a class="sourceLine" id="cb6-23" data-line-number="23">             <span class="dt">ncol =</span> <span class="dv">6</span>,</a>
-<a class="sourceLine" id="cb6-24" data-line-number="24">             <span class="dt">xlim =</span> <span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Load packages</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">library</span>(cyCombine)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># Load data (if not already loaded)</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co"># data_dir &lt;- &quot;~/data&quot;</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co"># uncorrected &lt;- readRDS(file.path(data_dir, &quot;uncorrected.RDS&quot;))</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co"># corrected &lt;- readRDS(file.path(data_dir, &quot;corrected.RDS&quot;))</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co"># markers &lt;- get_markers(uncorrected)</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co"># Create UMAPs</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">sam &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(uncorrected), <span class="dv">30000</span>)</a>
+<a class="sourceLine" id="cb7-13" data-line-number="13">plot1 &lt;-<span class="st"> </span><span class="kw">plot_dimred</span>(uncorrected[sam, ], <span class="st">&quot;Uncorrected&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;umap&quot;</span>, <span class="dt">plot =</span> <span class="st">&quot;batch&quot;</span>, <span class="dt">markers =</span> markers)</a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">plot2 &lt;-<span class="st"> </span><span class="kw">plot_dimred</span>(corrected[sam, ], <span class="st">&quot;Corrected&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;umap&quot;</span>, <span class="dt">plot =</span> <span class="st">&quot;batch&quot;</span>, <span class="dt">markers =</span> markers)</a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="kw">plot_save_two</span>(plot1, plot2, <span class="st">&quot;figs/umap.png&quot;</span>)</a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co"># Density plots</span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="kw">plot_density</span>(uncorrected,</a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">             corrected,</a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">             <span class="dt">markers =</span> markers,</a>
+<a class="sourceLine" id="cb7-21" data-line-number="21">             <span class="dt">filename =</span> <span class="st">&quot;figs/density.png&quot;</span>,</a>
+<a class="sourceLine" id="cb7-22" data-line-number="22">             <span class="dt">y =</span> <span class="st">&quot;batch&quot;</span>,</a>
+<a class="sourceLine" id="cb7-23" data-line-number="23">             <span class="dt">ncol =</span> <span class="dv">6</span>,</a>
+<a class="sourceLine" id="cb7-24" data-line-number="24">             <span class="dt">xlim =</span> <span class="dv">10</span>)</a></code></pre></div>
 </div>
 
  

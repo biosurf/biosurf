@@ -301,9 +301,9 @@ saveRDS(corrected, file.path(data_dir, "corrected.RDS"))
 
 <br><br>
 
-# Evaluate performance using Earth Mover's Distance
+# Evaluate performance using Earth Mover's Distance (EMD) reduction
 
-The EMD reduction is implemented as the performance metric; EMDs are computed for both the uncorrected and corrected data, removing those values where both had an EMD < 2.
+The EMD reduction is implemented as a performance metric; EMDs are computed for both the uncorrected and corrected data, removing those values where both had an EMD < 2.
 
 <br>
 
@@ -341,7 +341,34 @@ emd$scatter
 
 ```
 
+
 <br><br>
+
+# Evaluate performance using Median Absolute Deviation (MAD) score
+
+The MAD score is implemented as another performance metric; MADs are computed for both the uncorrected and corrected data per-cluster, per-marker, per-batch. The MAD score is then calculated as the median of the absolute difference in MAD per value:
+
+<br>
+
+$$MAD_{score} = \mathrm{median}_{i=1}^n (|MAD_{before_i} - MAD_{after_i}|)$$
+<br>
+
+Because the MAD score quantifies the information 'loss', the ideal tool has a *small* MAD score.
+
+```{r, eval=FALSE}
+
+# Evaluate MAD
+mad <- evaluate_mad(uncorrected, corrected, cell_col = "label")
+
+# Score
+mad$score
+
+```
+
+
+<br><br>
+
+
 
 # Create UMAPs and density plots
 
