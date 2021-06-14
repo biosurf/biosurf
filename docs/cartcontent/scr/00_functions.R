@@ -20,6 +20,7 @@ library(tidyverse)
 library(janitor)
 library(wesanderson)
 library(biomaRt)
+library(patchwork)
 
 load(file = "cartcontent/data/expr_sub.Rdata")
 load(file = "cartcontent/data/gte.Rdata")
@@ -60,16 +61,16 @@ maxl
 mart1 <- useMart(biomart = "ENSEMBL_MART_ENSEMBL", dataset = "hsapiens_gene_ensembl")
 
 hgnc_from_ensembl <- getBM(attributes = c("ensembl_gene_id","hgnc_symbol"), 
-                            filters = "ensembl_gene_id", 
-                            mart = mart1, 
-                            values = rownames(ensg_expr))
+                           filters = "ensembl_gene_id", 
+                           mart = mart1, 
+                           values = rownames(ensg_expr))
 
 hgnc_from_ensembl[33,2] <- "CEA" # the hgcn for the ensgID ENSG00000267881 is not in biomart, 
 # so I am adding it manually
 
 # creating the boxplot function (goal)
 boxplot_isoforms_all_tissues <- function(hgnc) {
- 
+  
   #retrieve the ensembl gene ID from the hugo gene symbol 
   ensgID <- hgnc_from_ensembl %>% 
     filter(hgnc_symbol == hgnc) %>% 
@@ -90,37 +91,66 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
     pivot_longer(., cols = colnames(enst_exp_lev)[-1], 
                  names_to = "sample", values_to = "expression_level")
   
-  enst_exp_category = full_join(enst_exp_lev, pheno_nh, by = "sample") %>% 
+  enst_exp_category_tcga <- full_join(enst_exp_lev, pheno_nh, by = "sample") %>% 
+    filter(dataset == "tcga") %>% 
     dplyr::select(-(dataset)) # the result is a tibble with the transcript on the rows, while on the columns 
   # there is the expression level of each transcript in each category/sample
   
-  colnames(enst_exp_category)[c(1,4)] <- c("enst_id", "category")
+  enst_exp_category_gtex <- full_join(enst_exp_lev, pheno_nh, by = "sample") %>% 
+    filter(dataset == "gtex") %>% 
+    dplyr::select(-(dataset)) # the result is a tibble with the transcript on the rows, while on the columns 
+  # there is the expression level of each transcript in each category/sample
+  
+  colnames(enst_exp_category_tcga)[c(1,4)] <- c("enst_id", "category")
+  colnames(enst_exp_category_gtex)[c(1,4)] <- c("enst_id", "category")
   
   lt <- length(enst)
   
   palette <- wes_palette("FantasticFox1", lt, "continuous")
   
-  plot <- ggplot(enst_exp_category, 
-                 mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+  plot_tcga <- ggplot(enst_exp_category_tcga, 
+                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
     geom_boxplot(alpha = 0.8, outlier.shape = NA)  +
     scale_fill_manual(values = palette) +
     ylim(0, 100) +
     theme_light() +
     xlab(" ") +
     ylab("expression level") +
-    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 18),
-          axis.title = element_text(size = 19),
-          plot.title = element_text(size = 22),
-          legend.text = element_text(size = 18), 
-          legend.title = element_text(size = 20)) +
-    ggtitle(label = paste("Target isoforms expression ", hgnc))
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 24),
+          axis.text.y = element_text(size = 22),
+          axis.title = element_text(size = 26),
+          plot.title = element_text(size = 34),
+          legend.text = element_text(size = 24), 
+          legend.title = element_text(size = 26),
+          plot.margin = unit(c(1,1,1,2), "cm")) +
+    ggtitle(label = paste("Target isoforms expression for TCGA cancers")) 
+  
+  plot_gtex <- ggplot(enst_exp_category_gtex, 
+                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+    geom_boxplot(alpha = 0.8, outlier.shape = NA)  +
+    scale_fill_manual(values = palette) +
+    ylim(0, 100) +
+    theme_light() +
+    xlab(" ") +
+    ylab("expression level") +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 24),
+          axis.text.y = element_text(size = 22),
+          axis.title = element_text(size = 26),
+          plot.title = element_text(size = 34),
+          legend.text = element_text(size = 24), 
+          legend.title = element_text(size = 26)) +
+    ggtitle(label = paste("Target isoforms expression for GTEX  normal tissues")) 
+  
+  plot <- plot_tcga / plot_gtex
   
   ggsave(filename = paste(hgnc, "_", ensgID, "_plot.pdf", sep = ""), plot = plot, device = "pdf", 
-           path = "cartcontent/results/plots/isoform_expression/", 
-         width = 100, height = 20, units = "cm", limitsize = F)
-
-    return(plot)
+         path = "cartcontent/results/plots/isoform_expression/", 
+         width = 120, height = 60, units = "cm", limitsize = F)
+  
+  
+  return(plot)
 }
+
 # -------------------------------------------------------------------------------------------------
 
 # PLOT OF PROTEIN PROPERTIES
@@ -237,48 +267,47 @@ plot_function <- function(genename) {
   p <- ggplot(mapping = aes(label = "mytext")) + 
     geom_rect(data = ecto, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
                                fill = "Ectodomain"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 7.5, size = 5, mapping = aes(label = "Ectodomain")) +
+    geom_text(x = -(length_tpc/5), y = 7.5, size = 4, mapping = aes(label = "Ectodomain")) +
     
     geom_rect(data = trm, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
                               fill ="TM"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 6.5, size = 5, mapping = aes(label = "TM")) +
+    geom_text(x = -(length_tpc/5), y = 6.5, size = 4, mapping = aes(label = "TM")) +
     
     geom_rect(data = endo, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
                                fill ="Endodomain"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 5.5, size = 5, mapping = aes(label = "Endodomain")) +
+    geom_text(x = -(length_tpc/5), y = 5.5, size = 4, mapping = aes(label = "Endodomain")) +
     
     geom_rect(data = sigp, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
                                fill ="Signal peptide"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 4.5, size = 5, mapping = aes(label = "Signal Peptide")) +
+    geom_text(x = -(length_tpc/5), y = 4.5, size = 4, mapping = aes(label = "Signal Peptide")) +
     
     geom_rect(data = epi, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
                               fill ="Potential Epitopes"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 3.5, size = 5, mapping = aes(label = "Potential Epitopes")) +
+    geom_text(x = -(length_tpc/5), y = 3.5, size = 4, mapping = aes(label = "Potential Epitopes")) +
     
     geom_rect(data = phosp, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
                                 fill ="Phosphorylation sites"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 2.5, size = 5, mapping = aes(label = "Phosphorylation Sites")) +
+    geom_text(x = -(length_tpc/5), y = 2.5, size = 4, mapping = aes(label = "Phosphorylation Sites")) +
     
     geom_rect(data = glyco, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
                                 fill ="Glycosylation sites"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 1.5, size = 5, mapping = aes(label = "Glycosylation Sites")) +
+    geom_text(x = -(length_tpc/5), y = 1.5, size = 4, mapping = aes(label = "Glycosylation Sites")) +
     
     ggtitle(genename) +
     xlab("Positions") +
     theme_light() +
-    theme(plot.title = element_text(hjust = 0.5), 
-          legend.position = "NULL", 
-          plot.margin = unit(c(1,1,1,7), "cm")) +
-    theme(plot.title = element_text(size = 20)) +
-    coord_cartesian(clip = "off") +
-    theme(text = element_text(size = 14),
-          axis.text.x = element_text(size = 12),
+    theme(plot.title = element_text(hjust = 0.5, size = 16),
+          axis.text.x = element_text(size = 10),
+          axis.title = element_text(size = 12),
           axis.text.y = element_blank(), 
-          axis.ticks = element_blank()) +
+          axis.ticks = element_blank(), 
+          legend.position = "NULL", 
+          plot.margin = unit(c(1,1,1,6), "cm")) +
+    coord_cartesian(clip = "off") +
     scale_fill_manual(values = palette) 
   
   ggsave(filename = paste(genename, "_plot.pdf", sep = ""), plot = p, device = "pdf", 
-         path = "cartcontent/results/plots/protein_properties/", width = 30, height = 15, units = "cm")
+         path = "cartcontent/results/plots/protein_properties/", width = 25, height = 10, units = "cm")
   
   return(p)
   

@@ -9,7 +9,11 @@ knit: (function(input, ...) {
     )
   })
 ---
-
+<style>
+img {
+    max-width: 30cm;
+}
+</style>
 ```{r, eval = FALSE, echo = FALSE, warning = FALSE, message = FALSE}
 setwd("../../")
 source("cartcontent/scr/00_functions.R")
@@ -27,16 +31,13 @@ Tumor necrosis factor receptor superfamily member 17 ([TNFRSF17](https://www.uni
 <br>
 
 <h4>Target gene expression</h4>
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 27, fig.height= 12}
+```{r, eval = F, echo = FALSE, warning = FALSE, message = F, fig.width = 32, fig.height= 20}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "TNFRSF17") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 
 # in the file expr_sub.Rdata, TNFRSF17 does not exist. There is instead ENSG00000172322 (CLEC12A) that is not among the TCGA CarT target. 
 
 ```
-<br>
-
-<h4>Target splice variants</h4>
 
 <br>
 
@@ -45,7 +46,7 @@ boxplot_isoforms_all_tissues(hgnc = "TNFRSF17") # it creates the boxplot in the 
 <br>
 
 <h4>Protein properties</h4>
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 12, fig.height= 5}
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height= 4}
 setwd("../../")
 plot_function("TNFRSF17") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
 ```

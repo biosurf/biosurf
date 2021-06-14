@@ -12,7 +12,7 @@ knit: (function(input, ...) {
 
 <style>
 img {
-    max-width: 40cm;
+    max-width: 30cm;
     
 }
 </style>
