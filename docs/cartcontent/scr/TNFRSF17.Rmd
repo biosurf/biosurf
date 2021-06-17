@@ -14,7 +14,7 @@ img {
     max-width: 30cm;
 }
 </style>
-```{r, eval = FALSE, echo = FALSE, warning = FALSE, message = FALSE}
+```{r, eval = T, echo = FALSE, warning = FALSE, message = FALSE}
 setwd("../../")
 source("cartcontent/scr/00_functions.R")
 ```
@@ -42,6 +42,10 @@ boxplot_isoforms_all_tissues(hgnc = "TNFRSF17") # it creates the boxplot in the 
 <br>
 
 <h4>Target essentiality</h4>
+```{r, eval = F, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 12}
+setwd("../../")
+target_essentiality_fun(gene_name_hgnc = "TNFRSF17") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
+```
 
 <br>
 
