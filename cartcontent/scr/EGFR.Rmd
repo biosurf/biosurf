@@ -40,6 +40,10 @@ boxplot_isoforms_all_tissues(hgnc = "EGFR") # it creates the boxplot in the html
 <br>
 
 <h4>Target essentiality</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 12}
+setwd("../../")
+target_essentiality_fun(gene_name_hgnc = "EGFR") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
+```
 
 <br>
 
