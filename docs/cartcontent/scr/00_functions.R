@@ -21,6 +21,7 @@ library(janitor)
 library(wesanderson)
 library(biomaRt)
 library(patchwork)
+library(depmap)
 
 load(file = "cartcontent/data/expr_sub.Rdata")
 load(file = "cartcontent/data/gte.Rdata")
@@ -312,6 +313,60 @@ plot_function <- function(genename) {
   return(p)
   
 }
+# ------------------------------------------------------------------------------
+
+# TARGET ESSENTIALITY
+
+# goal: to create a boxplot for each gene, describing the essentiality of the gene
+# across different cancers. 
+# The table containing the essentiality score is from depmap (file description: 
+# _Post-CERES_ Combined Achilles and Sanger SCORE data using Harmonia 
+# (the batch correction pipeline described here: https://www.biorxiv.org/content/10.1101/2020.05.22.110247v3) 
+# Columns: genes in the format "HUGO (Entrez)" - Rows: cell lines (Broad IDs)). 
+# The cell lines represent different cancers. 
+
+target_essentiality_fun <- function(gene_name_hgnc) {
+  gene <- readRDS(file = paste("cartcontent/scr/", 
+                               gene_name_hgnc, 
+                               "_crispr_target_essentiality.rds", 
+                               sep = ""))
+    
+# finding the number of cancer types in the gene table to establish 
+# how many colors to use in the ggplot
+  
+  cancer_numb <- gene %>% 
+    dplyr::select(cancer) %>% 
+    unique() %>% 
+    nrow()
+  
+  palette <- wes_palette(name = "GrandBudapest2", type = "continuous", n = cancer_numb)
+
+# plot creation
+  
+ plot <- gene %>% ggplot(mapping = aes(x = cancer, y = essentiality_score, fill = cancer)) +
+            geom_boxplot(alpha = 0.8, outlier.shape = NA)  +
+            scale_fill_manual(values = palette) +
+            theme_light() +
+            xlab(" ") +
+            ylab("essentiality score") +
+            theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 14),
+                  axis.text.y = element_text(size = 16),
+                  axis.title = element_text(size = 22),
+                  plot.title = element_text(size = 28),
+                  legend.text = element_text(size = 18), 
+                  legend.title = element_text(size = 20),
+                  plot.margin = unit(c(2,2,2,2), "cm"), 
+                  legend.position = "none") +
+            ggtitle(label = paste("Essentiality scores for TCGA cancers")) 
+  
+ ggsave(filename = paste(gene_name_hgnc, "_plot.pdf", sep = ""), plot = plot, device = "pdf", 
+        path = "cartcontent/results/plots/target_essentiality/", width = 42, height = 30, units = "cm")
+ 
+ return(plot)
+
+}
+
+
 
 
 
