@@ -38,13 +38,13 @@ cat(res, sep = '\n')
 ```
 </details>
 
-<!-- <details> -->
-<!--   <summary>CD276</summary> -->
-<!-- ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE} -->
-<!-- res <- knitr::knit_child('cartcontent/scr/CD276.Rmd', quiet = TRUE) -->
-<!-- cat(res, sep = '\n') -->
-<!-- ``` -->
-<!-- </details> -->
+<details>
+  <summary>CD276</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/CD276.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
 
 <details>
   <summary>CD33</summary>

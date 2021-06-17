@@ -79,8 +79,4 @@ for (i in 1:length(targets$V1)) {
   print(i)
 }
 
-saving_essentiality_fun()
-
-
-target_essentiality_fun(gene_name_hgnc = "ALPP")
 
