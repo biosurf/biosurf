@@ -5,12 +5,17 @@ title: "Publications"
 <br>
 
 ## 2021
+**Pedersen, C. B.**, **Dam, S. H.**, Barnkob, M. B., Leipold, M. D., Purroy, N., Rassenti, L. Z., Kipps, T. J., Nguyen, J., Lederer, J. A., Gohil, S. H., Wu, C. J., **Olsen, L. R.** (2021). Robust integration of single-cell cytometry datasets. *bioRxiv*. [doi:10.1101/2021.06.28.450128](https://doi.org/10.1101/2021.06.28.450128)
+
+Barnkob, M. B., Benso, A., Politano, G., **Olsen L. R.** (2021). Spectracular: minimizing spectral overlap in multicolor flow cytometry experiments. *bioRxiv*. [doi:10.1101/2021.03.17.435861](https://doi.org/10.1101/2021.03.17.435861)
+
 Rossing, M., **Pedersen, C. B.**, Tvedskov, T., Vejborg, I., Talman, M. L., **Olsen, L. R.**, Kroman, N., Nielsen, F. C., Jensen, M. B., & Ejlertsen, B. (2021). Clinical implications of intrinsic molecular subtypes of breast cancer for sentinel node status. *Scientific Reports, 11(1), [2259]*. [doi:10.1038/s41598-021-81538-4](https://doi.org/10.1038/s41598-021-81538-4)
 
 Kretzmer, H., Biran, A., Purroy, N., **Lemvigh, C. K.**, Clement, K., Gruber, M., Gu, H., Rassenti, L., Mohammad, A. W., Lesnick, C., Slager, S. L., Braggio, E., Shanafelt, T. D., Kay, N. E., Fernandes, S., Brown, J. R., Wang, L., Li, S., Livak, K. J., Neuberg, D. S., Klages, S., Timmermann, B., Kipps, T. J., Campo, E., Gnirke, A., Wu, C. J., & Meissner, A. (2021). Preneoplastic alterations define CLL DNA methylome and persist through disease progression and therapy. *Blood cancer discovery, 2(1), 54.* [doi:10.1158/2643-3230.BCD-19-0058](https://doi.org/10.1158/2643-3230.BCD-19-0058)
 
 Braun, D. A., Street, K., Burke, K. P., Cookmeyer, D. L., Denize, T., **Pedersen, C. B.**, Gohil, S. H., Schindler, N,, Pomerance, L., Hirsch, L., Bakouny, Z., Hou, Y., Forman, J., Huang, T., Li, S., Cui, A., Keskin, D. B., Steinharter, J., Bouchard, G., Sun, M., Pimenta, E. M., Xu, W., Mahoney, K. M., McGregor, B. A., Hirsch, M. S., Chang, S. L., Livak, K. J., McDermott, D. F., Shukla, S. A., **Olsen, L. R.**, Signoretti, S., Sharpe, A. H., Irizarry, R. A., Choueiri, T. K., Wu, C. J. (2021). Progressive immune dysfunction with advancing disease stage in renal cell carcinoma. *Cancer Cell.* [doi:10.1016/j.ccell.2021.02.013](https://doi.org/10.1016/j.ccell.2021.02.013)
 
+Crump, N. T., Hadjinicolaou, A. V., Xia, M., Walsby-Tickle, J., Gileadi, U., Chen, J. L., Setshedi, M., **Olsen, L. R.**, Lau, I. J., Godfrey, L. Quek, L., Yu, Z., Ballabio, E., Barnkob, M. B., Napolitani, G., Salio, M., Koohy, H., Kessler, B. M., Taylor, S., Vyas, P., McCullagh, J. S. O., Milne, T. A., Cerundolo, V. (2021). Chromatin accessibility governs the differential response of cancer and T cells to arginine starvation. *Cell reports, 35(6), p.109101*. [doi:10.1016/j.celrep.2021.109101](https://doi.org/10.1016/j.celrep.2021.109101)
 
 Choudry, F. A., Bagger, F. O., Macaulay, I. C., Farrow, S., Burden, F., Kempster, C., McKinney, H., **Olsen, L. R.**, Huang, N., Downes, K., Voet, T., Uppal, R., Martin, J. F., Mathur, A., Ouwehand, W. H., Laurenti, E., Teichmann, S. A., & Frontini, M. (2021). Transcriptional characterization of human megakaryocyte polyploidization and lineage commitment. *Journal of Thrombosis and Haemostasis*. [doi:10.1111/jth.15271](https://doi.org/10.1111/jth.15271)
 

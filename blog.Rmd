@@ -4,4 +4,43 @@ title: "Blog"
 
 <br>
 
-### Under construction - coming soon!
+
+```{r load package, include=FALSE}
+library(tweetrmd)
+```
+
+## cyCombine
+#### June 29 2021
+Robust integration of single-cell cytometry datasets.
+
+```{r cyCombine, echo=FALSE}
+tweet_embed("https://twitter.com/cbligaard/status/1409856692850995200")
+
+```
+
+Make sure to check out the [R package](https://github.com/biosurf/cyCombine) and the [vignettes](https://biosurf.org/cyCombine.html).
+
+
+<br><br>
+
+## Spectracular
+#### March 19 2021
+
+```{r Spectracular, echo=FALSE}
+
+thread <- c(
+  "https://twitter.com/mikebarnkob/status/1372998013854093313",
+  "https://twitter.com/mikebarnkob/status/1372999506632056839", 
+  "https://twitter.com/mikebarnkob/status/1373000888709709827",
+  "https://twitter.com/mikebarnkob/status/1373002101308145672",
+  "https://twitter.com/mikebarnkob/status/1373003666555342853",
+  "https://twitter.com/mikebarnkob/status/1373005137866809349"
+)
+
+htmltools::tagList(
+  lapply(thread, tweet_embed, hide_thread = T)
+)
+
+```
+
+Please check out the [Shiny](https://services.healthtech.dtu.dk/shiny/spectracular/) and the [manual](https://biosurf.org/spectracular.html)!
