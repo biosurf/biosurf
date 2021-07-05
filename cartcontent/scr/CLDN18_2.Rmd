@@ -31,6 +31,7 @@ Claudin-18, isoform 2 ([CLDN18.2](https://www.uniprot.org/uniprot/P56856)). Play
 <br>
 
 <h4>Target gene expression</h4>
+The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene CLDN18.
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 32, fig.height= 20}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "CLDN18") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
@@ -41,12 +42,14 @@ boxplot_isoforms_all_tissues(hgnc = "CLDN18") # it creates the boxplot in the ht
 <h4>Target essentiality</h4>
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 12}
 setwd("../../")
-target_essentiality_fun(gene_name_hgnc = "CLDN18.2") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
+target_essentiality_fun(gene_name_hgnc = "CLDN18") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
 ```
 
 <br>
 
 <h4>Protein properties</h4>
+The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present. 
+The last three rows describe the position of potential epitopes, as well as phosphorylation and glycosylation sites. 
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height= 4}
 setwd("../../")
 plot_function("CLDN18_2") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder

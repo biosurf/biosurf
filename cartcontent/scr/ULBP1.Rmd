@@ -31,6 +31,7 @@ UL16-binding protein 1 ([ULBP1](https://www.uniprot.org/uniprot/Q9BZM6)). Binds 
 <br>
 
 <h4>Target gene expression</h4>
+The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene ULBP1.
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 32, fig.height= 20}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "ULBP1") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
@@ -47,6 +48,8 @@ target_essentiality_fun(gene_name_hgnc = "ULBP1") # it creates the boxplot in th
 <br>
 
 <h4>Protein properties</h4>
+The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present. 
+The last three rows describe the position of potential epitopes, as well as phosphorylation and glycosylation sites. 
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height= 4}
 setwd("../../")
 plot_function("ULBP1") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
