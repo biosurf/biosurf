@@ -319,22 +319,20 @@ plot_function <- function(genename) {
 
 # goal: to create a boxplot for each gene, describing the essentiality of the gene
 # across different cancers. 
-# The table containing the essentiality score is from depmap (file description: 
-# _Post-CERES_ Combined Achilles and Sanger SCORE data using Harmonia 
-# (the batch correction pipeline described here: https://www.biorxiv.org/content/10.1101/2020.05.22.110247v3) 
-# Columns: genes in the format "HUGO (Entrez)" - Rows: cell lines (Broad IDs)). 
-# The cell lines represent different cancers. 
+# info on the target essentiality table can be read in the target_essentiality.R script. 
+
+crispr <- readRDS(file = "crispr_target_essentiality.rds")
 
 target_essentiality_fun <- function(gene_name_hgnc) {
-  gene <- readRDS(file = paste("cartcontent/scr/", 
-                               gene_name_hgnc, 
-                               "_crispr_target_essentiality.rds", 
-                               sep = ""))
-    
+  gene <- crispr %>% filter(gene_name == gene_name_hgnc)
+
+# convert the column cell_line in the column cancer, describing only the cancer type    
+  gene <- gene %>% 
+    separate(col = "cell_line", into = c(NA, "cancer"), extra = "merge") 
+  
 # finding the number of cancer types in the gene table to establish 
 # how many colors to use in the ggplot
-  
-  cancer_numb <- gene %>% 
+   cancer_numb <- gene %>% 
     dplyr::select(cancer) %>% 
     unique() %>% 
     nrow()
@@ -343,7 +341,7 @@ target_essentiality_fun <- function(gene_name_hgnc) {
 
 # plot creation
   
- plot <- gene %>% ggplot(mapping = aes(x = cancer, y = essentiality_score, fill = cancer)) +
+ plot <- gene %>% ggplot(mapping = aes(x = cancer, y = dependency, fill = cancer)) +
             geom_boxplot(alpha = 0.8, outlier.shape = NA)  +
             scale_fill_manual(values = palette) +
             theme_light() +
@@ -365,10 +363,6 @@ target_essentiality_fun <- function(gene_name_hgnc) {
  return(plot)
 
 }
-
-
-
-
 
 
 
