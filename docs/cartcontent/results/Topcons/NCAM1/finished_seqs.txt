@@ -1,1 +1,0 @@
-seq_0	858	1	True	cached	0.0	sp|P13591|NCAM1_HUMAN Neural cell adhesion molecule 1 OS=Homo sapiens OX=9606 GN=NCAM1 PE=1 SV=3	2020-11-28 14:52:47 UTC

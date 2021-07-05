@@ -1,1 +1,0 @@
-seq_0	943	sp|Q01974|ROR2_HUMAN Tyrosine-protein kinase transmembrane receptor ROR2 OS=Homo sapiens OX=9606 GN=ROR2 PE=1 SV=2

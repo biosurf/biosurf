@@ -1,1 +1,0 @@
-seq_0	865	5	True	cached	0.0	sp|O43490|PROM1_HUMAN Prominin-1 OS=Homo sapiens OX=9606 GN=PROM1 PE=1 SV=1	2020-11-28 15:53:55 CET

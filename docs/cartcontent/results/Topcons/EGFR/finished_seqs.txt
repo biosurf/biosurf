@@ -1,1 +1,0 @@
-seq_0	1210	1	True	cached	0.0	sp|P00533|EGFR_HUMAN Epidermal growth factor receptor OS=Homo sapiens OX=9606 GN=EGFR PE=1 SV=2	2020-11-20 11:18:40 CET

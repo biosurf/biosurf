@@ -1,1 +1,0 @@
-seq_0	760	sp|Q12884|SEPR_HUMAN Prolyl endopeptidase FAP OS=Homo sapiens OX=9606 GN=FAP PE=1 SV=5

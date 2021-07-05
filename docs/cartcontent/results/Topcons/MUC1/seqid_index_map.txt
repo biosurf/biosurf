@@ -1,1 +1,0 @@
-seq_0	1255	sp|P15941|MUC1_HUMAN Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1 PE=1 SV=3

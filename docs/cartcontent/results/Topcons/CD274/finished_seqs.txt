@@ -1,1 +1,0 @@
-seq_0	290	2	False	cached	0.0	sp|Q9NZQ7|PD1L1_HUMAN Programmed cell death 1 ligand 1 OS=Homo sapiens OX=9606 GN=CD274 PE=1 SV=1	2020-11-28 15:41:26 CET

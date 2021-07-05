@@ -1,1 +1,0 @@
-seq_0	534	1	True	cached	0.0	sp|Q5ZPR3|CD276_HUMAN CD276 antigen OS=Homo sapiens OX=9606 GN=CD276 PE=1 SV=1	2020-12-03 13:37:24 CET

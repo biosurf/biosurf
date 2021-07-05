@@ -1,1 +1,0 @@
-seq_0	223	1	True	cached	0.0	sp|P16410|CTLA4_HUMAN Cytotoxic T-lymphocyte protein 4 OS=Homo sapiens OX=9606 GN=CTLA4 PE=1 SV=3	2020-11-28 14:43:28 UTC

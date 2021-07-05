@@ -1,1 +1,0 @@
-seq_0	580	1	True	cached	0.0	sp|P51654|GPC3_HUMAN Glypican-3 OS=Homo sapiens OX=9606 GN=GPC3 PE=1 SV=1	2020-11-28 15:24:45 CET

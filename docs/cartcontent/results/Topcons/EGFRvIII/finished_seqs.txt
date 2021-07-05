@@ -1,1 +1,0 @@
-seq_0	705	0	True	newrun	26.296767	sp|P00533-3|EGFR_HUMAN Isoform 3 of Epidermal growth factor receptor OS=Homo sapiens OX=9606 GN=EGFR	2020-11-20 11:32:38 CET

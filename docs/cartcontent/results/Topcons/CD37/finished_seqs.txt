@@ -1,1 +1,0 @@
-seq_0	281	4	False	cached	0.0	sp|P11049|CD37_HUMAN Leukocyte antigen CD37 OS=Homo sapiens OX=9606 GN=CD37 PE=1 SV=2	2021-01-27 12:26:24 UTC

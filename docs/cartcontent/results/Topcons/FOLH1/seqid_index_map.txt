@@ -1,1 +1,0 @@
-seq_0	750	sp|Q04609|FOLH1_HUMAN Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1 PE=1 SV=1

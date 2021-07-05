@@ -1,1 +1,0 @@
-seq_0	265	1	False	cached	0.0	sp|Q5QGZ9|CL12A_HUMAN C-type lectin domain family 12 member A OS=Homo sapiens OX=9606 GN=CLEC12A PE=1 SV=3	2020-12-03 13:35:31 CET
