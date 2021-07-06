@@ -105,50 +105,55 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
   colnames(enst_exp_category_tcga)[c(1,4)] <- c("enst_id", "category")
   colnames(enst_exp_category_gtex)[c(1,4)] <- c("enst_id", "category")
   
+  enst_exp_category_tcga <- enst_exp_category_tcga %>% 
+    mutate(expression_level = log2(expression_level + 1))
+  enst_exp_category_gtex <- enst_exp_category_gtex %>% 
+    mutate(expression_level = log2(expression_level + 1))
+  
   lt <- length(enst)
   
   palette <- wes_palette("FantasticFox1", lt, "continuous")
-  
-  plot_tcga <- ggplot(enst_exp_category_tcga, 
-                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+    
+  plot_tcga <- ggplot(enst_exp_category_tcga,
+                      mapping = aes(x = category, y = log2(expression_level), fill = enst_id)) +
     geom_boxplot(alpha = 0.8, outlier.shape = NA)  +
     scale_fill_manual(values = palette) +
-    ylim(0, 100) +
+    ylim(0, max(enst_exp_category_tcga$expression_level)) +
     theme_light() +
     xlab(" ") +
-    ylab("expression level") +
+    ylab("Log2(TPM)") +
     theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 24),
           axis.text.y = element_text(size = 22),
           axis.title = element_text(size = 26),
           plot.title = element_text(size = 34),
-          legend.text = element_text(size = 24), 
+          legend.text = element_text(size = 24),
           legend.title = element_text(size = 26),
           plot.margin = unit(c(1,1,1,2), "cm")) +
-    ggtitle(label = paste("Target isoforms expression for TCGA cancers")) 
-  
-  plot_gtex <- ggplot(enst_exp_category_gtex, 
+    ggtitle(label = paste("Target isoforms expression for TCGA cancers"))
+
+  plot_gtex <- ggplot(enst_exp_category_gtex,
                       mapping = aes(x = category, y = expression_level, fill = enst_id)) +
     geom_boxplot(alpha = 0.8, outlier.shape = NA)  +
     scale_fill_manual(values = palette) +
-    ylim(0, 100) +
+    ylim(0, max(enst_exp_category_gtex$expression_level)) +
     theme_light() +
     xlab(" ") +
-    ylab("expression level") +
+    ylab("Log2(TPM)") +
     theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 24),
           axis.text.y = element_text(size = 22),
           axis.title = element_text(size = 26),
           plot.title = element_text(size = 34),
-          legend.text = element_text(size = 24), 
+          legend.text = element_text(size = 24),
           legend.title = element_text(size = 26)) +
-    ggtitle(label = paste("Target isoforms expression for GTEX  normal tissues")) 
-  
+    ggtitle(label = paste("Target isoforms expression for GTEX  normal tissues"))
+
   plot <- plot_tcga / plot_gtex
-  
-  ggsave(filename = paste(hgnc, "_", ensgID, "_plot.pdf", sep = ""), plot = plot, device = "pdf", 
-         path = "cartcontent/results/plots/isoform_expression/", 
+
+  ggsave(filename = paste(hgnc, "_", ensgID, "_plot.pdf", sep = ""), plot = plot, device = "pdf",
+         path = "cartcontent/results/plots/isoform_expression/",
          width = 120, height = 60, units = "cm", limitsize = F)
-  
-  
+
+
   return(plot)
 }
 
