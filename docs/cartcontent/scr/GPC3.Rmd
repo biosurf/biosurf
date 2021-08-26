@@ -1,0 +1,70 @@
+---
+title: "GPC3"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+<style>
+img {
+    max-width: 30cm;
+}
+</style>
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+
+<h4>Description</h4>
+Glypican-3 ([GPC3](https://www.uniprot.org/uniprot/P51654)). Cell surface proteoglycan that bears heparan sulfate. Used as a marker for hepatocellular carcinoma (HCC). When attached to the cell surface, stimulates the growth of HCC cells by increasing canonical Wnt signaling. 
+
+<br> 
+
+<h4>Clinical trials</h4> 
+[NCT03884751](https://clinicaltrials.gov/ct2/show/NCT03884751) - Hepatocellular Carcinoma <br>
+[NCT02905188](https://clinicaltrials.gov/ct2/show/NCT02905188) - Hepatocellular Carcinoma <br> 
+[NCT04377932](https://clinicaltrials.gov/ct2/show/NCT04377932) - Hepatocellular Carcinoma <br>
+[NCT02932956](https://clinicaltrials.gov/ct2/show/NCT02932956) - Hepatocellular Carcinoma <br>
+[NCT04093648](https://clinicaltrials.gov/ct2/show/NCT04093648) - Hepatocellular Carcinoma <br>
+[NCT02723942](https://clinicaltrials.gov/ct2/show/NCT02723942) - Hepatocellular Carcinoma <br>
+[NCT04121273](https://clinicaltrials.gov/ct2/show/NCT04121273) - Hepatocellular Carcinoma <br>
+[NCT03146234](https://clinicaltrials.gov/ct2/show/NCT03146234) - Hepatocellular Carcinoma <br>
+[NCT03130712](https://clinicaltrials.gov/ct2/show/NCT03130712) - Hepatocellular Carcinoma <br>
+[NCT02715362](https://clinicaltrials.gov/ct2/show/NCT02715362) - Hepatocellular Carcinoma <br>
+[NCT03084380](https://clinicaltrials.gov/ct2/show/NCT03084380) - Hepatocellular Carcinoma <br>
+[NCT02395250](https://clinicaltrials.gov/ct2/show/NCT02395250) - Hepatocellular Carcinoma <br>
+[NCT02959151](https://clinicaltrials.gov/ct2/show/NCT02959151) - Hepatocellular Carcinoma <br>
+[NCT02876978](https://clinicaltrials.gov/ct2/show/NCT02876978) - Lung Squamous Cell Carcinoma 
+
+<br>
+
+<h4>Target gene expression</h4>
+The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene GPC3.
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 32, fig.height= 20}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "GPC3") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+
+<br>
+
+<h4>Target essentiality</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 12}
+setwd("../../")
+target_essentiality_fun(gene_name_hgnc = "GPC3") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
+```
+
+<br>
+
+<h4>Protein properties</h4>
+The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present. 
+The last three rows describe the position of potential epitopes, as well as phosphorylation and glycosylation sites. 
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height= 4}
+setwd("../../")
+plot_function("GPC3") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```

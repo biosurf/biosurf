@@ -1,0 +1,57 @@
+---
+title: "PSCA"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+<style>
+img {
+    max-width: 30cm;
+}
+</style>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+
+<h4>Description</h4>
+Prostate stem cell antigen ([PSCA](https://www.uniprot.org/uniprot/O43653)). May be involved in the regulation of cell proliferation. Has a cell-proliferation inhibition activity in vitro. 
+
+<br> 
+
+<h4>Clinical trials</h4>
+[NCT03267173](https://clinicaltrials.gov/ct2/show/NCT03267173) - Pancreatic Cancer <br>
+[NCT02744287](https://clinicaltrials.gov/ct2/show/NCT02744287) - Prostate Adenocarcinoma, Pancreatic Cancer <br>
+
+<br>
+
+<h4>Target gene expression</h4>
+The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene PSCA.
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 32, fig.height= 20}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "PSCA") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+
+<br>
+
+<h4>Target essentiality</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 12}
+setwd("../../")
+target_essentiality_fun(gene_name_hgnc = "PSCA") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
+```
+
+<br>
+
+<h4>Protein properties</h4>
+The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present. 
+The last three rows describe the position of potential epitopes, as well as phosphorylation and glycosylation sites. 
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height= 4}
+setwd("../../")
+plot_function("PSCA") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```

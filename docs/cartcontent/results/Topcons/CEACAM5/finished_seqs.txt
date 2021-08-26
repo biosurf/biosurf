@@ -1,0 +1,1 @@
+seq_0	702	1	True	cached	0.0	sp|P06731|CEAM5_HUMAN Carcinoembryonic antigen-related cell adhesion molecule 5 OS=Homo sapiens OX=9606 GN=CEACAM5 PE=1 SV=3	2021-08-24 16:30:09 CEST

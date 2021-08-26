@@ -1,0 +1,63 @@
+---
+title: "EGFRvIII"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+<style>
+img {
+    max-width: 30cm;
+}
+</style>
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+
+<h4>Description</h4>
+Epidermal growth factor receptor, variant 3 ([EGFRvIII](https://www.uniprot.org/uniprot/P00533)). Receptor tyrosine kinase binding ligands of the EGF family and activating several signaling cascades to convert extracellular cues into appropriate cellular responses.
+
+<br> 
+
+<h4>Clinical trials</h4>
+[NCT03638206](https://clinicaltrials.gov/ct2/show/NCT03638206) -	Hepatoma, Pancreatic Cancer, Colorectal Cancer, Esophagus Cancer, Lung Cancer, Melanoma, Ovarian Cancer, Renal Carcinoma <br> 
+[NCT03941626](https://clinicaltrials.gov/ct2/show/NCT03941626)	- Esophagus Cancer, Hepatoma <br>
+[NCT01454596](https://clinicaltrials.gov/ct2/show/NCT01454596)	- Glioblastoma Multiforme <br>
+[NCT02664363](https://clinicaltrials.gov/ct2/show/NCT02664363)	- Glioblastoma Multiforme <br>
+[NCT02844062](https://clinicaltrials.gov/ct2/show/NCT02844062)	- Glioblastoma Multiforme <br>
+[NCT03267173](https://clinicaltrials.gov/ct2/show/NCT03267173)	- Pancreatic Cancer 
+
+<br>
+
+<h4>Target gene expression</h4>
+The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene EGFR.
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 32, fig.height= 20}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "EGFR") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+# same ensgID than EGFR, different isoform ?
+```
+
+<br>
+
+<h4>Target essentiality</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 12}
+setwd("../../")
+target_essentiality_fun(gene_name_hgnc = "EGFR") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
+```
+
+<br>
+
+<h4>Protein properties</h4>
+The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present. 
+The last three rows describe the position of potential epitopes, as well as phosphorylation and glycosylation sites. 
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height= 4}
+setwd("../../")
+plot_function("EGFRvIII") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```

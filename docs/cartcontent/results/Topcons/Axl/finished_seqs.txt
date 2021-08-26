@@ -1,0 +1,1 @@
+seq_0	894	1	True	cached	0.0	sp|P30530|UFO_HUMAN Tyrosine-protein kinase receptor UFO OS=Homo sapiens OX=9606 GN=AXL PE=1 SV=4	2020-12-03 11:21:53 CET

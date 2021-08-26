@@ -1,0 +1,76 @@
+---
+title: "CEACAM5"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+<!-- <style> -->
+<!-- img { -->
+<!--     max-width: 30cm; -->
+<!-- } -->
+
+<style>
+  .scrollingplot{
+      overflow-x:scroll;
+      white-space: nowrap;
+  }
+
+  .scrollingplot img{
+     max-width: 30cm;
+  }
+
+
+</style>
+
+</style>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/00_functions.R")
+```
+
+<h4>Description</h4>
+Carcinoembryonic antigen-related cell adhesion molecule 5 ([CEACAM5](https://www.uniprot.org/uniprot/P06731)). Cell surface glycoprotein that plays a role in cell adhesion, intracellular signaling and tumor progression. Plays a role as an oncogene by promoting tumor progression; induces resistance to anoikis of colorectal carcinoma cells.   
+
+<br> 
+
+<h4>Clinical trials</h4> 
+There are no clinical trials involving CEACAM5, however the following two clinical trials involve CEA (keep or change?). <br>
+[NCT02349724](https://clinicaltrials.gov/ct2/show/NCT02349724) - Lung Cancer, Colorectal Cancer, Breast Cancer, Pancreatic Cancer <br>
+[NCT03267173](https://clinicaltrials.gov/ct2/show/NCT03267173) - Pancreatic Cancer 
+
+<br>
+
+<h4>Target gene expression</h4>
+The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene CEACAM5.
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F}
+setwd("../../")
+boxplot_iso <- boxplot_isoforms_all_tissues(hgnc = "CEACAM5") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+<div class="scrollingplot">
+```{r , echo = FALSE, warning = FALSE, message = F, fig.width = 80, fig.height = 35}
+boxplot_iso
+```
+</div>
+
+<br>
+
+<h4>Target essentiality</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 12}
+setwd("../../")
+target_essentiality_fun(gene_name_hgnc = "CEACAM5") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
+```
+
+<br>
+
+<h4>Protein properties</h4>
+The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present.
+The last three rows describe the position of potential epitopes, as well as phosphorylation and glycosylation sites.
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height= 4}
+setwd("../../")
+plot_function("CEACAM5") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```

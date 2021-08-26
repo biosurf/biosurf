@@ -1,0 +1,1 @@
+seq_0	595	1	True	cached	0.0	sp|P28908|TNR8_HUMAN Tumor necrosis factor receptor superfamily member 8 OS=Homo sapiens OX=9606 GN=TNFRSF8 PE=1 SV=1	2020-11-28 14:12:51 UTC

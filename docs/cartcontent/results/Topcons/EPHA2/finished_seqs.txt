@@ -1,0 +1,1 @@
+seq_0	976	1	True	cached	0.0	sp|P29317|EPHA2_HUMAN Ephrin type-A receptor 2 OS=Homo sapiens OX=9606 GN=EPHA2 PE=1 SV=2	2020-11-28 15:37:10 CET

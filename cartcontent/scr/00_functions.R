@@ -22,6 +22,7 @@ library(wesanderson)
 library(biomaRt)
 library(patchwork)
 library(depmap)
+library(Ipaper)
 
 load(file = "cartcontent/data/expr_sub.Rdata")
 load(file = "cartcontent/data/gte.Rdata")
@@ -66,7 +67,7 @@ hgnc_from_ensembl <- getBM(attributes = c("ensembl_gene_id","hgnc_symbol"),
                            mart = mart1, 
                            values = rownames(ensg_expr))
 
-hgnc_from_ensembl[33,2] <- "CEA" # the hgcn for the ensgID ENSG00000267881 is not in biomart, 
+# hgnc_from_ensembl[34,2] <- "CEA" # the hgcn for the ensgID ENSG00000267881 is not in biomart, 
 # so I am adding it manually
 
 # creating the boxplot function (goal)
@@ -115,43 +116,44 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
   palette <- wes_palette("FantasticFox1", lt, "continuous")
     
   plot_tcga <- ggplot(enst_exp_category_tcga,
-                      mapping = aes(x = category, y = log2(expression_level), fill = enst_id)) +
-    geom_boxplot(alpha = 0.8, outlier.shape = NA)  +
+                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+    geom_boxplot(alpha = 0.8, outlier.shape = NA, width = 1)  +
     scale_fill_manual(values = palette) +
     ylim(0, max(enst_exp_category_tcga$expression_level)) +
     theme_light() +
     xlab(" ") +
     ylab("Log2(TPM)") +
-    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 24),
-          axis.text.y = element_text(size = 22),
-          axis.title = element_text(size = 26),
-          plot.title = element_text(size = 34),
-          legend.text = element_text(size = 24),
-          legend.title = element_text(size = 26),
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 45),
+          axis.text.y = element_text(size = 40),
+          axis.title = element_text(size = 35),
+          plot.title = element_text(size = 50),
+          legend.text = element_text(size = 45),
+          legend.title = element_text(size = 50),
           plot.margin = unit(c(1,1,1,2), "cm")) +
     ggtitle(label = paste("Target isoforms expression for TCGA cancers"))
 
   plot_gtex <- ggplot(enst_exp_category_gtex,
                       mapping = aes(x = category, y = expression_level, fill = enst_id)) +
-    geom_boxplot(alpha = 0.8, outlier.shape = NA)  +
+    geom_boxplot(alpha = 0.8, outlier.shape = NA, width = 1)  +
     scale_fill_manual(values = palette) +
     ylim(0, max(enst_exp_category_gtex$expression_level)) +
     theme_light() +
     xlab(" ") +
     ylab("Log2(TPM)") +
-    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 24),
-          axis.text.y = element_text(size = 22),
-          axis.title = element_text(size = 26),
-          plot.title = element_text(size = 34),
-          legend.text = element_text(size = 24),
-          legend.title = element_text(size = 26)) +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 45),
+          axis.text.y = element_text(size = 40),
+          axis.title = element_text(size = 35),
+          plot.title = element_text(size = 50),
+          legend.text = element_text(size = 45),
+          legend.title = element_text(size = 50),
+          plot.margin = unit(c(1,1,1,2), "cm")) +
     ggtitle(label = paste("Target isoforms expression for GTEX  normal tissues"))
 
   plot <- plot_tcga / plot_gtex
 
   ggsave(filename = paste(hgnc, "_", ensgID, "_plot.pdf", sep = ""), plot = plot, device = "pdf",
          path = "cartcontent/results/plots/isoform_expression/",
-         width = 120, height = 60, units = "cm", limitsize = F)
+         width = 160, height = 100, units = "cm", limitsize = F)
 
 
   return(plot)
