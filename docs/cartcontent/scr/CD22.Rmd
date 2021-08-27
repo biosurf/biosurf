@@ -11,10 +11,15 @@ knit: (function(input, ...) {
 ---
 
 <style>
-img {
-    max-width: 30cm;
-    
-}
+  .scrollingplot{
+      overflow-x:scroll;
+      white-space: nowrap;
+  }
+
+  .scrollingplot img{
+     max-width: 40cm;
+  }
+
 </style>
 
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
@@ -36,10 +41,12 @@ B-cell receptor CD22 ([CD22](https://www.uniprot.org/uniprot/P20273)). Mediates 
 
 <h4>Target gene expression</h4>
 The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene CD22.
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 32, fig.height= 20}
+<div class="scrollingplot">
+```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 35}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "CD22") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```
+</div>
 <br>
 
 <h4>Target essentiality</h4>

@@ -117,7 +117,7 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
     
   plot_tcga <- ggplot(enst_exp_category_tcga,
                       mapping = aes(x = category, y = expression_level, fill = enst_id)) +
-    geom_boxplot(alpha = 0.8, outlier.shape = NA, width = 1)  +
+    Ipaper::geom_boxplot2(alpha = 0.9, outlier.shape = NA, width = 0.9, width.errorbar = 0.1)  +
     scale_fill_manual(values = palette) +
     ylim(0, max(enst_exp_category_tcga$expression_level)) +
     theme_light() +
@@ -134,7 +134,7 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
 
   plot_gtex <- ggplot(enst_exp_category_gtex,
                       mapping = aes(x = category, y = expression_level, fill = enst_id)) +
-    geom_boxplot(alpha = 0.8, outlier.shape = NA, width = 1)  +
+    Ipaper::geom_boxplot2(alpha = 0.9, outlier.shape = NA, width = 0.9, width.errorbar = 0.1)  +
     scale_fill_manual(values = palette) +
     ylim(0, max(enst_exp_category_gtex$expression_level)) +
     theme_light() +
@@ -349,7 +349,7 @@ target_essentiality_fun <- function(gene_name_hgnc) {
 # plot creation
   
  plot <- gene %>% ggplot(mapping = aes(x = cancer, y = dependency, fill = cancer)) +
-            geom_boxplot(alpha = 0.8, outlier.shape = NA)  +
+            Ipaper::geom_boxplot2(width = 0.8, width.errorbar = 0.3, alpha = 0.9)  +
             scale_fill_manual(values = palette) +
             theme_light() +
             xlab(" ") +
@@ -370,9 +370,3 @@ target_essentiality_fun <- function(gene_name_hgnc) {
  return(plot)
 
 }
-
-
-
-
-
-

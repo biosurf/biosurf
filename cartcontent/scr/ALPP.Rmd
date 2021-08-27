@@ -10,10 +10,15 @@ knit: (function(input, ...) {
   })
 ---
 <style>
-img {
-    max-width: 30cm;
+  .scrollingplot{
+      overflow-x:scroll;
+      white-space: nowrap;
+  }
 
-}
+  .scrollingplot img{
+     max-width: 40cm;
+  }
+
 </style>
 
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
@@ -33,11 +38,12 @@ Alkaline phosphatase, placental type ([ALPP](https://www.uniprot.org/uniprot/P05
 
 <h4>Target gene expression</h4>
 The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene ALPP
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 32, fig.height= 20}
+`<div class="scrollingplot">
+```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 35}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "ALPP") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```
-
+</div>
 <br>
 
 <h4>Target essentiality</h4>

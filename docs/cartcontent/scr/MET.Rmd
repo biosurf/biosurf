@@ -10,10 +10,17 @@ knit: (function(input, ...) {
   })
 ---
 <style>
-img {
-    max-width: 30cm;
-}
+  .scrollingplot{
+      overflow-x:scroll;
+      white-space: nowrap;
+  }
+
+  .scrollingplot img{
+     max-width: 40cm;
+  }
+
 </style>
+
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
 setwd("../../")
 source("cartcontent/scr/00_functions.R")
@@ -34,11 +41,12 @@ Hepatocyte growth factor receptor ([MET](https://www.uniprot.org/uniprot/P08581)
 
 <h4>Target gene expression</h4>
 The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene MET.
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 32, fig.height= 20}
+<div class="scrollingplot">
+```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 35}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "MET") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```
-
+</div>
 <br>
 
 <h4>Target essentiality</h4>
@@ -50,8 +58,9 @@ target_essentiality_fun(gene_name_hgnc = "MET") # it creates the boxplot in the 
 <br>
 
 <h4>Protein properties</h4>
-The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present. 
-The last three rows describe the position of potential epitopes, as well as phosphorylation and glycosylation sites. 
+
+The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present.
+The last three rows describe the position of potential epitopes, as well as phosphorylation and glycosylation sites.
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height= 4}
 setwd("../../")
 plot_function("MET") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder

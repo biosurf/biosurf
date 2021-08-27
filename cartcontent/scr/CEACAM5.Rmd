@@ -9,11 +9,6 @@ knit: (function(input, ...) {
     )
   })
 ---
-<!-- <style> -->
-<!-- img { -->
-<!--     max-width: 30cm; -->
-<!-- } -->
-
 <style>
   .scrollingplot{
       overflow-x:scroll;
@@ -21,13 +16,11 @@ knit: (function(input, ...) {
   }
 
   .scrollingplot img{
-     max-width: 30cm;
+     max-width: 40cm;
   }
 
-
 </style>
 
-</style>
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
 setwd("../../")
 source("cartcontent/scr/00_functions.R")
@@ -47,16 +40,13 @@ There are no clinical trials involving CEACAM5, however the following two clinic
 
 <h4>Target gene expression</h4>
 The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene CEACAM5.
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F}
-setwd("../../")
-boxplot_iso <- boxplot_isoforms_all_tissues(hgnc = "CEACAM5") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
-```
+
 <div class="scrollingplot">
-```{r , echo = FALSE, warning = FALSE, message = F, fig.width = 80, fig.height = 35}
-boxplot_iso
+```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 35}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "CEACAM5") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```
 </div>
-
 <br>
 
 <h4>Target essentiality</h4>
