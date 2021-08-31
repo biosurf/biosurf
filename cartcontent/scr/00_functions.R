@@ -326,7 +326,9 @@ plot_function <- function(genename) {
 
 # goal: to create a boxplot for each gene, describing the essentiality of the gene
 # across different cancers. 
-# info on the target essentiality table can be read in the target_essentiality.R script. 
+# IMPORTANT: info on the target essentiality table can be read in the target_essentiality.R script, 
+# which must be executed before the cart.Rmd, since it creates the crispr_target_essentiality.rds, 
+# containing the essentiality scores. 
 
 crispr <- readRDS(file = "crispr_target_essentiality.rds")
 

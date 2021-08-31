@@ -15,8 +15,6 @@ library(ExperimentHub)
 
 # import the file with the target names 
 targets <- read.table("cartcontent/data/targets_tcga.txt", header = F, sep = "") 
-# !!!!!! IMPORTANT !!!!!! the targets_tcga.txt needs to be updated including TNFRSF17 gene
-# after I receive the isoforms expression data
 
 eh <- ExperimentHub()
 query(eh, "depmap")
