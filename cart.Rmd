@@ -9,7 +9,6 @@ This page summarizes the evaluations of 60 protein targets for chimeric antigen 
 <details>
   <summary>ALPP</summary>
 ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
-options(timeout = 1000)
 res <- knitr::knit_child('cartcontent/scr/ALPP.Rmd', quiet = TRUE)
 cat(res, sep = '\n')
 ```
@@ -18,7 +17,6 @@ cat(res, sep = '\n')
 <details>
   <summary>AXL</summary>
 ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
-options(timeout = 1000)
 res <- knitr::knit_child('cartcontent/scr/AXL.Rmd', quiet = TRUE)
 cat(res, sep = '\n')
 ```
@@ -27,7 +25,6 @@ cat(res, sep = '\n')
 <details>
   <summary>CD19</summary>
 ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
-options(timeout = 1000)
 res <- knitr::knit_child('cartcontent/scr/CD19.Rmd', quiet = TRUE)
 cat(res, sep = '\n')
 ```
@@ -36,7 +33,6 @@ cat(res, sep = '\n')
 <details>
   <summary>CD22</summary>
 ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
-options(timeout = 1000)
 res <- knitr::knit_child('cartcontent/scr/CD22.Rmd', quiet = TRUE)
 cat(res, sep = '\n')
 ```
@@ -45,7 +41,6 @@ cat(res, sep = '\n')
 <details>
   <summary>CD276</summary>
 ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
-options(timeout = 1000)
 res <- knitr::knit_child('cartcontent/scr/CD276.Rmd', quiet = TRUE)
 cat(res, sep = '\n')
 ```
@@ -54,7 +49,6 @@ cat(res, sep = '\n')
 <details>
   <summary>CD33</summary>
 ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
-options(timeout = 1000)
 res <- knitr::knit_child('cartcontent/scr/CD33.Rmd', quiet = TRUE)
 cat(res, sep = '\n')
 ```
@@ -63,7 +57,6 @@ cat(res, sep = '\n')
 <details>
   <summary>CD38</summary>
 ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
-options(timeout = 1000)
 res <- knitr::knit_child('cartcontent/scr/CD38.Rmd', quiet = TRUE)
 cat(res, sep = '\n')
 ```

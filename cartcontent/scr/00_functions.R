@@ -123,13 +123,14 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
     theme_light() +
     xlab(" ") +
     ylab("Log2(TPM)") +
-    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 45),
-          axis.text.y = element_text(size = 40),
+    theme(axis.text.x = element_text(angle = 40, hjust = 1, size = 40),
+          axis.text.y = element_text(size = 35),
           axis.title = element_text(size = 35),
           plot.title = element_text(size = 50),
-          legend.text = element_text(size = 45),
-          legend.title = element_text(size = 50),
-          plot.margin = unit(c(1,1,1,2), "cm")) +
+          legend.text = element_text(size = 30),
+          legend.title = element_text(size = 35),
+          plot.margin = unit(c(1,1,1,5), "cm"), 
+          legend.position = "bottom") +
     ggtitle(label = paste("Target isoforms expression for TCGA cancers"))
 
   plot_gtex <- ggplot(enst_exp_category_gtex,
@@ -140,13 +141,14 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
     theme_light() +
     xlab(" ") +
     ylab("Log2(TPM)") +
-    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 45),
-          axis.text.y = element_text(size = 40),
+    theme(axis.text.x = element_text(angle = 40, hjust = 1, size = 40),
+          axis.text.y = element_text(size = 35),
           axis.title = element_text(size = 35),
           plot.title = element_text(size = 50),
-          legend.text = element_text(size = 45),
-          legend.title = element_text(size = 50),
-          plot.margin = unit(c(1,1,1,2), "cm")) +
+          # legend.text = element_text(size = 30),
+          # legend.title = element_text(size = 35),
+          plot.margin = unit(c(1,1,1,5), "cm"), 
+          legend.position = "none") +
     ggtitle(label = paste("Target isoforms expression for GTEX  normal tissues"))
 
   plot <- plot_tcga / plot_gtex
@@ -331,13 +333,17 @@ plot_function <- function(genename) {
 # containing the essentiality scores. 
 
 crispr <- readRDS(file = "crispr_target_essentiality.rds")
-
+# convert the cell_line column content from uppercase to lowcase.
+crispr <- crispr %>% mutate(cell_line = tolower(cell_line))
+  
 target_essentiality_fun <- function(gene_name_hgnc) {
   gene <- crispr %>% filter(gene_name == gene_name_hgnc)
 
-# convert the column cell_line in the column cancer, describing only the cancer type    
+# convert the column cell_line in the column cancer, describing only the cancer type +
+# remove the "_" pattern from the cancer names. 
   gene <- gene %>% 
-    separate(col = "cell_line", into = c(NA, "cancer"), extra = "merge") 
+    separate(col = "cell_line", into = c(NA, "cancer"), extra = "merge") %>% 
+    mutate(cancer = str_replace_all(string = cancer, pattern = "_", replacement = " ")) 
   
 # finding the number of cancer types in the gene table to establish 
 # how many colors to use in the ggplot
@@ -356,12 +362,12 @@ target_essentiality_fun <- function(gene_name_hgnc) {
             theme_light() +
             xlab(" ") +
             ylab("essentiality score") +
-            theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 14),
-                  axis.text.y = element_text(size = 16),
-                  axis.title = element_text(size = 22),
-                  plot.title = element_text(size = 28),
-                  legend.text = element_text(size = 18), 
-                  legend.title = element_text(size = 20),
+            theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 24),
+                  axis.text.y = element_text(size = 24),
+                  axis.title = element_text(size = 30),
+                  plot.title = element_text(size = 35),
+                  # legend.text = element_text(size = 18), 
+                  # legend.title = element_text(size = 20),
                   plot.margin = unit(c(2,2,2,2), "cm"), 
                   legend.position = "none") +
             ggtitle(label = paste("Essentiality scores for TCGA cancers")) 

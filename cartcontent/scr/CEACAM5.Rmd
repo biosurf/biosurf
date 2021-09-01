@@ -42,7 +42,7 @@ There are no clinical trials involving CEACAM5, however the following two clinic
 The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene CEACAM5.
 
 <div class="scrollingplot">
-```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 35}
+```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 40}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "CEACAM5") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```
@@ -50,7 +50,7 @@ boxplot_isoforms_all_tissues(hgnc = "CEACAM5") # it creates the boxplot in the h
 <br>
 
 <h4>Target essentiality</h4>
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 12}
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 15}
 setwd("../../")
 target_essentiality_fun(gene_name_hgnc = "CEACAM5") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
 ```

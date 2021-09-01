@@ -42,7 +42,7 @@ Hepatocyte growth factor receptor ([MET](https://www.uniprot.org/uniprot/P08581)
 <h4>Target gene expression</h4>
 The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene MET.
 <div class="scrollingplot">
-```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 35}
+```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 40}
 setwd("../../")
 boxplot_isoforms_all_tissues(hgnc = "MET") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```
@@ -50,7 +50,7 @@ boxplot_isoforms_all_tissues(hgnc = "MET") # it creates the boxplot in the html 
 <br>
 
 <h4>Target essentiality</h4>
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 12}
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 15}
 setwd("../../")
 target_essentiality_fun(gene_name_hgnc = "MET") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
 ```
