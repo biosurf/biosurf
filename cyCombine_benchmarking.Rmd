@@ -1,7 +1,7 @@
 ---
 title: "Performance benchmarking"
 author: "Christina Bligaard Pedersen"
-date: "March 29, 2021"
+date: "September 1, 2021"
 output: 
   html_document:
     toc: true
@@ -302,6 +302,9 @@ meta <- readxl::read_xlsx(paste0(data_dir, "/cytonorm_cohort.xlsx"))
 
 # Set column for evaluation of EMD (per-cluster)
 celltype_col <- "som"
+
+# Set up variable for saving results
+results <- list()
 ```
 
 
@@ -359,6 +362,9 @@ mad_val <- uncorrected %>%
                               filter_limit = NULL,
                               markers = markers,
                               cell_col = celltype_col)
+
+# Save results
+results[['cyCombine']] <- list('uncorrected' = uncorrected, 'corrected' = corrected)
 
 ```
 
@@ -482,6 +488,9 @@ mad_val <- uncorrected_down %>%
                               filter_limit = NULL,
                               markers = markers,
                               cell_col = celltype_col)
+
+# Save results
+results[['CytoNorm']] <- list('uncorrected' = uncorrected_down, 'corrected' = corrected_down)
 
 ```
 
@@ -616,6 +625,10 @@ mad_val <- uncorrected %>%
                               filter_limit = NULL,
                               markers = markers,
                               cell_col = celltype_col)
+
+# Save results
+results[['CytofRUV']] <- list('uncorrected' = uncorrected, 'corrected' = corrected)
+
 ```
 
 
@@ -724,6 +737,10 @@ emd_val <- uncorrected %>%
                               binSize = 0.1,
                               markers = markers,
                               cell_col = celltype_col)
+
+# Save results
+results[['iMUBAC']] <- list('uncorrected' = uncorrected, 'corrected' = corrected)
+
 ```
 
 
@@ -848,6 +865,9 @@ mad_val <- uncorrected %>%
                               markers = markers,
                               cell_col = celltype_col)
 
+# Save results
+results[['CytofBatchAdjust']] <- list('uncorrected' = uncorrected, 'corrected' = corrected)
+
 ```
 
 ```{r CytofBatchAdjust 3, message=FALSE, warning=FALSE, error=FALSE}
@@ -857,3 +877,113 @@ cat('The MAD score is:', mad_val$score, '\n')
 <br>
 
 Now that we have run all five tools we can conclude that cyCombine achieves the largest EMD reduction (0.84) on the CytoNorm dataset.
+
+We can also look at the data using dimensionality reductions and density plots to make the results more visual.
+
+```{r density plots - all tools, fig.height=24, fig.width=24, warning=FALSE, message=FALSE}
+# We compare the same uncorrected and corrected sets as used for EMD and MAD calculations - they are stored in the results object
+
+# cyCombine
+cyCombine::plot_density(results[['cyCombine']]$uncorrected,
+                        results[['cyCombine']]$corrected,
+                        markers = markers,
+                        dataset_names = paste('cyCombine', c('uncorrected', 'corrected')))
+
+# CytoNorm
+cyCombine::plot_density(results[['CytoNorm']]$uncorrected,
+                        results[['CytoNorm']]$corrected,
+                        markers = markers,
+                        dataset_names = paste('CytoNorm', c('uncorrected', 'corrected')))
+
+# CytofRUV
+cyCombine::plot_density(results[['CytofRUV']]$uncorrected,
+                        results[['CytofRUV']]$corrected,
+                        markers = markers,
+                        dataset_names = paste('CytofRUV', c('uncorrected', 'corrected')))
+
+# iMUBAC
+cyCombine::plot_density(results[['iMUBAC']]$uncorrected,
+                        results[['iMUBAC']]$corrected,
+                        markers = markers,
+                        dataset_names = paste('iMUBAC', c('uncorrected', 'corrected')))
+
+# CytofBatchAdjust
+cyCombine::plot_density(results[['CytofBatchAdjust']]$uncorrected,
+                        results[['CytofBatchAdjust']]$corrected,
+                        markers = markers,
+                        dataset_names = paste('CBA', c('uncorrected', 'corrected')))
+
+```
+
+<br>
+
+Looking a bit a this set of plots, we observe that CytofRUV has a slight tendency towards truncation of the distributions (e.g. for CD25), which is also reflected in the MAD value for this tool. iMUBAC tends to move some distributions for all batches (e.g. p38 and STAT3). CytofBatchAdjust (CBA) also has an issue for STAT3 and MAPKAPK2, where it appears to introduce an extra peak.
+
+<br>
+
+Finally, let us look at some UMAPs for the different batch correction tools.
+
+```{r dimred plots - all tools, fig.height=8, fig.width=16}
+# Downsampling - will be the same for all the tools except CytoNorm, where only one of the samples is corrected
+set.seed(473)
+umap_ids <- results[['cyCombine']]$uncorrected %>%
+  dplyr::slice_sample(n = 10000) %>%
+  dplyr::pull(id)
+
+
+# cyCombine
+umap1 <- results[['cyCombine']]$uncorrected %>% dplyr::filter(id %in% umap_ids) %>%
+  plot_dimred(name = "uncorrected (cyCombine)", type = "umap", markers = markers)
+
+umap2 <- results[['cyCombine']]$corrected %>% dplyr::filter(id %in% umap_ids) %>%
+  plot_dimred(name = "corrected (cyCombine)", type = "umap", markers = markers)
+
+cowplot::plot_grid(umap1, umap2)
+
+
+# CytoNorm
+umap1 <- results[['CytoNorm']]$uncorrected %>% dplyr::filter(id %in% umap_ids) %>%
+  plot_dimred(name = "uncorrected (CytoNorm)", type = "umap", markers = markers)
+
+umap2 <- results[['CytoNorm']]$corrected %>% dplyr::filter(id %in% umap_ids) %>%
+  plot_dimred(name = "corrected (CytoNorm)", type = "umap", markers = markers)
+
+cowplot::plot_grid(umap1, umap2)
+
+
+# CytofRUV
+umap1 <- results[['CytofRUV']]$uncorrected %>% dplyr::filter(id %in% umap_ids) %>%
+  plot_dimred(name = "uncorrected (CytofRUV)", type = "umap", markers = markers)
+
+umap2 <- results[['CytofRUV']]$corrected %>% dplyr::filter(id %in% umap_ids) %>%
+  plot_dimred(name = "corrected (CytofRUV)", type = "umap", markers = markers)
+
+cowplot::plot_grid(umap1, umap2)
+
+
+# iMUBAC
+umap1 <- results[['iMUBAC']]$uncorrected %>% dplyr::filter(id %in% umap_ids) %>%
+  plot_dimred(name = "uncorrected (iMUBAC)", type = "umap", markers = markers)
+
+umap2 <- results[['iMUBAC']]$corrected %>% dplyr::filter(id %in% umap_ids) %>%
+  plot_dimred(name = "corrected (iMUBAC)", type = "umap", markers = markers)
+
+cowplot::plot_grid(umap1, umap2)
+
+
+# CytofBatchAdjust
+umap1 <- results[['CytofBatchAdjust']]$uncorrected %>% dplyr::filter(id %in% umap_ids) %>%
+  plot_dimred(name = "uncorrected (CytofBatchAdjust)", type = "umap", markers = markers)
+
+umap2 <- results[['CytofBatchAdjust']]$corrected %>% dplyr::filter(id %in% umap_ids) %>%
+  plot_dimred(name = "corrected (CytofBatchAdjust)", type = "umap", markers = markers)
+
+cowplot::plot_grid(umap1, umap2)
+
+```
+
+
+
+
+
+
