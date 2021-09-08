@@ -1,7 +1,7 @@
 ---
 title: "Batch correction of CyTOF data"
 author: "Christina Bligaard Pedersen"
-date: "February 18, 2021"
+date: "September 8, 2021"
 output: 
   html_document:
     toc: true
@@ -47,7 +47,7 @@ pre code, pre, code {
 
 <br>
 
-This vignette will demonstrate the batch correction of a CyTOF set consisting of 126 samples in seven batches using cyCombine.
+This vignette will demonstrate the batch correction of a CyTOF set consisting of 128 samples in seven batches using cyCombine. It will also include a small discussion regarding the grid size during batch correction.
 
 
 ```{r setup, include = FALSE}
@@ -55,13 +55,13 @@ knitr::opts_chunk$set(
   strip.white = T, comment = ""
 )
 
-knitr::opts_knit$set(root.dir = '/home/projects/dp_immunoth/people/s153398/cyCombine/_data/')
+knitr::opts_knit$set(root.dir = '/home/projects/dp_immunoth/people/s134891/cycombine/DFCI/Mike_process')
 
 ```
 
 
 <br>
-This is data from a study of CLL patients and healthy donors at the Dana-Farber Cancer Institute (DFCI). The protein expression was quantified using mass cytometry for 126 samples (20 healthy donors). The data was run in seven batches.
+This is data from a study of CLL patients and healthy donors at the Dana-Farber Cancer Institute (DFCI). The protein expression was quantified using mass cytometry for 128 samples (20 healthy donors). The data was run in seven batches and used a panel measuring expression of 36 proteins.
 
 
 <br>
@@ -73,7 +73,6 @@ We start by loading some packages.
 ```{r libraries, results = 'hide', warning=FALSE, message=FALSE}
 library(cyCombine)
 library(tidyverse)
-library(Rphenograph)
 
 ```
 
@@ -84,10 +83,10 @@ We are now ready to load the CyTOF data. We have set up a panel file in csv form
 
 ```{r loading data 1, warning=FALSE, message=FALSE}
 # Directory with raw .fcs files
-data_dir <- "dfci1_2"
+data_dir <- "Panel1_renamed"
 
 # Panel and reading data
-panel <- read_csv(paste0(data_dir, "/panel1.csv"))
+panel <- read_csv("panel1.csv")
 panel
 
 ```
@@ -106,14 +105,13 @@ markers <- panel %>%
 
 # Preparing the expression data
 dfci <- prepare_data(data_dir = data_dir,
-                     metadata = paste0(data_dir, "/metadata.csv"),
+                     metadata = "metadata.csv",
                      filename_col = "FCS_name",
                      batch_ids = "Batch",
                      condition = "Set",
                      markers = markers,
                      derand = TRUE,
                      down_sample = FALSE)
-
 
 ```
 
@@ -124,7 +122,7 @@ Now, let us use a cyCombine function to check if there are any batch effects to 
 
 ```{r detect batch effects}
 # We use the quicker version of the function. It generates three types of plots that may be useful in surveying a dataset for batch effects. Here, we also downsample since all cells are typically not needed to see batch effects.
-detect_batch_effect_express(dfci, downsample = 10000, out_dir = paste0(data_dir, '/batch_effect_check'))
+detect_batch_effect_express(dfci, downsample = 10000, out_dir = 'batch_effect_check')
 
 ```
 <br>
@@ -143,7 +141,7 @@ When looking at XCL1, we clearly observe the batch effect indicated before - bat
 
 <br>
 
-Now for the final plot - a multidimensional scaling (MDS) plot. This form of dimensionality reduction can be used to detect outlier batches (or samples) based on the median marker expression per *sample*. Each dot corresponds to a sample - and the colors represent batches. If there are no batch effects, the pattern would be random - and though it can be hard to judge, here we will notice how the pink and puråle batches 6 and 7 samples almost exclusively appear in the top part of the plot.
+Now for the final plot - a multidimensional scaling (MDS) plot. This form of dimensionality reduction can be used to detect outlier batches (or samples) based on the median marker expression per *sample*. Each dot corresponds to a sample - and the colors represent batches. If there are no batch effects, the pattern would be random - and though it can be hard to judge, here we will notice how the red batch 1 samples almost exclusively appear in the top part of the plot.
 In other words, it looks a bit like batch effects!
 
 ![](images/cyCombine/MDS_per_batch.png)
@@ -175,7 +173,55 @@ corrected <- dfci %>%
 
 # Evaluating performance
 
-Let us look at some plots to visualize the correction. First, the marker distributions before and after:
+We start with some quantitative measurements of the correction performance.
+
+```{r emd and mad, fig.height=5, fig.width=10, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
+# Cluster corrected data
+labels <- corrected %>%
+          cyCombine::create_som(rlen = 10,
+                                xdim = 8,
+                                ydim = 8,
+                                markers = markers)
+# Add labels
+corrected <- corrected %>%
+  dplyr::mutate(som = labels)
+
+# Set column for evaluation of EMD (per-cluster)
+celltype_col <- "som"
+
+# Transfer labels to uncorrected data
+dfci <- corrected %>%
+  dplyr::select(id, all_of(celltype_col)) %>%
+  dplyr::left_join(dfci, by = "id")
+
+# Evaluation using EMD
+emd_val <- dfci %>%
+      cyCombine::evaluate_emd(corrected,
+                              binSize = 0.1,
+                              markers = markers,
+                              cell_col = celltype_col)
+
+# Show plots
+cowplot::plot_grid(emd_val$violin, emd_val$scatterplot)
+
+
+# Evaluation using MAD
+mad_val <- dfci %>%
+      cyCombine::evaluate_mad(corrected,
+                              filter_limit = NULL,
+                              markers = markers,
+                              cell_col = celltype_col)
+
+```
+
+```{r mad score print}
+cat('The MAD score is:', mad_val$score, '\n')
+
+```
+
+
+
+Let us also look at some plots to visualize the correction. First, the marker distributions before and after:
 
 ```{r density plot, message=FALSE, fig.height=22, fig.width=12}
 plot_density(dfci, corrected, ncol = 4)
@@ -200,7 +246,45 @@ cowplot::plot_grid(plot1, plot2)
 
 <br>
 
-Based on the marker distributions after correction and the UMAPs, it looks like the batch effects are eliminated. We can now address our biological questions.
+Based on the marker distributions after correction and the UMAPs, it looks like the batch effects are eliminated. We can now address our biological questions. However, we have simply used the default grid size of 8x8 in this example. The clustering with the self-organizing map is used to group similar cells, for which batch correction can be performed properly for a more homogeneous set of cells. While 64 clusters should be enough for most PBMC analyses, the default grid size may not always be appropriate. Rare subsets can be missed when using smaller grids, depending on their specific expression pattern and how distinct the rare cell type is from the other cells in the data. This problem is not unique to cyCombime, but rather a function of the SOM itself (which also happens to be the foundation of the widely FlowSOM clustering approach). 
+
+<br>
+
+If greater heterogeneity is anticipated in a dataset, we recommend increasing the grid size. Generally, one should aim for a grid size which can capture the variance of the data, but it is not a goal in itself to strongly over-cluster as this will yield smaller sets of cells for batch correction, rendering the correction less robust. As in any analysis involving a clustering step, we would recommend initial explorations of all datasets to establish an idea of the heterogeneity in the data, and then set the grid size accordingly when running cyCombine.
+
+<br>
+
+One way to get an idea about the heterogeneity in a dataset could be to run a clustering tool which automatically determines the number of clusters (e.g. Phenograph) using all the markers and letting the number of clusters obtained be a guide. Otherwise one could use ConsensusClusterPlus (the meta-clustering engine of FlowSOM) with the elbow criterion as discussed [here](https://www.bioconductor.org/packages/release/workflows/vignettes/cytofWorkflow/inst/doc/cytofWorkflow.html#reducing-the-number-of-clusters-in-consensusclusterplus). However, because of the batch effects, it can be problematic to cluster across batches on the uncorrected dataset (the investigation of clusters should take place before applying cyCombine), as it can lead to over-estimation of the cluster count. In this example, we normalize the data using scaling (per-batch) before doing clustering (analogously to the cyCombine workflow). We will select a 10x10 grid for the initial clustering and then use ConsensusClusterPlus with up to 90 (maximum allowed) clusters.
+
+```{r cluster and elbow, results = 'hide', warning=FALSE, message=FALSE}
+# Scaling and clustering using a SOM
+seed = 9735
+som_ <- dfci %>% 
+  cyCombine::normalize(markers = markers, norm_method = 'scale') %>% 
+  dplyr::select(all_of(markers)) %>% as.matrix() %>% 
+    kohonen::som(grid = kohonen::somgrid(xdim = 10, ydim = 10), 
+      rlen = 10, dist.fcts = "euclidean")
+
+# Extracting the SOM codes (the SOM grid placement for each of the 100 nodes)
+codes <- som_$codes[[1]]
+
+# Making a meta-clustering and plotting the delta area plot
+library(ConsensusClusterPlus)
+mc <- ConsensusClusterPlus(t(codes), maxK = 90, reps = 100,
+                           pItem = 0.9, pFeature = 1, plot = 'png', title = 'batch_effect_check',
+                           clusterAlg = "hc", innerLinkage = "average", finalLinkage = "average",
+                           distance = "euclidean", seed = seed)
+
+```
+
+![](images/cyCombine/delta_plot.png)
+
+<br> 
+
+The delta area plot shows the relative change in cluster stability (area under CDF curve), when adding one extra meta-cluster. The goal is to choose a *k* where there is no significant increase. In this case, that occurs around *k* = 25 or *k* = 30 depending on how strict the requirement is. In any case, this shows that usign 64 SOM nodes should capture the total data variance for batch correction.
+
+
+
 
 <!-- One example could be to cluster the dataset. Here, we will display the results of Phenograph clustering. Actually, I will compare Phenograph run for all seven batches *with* and *without* batch correction using the same set of markers. -->
 
