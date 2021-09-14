@@ -1,7 +1,7 @@
 ---
 title: "Performance benchmarking"
 author: "Christina Bligaard Pedersen"
-date: "September 1, 2021"
+date: "September 13, 2021"
 output: 
   html_document:
     toc: true
@@ -77,9 +77,9 @@ library(flowCore)
 
 
 # Performance metrics - discussion
-In the cyCombine article, the Earth Mover's Distance (EMD) reduction is used as the most important performance metric. As with most metrics this has both advantages and disadvantages. 
+In the cyCombine article, the Earth Mover's Distance (EMD) reduction is used as the most important performance metric. The EMD reduction relies on the EMD, which is a distance measure for probability distributions. As with most metrics, the EMD reduction has both advantages and disadvantages. 
 
-As mentioned in the article, the EMD was used to compare the distribution of each marker within SOM nodes across batches. The metric relies on binning of values in bins at 0.1-increments (default) and computes the EMD for every marker for each pairwise batch comparison. This means that if you have seven batches and 15 markers, you have 21 * 15 = 315 EMD calculations *per SOM node*. Now, this notion of calculation per-SOM node is one to discuss: If you calculate the EMD globally, across all cells, you essentially assume that the distribution of cell types is also the same between batches - i.e. that you have an equal fraction of CD8+ cells in each batch. This may not hold true. Instead, when clustering (in this case by the use of a SOM) is applied, you avoid such assumptions. We use a relatively large SOM of 8x8 = 64 nodes, so we are likely to obtain over-clustering of the dataset in question. This is done to compare only highly similar cells when the EMDs are calculated. This holds a potential for problems, which we will return to in the next section.
+As mentioned in the article, the EMD was used to compare the distribution of each marker within SOM nodes across batches. The metric relies on binning of values in bins at 0.1-increments (default) and computes the EMD for every marker for each pairwise batch comparison. This means that if you have seven batches and 15 markers, you have 21 (7-choose-2) * 15 = 315 EMD calculations *per SOM node*. Now, this notion of calculation per-SOM node is one to discuss: If you calculate the EMD globally, across all cells, you essentially assume that the distribution of cell types is also the same between batches - i.e. that you have an equal fraction of CD8+ cells in each batch. This may not hold true. Instead, when clustering (in this case by the use of a SOM) is applied, you avoid such assumptions. We use a relatively large SOM of 8x8 = 64 nodes, so we are likely to obtain over-clustering of the dataset in question. This is done to compare only highly similar cells when the EMDs are calculated. This holds a potential for problems, which we will return to in the next section.
 
 <br> 
 
@@ -878,6 +878,10 @@ cat('The MAD score is:', mad_val$score, '\n')
 
 Now that we have run all five tools we can conclude that cyCombine achieves the largest EMD reduction (0.84) on the CytoNorm dataset.
 
+<br>
+
+## Visualizations
+
 We can also look at the data using dimensionality reductions and density plots to make the results more visual.
 
 ```{r density plots - all tools, fig.height=24, fig.width=24, warning=FALSE, message=FALSE}
@@ -981,9 +985,3 @@ umap2 <- results[['CytofBatchAdjust']]$corrected %>% dplyr::filter(id %in% umap_
 cowplot::plot_grid(umap1, umap2)
 
 ```
-
-
-
-
-
-

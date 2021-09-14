@@ -1097,16 +1097,10 @@ It is not very directly comparable when simply doing a som-grid... we sort of ha
 
 
 
-"Kan han mene at ved at korrigere på færre markører (kun de overlappende) får man en mindre informeret korrigering end hvis hvert datasæt var korrigeret hver for sig (så bliver de self ikke integreret) og derfor kan noget af den biologiske information blive udvandet (tabt), hvilket videreføres til imputeringen?"
-
-
 Something about what imputing from and to - from healthy to sick - maybe not a good idea.
 
 
-
-
-Det virker jo hvis cellerne er ens - men det kan ødelægges hvis der er meget forskellige distributioner af celletyper, men man ikke har lineage markører i sit overlap. Så clustrer man bare på den del der ikke er informativ, og så kan man ende med at have underlige clusterfordelinger, der maskerer signalet.
-
+As long as cells from the impute-reference and the impute-for datasets are the same, imputation can work when using only a few overlapping markers. However, if the overlap is not informative for distinguishing cell types (i.e. no lineage markers), one may end up with a weird distribution of clusters, and this can lead to wrong conclusions for the final set.
 
 
 

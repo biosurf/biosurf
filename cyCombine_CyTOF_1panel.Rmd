@@ -1,7 +1,7 @@
 ---
 title: "Batch correction of CyTOF data"
 author: "Christina Bligaard Pedersen"
-date: "September 8, 2021"
+date: "September 13, 2021"
 output: 
   html_document:
     toc: true
@@ -176,12 +176,15 @@ corrected <- dfci %>%
 We start with some quantitative measurements of the correction performance.
 
 ```{r emd and mad, fig.height=5, fig.width=10, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
-# Cluster corrected data
+# Cluster corrected data - and time the operation
+start_time_8 <- Sys.time()
 labels <- corrected %>%
           cyCombine::create_som(rlen = 10,
                                 xdim = 8,
                                 ydim = 8,
                                 markers = markers)
+end_time_8 <- Sys.time()
+
 # Add labels
 corrected <- corrected %>%
   dplyr::mutate(som = labels)
@@ -214,7 +217,7 @@ mad_val <- dfci %>%
 
 ```
 
-```{r mad score print}
+```{r mad score print, echo=FALSE}
 cat('The MAD score is:', mad_val$score, '\n')
 
 ```
@@ -230,14 +233,15 @@ plot_density(dfci, corrected, ncol = 4)
 
 <br>
 
-Finally, some UMAPs to visualize the correction. We will downsample to 2,000 cells from each sample so it is easier to see what is going on.
+Finally, some UMAPs to visualize the correction. We will downsample to 5,000 cells from each batch so it is easier to see what is going on.
 
 ```{r umaps, fig.height=8, fig.width=16}
 inds <- split(1:length(dfci$batch), dfci$batch)
-sample <- unlist(lapply(inds, sample, 2000))
+set.seed(6157)
+sample <- unlist(lapply(inds, sample, 5000))
 
 plot1 <- plot_dimred(dfci[sample,], name = 'Uncorrected', type = 'umap')
-plot2 <- plot_dimred(corrected[sample,], name = 'Corrected', type = 'umap')
+plot2 <- plot_dimred(corrected[sample,], name = 'Corrected 8x8', type = 'umap')
 
 cowplot::plot_grid(plot1, plot2)
 
@@ -246,11 +250,20 @@ cowplot::plot_grid(plot1, plot2)
 
 <br>
 
-Based on the marker distributions after correction and the UMAPs, it looks like the batch effects are eliminated. We can now address our biological questions. However, we have simply used the default grid size of 8x8 in this example. The clustering with the self-organizing map is used to group similar cells, for which batch correction can be performed properly for a more homogeneous set of cells. While 64 clusters should be enough for most PBMC analyses, the default grid size may not always be appropriate. Rare subsets can be missed when using smaller grids, depending on their specific expression pattern and how distinct the rare cell type is from the other cells in the data. This problem is not unique to cyCombime, but rather a function of the SOM itself (which also happens to be the foundation of the widely FlowSOM clustering approach). 
+Based on the marker distributions after correction and the UMAPs, it looks like the batch effects are eliminated. We can now address our biological questions. However, we have simply used the default grid size of 8x8 in this example. The clustering with the self-organizing map is used to group similar cells, for which batch correction can be performed properly for a more homogeneous set of cells. While 64 clusters should be enough for most PBMC analyses, the default grid size may not always be appropriate. 
+
+
+<br><br>
+
+# Grid size discussion
+
+Rare subsets can be missed when using smaller grids, depending on their specific expression pattern and how distinct the rare cell type is from the other cells in the data. This problem is not unique to cyCombime, but rather a function of the SOM itself (which also happens to be the foundation of the widely FlowSOM clustering approach). 
 
 <br>
 
-If greater heterogeneity is anticipated in a dataset, we recommend increasing the grid size. Generally, one should aim for a grid size which can capture the variance of the data, but it is not a goal in itself to strongly over-cluster as this will yield smaller sets of cells for batch correction, rendering the correction less robust. As in any analysis involving a clustering step, we would recommend initial explorations of all datasets to establish an idea of the heterogeneity in the data, and then set the grid size accordingly when running cyCombine.
+If greater heterogeneity is anticipated in a dataset, we recommend increasing the grid size. Generally, one should aim for a grid size which can capture the variance of the data, but it is not a goal in itself to strongly over-cluster as this will increase the risk of having clusters that do not contain cells from all of the batches, resulting in a worse correction (or only cells from a single batch, resulting in no correction at all). As in any analysis involving a clustering step, we would recommend initial explorations of all datasets to establish an idea of the heterogeneity in the data, and then set the grid size accordingly when running cyCombine.
+
+
 
 <br>
 
@@ -283,7 +296,165 @@ mc <- ConsensusClusterPlus(t(codes), maxK = 90, reps = 100,
 
 The delta area plot shows the relative change in cluster stability (area under CDF curve), when adding one extra meta-cluster. The goal is to choose a *k* where there is no significant increase. In this case, that occurs around *k* = 25 or *k* = 30 depending on how strict the requirement is. In any case, this shows that usign 64 SOM nodes should capture the total data variance for batch correction.
 
+<br><br>
 
+## Testing different grid sizes
+One could also address the question of the optimal grid size by simply trying multiple sizes. We will demonstrate the results for 2x2, 4x4, 12x12, and 16x16 grids below. We will also time each correction:
+
+```{r different grid sizes 1, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
+# Run batch correction with 2x2 grid
+start_time_2 <- Sys.time()
+corrected2 <- dfci %>%
+  batch_correct(covar = "condition",
+                xdim = 2,
+                ydim = 2,
+                norm_method = 'scale',
+                markers = markers)
+end_time_2 <- Sys.time()
+
+# Run batch correction with 4x4 grid
+start_time_4 <- Sys.time()
+corrected4 <- dfci %>%
+  batch_correct(covar = "condition",
+                xdim = 4,
+                ydim = 4,
+                norm_method = 'scale',
+                markers = markers)
+end_time_4 <- Sys.time()
+
+# Run batch correction with 12x12 grid
+start_time_12 <- Sys.time()
+corrected12 <- dfci %>%
+  batch_correct(covar = "condition",
+                xdim = 12,
+                ydim = 12,
+                norm_method = 'scale',
+                markers = markers)
+end_time_12 <- Sys.time()
+
+# Run batch correction with 16x16 grid
+start_time_16 <- Sys.time()
+corrected16 <- dfci %>%
+  batch_correct(covar = "condition",
+                xdim = 16,
+                ydim = 16,
+                norm_method = 'scale',
+                markers = markers)
+end_time_16 <- Sys.time()
+
+```
+
+<br>
+
+Now, we can evaluate the performance using the EMD reduction and MAD score.
+
+```{r different grid sizes 2, fig.height=5, fig.width=10, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
+# Make a function for evaluation
+evaluate <- function(uncorrected, corrected, gridsize, markers, celltype_col = 'som') {
+  
+  # Cluster corrected data (still using 8x8 so we can compare directly to the 8x8 grid correction)
+  labels <- corrected %>%
+            cyCombine::create_som(rlen = 10,
+                                  xdim = 8,
+                                  ydim = 8,
+                                  markers = markers)
+  # Add labels
+  corrected <- corrected %>%
+    dplyr::mutate(som = labels)
+  uncorrected <- uncorrected %>%
+    dplyr::mutate(som = labels)
+  
+  # Evaluation using EMD
+  emd_val <- uncorrected %>%
+        cyCombine::evaluate_emd(corrected,
+                                binSize = 0.1,
+                                markers = markers,
+                                cell_col = celltype_col)
+  
+  # Evaluation using MAD
+  mad_val <- uncorrected %>%
+        cyCombine::evaluate_mad(corrected,
+                                filter_limit = NULL,
+                                markers = markers,
+                                cell_col = celltype_col)
+
+  # UMAP - 5,000 cells per batch
+  inds <- split(1:length(uncorrected$batch), uncorrected$batch)
+  set.seed(6157)
+  sample <- unlist(lapply(inds, sample, 5000))
+  
+  plot1 <- plot_dimred(uncorrected[sample,], name = 'Uncorrected ', type = 'umap')
+  plot2 <- plot_dimred(corrected[sample,], name = paste0('Corrected ', gridsize, 'x', gridsize), type = 'umap')
+  
+  # umaps <- cowplot::plot_grid(plot1, plot2)
+  
+  # # Density plots
+  # densities <- plot_density(dfci, corrected2, ncol = 6, markers = markers,
+  #                           dataset_names = c('Uncorrected', paste0('Corrected ', gridsize, 'x', gridsize)))
+
+  
+  return(list('emd_val' = emd_val, 'mad_val' = mad_val, 'umaps' = list(plot1, plot2)))#, 'densities' = densities))
+}
+
+# Use function to evaluate
+eval2 <- evaluate(dfci, corrected2, gridsize = 2, markers)
+eval4 <- evaluate(dfci, corrected4, gridsize = 4, markers)
+eval12 <- evaluate(dfci, corrected12, gridsize = 12, markers)
+eval16 <- evaluate(dfci, corrected16, gridsize = 16, markers)
+
+```
+
+
+```{r different grid sizes 3, echo=FALSE}
+cat('For the 2x2 grid, the EMD reduction is:', eval2$emd_val$reduction, 'and the MAD score is:', eval2$mad_val$score, '\n')
+cat('For the 4x4 grid, the EMD reduction is:', eval4$emd_val$reduction, 'and the MAD score is:', eval4$mad_val$score, '\n')
+cat('For the 12x12 grid, the EMD reduction is:', eval12$emd_val$reduction, 'and the MAD score is:', eval12$mad_val$score, '\n')
+cat('For the 16x16 grid, the EMD reduction is:', eval16$emd_val$reduction, 'and the MAD score is:', eval16$mad_val$score, '\n')
+
+```
+
+<br>
+
+What we observe here, is that using the very small 2x2 grid, there is still a reduction in the batch effects for this dataset, but it is not as strong as for the other settings. For 4x4, the reduction is slightly worse than for the 8x8 grid, used in the study, and 12x12 actually appears to be slightly better, with an EMD reduction of 0.68 (vs. 0.66) and the same MAD score (0.02) as for the 8x8 grid. However, the differences for 8x8, 12x12, and 16x16 are very small.
+
+<br>
+
+We can also compare the runtimes of the different settings.
+
+```{r different grid sizes 4, echo=FALSE}
+cat('For the 2x2 grid, the runtime was:', round(end_time_2 - start_time_2, 2), 'minutes\n')
+cat('For the 4x4 grid, the runtime was:', round(end_time_4 - start_time_4, 2), 'minutes\n')
+cat('For the 8x8 grid, the runtime was:', round(end_time_8 - start_time_8, 2), 'minutes\n')
+cat('For the 12x12 grid, the runtime was:', round(end_time_12 - start_time_12, 2), 'minutes\n')
+cat('For the 16x16 grid, the runtime was:', round(end_time_16 - start_time_16, 2), 'minutes\n')
+
+```
+
+
+<!-- We can round off by looking at the density plots: -->
+
+<!-- ```{r different grid sizes 6, message=FALSE, fig.height=16, fig.width=16} -->
+<!-- eval2$densities -->
+<!-- eval4$densities -->
+<!-- eval12$densities -->
+<!-- eval16$densities -->
+
+<!-- ``` -->
+
+<br>
+The runtimes do however increase with larger grid sizes, and since there is no significant performance gain in increasing the grid size beyond 8x8, we have used this for the analyses in the cyCombine article. We can also conclude that when the dataset consists of a large number of cells, the grid size is not a highly important parameter. This allows the user not to worry too much about finding an optimal value.
+
+<br>
+
+We have included the UMAPs for the different settings below:
+
+```{r different grid sizes 5, fig.height=10, fig.width=16}
+# UMAP plots for the tested settings
+cowplot::plot_grid(eval2$umaps[[1]], eval2$umaps[[2]], 
+                   eval4$umaps[[2]], plot2,
+                   eval12$umaps[[2]], eval16$umaps[[2]])
+
+```
 
 
 <!-- One example could be to cluster the dataset. Here, we will display the results of Phenograph clustering. Actually, I will compare Phenograph run for all seven batches *with* and *without* batch correction using the same set of markers. -->

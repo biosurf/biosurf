@@ -1,7 +1,7 @@
 ---
 title: "Integrating CITE-seq, spectral flow cytometry and mass cytometry data"
 author: "Christina Bligaard Pedersen"
-date: "September 8, 2021"
+date: "September 14, 2021"
 output: 
   html_document:
     toc: true
@@ -127,7 +127,7 @@ A word of caution here - sometimes matches cannot be made directly, due to diffe
 Now we are ready to cluster the protein portion of the CITE-seq data on these overlapping protein markers.
 
 ```{r cluster cite-seq, message=F, warning=F, fig.height=5, fig.width=8}
-# Definin goverlapping markers
+# Defining overlapping markers
 overlap_markers <- c('CD3', 'CD4', 'CD8a', 'CD14', 'CD16', 'CD19', 'CD25', 'CD45RA', 'CD56', 'CD127', 'PD1')
 
 # We will make the protein data default since we will only work with this part of the data going forward
