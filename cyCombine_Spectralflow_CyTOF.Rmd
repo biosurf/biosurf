@@ -449,7 +449,7 @@ After removal of the unlabeled cells, we have 573,397 cells remaining (98.5 %) i
 
 <br>
 
-# CyTOF data pre-processing
+## CyTOF data pre-processing
 
 Then it is time to read the CyTOF data. We use a single sample (ctrls-001) from FlowRepository: FR-FCM-ZYAJ. We downloaded the version normalized with MATLAB and pre-gated it to live intact singlets using FlowJo.
 
@@ -708,6 +708,7 @@ cowplot::plot_grid(umap1, umap2)
 
 Now, we also have labels for each of the datasets, which were generated independently of the batch correction. Let us have some visualization with these.
 
+# Visualization
 
 ```{r umaps labels, fig.height=9, fig.width=12}
 # For uncorrected data, let's make a combined object
@@ -772,6 +773,8 @@ cowplot::plot_grid(plotlist = expr_plots, ncol = 2)
 
 
 <br>
+
+# Relabeling corrected data
 
 To determine if it is possible to obtain a similar cell labeling *after* correction, we will now re-cluster and label the combined, corrected dataset.
 
