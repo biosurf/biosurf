@@ -5,6 +5,8 @@ title: "Publications"
 <br>
 
 ## 2021
+Gabrielaite, M., Torp, M. H., Rasmussen, M. S., Andreu-Sánchez, S., Vieira, F. G., **Pedersen, C. B.**, Kinalis, S., Madsen, M. B., Kodama, M., Demircan, G. S., Simonyan, A., Yde, C. W., **Olsen, L. R.**, Marvig, R. L., Østrup, O., Rossing, M., Nielsen, F. C., Winther, O., & Bagger, F. O. (2021). A Comparison of Tools for Copy-Number Variation Detection in Germline Whole Exome and Whole Genome Sequencing Data. *Cancers, 13, 6283*. [doi:10.3390/cancers13246283](https://doi.org/10.3390/cancers13246283)
+
 **Pedersen, C. B.**, **Dam, S. H.**, Barnkob, M. B., Leipold, M. D., Purroy, N., Rassenti, L. Z., Kipps, T. J., Nguyen, J., Lederer, J. A., Gohil, S. H., Wu, C. J., **Olsen, L. R.** (2021). Robust integration of single-cell cytometry datasets. *bioRxiv*. [doi:10.1101/2021.06.28.450128](https://doi.org/10.1101/2021.06.28.450128)
 
 Barnkob, M. B., Benso, A., Politano, G., **Olsen L. R.** (2021). Spectracular: minimizing spectral overlap in multicolor flow cytometry experiments. *bioRxiv*. [doi:10.1101/2021.03.17.435861](https://doi.org/10.1101/2021.03.17.435861)
