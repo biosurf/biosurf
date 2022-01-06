@@ -1,7 +1,7 @@
 ---
 title: "Integrating CITE-seq, spectral flow cytometry and mass cytometry data"
 author: "Christina Bligaard Pedersen"
-date: "June 2, 2021"
+date: "September 14, 2021"
 output: 
   html_document:
     toc: true
@@ -127,7 +127,7 @@ A word of caution here - sometimes matches cannot be made directly, due to diffe
 Now we are ready to cluster the protein portion of the CITE-seq data on these overlapping protein markers.
 
 ```{r cluster cite-seq, message=F, warning=F, fig.height=5, fig.width=8}
-# Definin goverlapping markers
+# Defining overlapping markers
 overlap_markers <- c('CD3', 'CD4', 'CD8a', 'CD14', 'CD16', 'CD19', 'CD25', 'CD45RA', 'CD56', 'CD127', 'PD1')
 
 # We will make the protein data default since we will only work with this part of the data going forward
@@ -628,7 +628,7 @@ cor_df <- cbind.data.frame(umap2$data[,1:2], corrected)
 
 umap4 <- ggplot(cor_df, aes(x = UMAP1, y = UMAP2)) +
                 geom_point(aes(color = label), alpha = 0.3, size = 0.4) +
-                theme_bw() + theme(plot.title = element_text(hjust = 0.5)) +
+                theme_bw() + theme(plot.title = element_text(hjust = 0.5)) + 
                 ggtitle('UMAP - corrected') +
                 guides(color = guide_legend(override.aes = list(alpha = 1, size = 1)))
 
@@ -639,14 +639,8 @@ cowplot::plot_grid(umap3, umap4)
 ```
 
 ```{r umaps labels split, fig.height=12, fig.width=16}
-# For uncorrected data, let's make a combined object
-uncor_df <- cbind.data.frame(umap1$data[,1:2], uncorrected)
-
+# Faceting the UMAPs per technology
 umap5 <- umap3 + facet_wrap(~batch)
-
-# For corrected data, let's make a combined object
-cor_df <- cbind.data.frame(umap2$data[,1:2], corrected)
-
 umap6 <- umap4 + facet_wrap(~batch)
 
 
@@ -654,4 +648,36 @@ umap6 <- umap4 + facet_wrap(~batch)
 cowplot::plot_grid(umap5, umap6, nrow = 2)
 ```
 
+<br>
 
+We can also show the UMAPs faceted by technology, where cells are colored by their expression of the 11 overlapping markers:
+
+
+```{r umaps markers split, fig.height=38, fig.width=16}
+# Loop over markers to make the plots for both the uncorrected and corrected data
+expr_plots <- list()
+for (m in get_markers(corrected)) {
+  
+  # Find range for marker to make plots comparable
+  range <- summary(c(uncor_df[,m], cor_df[,m]))[c(1,6)]
+  
+  expr_plots[[paste0(m, '1')]] <- ggplot(uncor_df, aes(x = UMAP1, y = UMAP2)) +
+                geom_point(aes_string(color = m), alpha = 0.3, size = 0.4) +
+                theme_bw() + theme(plot.title = element_text(hjust = 0.5)) +
+                ggtitle('UMAP - uncorrected') + 
+                scale_color_gradientn(m, limits  = range, colours = colorRampPalette(rev(RColorBrewer::brewer.pal(n = 11, name = "Spectral")))(50)) +
+                facet_wrap(~batch)
+  
+  expr_plots[[paste0(m, '2')]] <- ggplot(cor_df, aes(x = UMAP1, y = UMAP2)) +
+                geom_point(aes_string(color = m), alpha = 0.3, size = 0.4) +
+                theme_bw() + theme(plot.title = element_text(hjust = 0.5)) +
+                ggtitle('UMAP - corrected') + 
+                scale_color_gradientn(m, limits = range, colours = colorRampPalette(rev(RColorBrewer::brewer.pal(n = 11, name = "Spectral")))(50)) +
+                facet_wrap(~batch)
+  
+}
+
+# Show plots
+cowplot::plot_grid(plotlist = expr_plots, ncol = 2)
+
+```

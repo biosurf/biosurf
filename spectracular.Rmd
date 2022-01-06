@@ -9,7 +9,7 @@ Welcome to Spectracular, the online tool for minimizing spectra overlap in multi
 
 <table style="width:100%">
 <tr>
-<td><center>[![](spectracular_files/figure-html/launch.png){ width=50% }](https://services.healthtech.dtu.dk/shiny/spectracular/){ target="_blank" }</center></td>
+<td><center>[![](spectracular_files/figure-html/launch.png){ width=50% }](https://biosurf.shinyapps.io/spectracular/){ target="_blank" }</center></td>
 </tr>
 </table>
 <br>
@@ -66,13 +66,6 @@ Lastly, clicking the red "Instrument laser configuration" button reveals the fol
 <br><br>
 
 Lasers are added by typing the wavelength (in positive integers between 300 and 900) and hitting enter. Lasers can be removed by placing the cursor in front of a laser and hitting delete. The minimal excitation ratio, is a threshold for including fluorochromes in the final solution. A minimal excitation ratio of 25% means that in order for a fluorochrome to be considered for the final solution, it must be excited to at least 25% of the theoretical maximum excitation. A fluorochrome will be assumed to be excited by the laser which leads to the highest emission signal. We recommend you set a low minimal excitation ratio (<10%) when designing a panel with a low number of fluorochromes, and a high ratio (>60%) when designing larger panels.
-<br><br>
-
-### Functionalities on the drawing board
-In the coming months, we will be implementing an advanced "Fluorochromes to include" option, in which users can create lists of targets and couple these to any subset of fluorochromes. This is useful when several reagents are already available in the laboratory or when a researcher wants to identify a suitable new antibody that is only available with limited fluorochromes. We will also be implementing support for instrument filters.
-<br><br>
-
-### Examples
 <br><br>
 
 ### How does Spectracular work?

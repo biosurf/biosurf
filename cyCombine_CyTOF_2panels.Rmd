@@ -1,7 +1,7 @@
 ---
 title: "Batch correction of two-panel CyTOF data"
 author: "Christina Bligaard Pedersen"
-date: "February 9, 2021"
+date: "September 8, 2021"
 output: 
   html_document:
     toc: true
@@ -53,7 +53,7 @@ knitr::opts_chunk$set(
   strip.white = T, comment = ""
 )
 
-knitr::opts_knit$set(root.dir = '/home/projects/dp_immunoth/people/s153398/cyCombine/_data/')
+knitr::opts_knit$set(root.dir = '/home/projects/dp_immunoth/people/s134891/cycombine/DFCI/Mike_process')
 
 ```
 
@@ -74,7 +74,7 @@ library(cyCombine)
 library(tidyverse)
 
 # Set a seed for reproducibility
-seed <- 628
+seed <- 123
 
 # Set a combined size for UMAPs
 umap_size = 50000
@@ -83,11 +83,11 @@ umap_size = 50000
 
 ```{r panel reading, message=F, warning=F}
 # Panel 1 reading
-panel1 <- read_csv("dfci1_2/panel1.csv")
+panel1 <- read_csv("panel1.csv")
 panel1
 
 # Panel 2 reading
-panel2 <- read_csv("dfci2_2/panel2.csv")
+panel2 <- read_csv("panel2.csv")
 panel2
 
 ```
@@ -128,8 +128,8 @@ We are now ready to load the CyTOF data. We convert it to a tibble format, which
 
 ```{r loading cytof data 1}
 # Preparing the expression data
-dfci1 <- prepare_data(data_dir = "dfci1_2",
-                      metadata = "dfci1_2/metadata.csv",
+dfci1 <- prepare_data(data_dir = "Panel1_renamed",
+                      metadata = "metadata.csv",
                       filename_col = "FCS_name",
                       batch_ids = "Batch",
                       condition = "Set",
@@ -142,8 +142,8 @@ dfci1 <- prepare_data(data_dir = "dfci1_2",
 
 ```{r loading cytof data 2}
 # Preparing the expression data
-dfci2 <- prepare_data(data_dir = "dfci2_2",
-                      metadata = "dfci2_2/metadata.csv",
+dfci2 <- prepare_data(data_dir = "Panel2_renamed",
+                      metadata = "metadata.csv",
                       filename_col = "FCS_name",
                       batch_ids = "Batch",
                       condition = "Set",
@@ -238,7 +238,22 @@ emd_val1 <- dfci1 %>%
 
 # Show plots
 cowplot::plot_grid(emd_val1$violin, emd_val1$scatterplot)
+
+
+# Evaluation using MAD
+mad_val1 <- dfci1 %>%
+  cyCombine::evaluate_mad(dfci1_bc,
+                          filter_limit = NULL,
+                          markers = markers1,
+                          cell_col = celltype_col)
+
 ```
+
+```{r MAD score print 1}
+cat('The MAD score is:', mad_val1$score, '\n')
+
+```
+
 
 <br>
 
@@ -323,11 +338,26 @@ emd_val2 <- dfci2 %>%
 
 # Show plots
 cowplot::plot_grid(emd_val2$violin, emd_val2$scatterplot)
+
+
+# Evaluation using MAD
+mad_val2 <- dfci2 %>%
+  cyCombine::evaluate_mad(dfci2_bc,
+                          filter_limit = NULL,
+                          markers = markers2,
+                          cell_col = celltype_col)
+
 ```
+
+```{r MAD score print 2}
+cat('The MAD score is:', mad_val2$score, '\n')
+
+```
+
 
 <br>
 
-For both panels, we find EMD reductions of 0.67 and 0.65, respectively, when considering the batch corrections separately.
+For both panels, we find EMD reductions of 0.66 and MAD scores of 0.02, when considering the batch corrections separately.
 
 <br>
 
@@ -421,9 +451,23 @@ emd_val_co <- df %>%
 
 # Show plots
 cowplot::plot_grid(emd_val_co$violin, emd_val_co$scatterplot)
+
+
+# Evaluation using MAD
+mad_val_co <- df %>%
+  cyCombine::evaluate_mad(co_corrected,
+                          filter_limit = NULL,
+                          markers = overlap_markers,
+                          cell_col = celltype_col)
+
 ```
 
-For this correction, we obtain an EMD of 0.85.
+```{r MAD score print 3}
+cat('The MAD score is:', mad_val_co$score, '\n')
+
+```
+
+For this correction, we obtain an EMD of 0.83 and an MAD score of 0.01.
 
 
 
