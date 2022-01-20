@@ -15,19 +15,6 @@ title: "Projects"
 **Supervisor:** Catherine J. Wu & Lars Rønn Olsen
 
 
-
-*Project Description:*
-
-The main object of this project is to profile immune and cancer cells at single-cell resolution in blood cancers patients both during disease course and immunotherapy.
-
-
-
-*Perspective:*
-
-The immune system possesses a large capability of eradicating cancer cells; however, cancer cells evolve and deploy escaping mechanisms to avoid being killed. Understanding these mechanisms and what the interplay between immune and cancer cells are across time is an important step in potentially utilizing the host immune system to fight the cancer.
-
-
-
 <br><br>
 
 
@@ -37,22 +24,6 @@ The immune system possesses a large capability of eradicating cancer cells; howe
 **PhD student:** Christina Bligaard Pedersen
 
 **Supervisor:** Maria Rossing & Lars Rønn Olsen
-
-
-
-*Project Description:*
-
-Almost 5,000 women are diagnosed with breast cancer in Denmark every year. Despite considerable advances in early detection, diagnosis, and treatment, recurrent metastatic disease still claims the lives of a significant portion of patients, making it the leading cause of cancer related death in women.
-
-Research over the past couple of years has made it increasingly evident that the immune system plays a central role in both cancer development and treatment response, by simultaneously controlling the disease and shaping the sub-clonal composition of the tumor. With the advent of single-cell technologies, it is becoming possible to study the interaction between tumor and immune cells in a detailed manner. Accordingly, this project will use both single-cell RNA-sequencing and mass cytometry to study the tumors of Danish breast cancer patients treated at Rigshospitalet - Copenhagen University Hospital. By correlating the results of these analyses to clinical data regarding applied treatments and responses, the goal is to understand which breast cancer patients could benefit from immunotherapy, and how we can recognize these patients at diagnosis.
-
-
-
-*Perspective:*
-
-This project aims to take the initial steps in including immune profiling as a prognostic biomarker for breast cancer treatment response. A deeper understanding of the immune infiltration in tumor can both lead to better patient stratification and also facilitate the increased use of immunotherapies in clinics. Ultimately, this can ensure treatment with maximal efficacy and minimal adverse effects.
-
-Additionally, while breast cancer will be the sole focus of this PhD project, the methods are directly applicable to other cancers as well. Because the project is conducted in cooperation between bioinformaticians that can develop relevant computational pipelines to analyze the data, and clinicians, who truly understand the clinical setting and challenges related to routine treatment, it has a unique chance of having a real impact for those who need it – the patients.
 
 
 <br><br>
@@ -67,16 +38,14 @@ Additionally, while breast cancer will be the sole focus of this PhD project, th
 
 
 
-*Project Description:*
-
-The objective of this project is to learn the rules governing the coevolution of cancer and immune cells in patients with myeloproliferative neoplasm (MPN), which is characterized by a gradual exhaustion of tumor-specific immune cells despite strong in vitro activity, and leverage this knowledge to modulate immunotherapy towards a curative outcome. The aim is to explicitly model the coevolution of tumor and immune cells by analyzing single cells from blood and bone marrow of MPN patients who participated in a phase I vaccination trial. 
+<br><br>
 
 
+### <span style="color: #242880;">B cells and antibodies in anti-tumour immunity in colorectal cancer</span>
 
-*Perspective:*
+**PhD student:** Nanna Møller Barnkob
 
-The features of the disease, the vaccine trial, the rigorous sampling of tissues, and the analyses planned in this project together produce a controlled system which we believe we can use to create the first ever in vivo model of tumor and immune cell interaction dynamics.
-
+**Supervisor:** Lars Rønn Olsen & Nikolaj Dietrich
 
 <br><br>
 
@@ -88,5 +57,16 @@ The features of the disease, the vaccine trial, the rigorous sampling of tissues
 **PhD student:** Panagiotis Mantas
 
 **Supervisor:** Hans Hasselbach & Lars Rønn Olsen
+
+
+<br><br>
+
+
+
+### <span style="color: #7d438f;">Towards machine learning-supported clinical diagnostics</span>
+
+**PhD student:** Søren Helweg Dam
+
+**Supervisor:** Lars Rønn Olsen & Kristoffer Vitting-Seerup
 
 
