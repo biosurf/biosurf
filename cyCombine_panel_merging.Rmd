@@ -1,7 +1,7 @@
 ---
 title: "Panel merging"
 author: "Christina Bligaard Pedersen"
-date: "September 1, 2021"
+date: "Last updated on Febraury 10, 2022"
 output: 
   html_document:
     toc: true
@@ -675,8 +675,7 @@ Now, we batch correct the data (two batches, no co-variates):
 ```{r Ogishi example batch cor, results = 'hide', warning=FALSE, message=FALSE}
 # Run batch correction - full panel (38 markers)
 ogishi_bc <- ogishi %>%
-  batch_correct(covar = "condition",
-                xdim = 8,
+  batch_correct(xdim = 8,
                 ydim = 8,
                 norm_method = 'scale',
                 markers = og_markers)
@@ -755,7 +754,6 @@ df_easy <- rbind(easy_1[,c(overlap_easy, non_markers)],
 
 # Batch correct based on overlapping markers
 co_corrected_easy <- batch_correct(df_easy,
-                                   covar = "condition",
                                    xdim = 8,
                                    ydim = 8,
                                    norm_method = 'scale',
@@ -782,7 +780,6 @@ df_hard <- rbind(hard_1[,c(overlap_hard, non_markers)],
 
 # Batch correct based on overlapping markers
 co_corrected_hard <- batch_correct(df_hard,
-                                   covar = "condition",
                                    xdim = 8,
                                    ydim = 8,
                                    norm_method = 'scale',

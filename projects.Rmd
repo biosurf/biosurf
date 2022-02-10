@@ -19,17 +19,6 @@ title: "Projects"
 
 
 
-### <span style="color: #cf449a;">Precision treatment of breast cancer using integration of transcriptomics and immune profiling</span>
-
-**PhD student:** Christina Bligaard Pedersen
-
-**Supervisor:** Maria Rossing & Lars Rønn Olsen
-
-
-<br><br>
-
-
-
 ### <span style="color: #db931f;">The myeloproliferative neoplasms as a model for cancer immunoediting: an inquiry into the coevolution of cancer and immune cells</span>
 
 **PhD student:** Giorgia Moranzoni

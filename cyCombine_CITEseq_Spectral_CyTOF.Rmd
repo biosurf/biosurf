@@ -1,7 +1,7 @@
 ---
 title: "Integrating CITE-seq, spectral flow cytometry and mass cytometry data"
 author: "Christina Bligaard Pedersen"
-date: "September 14, 2021"
+date: "Last updated on Febraury 10, 2022"
 output: 
   html_document:
     toc: true

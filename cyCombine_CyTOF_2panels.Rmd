@@ -1,7 +1,7 @@
 ---
 title: "Batch correction of two-panel CyTOF data"
 author: "Christina Bligaard Pedersen"
-date: "September 8, 2021"
+date: "Last updated on Febraury 10, 2022"
 output: 
   html_document:
     toc: true

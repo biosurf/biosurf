@@ -1,7 +1,7 @@
 ---
 title: "cyCombine: Reference manual"
 author: "Søren Helweg Dam & Christina Bligaard Pedersen"
-date: June 3, 2021
+date: "Last updated on Febraury 10, 2022"
 output: 
   html_document:
     toc: true
@@ -73,6 +73,8 @@ The metadata of our example has the following columns:
 | Filename | batch | condition | Patient_id |
 |:--------:|:-----:|:---------:|:----------:|
 |          |       |           |            |
+
+In addition, when replicated samples/anchors are included, it may be relevant to also use the column `anchor` as described [below](#replicates).
 
 <br>
 
@@ -231,6 +233,9 @@ saveRDS(uncorrected, file = "data/uncorrected.RDS")
 
 Now that the data is converted to a tibble format, it is straightforward to perform batch correction with cyCombine. Again, we demonstrate two different workflows.
 
+Besides the functionality used below, it is also possible to directly inform cyCombine about which samples are replicates. For this, please refer to the [relevant section](#replicates) below.
+
+
 <br>
 
 
@@ -253,7 +258,7 @@ corrected <- batch_correct(
   covar = "condition",
   markers = markers,
   norm_method = "scale", # "rank" is recommended when combining data with heavy batch effects
-  rlen = 10 # Higher values are recommended if 10 does not appear to perform wells
+  rlen = 10, # Higher values are recommended if 10 does not appear to perform well
   seed = 101 # Recommended to use your own random seed
 )
 
@@ -288,18 +293,54 @@ labels <- uncorrected %>%
 # Batch correct
 corrected <- correct_data(
   df = uncorrected,
-  label = labels # Add custom labels here, if desired
+  label = labels, # Add custom labels here, if desired
   covar = "condition",
   markers = markers,
   parametric = TRUE,
-  seed = 101
   )
 
 # Save result
 saveRDS(corrected, file.path(data_dir, "corrected.RDS"))
 ```
 
+<br>
+
+
+## Batch correction with replicates (recommended workflow) {#replicates}
+
+There are several ways to inform cyCombine which samples are replicates. One option is to add an additional column (e.g. "anchor") to your metadata file, which can then be added as a column to your uncorrected data by using `prepare_data()`. This information may also be added manually to the uncorrected data, or it is possible to provide the information directly to `batch_correct()` using a vector.
+
+To perform the batch correction, one should use `batch_correct()` with the `anchor` parameter, which should be set to the column name (e.g. "anchor") or the name of the vector containing the information. cyCombine will automatically check whether the covariate and anchor are confounded with each other or the batch.
+
+
+```{r, eval=FALSE}
+# Load packages
+library(cyCombine)
+library(tidyverse)
+
+# Load data (if not already loaded)
+# uncorrected <- readRDS("data/uncorrected.RDS")
+# markers <- get_markers(uncorrected)
+
+# Batch correct
+corrected <- batch_correct(
+  df = uncorrected,
+  covar = "condition",
+  markers = markers,
+  norm_method = "scale", # "rank" is recommended when combining data with heavy batch effects
+  rlen = 10, # Higher values are recommended if 10 does not appear to perform well
+  seed = 101, # Recommended to use your own random seed
+  anchor = "anchor"
+)
+
+# Save result
+saveRDS(corrected, file.path(data_dir, "corrected.RDS"))
+```
+
+
+
 <br><br>
+
 
 # Evaluate performance
 
