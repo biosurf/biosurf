@@ -4,6 +4,9 @@ title: 'Vignettes for cyCombine'
 
 ### Robust Integration of Single-Cell Cytometry Datasets | R Package on [GitHub](https://github.com/biosurf/cyCombine)
 
+#### If you have any issues or questions regarding the use of cyCombine, please do not hesitate to raise an issue on GitHub. In this way, others may also benefit from answers to your questions. Thank you!
+
+
 <br>
 <br>
 <table style="width:100%">

@@ -43,4 +43,4 @@ htmltools::tagList(
 
 ```
 
-Please check out the [Shiny](https://services.healthtech.dtu.dk/shiny/spectracular/) and the [manual](https://biosurf.org/spectracular.html)!
+Please check out the [Shiny](https://biosurf.shinyapps.io/spectracular/) and the [manual](https://biosurf.org/spectracular.html)!

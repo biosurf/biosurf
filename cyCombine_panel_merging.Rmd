@@ -1,7 +1,7 @@
 ---
 title: "Panel merging"
 author: "Christina Bligaard Pedersen"
-date: "Last updated on Febraury 10, 2022"
+date: "Last updated on Febraury 21, 2022"
 output: 
   html_document:
     toc: true
@@ -102,7 +102,7 @@ In this vignette, we will instead focus a bit on the landscape of integration an
 ## Discussion
 In terms of advantages, the approach of cyCombine is designed to account for the underlying biology by using density draws. This is particularly important because cytometry data are not normally distributed.
 
-In some cases, in which the variance in the marker expression is very low, and measures like the median provide a good estimate of the values to be imputed. The unfortunate thing is that those cases are often biologically uninteresting, whereas markers with bimodal expression are often the center of attention. Such markers can either be relevant for distinguishing populations and downstream differential abundance analysis, or within a cluster they may provide insight into differential expression between experimental states. 
+In some cases, in which the variance in the marker expression is very low, measures like the median provide a good estimate of the values to be imputed. The unfortunate thing is that those cases are often biologically uninteresting, whereas markers with bimodal expression are often the center of attention. Such markers can either be relevant for distinguishing populations and downstream differential abundance analysis, or within a cluster they may provide insight into differential expression between experimental states. 
 
 
 When evaluating cyCombine, it is important to consider the following: Because of the use of density draws, it is not possible to use a one-one comparison of cells in a training set before and after imputation. This is because you might actually get some ‘wrong’ estimates with our approach - but there should be a corresponding ‘wrong’ estimate making up for that. The goal of our SOM/density-based approach is to preserve the global structure of the dataset instead of the single cell’s assignment. An additional upside to cyCombine is that it also does not exclude outlier values, as those should be sampled with the frequency that they are actually present in the data. We will get back to this in the benchmarks below.
@@ -229,7 +229,7 @@ plot_density(uncorrected = panel_E,
 ```
 
 
-Overall, this looks quite good. Also, it is worth noting that the distributions of CD3 are not completely identical, despite it being included in all five panels, the distributions are not completely identical, so it would be a hard requirement to impose on imputations. Now, we will use the Earth Mover's Distance (EMD) to look at the imputations more quantitatively.
+Overall, this looks quite good. Also, it is worth noting that the distributions of CD3 are not completely identical, despite the marker being included in all five panels: So it would be a hard requirement to impose on imputations. Now, we will use the Earth Mover's Distance (EMD) to look at the imputations more quantitatively.
 
 
 <br>
@@ -339,7 +339,7 @@ The EMD ranges for cyCombine and CytoBackBone are similar - i.e. both tools seem
 
 <br>
 
-Testing CyTOFmerge performance on the dataset.
+Now, it is time to test the performance of CyTOFmerge on the dataset.
 
 ```{r CyTOFmerge}
 
@@ -395,15 +395,11 @@ boxplot(emd_all_CM, main = 'EMD for all markers (CyTOFmerge)', ylab = 'EMD', col
 legend("topright", legend = c('Overlap', 'Imputed'), col = c('#619CFF', '#F8766D'), pch = 15, cex = 2, bty = 'n')
 ```
 
-The EMD ranges for CyTOFmerge are very similar to those of the other two tools - i.e. all tools seem to be most challenged with markers such as CXCR4 and MIP1b.
-
-
-I don't know if we want to include CyTOFmerge here - it may be good for illustration - but maybe it's not fair?
+The EMD ranges for CyTOFmerge are very similar to those of the other two tools - i.e. all tools seem to be most challenged with markers such as CXCR4 and MIP1b. However, visual inspection of the density plots, e.g. for CCR5, does reveal a somewhat different data distribution for the measured and CyTOFmerge-imputed sets.
 
 
 
-
-A final comparison is the runtime. Here we do a small comparison of cyCombine, CytoBackBone, and CyTOFmerge on a machine with 40 cores and 100 gb memory:
+A final comparison parameter is the runtime. Here we do a small comparison of cyCombine, CytoBackBone, and CyTOFmerge on a machine with 40 cores and 100 gb memory:
 
 ```{r runtime}
 # Runtime for cyCombine on panels A + B
@@ -637,11 +633,13 @@ As a consequence, a proper testing of cyCombine makes more sense for different s
 
 ### Benchmark 3 - cyCombine on different healthy donors
 
-Let us consider some of the healthy donor PBMC samples from Ogishi CyTOF data. We will use nine samples - four from batch 1 (HC01-HC05) and four from batch 6 (HC14, 16, 20, 24-33). This comprises 3,969,544 cells.
+Let us consider some of the healthy donor PBMC samples from a set of CyTOF data from [Ogishi et al. (2021)](https://doi.org/10.4049/jimmunol.2000854) (FlowRepository ID: FR-FCM-Z3YK). We will use nine samples - four from batch 1 (HC01-HC05) and four from batch 6 (HC14, 16, 20, 24-33). These samples comprise 3,969,544 cells.
 
 This data will be processed in two ways:
+
 1. Simple batch correction on all 38 markers.
 2. Removing 13 markers from each batch, batch correcting the overlap (n = 12), and performing imputation on the removed markers. 
+
 
 This will be followed by a mini-analysis of the generated datasets, which should aid in quantifying both the degree of information loss from having a smaller overlap and performing imputations. It should also serve to prove the robustness of the cyCombine imputation. In part 2, we will remove both a set of relatively easy-to-impute markers, and a set of relatively hard-to-impute markers - based on the degree of variance of markers.
 
@@ -684,7 +682,7 @@ ogishi_bc <- ogishi %>%
 
 <br>
 
-To get an idea about the extent of batch effects and to survey the variance of each marker, we will make a density plot for the corrected and uncorrected dataset.
+To get an idea about the extent of batch effects and to survey the variance of each marker, we will make density plots for the corrected and uncorrected datasets.
 
 ```{r Ogishi example removing markers 1, results='hide', message=F, warning=F, fig.height=24, fig.width=20}
 plot_density(ogishi, ogishi_bc, markers = og_markers)
@@ -841,44 +839,6 @@ boxplot(
 
 The EMDs are actually quite similar for each marker when comparing the original set - within a batch - for each of the three processed sets. However, there is a longer tail for the "hard" imputation set - and also a slightly higher max for "easy" than plain batch correction.
 
-Now, let us look at what really matters - the global structure of the data. We will evaluate this using a calculation of the inter-cell distances (in Euclidean space) and comparing the distribution of these.
-
-```{r cell-distances}
-# Density of cell-cell distances for 25,000 randomly selected cells (matrix too large for all cells)
-
-# Get the indeces
-set.seed(4628)
-indeces <- ogishi_bc %>% 
-  sample_n(25000) %>% 
-  pull(id)
-
-# Calculations
-dist_bc <- ogishi_bc %>% dplyr::filter(id %in% indeces) %>% dplyr::select(all_of(og_markers)) %>% Rfast::Dist()
-dist_easy <- ogishi_easy %>% dplyr::filter(id %in% indeces) %>% dplyr::select(all_of(og_markers)) %>% Rfast::Dist()
-dist_hard <- ogishi_hard %>% dplyr::filter(id %in% indeces) %>% dplyr::select(all_of(og_markers)) %>% Rfast::Dist()
-
-# Plotting the densities of the distances
-plot(density(as.vector(dist_bc[upper.tri(dist_bc)])), col = 'red', main = 'Cell-cell distances')
-lines(density(as.vector(dist_easy[upper.tri(dist_easy)])), col = 'blue')
-lines(density(as.vector(dist_hard[upper.tri(dist_hard)])), col = 'green')
-legend('topright', legend = c('Batch correction', 'Easy-to-impute', 'Hard-to-impute'), col = c('red', 'blue', 'green'), lty = 1)
-
-
-bins <- seq(-0.1, 30.5, by = 0.1)
-distr_bc <- matrix(graphics::hist(as.vector(dist_bc[upper.tri(dist_bc)]), breaks = bins, plot = FALSE)$density)
-distr_easy <- matrix(graphics::hist(as.vector(dist_easy[upper.tri(dist_easy)]), breaks = bins, plot = FALSE)$density)
-distr_hard <- matrix(graphics::hist(as.vector(dist_hard[upper.tri(dist_hard)]), breaks = bins, plot = FALSE)$density)
-
-emdist::emd2d(distr_bc, 
-            distr_easy)
-
-emdist::emd2d(distr_bc, 
-            distr_hard)
-
-```
-
-Perhaps not a good approach - at least the EMD is more different for the batch corrected vs. the easy than the batch corrected vs. the hard...
-
 
 <br>
 
@@ -955,20 +915,6 @@ cowplot::plot_grid(p_bc$umap, p_easy$umap, p_hard$umap, ncol = 3)
 
 ```
 
-
-```{r Ogishi pairwise co-variance}
-plot(density(cor(ogishi[,og_markers], method = 'pearson')), ylim = c(0,2.2), main = 'Pairwise Pearson correlation of markers')
-lines(density(cor(ogishi_bc[,og_markers], method = 'pearson')), col = 'red')
-lines(density(cor(ogishi_easy[,og_markers], method = 'pearson')), col = 'blue')
-lines(density(cor(ogishi_hard[,og_markers], method = 'pearson')), col = 'green')
-legend('topright', legend = c('Original', 'Batch correction', 'Easy-to-impute', 'Hard-to-impute'), col = c('black', 'red', 'blue', 'green'), lty = 1)
-# Global - not necessarily correct...
-```
-
-
-We could now determine the cluster abundance (per sample) - but that requires some labeling and/or cluster matching. It can be quite time-consuming...
-
-Maybe there is just not variance in the data?
 
 
 <!-- ```{r Ogishi example analyses 2, fig.height=7, fig.width=21, message=F} -->
@@ -1081,25 +1027,9 @@ Maybe there is just not variance in the data?
 
 <!-- ``` -->
 
+Simply looking at these UMAPs, it appears that there is a fairly well-preserved structure of the dataset when comparing batch correction and 'easy-to-impute' imputation. When studying the 'hard-to-impute' UMAP, there is less global separation of the sets of cells, indicating that the data structure has been altered. But it is important to note that these comments are only based on visual inspection in 2D.
 
-Write something about the fairly well-preserved structure in easy.
-
-Thoughts: Fewer overlapping markers - less information during batch correction and clustering prior to imputation. This means that the bandwidth of the markers within the clusters used for imputation become larger - which reflects the larger degree of uncertainty associated with a smaller overlap for imputation?
-
-
-
-
-I cannot just mark a set of cells (one from each som, because as we know, they may jump while another jumps 'back').
-It is not very directly comparable when simply doing a som-grid... we sort of have to annotate them or something. But then we probably need more clusters? But if we want to compare percentages we need to do it...
-
-
-
-Something about what imputing from and to - from healthy to sick - maybe not a good idea.
-
-
-As long as cells from the impute-reference and the impute-for datasets are the same, imputation can work when using only a few overlapping markers. However, if the overlap is not informative for distinguishing cell types (i.e. no lineage markers), one may end up with a weird distribution of clusters, and this can lead to wrong conclusions for the final set.
-
-
+In any case, we conclude that as long as cells from the impute-reference and the impute-for datasets are the same, imputation can work when using only a few overlapping markers. However, if the overlap is not informative for distinguishing cell types (i.e. no lineage markers), one may end up with a weird distribution of clusters, and this can lead to wrong conclusions for the final set.
 
 
 
@@ -1195,8 +1125,6 @@ dfci <- prepare_data(data_dir = data_dir,
 <br>
 
 ```{r salavging xcl1}
-# Should be batch corrected first? But then, the problem sort of solves itself.
-
 # Salvage XLC1 in batch 1
 imputed <- salvage_problematic(df = dfci,
                                correct_batches = c(1),
