@@ -5,6 +5,8 @@ title: "Publications"
 <br>
 
 ## 2022
+**Pedersen, C. B.**, **Dam, S. H.**, Barnkob, M. B., Leipold, M. D., Purroy, N., Rassenti, L. Z., Kipps, T. J., Nguyen, J., Lederer, J. A., Gohil, S. H., Wu, C. J., **Olsen, L. R.** (2022). cyCombine allows for robust integration of single-cell cytometry datasets within and across technologies. *Nature Communications, 13, 1698*. [doi:10.1038/s41467-022-29383-5](https://doi.org/10.1038/s41467-022-29383-5)
+
 Purroy Zuriguel, N., Tong, Y. E., **Lemvigh, C. K.**, Cieri, N., Li, S., Parry, E. M., Zhang, W., Rassenti, L. Z., Kipps, T. J., Slager, S. L., Kay, N. E., Lesnick, C., Shanafelt, T. D., Ghia, P., Scarfò, L., Livak, K. J., Kharchenko, P., Neuberg, D., **Olsen, L. R.**, Fan, J., Gohil, S. H., & Wu, C. J. (2022). Single cell analysis reveals immune dysfunction from the earliest stages of CLL that can be reversed by ibrutinib. *Blood*. [doi:10.1182/blood.2021013926](https://doi.org/10.1182/blood.2021013926)
 
 <br><br>
@@ -12,8 +14,6 @@ Purroy Zuriguel, N., Tong, Y. E., **Lemvigh, C. K.**, Cieri, N., Li, S., Parry, 
 
 ## 2021
 Gabrielaite, M., Torp, M. H., Rasmussen, M. S., Andreu-Sánchez, S., Vieira, F. G., **Pedersen, C. B.**, Kinalis, S., Madsen, M. B., Kodama, M., Demircan, G. S., Simonyan, A., Yde, C. W., **Olsen, L. R.**, Marvig, R. L., Østrup, O., Rossing, M., Nielsen, F. C., Winther, O., & Bagger, F. O. (2021). A Comparison of Tools for Copy-Number Variation Detection in Germline Whole Exome and Whole Genome Sequencing Data. *Cancers, 13, 6283*. [doi:10.3390/cancers13246283](https://doi.org/10.3390/cancers13246283)
-
-**Pedersen, C. B.**, **Dam, S. H.**, Barnkob, M. B., Leipold, M. D., Purroy, N., Rassenti, L. Z., Kipps, T. J., Nguyen, J., Lederer, J. A., Gohil, S. H., Wu, C. J., **Olsen, L. R.** (2021). Robust integration of single-cell cytometry datasets. *bioRxiv*. [doi:10.1101/2021.06.28.450128](https://doi.org/10.1101/2021.06.28.450128)
 
 Barnkob, M. B., Benso, A., Politano, G., **Olsen L. R.** (2021). Spectracular: minimizing spectral overlap in multicolor flow cytometry experiments. *bioRxiv*. [doi:10.1101/2021.03.17.435861](https://doi.org/10.1101/2021.03.17.435861)
 

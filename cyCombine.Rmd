@@ -11,7 +11,7 @@ title: 'Vignettes for cyCombine'
 #### R Package on [GitHub](https://github.com/biosurf/cyCombine)
 
 
-This page contains eight vignettes, which cover a range of different topics related to the use of<br/>cyCombine for batch correction and panel merging. Some vignettes also include extended discussions<br/>of the approaches. A pre-print introducing cyCombine is available on [bioRxiv](https://www.biorxiv.org/content/10.1101/2021.06.28.450128v1).
+This page contains eight vignettes, which cover a range of different topics related to the use of<br/>cyCombine for batch correction and panel merging. Some vignettes also include extended discussions<br/>of the approaches. The article introducing cyCombine is published in [Nature Communications](https://doi.org/10.1038/s41467-022-29383-5).
 
 
 If you have any issues or questions regarding the use of cyCombine, please do not hesitate to raise an issue on GitHub. In this way, others may also benefit from the answers and discussions.

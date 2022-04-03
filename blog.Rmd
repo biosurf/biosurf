@@ -10,11 +10,21 @@ library(tweetrmd)
 ```
 
 ## cyCombine
-#### June 29 2021
+#### March 31 2022
 Robust integration of single-cell cytometry datasets.
 
 ```{r cyCombine, echo=FALSE}
-tweet_embed("https://twitter.com/cbligaard/status/1409856692850995200")
+thread <- c(
+  "https://twitter.com/cbligaard/status/1509572937216450568",
+  "https://twitter.com/cbligaard/status/1509573036025921536", 
+  "https://twitter.com/cbligaard/status/1509573140275294210",
+  "https://twitter.com/cbligaard/status/1509574553948676105",
+  "https://twitter.com/cbligaard/status/1509576466580660233"
+)
+
+htmltools::tagList(
+  lapply(thread, tweet_embed, hide_thread = T)
+)
 
 ```
 
