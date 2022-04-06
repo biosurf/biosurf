@@ -1505,9 +1505,9 @@ this case it is also necessary to normalize and batch correct the data
 for alignment of the distributions of the pre-gating channels.</p>
 <p><br></p>
 </div>
-<div id="batch-correction" class="section level3" number="3.5.5">
-<h3><span class="header-section-number">3.5.5</span> Batch
-correction</h3>
+</div>
+<div id="batch-correction" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Batch correction</h2>
 <p>In cases where data was generated in multiple runs or one wishes to
 compare data from different experiments, there may be unwanted technical
 variation in the data. In that case, you can correct for batch effects
@@ -1540,7 +1540,6 @@ and we need to correct for this before we can properly analyze them
 together. cyCombine can help us correct the data so downstream analysis
 across batches becomes meaningful.</p>
 <p><br></p>
-</div>
 </div>
 </div>
 <div id="analysistasks" class="section level1" number="4">
@@ -1660,31 +1659,31 @@ and directly interpretable as for PCA.</p>
 <p>UMAP, like t-SNE also requires setting a seed for each run to make it
 reproducible. UMAP is implemented in several languages including R and
 Python.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(uwot)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">758</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>umap <span class="ot">&lt;-</span> <span class="fu">umap</span>(live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],lineage_channels], <span class="at">n_neighbors =</span> <span class="dv">15</span>, <span class="at">min_dist =</span> <span class="fl">0.2</span>, <span class="at">metric =</span> <span class="st">&#39;euclidean&#39;</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(umap), <span class="fu">aes</span>(<span class="at">x =</span> V1, <span class="at">y =</span> V2)) <span class="sc">+</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;UMAP1&#39;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&#39;UMAP2&#39;</span>) <span class="sc">+</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(uwot)</span></code></pre></div>
+<pre><code>## Warning: pakke &#39;Matrix&#39; blev bygget under R version 4.1.2</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">758</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>umap <span class="ot">&lt;-</span> <span class="fu">umap</span>(live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],lineage_channels], <span class="at">n_neighbors =</span> <span class="dv">15</span>, <span class="at">min_dist =</span> <span class="fl">0.2</span>, <span class="at">metric =</span> <span class="st">&#39;euclidean&#39;</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(umap), <span class="fu">aes</span>(<span class="at">x =</span> V1, <span class="at">y =</span> V2)) <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;UMAP1&#39;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&#39;UMAP2&#39;</span>) <span class="sc">+</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/umap-1.png" width="672" /></p>
 <p>Again, it is possible to get a pretty good insight into cell
 composition in a sample by selectively coloring cells by marker
 expression on the UMAP plot - you will also notice how this is similar
 to the patterns seen with t-SNE:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sub <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],], umap); <span class="fu">colnames</span>(sub)[(<span class="fu">ncol</span>(sub)<span class="sc">-</span><span class="dv">1</span>)<span class="sc">:</span><span class="fu">ncol</span>(sub)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;UMAP1&#39;</span>, <span class="st">&#39;UMAP2&#39;</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (c <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;CD3&quot;</span>, <span class="st">&quot;CD33&quot;</span>, <span class="st">&quot;CD19&quot;</span>, <span class="st">&quot;CD56&quot;</span>)) {</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  p[[c]] <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sub, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_point</span>(<span class="fu">aes_string</span>(<span class="at">color =</span> c), <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme_bw</span>()</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(<span class="at">plotlist =</span> p, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sub <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],], umap); <span class="fu">colnames</span>(sub)[(<span class="fu">ncol</span>(sub)<span class="sc">-</span><span class="dv">1</span>)<span class="sc">:</span><span class="fu">ncol</span>(sub)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;UMAP1&#39;</span>, <span class="st">&#39;UMAP2&#39;</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (c <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;CD3&quot;</span>, <span class="st">&quot;CD33&quot;</span>, <span class="st">&quot;CD19&quot;</span>, <span class="st">&quot;CD56&quot;</span>)) {</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  p[[c]] <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(sub, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_point</span>(<span class="fu">aes_string</span>(<span class="at">color =</span> c), <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme_bw</span>()</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(<span class="at">plotlist =</span> p, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/umap%202-1.png" width="960" /></p>
 <p><br><br></p>
 </div>
@@ -1744,33 +1743,33 @@ populations. Clusters consist of nodes with high inter-connectivity.
 Phenograph is implemented in the R package “cytofkit2”.</p>
 <p>Phenograph also requires removal of duplicates (see <a
 href="#tsne">t-SNE section</a> above).</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cytofkit2)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>clusters_pg <span class="ot">&lt;-</span> <span class="fu">cytof_cluster</span>(<span class="at">xdata =</span> live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],lineage_channels], <span class="at">method =</span> <span class="st">&quot;Rphenograph&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize results on PCA (using nice colors from CATALYST)</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(pca<span class="sc">$</span>x, clusters_pg); plot_df<span class="sc">$</span>clusters_pg <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(plot_df<span class="sc">$</span>clusters_pg)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2)) <span class="sc">+</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> clusters_pg), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">title =</span> <span class="st">&#39;Cluster&#39;</span>)) <span class="sc">+</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cytofkit2)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>clusters_pg <span class="ot">&lt;-</span> <span class="fu">cytof_cluster</span>(<span class="at">xdata =</span> live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],lineage_channels], <span class="at">method =</span> <span class="st">&quot;Rphenograph&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize results on PCA (using nice colors from CATALYST)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(pca<span class="sc">$</span>x, clusters_pg); plot_df<span class="sc">$</span>clusters_pg <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(plot_df<span class="sc">$</span>clusters_pg)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2)) <span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> clusters_pg), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">title =</span> <span class="st">&#39;Cluster&#39;</span>)) <span class="sc">+</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/pca%20visualization-1.png" width="672" /></p>
 <p>The 2D PCA visualization doesn’t provide good visual separation of
 clusters. Adding an extra PC adds a significant amount of visual
 resolution to the clustering, but there are better solutions -
 e.g. using UMAP.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize results on UMAP plot using nice colors from CATALYST</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(umap, clusters_pg); plot_df<span class="sc">$</span>clusters_pg <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(plot_df<span class="sc">$</span>clusters_pg); <span class="fu">colnames</span>(plot_df)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;UMAP&#39;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> clusters_pg), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">title =</span> <span class="st">&#39;Cluster&#39;</span>)) <span class="sc">+</span></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize results on UMAP plot using nice colors from CATALYST</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(umap, clusters_pg); plot_df<span class="sc">$</span>clusters_pg <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(plot_df<span class="sc">$</span>clusters_pg); <span class="fu">colnames</span>(plot_df)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;UMAP&#39;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> clusters_pg), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">title =</span> <span class="st">&#39;Cluster&#39;</span>)) <span class="sc">+</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/umap%20visualization-1.png" width="672" />
 <br></p>
 <p>If you want to see how multiple samples compare with clustering and
@@ -1779,40 +1778,40 @@ together, and plot them individually on in the UMAP layout which was
 generated based on both samples (recall that UMAP can potentially
 produce vastly different layouts if samples are run separately). Below
 is an example with two samples:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample 5000 random events from each sample</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>sub <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[i],]</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">58</span>)</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  sub <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sub, temp[<span class="fu">sample</span>(<span class="fu">nrow</span>(temp), <span class="dv">5000</span>, <span class="at">replace=</span><span class="cn">FALSE</span>),])</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster using phenograph</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>clusters_pg_2 <span class="ot">&lt;-</span> <span class="fu">cytof_cluster</span>(<span class="at">xdata =</span> sub[,lineage_channels], <span class="at">method =</span> <span class="st">&quot;Rphenograph&quot;</span>)</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Run UMAP</span></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">135</span>)</span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>umap_2 <span class="ot">&lt;-</span> <span class="fu">umap</span>(sub[,lineage_channels], <span class="at">n_neighbors =</span> <span class="dv">15</span>, <span class="at">min_dist =</span> <span class="fl">0.2</span>, <span class="at">metric =</span> <span class="st">&#39;euclidean&#39;</span>)</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Get nice color scale from CATALYST</span></span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot each sample on UMAP canvas consisting of all events</span></span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(umap_2, clusters_pg_2, sub<span class="sc">$</span>sample); plot_df<span class="sc">$</span>clusters_pg_2 <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(plot_df<span class="sc">$</span>clusters_pg_2); <span class="fu">colnames</span>(plot_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&#39;UMAP&#39;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="st">&#39;Cluster&#39;</span>, <span class="st">&#39;Sample&#39;</span>)</span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
-<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>  p[[s]] <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df[plot_df<span class="sc">$</span>Sample<span class="sc">==</span><span class="fu">unique</span>(plot_df<span class="sc">$</span>Sample)[s],], <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
-<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_point</span>(<span class="at">data =</span> plot_df, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">color =</span> <span class="st">&#39;grey80&#39;</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Cluster), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
-<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
-<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">&#39;Sample&#39;</span>, s)) <span class="sc">+</span></span>
-<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(<span class="at">plotlist =</span> p, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample 5000 random events from each sample</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>sub <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[i],]</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">58</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  sub <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sub, temp[<span class="fu">sample</span>(<span class="fu">nrow</span>(temp), <span class="dv">5000</span>, <span class="at">replace=</span><span class="cn">FALSE</span>),])</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster using phenograph</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>clusters_pg_2 <span class="ot">&lt;-</span> <span class="fu">cytof_cluster</span>(<span class="at">xdata =</span> sub[,lineage_channels], <span class="at">method =</span> <span class="st">&quot;Rphenograph&quot;</span>)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Run UMAP</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">135</span>)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>umap_2 <span class="ot">&lt;-</span> <span class="fu">umap</span>(sub[,lineage_channels], <span class="at">n_neighbors =</span> <span class="dv">15</span>, <span class="at">min_dist =</span> <span class="fl">0.2</span>, <span class="at">metric =</span> <span class="st">&#39;euclidean&#39;</span>)</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Get nice color scale from CATALYST</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot each sample on UMAP canvas consisting of all events</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(umap_2, clusters_pg_2, sub<span class="sc">$</span>sample); plot_df<span class="sc">$</span>clusters_pg_2 <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(plot_df<span class="sc">$</span>clusters_pg_2); <span class="fu">colnames</span>(plot_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&#39;UMAP&#39;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="st">&#39;Cluster&#39;</span>, <span class="st">&#39;Sample&#39;</span>)</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>  p[[s]] <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df[plot_df<span class="sc">$</span>Sample<span class="sc">==</span><span class="fu">unique</span>(plot_df<span class="sc">$</span>Sample)[s],], <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_point</span>(<span class="at">data =</span> plot_df, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">color =</span> <span class="st">&#39;grey80&#39;</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Cluster), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">&#39;Sample&#39;</span>, s)) <span class="sc">+</span></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(<span class="at">plotlist =</span> p, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/umap%20background-1.png" width="960" /></p>
 <p><br></p>
 </div>
@@ -1830,18 +1829,18 @@ package for FlowSOM</a> enables clustering, SOM, and MST visualizations.
 The package is built to run on FCS files rather than expression
 matrices, so here we will use the FlowSOM clustering implementation from
 the cytofkit2 package.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cytofkit2)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>clusters_fs <span class="ot">&lt;-</span> <span class="fu">cytof_cluster</span>(<span class="at">xdata =</span> live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],lineage_channels], <span class="at">method =</span> <span class="st">&quot;FlowSOM&quot;</span>, <span class="at">FlowSOM_k =</span> <span class="dv">25</span>, <span class="at">flowSeed =</span> <span class="dv">462</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize results on UMAP plot (colors from CATALYST)</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(umap, clusters_fs); plot_df<span class="sc">$</span>clusters_fs <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(plot_df<span class="sc">$</span>clusters_fs); <span class="fu">colnames</span>(plot_df)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;UMAP&#39;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> clusters_fs), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">title =</span> <span class="st">&#39;Cluster&#39;</span>)) <span class="sc">+</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cytofkit2)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>clusters_fs <span class="ot">&lt;-</span> <span class="fu">cytof_cluster</span>(<span class="at">xdata =</span> live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],lineage_channels], <span class="at">method =</span> <span class="st">&quot;FlowSOM&quot;</span>, <span class="at">FlowSOM_k =</span> <span class="dv">25</span>, <span class="at">flowSeed =</span> <span class="dv">462</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize results on UMAP plot (colors from CATALYST)</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(umap, clusters_fs); plot_df<span class="sc">$</span>clusters_fs <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(plot_df<span class="sc">$</span>clusters_fs); <span class="fu">colnames</span>(plot_df)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;UMAP&#39;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> clusters_fs), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">title =</span> <span class="st">&#39;Cluster&#39;</span>)) <span class="sc">+</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/flowsom%20umap-1.png" width="672" /></p>
 <p><br></p>
 </div>
@@ -1867,13 +1866,13 @@ to compare a new sample to an old, to look for global structure changes.
 Samples can be clustered both individually and together.</p>
 <p>To use SCAFFoLD, you need a C++ compiler and once that is ready you
 can run the program as follows:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading required packages</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(devtools) <span class="sc">||</span> <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;nolanlab/scaffold&quot;</span>)</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scaffold)</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Running SCAFFoLD (launching a GUI), please note that your current working directory should contain your files of interest before launching the GUI</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="fu">scaffold.run</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading required packages</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(devtools) <span class="sc">||</span> <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;nolanlab/scaffold&quot;</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scaffold)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Running SCAFFoLD (launching a GUI), please note that your current working directory should contain your files of interest before launching the GUI</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">scaffold.run</span>()</span></code></pre></div>
 <p>A complete use guide for the GUI is found <a
 href="https://github.com/nolanlab/scaffold">here</a>.</p>
 <p><br><br></p>
@@ -1894,21 +1893,21 @@ is with a simple heatmap of median marker expressions. This of course
 has the drawback of ignoring the variance of the marker expression in
 each cluster, but offers does offer some insights into the composition
 of each cluster.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(miscTools)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract medians for each marker in each cluster</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>sub_matrix <span class="ot">&lt;-</span> live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],lineage_channels]</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>cluster_matrix <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(clusters_pg)) {</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  cluster_matrix <span class="ot">&lt;-</span> <span class="fu">rbind</span>(cluster_matrix, <span class="fu">colMedians</span>(sub_matrix[clusters_pg<span class="sc">==</span>i,]))</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Make plot</span></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gplots)</span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">=</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap.2</span>(<span class="fu">t</span>(cluster_matrix), <span class="at">col=</span><span class="fu">bluered</span>(<span class="dv">100</span>), <span class="at">trace=</span><span class="st">&quot;none&quot;</span>, <span class="at">density.info =</span> <span class="st">&quot;none&quot;</span>, <span class="at">sepcolor =</span> <span class="st">&quot;white&quot;</span>, <span class="at">sepwidth =</span> <span class="fu">c</span>(<span class="fl">0.001</span>, <span class="fl">0.001</span>), <span class="at">colsep=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(<span class="fu">t</span>(cluster_matrix))), <span class="at">rowsep=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(<span class="fu">t</span>(cluster_matrix))), <span class="at">xlab=</span><span class="st">&quot;cluster&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;channel&quot;</span>, <span class="at">scale=</span><span class="st">&quot;row&quot;</span>, <span class="at">ColSideColors=</span>cols[<span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(clusters_pg)])</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(miscTools)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract medians for each marker in each cluster</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>sub_matrix <span class="ot">&lt;-</span> live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],lineage_channels]</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>cluster_matrix <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(clusters_pg)) {</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  cluster_matrix <span class="ot">&lt;-</span> <span class="fu">rbind</span>(cluster_matrix, <span class="fu">colMedians</span>(sub_matrix[clusters_pg<span class="sc">==</span>i,]))</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Make plot</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gplots)</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">=</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap.2</span>(<span class="fu">t</span>(cluster_matrix), <span class="at">col=</span><span class="fu">bluered</span>(<span class="dv">100</span>), <span class="at">trace=</span><span class="st">&quot;none&quot;</span>, <span class="at">density.info =</span> <span class="st">&quot;none&quot;</span>, <span class="at">sepcolor =</span> <span class="st">&quot;white&quot;</span>, <span class="at">sepwidth =</span> <span class="fu">c</span>(<span class="fl">0.001</span>, <span class="fl">0.001</span>), <span class="at">colsep=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(<span class="fu">t</span>(cluster_matrix))), <span class="at">rowsep=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(<span class="fu">t</span>(cluster_matrix))), <span class="at">xlab=</span><span class="st">&quot;cluster&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;channel&quot;</span>, <span class="at">scale=</span><span class="st">&quot;row&quot;</span>, <span class="at">ColSideColors=</span>cols[<span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(clusters_pg)])</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/heatmap-1.png" width="960" /></p>
 <p><br></p>
 </div>
@@ -1930,37 +1929,37 @@ position of the point is defined as the point in the 2D space where the
 spring’s tension is minimum.” <a
 href="https://cran.r-project.org/web/packages/Radviz/vignettes/single_cell_projections.html">Read
 more here</a>.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Radviz)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>cell.S <span class="ot">&lt;-</span> <span class="fu">make.S</span>(<span class="fu">colnames</span>(sub_matrix))</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>cell.sim <span class="ot">&lt;-</span> <span class="fu">cosine</span>(<span class="fu">as.matrix</span>(sub_matrix))</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">946</span>)</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>optim.cell <span class="ot">&lt;-</span> <span class="fu">do.optimRadviz</span>(cell.S, cell.sim, <span class="at">iter=</span><span class="dv">100</span>, <span class="at">n=</span><span class="dv">1000</span>)</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>cell.S <span class="ot">&lt;-</span> <span class="fu">make.S</span>(<span class="fu">tail</span>(optim.cell<span class="sc">$</span>best,<span class="dv">1</span>)[[<span class="dv">1</span>]])</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>cell.rv <span class="ot">&lt;-</span> <span class="fu">do.radviz</span>(<span class="fu">as.matrix</span>(sub_matrix),cell.S)</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Add cluster information</span></span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>cell.rv<span class="sc">$</span>proj<span class="sc">$</span>data<span class="sc">$</span>Cluster <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(clusters_pg)</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Make plot using nice CATALYST colors</span></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">=</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cell.rv) <span class="sc">+</span></span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Cluster)) <span class="sc">+</span></span>
-<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Radviz)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>cell.S <span class="ot">&lt;-</span> <span class="fu">make.S</span>(<span class="fu">colnames</span>(sub_matrix))</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>cell.sim <span class="ot">&lt;-</span> <span class="fu">cosine</span>(<span class="fu">as.matrix</span>(sub_matrix))</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">946</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>optim.cell <span class="ot">&lt;-</span> <span class="fu">do.optimRadviz</span>(cell.S, cell.sim, <span class="at">iter=</span><span class="dv">100</span>, <span class="at">n=</span><span class="dv">1000</span>)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>cell.S <span class="ot">&lt;-</span> <span class="fu">make.S</span>(<span class="fu">tail</span>(optim.cell<span class="sc">$</span>best,<span class="dv">1</span>)[[<span class="dv">1</span>]])</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>cell.rv <span class="ot">&lt;-</span> <span class="fu">do.radviz</span>(<span class="fu">as.matrix</span>(sub_matrix),cell.S)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Add cluster information</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>cell.rv<span class="sc">$</span>proj<span class="sc">$</span>data<span class="sc">$</span>Cluster <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(clusters_pg)</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Make plot using nice CATALYST colors</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">=</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cell.rv) <span class="sc">+</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Cluster)) <span class="sc">+</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols)</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/radviz-1.png" width="672" /></p>
 <p>Clusters can be visualized more clearly in a “bubble plot” version of
 Radviz. In this plot, events are collapsed to the coordinates of their
 respective cluster centroid, where the size of the “bubble” corresponds
 to the size of the cluster.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">bubbleRadviz</span>(cell.rv, <span class="at">group =</span> <span class="st">&quot;Cluster&quot;</span>)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual fix for order in legend and color of bubbles to match the plot above</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(p<span class="sc">$</span>layers[[<span class="dv">1</span>]]<span class="sc">$</span>data<span class="sc">$</span>Cluster) <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(clusters_pg)); p<span class="sc">$</span>layers[[<span class="dv">1</span>]]<span class="sc">$</span>data<span class="sc">$</span>Cluster[<span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(clusters_pg)] <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(clusters_pg)</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the plot</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">bubbleRadviz</span>(cell.rv, <span class="at">group =</span> <span class="st">&quot;Cluster&quot;</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual fix for order in legend and color of bubbles to match the plot above</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(p<span class="sc">$</span>layers[[<span class="dv">1</span>]]<span class="sc">$</span>data<span class="sc">$</span>Cluster) <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(clusters_pg)); p<span class="sc">$</span>layers[[<span class="dv">1</span>]]<span class="sc">$</span>data<span class="sc">$</span>Cluster[<span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(clusters_pg)] <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(clusters_pg)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the plot</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols)</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/radviz%20bubble-1.png" width="672" /></p>
 <p><br></p>
 </div>
@@ -1983,21 +1982,21 @@ function, including <span class="math inline">\(\lambda_{1}\)</span> and
 <span class="math inline">\(\lambda_{2}\)</span>. One can set multiple
 of these in the call and it will automatically run a grid search to
 optimize visualization.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(matrixcalc)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotrix)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(JPEN)</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VCA)</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define some colors to use</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">=</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co"># First, we make a dataframe with the data. For PSS, the input is a expression dataframe in which</span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co"># the first column containes integer cluster IDs (1, 2, .., n) without any gaps in the integer set.</span></span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>pss_matrix <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(clusters_pg, live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],lineage_channels])</span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the plot</span></span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>pss <span class="ot">&lt;-</span> <span class="fu">SupStarPlots</span>(<span class="at">DF =</span> pss_matrix, <span class="at">lambda1 =</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="fl">20.001</span>, <span class="dv">10</span>), <span class="at">lambda2 =</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="fl">20.001</span>, <span class="dv">10</span>),</span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">ColOpt =</span> cols, <span class="at">M =</span> <span class="fl">1.0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(matrixcalc)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotrix)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(JPEN)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VCA)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define some colors to use</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">=</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="co"># First, we make a dataframe with the data. For PSS, the input is a expression dataframe in which</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="co"># the first column containes integer cluster IDs (1, 2, .., n) without any gaps in the integer set.</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>pss_matrix <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(clusters_pg, live[live<span class="sc">$</span>sample<span class="sc">==</span>fcs_files[<span class="dv">1</span>],lineage_channels])</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the plot</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>pss <span class="ot">&lt;-</span> <span class="fu">SupStarPlots</span>(<span class="at">DF =</span> pss_matrix, <span class="at">lambda1 =</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="fl">20.001</span>, <span class="dv">10</span>), <span class="at">lambda2 =</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="fl">20.001</span>, <span class="dv">10</span>),</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">ColOpt =</span> cols, <span class="at">M =</span> <span class="fl">1.0</span>)</span></code></pre></div>
 <pre><code>##    Marker         r
 ## 18   CD28 22.283594
 ## 8     CD3 15.386340
@@ -2091,54 +2090,54 @@ identify clusters with a differential abundance of cells between
 conditions.</p>
 <p>First, we import the data and create a dataframe with all the
 samples:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import data as Summarized Experiment</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HDCytoData)</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>data_bcrxl <span class="ot">&lt;-</span> <span class="fu">Bodenmiller_BCR_XL_SE</span>()</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>exprs_set <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(data_bcrxl<span class="sc">@</span>assays<span class="sc">$</span>data<span class="sc">$</span>exprs, <span class="fu">rowData</span>(data_bcrxl)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Asinh-transform the measured markers</span></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>exprs_set[,<span class="fu">which</span>(<span class="fu">colData</span>(data_bcrxl)<span class="sc">$</span>marker_class <span class="sc">!=</span> <span class="st">&#39;none&#39;</span>)] <span class="ot">&lt;-</span> <span class="fu">asinh</span>(exprs_set[,<span class="fu">which</span>(<span class="fu">colData</span>(data_bcrxl)<span class="sc">$</span>marker_class <span class="sc">!=</span> <span class="st">&#39;none&#39;</span>)]<span class="sc">/</span><span class="dv">5</span>)</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Set channels</span></span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>pregating_channels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;DNA-1&quot;</span>, <span class="st">&quot;DNA-2&quot;</span>)</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>lineage_channels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CD45&quot;</span>, <span class="st">&quot;CD4&quot;</span>, <span class="st">&quot;CD20&quot;</span>, <span class="st">&quot;CD33&quot;</span>, <span class="st">&quot;CD123&quot;</span>, <span class="st">&quot;CD14&quot;</span>, <span class="st">&quot;IgM&quot;</span>, <span class="st">&quot;HLA-DR&quot;</span>, <span class="st">&quot;CD7&quot;</span>, <span class="st">&quot;CD3&quot;</span>)</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>functional_channels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pNFkB&quot;</span>, <span class="st">&quot;pp38&quot;</span>, <span class="st">&quot;pStat5&quot;</span>, <span class="st">&quot;pAkt&quot;</span>, <span class="st">&quot;pStat1&quot;</span>, <span class="st">&quot;pSHP2&quot;</span>, <span class="st">&quot;pZap70&quot;</span>, <span class="st">&quot;pStat3&quot;</span>, <span class="st">&quot;pSlp76&quot;</span>, <span class="st">&quot;pBtk&quot;</span>, <span class="st">&quot;pPlcg2&quot;</span>, <span class="st">&quot;pErk&quot;</span>, <span class="st">&quot;pLat&quot;</span>, <span class="st">&quot;pS6&quot;</span>)</span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>instrument_channels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Cell_length&quot;</span>, <span class="st">&quot;Time&quot;</span>, <span class="st">&quot;BC1&quot;</span>, <span class="st">&quot;BC2&quot;</span>, <span class="st">&quot;BC3&quot;</span>, <span class="st">&quot;BC4&quot;</span>, <span class="st">&quot;BC5&quot;</span>, <span class="st">&quot;BC6&quot;</span>, <span class="st">&quot;BC7&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import data as Summarized Experiment</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HDCytoData)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>data_bcrxl <span class="ot">&lt;-</span> <span class="fu">Bodenmiller_BCR_XL_SE</span>()</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>exprs_set <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(data_bcrxl<span class="sc">@</span>assays<span class="sc">$</span>data<span class="sc">$</span>exprs, <span class="fu">rowData</span>(data_bcrxl)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Asinh-transform the measured markers</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>exprs_set[,<span class="fu">which</span>(<span class="fu">colData</span>(data_bcrxl)<span class="sc">$</span>marker_class <span class="sc">!=</span> <span class="st">&#39;none&#39;</span>)] <span class="ot">&lt;-</span> <span class="fu">asinh</span>(exprs_set[,<span class="fu">which</span>(<span class="fu">colData</span>(data_bcrxl)<span class="sc">$</span>marker_class <span class="sc">!=</span> <span class="st">&#39;none&#39;</span>)]<span class="sc">/</span><span class="dv">5</span>)</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Set channels</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>pregating_channels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;DNA-1&quot;</span>, <span class="st">&quot;DNA-2&quot;</span>)</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>lineage_channels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;CD45&quot;</span>, <span class="st">&quot;CD4&quot;</span>, <span class="st">&quot;CD20&quot;</span>, <span class="st">&quot;CD33&quot;</span>, <span class="st">&quot;CD123&quot;</span>, <span class="st">&quot;CD14&quot;</span>, <span class="st">&quot;IgM&quot;</span>, <span class="st">&quot;HLA-DR&quot;</span>, <span class="st">&quot;CD7&quot;</span>, <span class="st">&quot;CD3&quot;</span>)</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>functional_channels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;pNFkB&quot;</span>, <span class="st">&quot;pp38&quot;</span>, <span class="st">&quot;pStat5&quot;</span>, <span class="st">&quot;pAkt&quot;</span>, <span class="st">&quot;pStat1&quot;</span>, <span class="st">&quot;pSHP2&quot;</span>, <span class="st">&quot;pZap70&quot;</span>, <span class="st">&quot;pStat3&quot;</span>, <span class="st">&quot;pSlp76&quot;</span>, <span class="st">&quot;pBtk&quot;</span>, <span class="st">&quot;pPlcg2&quot;</span>, <span class="st">&quot;pErk&quot;</span>, <span class="st">&quot;pLat&quot;</span>, <span class="st">&quot;pS6&quot;</span>)</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>instrument_channels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Cell_length&quot;</span>, <span class="st">&quot;Time&quot;</span>, <span class="st">&quot;BC1&quot;</span>, <span class="st">&quot;BC2&quot;</span>, <span class="st">&quot;BC3&quot;</span>, <span class="st">&quot;BC4&quot;</span>, <span class="st">&quot;BC5&quot;</span>, <span class="st">&quot;BC6&quot;</span>, <span class="st">&quot;BC7&quot;</span>)</span></code></pre></div>
 <p>In the interest of speed, we here down sample to 1000 random events
 from each sample. Remember to normalize to the total number of events in
 each sample if the full samples are used. We then cluster using the
 cytofkit2 implementation of Phenograph and create a table with cell
 counts in each cluster for each sample.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample 1000 random events form each sample</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>sub <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">unique</span>(exprs_set<span class="sc">$</span>sample_id)) {</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> exprs_set[exprs_set<span class="sc">$</span>sample_id<span class="sc">==</span>i,]</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">46</span>)</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  sub <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sub, temp[<span class="fu">sample</span>(<span class="fu">nrow</span>(temp), <span class="dv">1000</span>, <span class="at">replace=</span><span class="cn">FALSE</span>),lineage_channels])</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>sample <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">unique</span>(exprs_set<span class="sc">$</span>sample_id), <span class="at">each=</span><span class="dv">1000</span>)</span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="co"># cluster</span></span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cytofkit2)</span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>clusters_pg <span class="ot">&lt;-</span> <span class="fu">cytof_cluster</span>(<span class="at">xdata =</span> sub, <span class="at">method =</span> <span class="st">&quot;Rphenograph&quot;</span>)</span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="co"># make count table - here, you should convert to percentage if samples are of uneven sizes</span></span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>cell_counts <span class="ot">&lt;-</span> <span class="fu">table</span>(clusters_pg, sample)</span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>conditions <span class="ot">&lt;-</span> data_bcrxl<span class="sc">@</span>metadata<span class="sc">$</span>experiment_info<span class="sc">$</span>group_id</span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>patients <span class="ot">&lt;-</span> data_bcrxl<span class="sc">@</span>metadata<span class="sc">$</span>experiment_info<span class="sc">$</span>patient_id</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample 1000 random events form each sample</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>sub <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">unique</span>(exprs_set<span class="sc">$</span>sample_id)) {</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> exprs_set[exprs_set<span class="sc">$</span>sample_id<span class="sc">==</span>i,]</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">46</span>)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  sub <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sub, temp[<span class="fu">sample</span>(<span class="fu">nrow</span>(temp), <span class="dv">1000</span>, <span class="at">replace=</span><span class="cn">FALSE</span>),lineage_channels])</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>sample <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">unique</span>(exprs_set<span class="sc">$</span>sample_id), <span class="at">each=</span><span class="dv">1000</span>)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="co"># cluster</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cytofkit2)</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>clusters_pg <span class="ot">&lt;-</span> <span class="fu">cytof_cluster</span>(<span class="at">xdata =</span> sub, <span class="at">method =</span> <span class="st">&quot;Rphenograph&quot;</span>)</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="co"># make count table - here, you should convert to percentage if samples are of uneven sizes</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>cell_counts <span class="ot">&lt;-</span> <span class="fu">table</span>(clusters_pg, sample)</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>conditions <span class="ot">&lt;-</span> data_bcrxl<span class="sc">@</span>metadata<span class="sc">$</span>experiment_info<span class="sc">$</span>group_id</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>patients <span class="ot">&lt;-</span> data_bcrxl<span class="sc">@</span>metadata<span class="sc">$</span>experiment_info<span class="sc">$</span>patient_id</span></code></pre></div>
 <p>Lastly, we evaluate differential abundance in each cluster using a
 NB-GLM from the edgeR package:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate differential abundance accounting for paired design</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(edgeR)</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(cell_counts, <span class="at">lib.size=</span><span class="fu">rep</span>(<span class="dv">1000</span>,<span class="dv">16</span>))</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>patients <span class="sc">+</span> conditions)</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(dge, design)</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmQLFit</span>(y, design, <span class="at">robust=</span><span class="cn">TRUE</span>)</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">glmQLFTest</span>(fit, <span class="at">coef =</span> <span class="st">&#39;conditionsBCR-XL&#39;</span>)</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="fu">topTags</span>(res)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate differential abundance accounting for paired design</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(edgeR)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(cell_counts, <span class="at">lib.size=</span><span class="fu">rep</span>(<span class="dv">1000</span>,<span class="dv">16</span>))</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>patients <span class="sc">+</span> conditions)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(dge, design)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmQLFit</span>(y, design, <span class="at">robust=</span><span class="cn">TRUE</span>)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">glmQLFTest</span>(fit, <span class="at">coef =</span> <span class="st">&#39;conditionsBCR-XL&#39;</span>)</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="fu">topTags</span>(res)</span></code></pre></div>
 <pre><code>## Coefficient:  conditionsBCR-XL 
 ##        logFC   logCPM         F       PValue          FDR
 ## 11 -2.323159 15.72490 129.57413 1.323060e-20 2.646119e-19
@@ -2153,59 +2152,59 @@ NB-GLM from the edgeR package:</p>
 ## 5   1.284918 16.17677  15.57463 1.364575e-04 2.729150e-04</code></pre>
 <p>We can now visualize the log2 fold change in clusters with a
 significant differential abundance between the two conditions:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># visualize on UMAP</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(uwot)</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate umap coordinates</span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">743</span>)</span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>umap <span class="ot">&lt;-</span> <span class="fu">umap</span>(sub)</span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a plotting data frame</span></span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(umap, <span class="fu">as.factor</span>(clusters_pg), res<span class="sc">$</span>table<span class="sc">$</span>logFC[clusters_pg], <span class="fu">p.adjust</span>(res<span class="sc">$</span>table<span class="sc">$</span>PValue, <span class="at">method =</span> <span class="st">&#39;BH&#39;</span>)[clusters_pg], <span class="fu">rep</span>(conditions, <span class="at">each =</span> <span class="dv">1000</span>)); <span class="fu">colnames</span>(plot_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&#39;UMAP&#39;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="st">&#39;Cluster&#39;</span>, <span class="st">&#39;log2FC&#39;</span>, <span class="st">&#39;fdr&#39;</span>, <span class="st">&#39;Group&#39;</span>)</span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust to only color significant p-values after FDR corection</span></span>
-<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>plot_df<span class="sc">$</span>log2FC[plot_df<span class="sc">$</span>fdr <span class="sc">&gt;</span> <span class="fl">0.05</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Get some nice colors</span></span>
-<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
-<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the plots</span></span>
-<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
-<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Cluster), <span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
-<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">&#39;Phenograph clusters&#39;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb43-28"><a href="#cb43-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-29"><a href="#cb43-29" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
-<span id="cb43-30"><a href="#cb43-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> log2FC), <span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb43-31"><a href="#cb43-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_colour_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb43-32"><a href="#cb43-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">&#39;log2FC&#39;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb43-33"><a href="#cb43-33" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb43-34"><a href="#cb43-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-35"><a href="#cb43-35" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(p1, p2, <span class="at">align =</span> <span class="st">&#39;v&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># visualize on UMAP</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(uwot)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate umap coordinates</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">743</span>)</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>umap <span class="ot">&lt;-</span> <span class="fu">umap</span>(sub)</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a plotting data frame</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">cbind.data.frame</span>(umap, <span class="fu">as.factor</span>(clusters_pg), res<span class="sc">$</span>table<span class="sc">$</span>logFC[clusters_pg], <span class="fu">p.adjust</span>(res<span class="sc">$</span>table<span class="sc">$</span>PValue, <span class="at">method =</span> <span class="st">&#39;BH&#39;</span>)[clusters_pg], <span class="fu">rep</span>(conditions, <span class="at">each =</span> <span class="dv">1000</span>)); <span class="fu">colnames</span>(plot_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&#39;UMAP&#39;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="st">&#39;Cluster&#39;</span>, <span class="st">&#39;log2FC&#39;</span>, <span class="st">&#39;fdr&#39;</span>, <span class="st">&#39;Group&#39;</span>)</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust to only color significant p-values after FDR corection</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>plot_df<span class="sc">$</span>log2FC[plot_df<span class="sc">$</span>fdr <span class="sc">&gt;</span> <span class="fl">0.05</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Get some nice colors</span></span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> CATALYST<span class="sc">:::</span>.cluster_cols</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the plots</span></span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Cluster), <span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">&#39;Phenograph clusters&#39;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> log2FC), <span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_colour_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;grey&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="st">&#39;log2FC&#39;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(p1, p2, <span class="at">align =</span> <span class="st">&#39;v&#39;</span>)</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/umap%20DA-1.png" width="1248" /></p>
 <p>We can also visually show the cell abundance difference between
 clusters using the approach in <a href="#clustering">clustering
 section</a>:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot each sample on UMAP canvas consisting of all events</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  p[[s]] <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df[plot_df<span class="sc">$</span>Group<span class="sc">==</span><span class="fu">levels</span>(plot_df<span class="sc">$</span>Group)[s],], <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_point</span>(<span class="at">data =</span> plot_df, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">color =</span> <span class="st">&#39;grey80&#39;</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Cluster), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="fu">levels</span>(plot_df<span class="sc">$</span>Group)[s], <span class="st">&quot;samples&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(<span class="at">plotlist =</span> p)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot each sample on UMAP canvas consisting of all events</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  p[[s]] <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(plot_df[plot_df<span class="sc">$</span>Group<span class="sc">==</span><span class="fu">levels</span>(plot_df<span class="sc">$</span>Group)[s],], <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2)) <span class="sc">+</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_point</span>(<span class="at">data =</span> plot_df, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">color =</span> <span class="st">&#39;grey80&#39;</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Cluster), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scale_color_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="fu">levels</span>(plot_df<span class="sc">$</span>Group)[s], <span class="st">&quot;samples&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(<span class="at">plotlist =</span> p)</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/umap%20background%20DA-1.png" width="1152" /></p>
 <p><br></p>
 <div id="cydar" class="section level4" number="4.4.1.1">
@@ -2236,46 +2235,46 @@ and in their <a
 href="https://bioconductor.org/packages/release/bioc/vignettes/cydar/inst/doc/cydar.html">R
 package vignette</a></p>
 <p>Now for some code!</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cydar)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ncdfFlow)</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample 1000 random events form each sample - cydar takes data as a list of matrices</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>sub <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">unique</span>(exprs_set<span class="sc">$</span>sample)) {</span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> exprs_set[exprs_set<span class="sc">$</span>sample<span class="sc">==</span>i,]</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  sub[[i]] <span class="ot">&lt;-</span> temp[<span class="fu">sample</span>(<span class="fu">nrow</span>(temp), <span class="dv">1000</span>, <span class="at">replace=</span><span class="cn">FALSE</span>),lineage_channels]</span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>conditions <span class="ot">&lt;-</span> data_bcrxl<span class="sc">@</span>metadata<span class="sc">$</span>experiment_info<span class="sc">$</span>group_id</span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>patient.id <span class="ot">&lt;-</span> data_bcrxl<span class="sc">@</span>metadata<span class="sc">$</span>experiment_info<span class="sc">$</span>patient_id</span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>sample.id <span class="ot">&lt;-</span> <span class="fu">rep</span>(data_bcrxl<span class="sc">@</span>metadata<span class="sc">$</span>experiment_info<span class="sc">$</span>sample_id, <span class="at">each =</span> <span class="dv">1000</span>)</span>
-<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the cells into hyperspheres with a radius equal to 0.5 times the square root of the number of markers</span></span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
-<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>cd_all <span class="ot">&lt;-</span> <span class="fu">prepareCellData</span>(sub)</span>
-<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>cd_all <span class="ot">&lt;-</span> <span class="fu">countCells</span>(cd_all, <span class="at">tol=</span><span class="fl">0.5</span>)</span>
-<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Testing for significant differences in abundance - accounting for paired design</span></span>
-<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(edgeR)</span>
-<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(<span class="fu">assay</span>(cd_all), <span class="at">lib.size=</span>cd_all<span class="sc">$</span>totals)</span>
-<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">aveLogCPM</span>(y) <span class="sc">&gt;=</span> <span class="fu">aveLogCPM</span>(<span class="dv">5</span>, <span class="fu">mean</span>(cd_all<span class="sc">$</span>totals))</span>
-<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>cd <span class="ot">&lt;-</span> cd_all[keep,]</span>
-<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> y[keep,]</span>
-<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>patient.id<span class="sc">+</span>conditions)</span>
-<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(y, design)</span>
-<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmQLFit</span>(y, design, <span class="at">robust=</span><span class="cn">TRUE</span>)</span>
-<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">glmQLFTest</span>(fit)</span>
-<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Controlling the spatial FDR</span></span>
-<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>qvals <span class="ot">&lt;-</span> <span class="fu">spatialFDR</span>(<span class="fu">intensities</span>(cd), res<span class="sc">$</span>table<span class="sc">$</span>PValue)</span>
-<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a>is.sig <span class="ot">&lt;-</span> qvals <span class="sc">&lt;=</span> <span class="fl">0.05</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cydar)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ncdfFlow)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample 1000 random events form each sample - cydar takes data as a list of matrices</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>sub <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">unique</span>(exprs_set<span class="sc">$</span>sample)) {</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> exprs_set[exprs_set<span class="sc">$</span>sample<span class="sc">==</span>i,]</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  sub[[i]] <span class="ot">&lt;-</span> temp[<span class="fu">sample</span>(<span class="fu">nrow</span>(temp), <span class="dv">1000</span>, <span class="at">replace=</span><span class="cn">FALSE</span>),lineage_channels]</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>conditions <span class="ot">&lt;-</span> data_bcrxl<span class="sc">@</span>metadata<span class="sc">$</span>experiment_info<span class="sc">$</span>group_id</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>patient.id <span class="ot">&lt;-</span> data_bcrxl<span class="sc">@</span>metadata<span class="sc">$</span>experiment_info<span class="sc">$</span>patient_id</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>sample.id <span class="ot">&lt;-</span> <span class="fu">rep</span>(data_bcrxl<span class="sc">@</span>metadata<span class="sc">$</span>experiment_info<span class="sc">$</span>sample_id, <span class="at">each =</span> <span class="dv">1000</span>)</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the cells into hyperspheres with a radius equal to 0.5 times the square root of the number of markers</span></span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>cd_all <span class="ot">&lt;-</span> <span class="fu">prepareCellData</span>(sub)</span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>cd_all <span class="ot">&lt;-</span> <span class="fu">countCells</span>(cd_all, <span class="at">tol=</span><span class="fl">0.5</span>)</span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Testing for significant differences in abundance - accounting for paired design</span></span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(edgeR)</span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(<span class="fu">assay</span>(cd_all), <span class="at">lib.size=</span>cd_all<span class="sc">$</span>totals)</span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">aveLogCPM</span>(y) <span class="sc">&gt;=</span> <span class="fu">aveLogCPM</span>(<span class="dv">5</span>, <span class="fu">mean</span>(cd_all<span class="sc">$</span>totals))</span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>cd <span class="ot">&lt;-</span> cd_all[keep,]</span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> y[keep,]</span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>patient.id<span class="sc">+</span>conditions)</span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">estimateDisp</span>(y, design)</span>
+<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glmQLFit</span>(y, design, <span class="at">robust=</span><span class="cn">TRUE</span>)</span>
+<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">glmQLFTest</span>(fit)</span>
+<span id="cb47-33"><a href="#cb47-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-34"><a href="#cb47-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Controlling the spatial FDR</span></span>
+<span id="cb47-35"><a href="#cb47-35" aria-hidden="true" tabindex="-1"></a>qvals <span class="ot">&lt;-</span> <span class="fu">spatialFDR</span>(<span class="fu">intensities</span>(cd), res<span class="sc">$</span>table<span class="sc">$</span>PValue)</span>
+<span id="cb47-36"><a href="#cb47-36" aria-hidden="true" tabindex="-1"></a>is.sig <span class="ot">&lt;-</span> qvals <span class="sc">&lt;=</span> <span class="fl">0.05</span></span></code></pre></div>
 <p>In this case we find that 325 out of 551 hyperspheres contain a
 significantly different number of cells between our two conditions.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the number of hypersphere with significantly different cell abundance between case and control</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(is.sig)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the number of hypersphere with significantly different cell abundance between case and control</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(is.sig)</span></code></pre></div>
 <pre><code>##    Mode   FALSE    TRUE 
 ## logical     226     325</code></pre>
 <p><br></p>
@@ -2295,39 +2294,39 @@ expression a given protein in each sample across conditions for a
 specific cluster. There are some potentially <strong>serious caveats to
 this approach</strong> which we will discuss a bit further down. But
 first, let’s go through a simple example of this common approach:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample 1000 random events form each sample</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>sub <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">unique</span>(exprs_set<span class="sc">$</span>sample)) {</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> exprs_set[exprs_set<span class="sc">$</span>sample<span class="sc">==</span>i,]</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">84</span>)</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  sub <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sub, temp[<span class="fu">sample</span>(<span class="fu">nrow</span>(temp), <span class="dv">1000</span>, <span class="at">replace=</span><span class="cn">FALSE</span>),<span class="fu">c</span>(lineage_channels, functional_channels)])</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>sample <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">unique</span>(exprs_set<span class="sc">$</span>sample), <span class="at">each=</span><span class="dv">1000</span>)</span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="co"># cluster</span></span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cytofkit2)</span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>clusters_pg <span class="ot">&lt;-</span> <span class="fu">cytof_cluster</span>(<span class="at">xdata =</span> sub[,lineage_channels], <span class="at">method =</span> <span class="st">&quot;Rphenograph&quot;</span>)</span>
-<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Make median expression table (samples x functional proteins) for each cluster</span></span>
-<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a><span class="co"># - here we generate the table for cluster 1</span></span>
-<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>sub_cluster <span class="ot">&lt;-</span> sub[clusters_pg<span class="sc">==</span><span class="dv">1</span>,functional_channels]</span>
-<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>sample_cluster <span class="ot">&lt;-</span> sample[clusters_pg<span class="sc">==</span><span class="dv">1</span>]</span>
-<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>exprs_cluster <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">unique</span>(sample_cluster)) {</span>
-<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>  exprs_cluster <span class="ot">&lt;-</span> <span class="fu">cbind</span>(exprs_cluster, miscTools<span class="sc">::</span><span class="fu">colMedians</span>(sub_cluster[sample_cluster<span class="sc">==</span>i,]))</span>
-<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(exprs_cluster) <span class="ot">&lt;-</span> <span class="fu">unique</span>(sample_cluster)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample 1000 random events form each sample</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>sub <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">unique</span>(exprs_set<span class="sc">$</span>sample)) {</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> exprs_set[exprs_set<span class="sc">$</span>sample<span class="sc">==</span>i,]</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">84</span>)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  sub <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sub, temp[<span class="fu">sample</span>(<span class="fu">nrow</span>(temp), <span class="dv">1000</span>, <span class="at">replace=</span><span class="cn">FALSE</span>),<span class="fu">c</span>(lineage_channels, functional_channels)])</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>sample <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">unique</span>(exprs_set<span class="sc">$</span>sample), <span class="at">each=</span><span class="dv">1000</span>)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="co"># cluster</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cytofkit2)</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>clusters_pg <span class="ot">&lt;-</span> <span class="fu">cytof_cluster</span>(<span class="at">xdata =</span> sub[,lineage_channels], <span class="at">method =</span> <span class="st">&quot;Rphenograph&quot;</span>)</span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Make median expression table (samples x functional proteins) for each cluster</span></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a><span class="co"># - here we generate the table for cluster 1</span></span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>sub_cluster <span class="ot">&lt;-</span> sub[clusters_pg<span class="sc">==</span><span class="dv">1</span>,functional_channels]</span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>sample_cluster <span class="ot">&lt;-</span> sample[clusters_pg<span class="sc">==</span><span class="dv">1</span>]</span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>exprs_cluster <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">unique</span>(sample_cluster)) {</span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>  exprs_cluster <span class="ot">&lt;-</span> <span class="fu">cbind</span>(exprs_cluster, miscTools<span class="sc">::</span><span class="fu">colMedians</span>(sub_cluster[sample_cluster<span class="sc">==</span>i,]))</span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(exprs_cluster) <span class="ot">&lt;-</span> <span class="fu">unique</span>(sample_cluster)</span></code></pre></div>
 <p>Again we are left with a simple expression matrix, to which you can
 apply your favorite statistics. Here we use a linear model:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic DE test using limma</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(limma)</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>conditions_test <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">gsub</span>(<span class="st">&quot;.*(Reference|BCR-XL).*&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">1&quot;</span>, <span class="fu">colnames</span>(exprs_cluster)))</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>patient_test <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">gsub</span>(<span class="st">&quot;.*patient(.)_.*&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">1&quot;</span>, <span class="fu">colnames</span>(exprs_cluster)))</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>patient_test<span class="sc">+</span>conditions_test)</span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmFit</span>(exprs_cluster, design)</span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">eBayes</span>(fit)</span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="fu">topTable</span>(fit, <span class="at">coef=</span><span class="st">&quot;conditions_testReference&quot;</span>, <span class="at">number=</span><span class="st">&quot;inf&quot;</span>, <span class="at">adjust.method=</span><span class="st">&quot;bonferroni&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic DE test using limma</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(limma)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>conditions_test <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">gsub</span>(<span class="st">&quot;.*(Reference|BCR-XL).*&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">1&quot;</span>, <span class="fu">colnames</span>(exprs_cluster)))</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>patient_test <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">gsub</span>(<span class="st">&quot;.*patient(.)_.*&quot;</span>, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">1&quot;</span>, <span class="fu">colnames</span>(exprs_cluster)))</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>patient_test<span class="sc">+</span>conditions_test)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmFit</span>(exprs_cluster, design)</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">eBayes</span>(fit)</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="fu">topTable</span>(fit, <span class="at">coef=</span><span class="st">&quot;conditions_testReference&quot;</span>, <span class="at">number=</span><span class="st">&quot;inf&quot;</span>, <span class="at">adjust.method=</span><span class="st">&quot;bonferroni&quot;</span>)</span></code></pre></div>
 <pre><code>##               logFC      AveExpr          t      P.Value   adj.P.Val          B
 ## pNFkB   1.122351516  1.522762047  6.9921970 0.0001118117 0.001565364  1.6820193
 ## pBtk    0.291127735  0.094915744  6.0447849 0.0003038642 0.004254099  0.6457291
@@ -2463,16 +2462,16 @@ cluster.</p>
 which can be translated into a “human readable” label for each cluster.
 In this example, we use the clusters from phenograph and create a list
 of human readable labels for each cluster.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MEM)</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate enrichment scores in clusters from Bodenmiller set</span></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>mem <span class="ot">&lt;-</span> <span class="fu">MEM</span>(<span class="fu">cbind</span>(sub, <span class="at">cluster =</span> clusters_pg))</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="co"># This creates a table of enrichment scores for each marker in each cluster. Round these scores to get a label as presented in their paper</span></span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>mem <span class="ot">&lt;-</span> <span class="fu">round</span>(mem<span class="sc">$</span>MEM_matrix[[<span class="dv">1</span>]])</span>
-<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Viewing the cluster labels</span></span>
-<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>mem</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MEM)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate enrichment scores in clusters from Bodenmiller set</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>mem <span class="ot">&lt;-</span> <span class="fu">MEM</span>(<span class="fu">cbind</span>(sub, <span class="at">cluster =</span> clusters_pg))</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="co"># This creates a table of enrichment scores for each marker in each cluster. Round these scores to get a label as presented in their paper</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>mem <span class="ot">&lt;-</span> <span class="fu">round</span>(mem<span class="sc">$</span>MEM_matrix[[<span class="dv">1</span>]])</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Viewing the cluster labels</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>mem</span></code></pre></div>
 <pre><code>##    CD45 CD4 CD20 CD33 CD123 CD14 IgM HLA-DR CD7 CD3 pNFkB pp38 pStat5 pAkt
 ## 1     0   4    2    0     0    1   0     -4   2   4     0    0      0   -1
 ## 2     0  -8    2    0     0    1   0     -4   2   2    -1   -2      0    0
@@ -2585,66 +2584,66 @@ href="https://bioconductor.org/packages/release/bioc/html/FlowSOM.html">R
 package</a>. Note that it only takes FCS files as input, but individual
 functions can be edited if an explicit need for these visualizations
 exists.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate and visualize self organizing map with the parameters used by FlowSOM</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kohonen)</span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>som <span class="ot">&lt;-</span> <span class="fu">som</span>(<span class="fu">as.matrix</span>(sub[,lineage_channels]), <span class="at">grid=</span><span class="fu">somgrid</span>(<span class="at">xdim =</span> <span class="dv">10</span>, <span class="at">ydim =</span> <span class="dv">10</span>), <span class="at">dist.fcts=</span><span class="st">&quot;euclidean&quot;</span>)</span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate codebook clusters</span></span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ConsensusClusterPlus)</span>
-<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>nclust <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>cclust <span class="ot">&lt;-</span> <span class="fu">ConsensusClusterPlus</span>(<span class="fu">t</span>(som<span class="sc">$</span>codes[[<span class="dv">1</span>]]), <span class="at">maxK =</span> nclust, <span class="at">reps =</span> <span class="dv">100</span>, <span class="at">pItem =</span> <span class="fl">0.9</span>, <span class="at">pFeature =</span> <span class="dv">1</span>, <span class="at">title =</span> <span class="fu">tempdir</span>(), <span class="at">plot =</span> <span class="st">&quot;pdf&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">clusterAlg =</span> <span class="st">&quot;hc&quot;</span>, <span class="at">distance =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="at">seed =</span> <span class="cn">NULL</span>)</span>
-<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>codebook_clusters <span class="ot">&lt;-</span> cclust[[nclust]]<span class="sc">$</span>consensusClass</span>
-<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>codebook_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(codebook_clusters)) {</span>
-<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>  codebook_list[[i]] <span class="ot">&lt;-</span> <span class="fu">names</span>(codebook_clusters[codebook_clusters<span class="sc">==</span>i])</span>
-<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Create minimum spanning tree from codebook distance matrix</span></span>
-<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>graph  <span class="ot">&lt;-</span> <span class="fu">graph.adjacency</span>(<span class="fu">as.matrix</span>(<span class="fu">dist</span>(som<span class="sc">$</span>codes[[<span class="dv">1</span>]])), <span class="at">weighted =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>mst <span class="ot">&lt;-</span> <span class="fu">mst</span>(graph)</span>
-<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup the plot with flowSOM-like MST output</span></span>
-<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a>layout <span class="ot">&lt;-</span> <span class="fu">layout.kamada.kawai</span>(<span class="fu">as.undirected</span>(mst))</span>
-<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a>marker_palette <span class="ot">=</span> <span class="fu">colorRampPalette</span>(<span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">&quot;Set1&quot;</span>))</span>
-<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a>cluster_palette <span class="ot">=</span> <span class="fu">colorRampPalette</span>(<span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;Set2&quot;</span>))</span>
-<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a>marker_cols <span class="ot">&lt;-</span> <span class="fu">marker_palette</span>(<span class="fu">length</span>(lineage_channels))</span>
-<span id="cb53-25"><a href="#cb53-25" aria-hidden="true" tabindex="-1"></a>cluster_cols <span class="ot">&lt;-</span> <span class="fu">cluster_palette</span>(<span class="fu">max</span>(codebook_clusters))</span>
-<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a>medians <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(som<span class="sc">$</span>codes[[<span class="dv">1</span>]], <span class="dv">1</span>, <span class="cf">function</span>(x) x<span class="sc">/</span><span class="fu">sum</span>(x)))</span>
-<span id="cb53-27"><a href="#cb53-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-28"><a href="#cb53-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-29"><a href="#cb53-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a new vertex shape to iGraph to make star charts</span></span>
-<span id="cb53-30"><a href="#cb53-30" aria-hidden="true" tabindex="-1"></a>mystar <span class="ot">&lt;-</span> <span class="cf">function</span>(coords, <span class="at">v=</span><span class="cn">NULL</span>, params) {</span>
-<span id="cb53-31"><a href="#cb53-31" aria-hidden="true" tabindex="-1"></a>    vertex.color <span class="ot">&lt;-</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>, <span class="st">&quot;color&quot;</span>)</span>
-<span id="cb53-32"><a href="#cb53-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(vertex.color) <span class="sc">!=</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(v)) {</span>
-<span id="cb53-33"><a href="#cb53-33" aria-hidden="true" tabindex="-1"></a>        vertex.color <span class="ot">&lt;-</span> vertex.color[v]</span>
-<span id="cb53-34"><a href="#cb53-34" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb53-35"><a href="#cb53-35" aria-hidden="true" tabindex="-1"></a>    vertex.size    <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">200</span> <span class="sc">*</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>, <span class="st">&quot;size&quot;</span>)</span>
-<span id="cb53-36"><a href="#cb53-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(vertex.size) <span class="sc">!=</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(v)) {</span>
-<span id="cb53-37"><a href="#cb53-37" aria-hidden="true" tabindex="-1"></a>        vertex.size <span class="ot">&lt;-</span> vertex.size[v]</span>
-<span id="cb53-38"><a href="#cb53-38" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb53-39"><a href="#cb53-39" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>, <span class="st">&quot;data&quot;</span>)</span>
-<span id="cb53-40"><a href="#cb53-40" aria-hidden="true" tabindex="-1"></a>    cP <span class="ot">&lt;-</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>,<span class="st">&quot;cP&quot;</span>)</span>
-<span id="cb53-41"><a href="#cb53-41" aria-hidden="true" tabindex="-1"></a>    scale <span class="ot">&lt;-</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>,<span class="st">&quot;scale&quot;</span>)</span>
-<span id="cb53-42"><a href="#cb53-42" aria-hidden="true" tabindex="-1"></a>    bg <span class="ot">&lt;-</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>,<span class="st">&quot;bg&quot;</span>)</span>
-<span id="cb53-43"><a href="#cb53-43" aria-hidden="true" tabindex="-1"></a>    graphics<span class="sc">::</span><span class="fu">symbols</span>(coords[, <span class="dv">1</span>], coords[, <span class="dv">2</span>], <span class="at">circles =</span> vertex.size,</span>
-<span id="cb53-44"><a href="#cb53-44" aria-hidden="true" tabindex="-1"></a>                      <span class="at">inches =</span> <span class="cn">FALSE</span>, <span class="at">bg =</span> bg, <span class="at">bty=</span><span class="st">&#39;n&#39;</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
-<span id="cb53-45"><a href="#cb53-45" aria-hidden="true" tabindex="-1"></a>    graphics<span class="sc">::</span><span class="fu">stars</span>(data, <span class="at">locations =</span> coords, <span class="at">labels =</span> <span class="cn">NULL</span>,<span class="at">scale=</span>scale,</span>
-<span id="cb53-46"><a href="#cb53-46" aria-hidden="true" tabindex="-1"></a>            <span class="at">len =</span> vertex.size, <span class="at">col.segments =</span> cP,</span>
-<span id="cb53-47"><a href="#cb53-47" aria-hidden="true" tabindex="-1"></a>            <span class="at">draw.segments =</span> <span class="cn">TRUE</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">add=</span><span class="cn">TRUE</span>,</span>
-<span id="cb53-48"><a href="#cb53-48" aria-hidden="true" tabindex="-1"></a>            <span class="at">inches=</span><span class="cn">FALSE</span>)</span>
-<span id="cb53-49"><a href="#cb53-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-50"><a href="#cb53-50" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb53-51"><a href="#cb53-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-52"><a href="#cb53-52" aria-hidden="true" tabindex="-1"></a><span class="fu">add.vertex.shape</span>(<span class="st">&quot;star&quot;</span>, <span class="at">clip=</span>igraph.shape.noclip, <span class="at">plot=</span>mystar,</span>
-<span id="cb53-53"><a href="#cb53-53" aria-hidden="true" tabindex="-1"></a>                 <span class="at">parameters=</span><span class="fu">list</span>(<span class="at">vertex.data=</span><span class="cn">NULL</span>,<span class="at">vertex.cP =</span> cluster_cols,</span>
-<span id="cb53-54"><a href="#cb53-54" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">vertex.scale=</span><span class="cn">FALSE</span>, <span class="at">vertex.bg =</span> <span class="st">&quot;transparent&quot;</span>))</span>
-<span id="cb53-55"><a href="#cb53-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-56"><a href="#cb53-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-57"><a href="#cb53-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the MST plot</span></span>
-<span id="cb53-58"><a href="#cb53-58" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.undirected</span>(mst), <span class="at">vertex.shape=</span><span class="st">&quot;star&quot;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>, <span class="at">vertex.size =</span> <span class="fu">rep</span>(<span class="dv">10</span>, <span class="fu">length</span>(codebook_clusters)), <span class="at">vertex.data =</span> medians, <span class="at">vertex.cP =</span> <span class="fu">marker_palette</span>(<span class="fu">ncol</span>(medians)), <span class="at">vertex.scale =</span> <span class="cn">TRUE</span>, <span class="at">layout =</span> layout, <span class="at">edge.lty =</span> <span class="dv">1</span>, <span class="at">mark.groups =</span> codebook_list, <span class="at">mark.col =</span> <span class="fu">alpha</span>(cluster_cols,<span class="fl">0.4</span>), <span class="at">mark.border =</span> <span class="cn">NA</span>, <span class="at">mark.shape=</span><span class="dv">1</span>)</span>
-<span id="cb53-59"><a href="#cb53-59" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="fl">1.2</span>,<span class="at">y=</span><span class="fl">1.1</span>,<span class="at">legend=</span>lineage_channels, <span class="at">col=</span>marker_cols, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">y.intersp=</span><span class="fl">0.8</span>)</span>
-<span id="cb53-60"><a href="#cb53-60" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="sc">-</span><span class="fl">1.8</span>,<span class="at">y=</span><span class="fl">1.1</span>,<span class="at">legend=</span><span class="fu">paste</span>(<span class="st">&quot;cluster&quot;</span>, <span class="dv">1</span><span class="sc">:</span>nclust), <span class="at">col=</span>cluster_cols, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">y.intersp=</span><span class="fl">0.8</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate and visualize self organizing map with the parameters used by FlowSOM</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kohonen)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>som <span class="ot">&lt;-</span> <span class="fu">som</span>(<span class="fu">as.matrix</span>(sub[,lineage_channels]), <span class="at">grid=</span><span class="fu">somgrid</span>(<span class="at">xdim =</span> <span class="dv">10</span>, <span class="at">ydim =</span> <span class="dv">10</span>), <span class="at">dist.fcts=</span><span class="st">&quot;euclidean&quot;</span>)</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate codebook clusters</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ConsensusClusterPlus)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>nclust <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>cclust <span class="ot">&lt;-</span> <span class="fu">ConsensusClusterPlus</span>(<span class="fu">t</span>(som<span class="sc">$</span>codes[[<span class="dv">1</span>]]), <span class="at">maxK =</span> nclust, <span class="at">reps =</span> <span class="dv">100</span>, <span class="at">pItem =</span> <span class="fl">0.9</span>, <span class="at">pFeature =</span> <span class="dv">1</span>, <span class="at">title =</span> <span class="fu">tempdir</span>(), <span class="at">plot =</span> <span class="st">&quot;pdf&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">clusterAlg =</span> <span class="st">&quot;hc&quot;</span>, <span class="at">distance =</span> <span class="st">&quot;euclidean&quot;</span>, <span class="at">seed =</span> <span class="cn">NULL</span>)</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>codebook_clusters <span class="ot">&lt;-</span> cclust[[nclust]]<span class="sc">$</span>consensusClass</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>codebook_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">max</span>(codebook_clusters)) {</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  codebook_list[[i]] <span class="ot">&lt;-</span> <span class="fu">names</span>(codebook_clusters[codebook_clusters<span class="sc">==</span>i])</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Create minimum spanning tree from codebook distance matrix</span></span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>graph  <span class="ot">&lt;-</span> <span class="fu">graph.adjacency</span>(<span class="fu">as.matrix</span>(<span class="fu">dist</span>(som<span class="sc">$</span>codes[[<span class="dv">1</span>]])), <span class="at">weighted =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>mst <span class="ot">&lt;-</span> <span class="fu">mst</span>(graph)</span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup the plot with flowSOM-like MST output</span></span>
+<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a>layout <span class="ot">&lt;-</span> <span class="fu">layout.kamada.kawai</span>(<span class="fu">as.undirected</span>(mst))</span>
+<span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a>marker_palette <span class="ot">=</span> <span class="fu">colorRampPalette</span>(<span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">&quot;Set1&quot;</span>))</span>
+<span id="cb55-23"><a href="#cb55-23" aria-hidden="true" tabindex="-1"></a>cluster_palette <span class="ot">=</span> <span class="fu">colorRampPalette</span>(<span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;Set2&quot;</span>))</span>
+<span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a>marker_cols <span class="ot">&lt;-</span> <span class="fu">marker_palette</span>(<span class="fu">length</span>(lineage_channels))</span>
+<span id="cb55-25"><a href="#cb55-25" aria-hidden="true" tabindex="-1"></a>cluster_cols <span class="ot">&lt;-</span> <span class="fu">cluster_palette</span>(<span class="fu">max</span>(codebook_clusters))</span>
+<span id="cb55-26"><a href="#cb55-26" aria-hidden="true" tabindex="-1"></a>medians <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(som<span class="sc">$</span>codes[[<span class="dv">1</span>]], <span class="dv">1</span>, <span class="cf">function</span>(x) x<span class="sc">/</span><span class="fu">sum</span>(x)))</span>
+<span id="cb55-27"><a href="#cb55-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-28"><a href="#cb55-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-29"><a href="#cb55-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a new vertex shape to iGraph to make star charts</span></span>
+<span id="cb55-30"><a href="#cb55-30" aria-hidden="true" tabindex="-1"></a>mystar <span class="ot">&lt;-</span> <span class="cf">function</span>(coords, <span class="at">v=</span><span class="cn">NULL</span>, params) {</span>
+<span id="cb55-31"><a href="#cb55-31" aria-hidden="true" tabindex="-1"></a>    vertex.color <span class="ot">&lt;-</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>, <span class="st">&quot;color&quot;</span>)</span>
+<span id="cb55-32"><a href="#cb55-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(vertex.color) <span class="sc">!=</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(v)) {</span>
+<span id="cb55-33"><a href="#cb55-33" aria-hidden="true" tabindex="-1"></a>        vertex.color <span class="ot">&lt;-</span> vertex.color[v]</span>
+<span id="cb55-34"><a href="#cb55-34" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-35"><a href="#cb55-35" aria-hidden="true" tabindex="-1"></a>    vertex.size    <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">200</span> <span class="sc">*</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>, <span class="st">&quot;size&quot;</span>)</span>
+<span id="cb55-36"><a href="#cb55-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(vertex.size) <span class="sc">!=</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(v)) {</span>
+<span id="cb55-37"><a href="#cb55-37" aria-hidden="true" tabindex="-1"></a>        vertex.size <span class="ot">&lt;-</span> vertex.size[v]</span>
+<span id="cb55-38"><a href="#cb55-38" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb55-39"><a href="#cb55-39" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>, <span class="st">&quot;data&quot;</span>)</span>
+<span id="cb55-40"><a href="#cb55-40" aria-hidden="true" tabindex="-1"></a>    cP <span class="ot">&lt;-</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>,<span class="st">&quot;cP&quot;</span>)</span>
+<span id="cb55-41"><a href="#cb55-41" aria-hidden="true" tabindex="-1"></a>    scale <span class="ot">&lt;-</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>,<span class="st">&quot;scale&quot;</span>)</span>
+<span id="cb55-42"><a href="#cb55-42" aria-hidden="true" tabindex="-1"></a>    bg <span class="ot">&lt;-</span> <span class="fu">params</span>(<span class="st">&quot;vertex&quot;</span>,<span class="st">&quot;bg&quot;</span>)</span>
+<span id="cb55-43"><a href="#cb55-43" aria-hidden="true" tabindex="-1"></a>    graphics<span class="sc">::</span><span class="fu">symbols</span>(coords[, <span class="dv">1</span>], coords[, <span class="dv">2</span>], <span class="at">circles =</span> vertex.size,</span>
+<span id="cb55-44"><a href="#cb55-44" aria-hidden="true" tabindex="-1"></a>                      <span class="at">inches =</span> <span class="cn">FALSE</span>, <span class="at">bg =</span> bg, <span class="at">bty=</span><span class="st">&#39;n&#39;</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb55-45"><a href="#cb55-45" aria-hidden="true" tabindex="-1"></a>    graphics<span class="sc">::</span><span class="fu">stars</span>(data, <span class="at">locations =</span> coords, <span class="at">labels =</span> <span class="cn">NULL</span>,<span class="at">scale=</span>scale,</span>
+<span id="cb55-46"><a href="#cb55-46" aria-hidden="true" tabindex="-1"></a>            <span class="at">len =</span> vertex.size, <span class="at">col.segments =</span> cP,</span>
+<span id="cb55-47"><a href="#cb55-47" aria-hidden="true" tabindex="-1"></a>            <span class="at">draw.segments =</span> <span class="cn">TRUE</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">add=</span><span class="cn">TRUE</span>,</span>
+<span id="cb55-48"><a href="#cb55-48" aria-hidden="true" tabindex="-1"></a>            <span class="at">inches=</span><span class="cn">FALSE</span>)</span>
+<span id="cb55-49"><a href="#cb55-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-50"><a href="#cb55-50" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb55-51"><a href="#cb55-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-52"><a href="#cb55-52" aria-hidden="true" tabindex="-1"></a><span class="fu">add.vertex.shape</span>(<span class="st">&quot;star&quot;</span>, <span class="at">clip=</span>igraph.shape.noclip, <span class="at">plot=</span>mystar,</span>
+<span id="cb55-53"><a href="#cb55-53" aria-hidden="true" tabindex="-1"></a>                 <span class="at">parameters=</span><span class="fu">list</span>(<span class="at">vertex.data=</span><span class="cn">NULL</span>,<span class="at">vertex.cP =</span> cluster_cols,</span>
+<span id="cb55-54"><a href="#cb55-54" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">vertex.scale=</span><span class="cn">FALSE</span>, <span class="at">vertex.bg =</span> <span class="st">&quot;transparent&quot;</span>))</span>
+<span id="cb55-55"><a href="#cb55-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-56"><a href="#cb55-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-57"><a href="#cb55-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the MST plot</span></span>
+<span id="cb55-58"><a href="#cb55-58" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.undirected</span>(mst), <span class="at">vertex.shape=</span><span class="st">&quot;star&quot;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>, <span class="at">vertex.size =</span> <span class="fu">rep</span>(<span class="dv">10</span>, <span class="fu">length</span>(codebook_clusters)), <span class="at">vertex.data =</span> medians, <span class="at">vertex.cP =</span> <span class="fu">marker_palette</span>(<span class="fu">ncol</span>(medians)), <span class="at">vertex.scale =</span> <span class="cn">TRUE</span>, <span class="at">layout =</span> layout, <span class="at">edge.lty =</span> <span class="dv">1</span>, <span class="at">mark.groups =</span> codebook_list, <span class="at">mark.col =</span> <span class="fu">alpha</span>(cluster_cols,<span class="fl">0.4</span>), <span class="at">mark.border =</span> <span class="cn">NA</span>, <span class="at">mark.shape=</span><span class="dv">1</span>)</span>
+<span id="cb55-59"><a href="#cb55-59" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="fl">1.2</span>,<span class="at">y=</span><span class="fl">1.1</span>,<span class="at">legend=</span>lineage_channels, <span class="at">col=</span>marker_cols, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">y.intersp=</span><span class="fl">0.8</span>)</span>
+<span id="cb55-60"><a href="#cb55-60" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="sc">-</span><span class="fl">1.8</span>,<span class="at">y=</span><span class="fl">1.1</span>,<span class="at">legend=</span><span class="fu">paste</span>(<span class="st">&quot;cluster&quot;</span>, <span class="dv">1</span><span class="sc">:</span>nclust), <span class="at">col=</span>cluster_cols, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="fl">0.7</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">y.intersp=</span><span class="fl">0.8</span>)</span></code></pre></div>
 <p><img src="cytof_data_scientist_files/figure-html/flowsom%20MST-1.png" width="960" /></p>
 <p>Note that this visualization was developed for flow cytometry where
 fewer markers are measured. For higher-dimensionality data, such as from
@@ -3139,7 +3138,7 @@ al. (2015)</a></td>
 <div id="sessioninfo" class="section level4" number="5.0.0.1">
 <h4><span class="header-section-number">5.0.0.1</span> R session
 info</h4>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
 <pre><code>## R version 4.1.1 (2021-08-10)
 ## Platform: x86_64-apple-darwin17.0 (64-bit)
 ## Running under: macOS Big Sur 10.16
@@ -3157,14 +3156,14 @@ info</h4>
 ## 
 ## other attached packages:
 ##  [1] igraph_1.3.0                ConsensusClusterPlus_1.58.0
-##  [3] kohonen_3.0.10              MEM_2.0.0                  
+##  [3] kohonen_3.0.11              MEM_2.0.0                  
 ##  [5] ncdfFlow_2.40.0             BH_1.78.0-0                
-##  [7] RcppArmadillo_0.10.8.1.0    cydar_1.18.0               
+##  [7] RcppArmadillo_0.11.0.0.0    cydar_1.18.0               
 ##  [9] SingleCellExperiment_1.16.0 edgeR_3.36.0               
 ## [11] limma_3.50.1                HDCytoData_1.14.0          
 ## [13] SummarizedExperiment_1.24.0 Biobase_2.54.0             
 ## [15] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
-## [17] IRanges_2.28.0              S4Vectors_0.32.3           
+## [17] IRanges_2.28.0              S4Vectors_0.32.4           
 ## [19] MatrixGenerics_1.6.0        matrixStats_0.61.0         
 ## [21] ExperimentHub_2.2.1         AnnotationHub_3.2.2        
 ## [23] BiocFileCache_2.2.1         dbplyr_2.1.1               
@@ -3175,36 +3174,36 @@ info</h4>
 ## [33] gplots_3.1.1                miscTools_0.6-26           
 ## [35] cytofkit2_0.99.80           VGAM_1.1-6                 
 ## [37] reticulate_1.24             plyr_1.8.7                 
-## [39] uwot_0.1.11                 Matrix_1.4-0               
+## [39] uwot_0.1.11                 Matrix_1.4-1               
 ## [41] Rtsne_0.15                  cyCombine_0.2.1            
 ## [43] ggridges_0.5.3              reshape2_1.4.4             
 ## [45] cowplot_1.1.1               ggplot2_3.3.5              
-## [47] RColorBrewer_1.1-3          MASS_7.3-55                
+## [47] RColorBrewer_1.1-3          MASS_7.3-56                
 ## [49] flowCore_2.6.0             
 ## 
 ## loaded via a namespace (and not attached):
 ##   [1] rappdirs_0.3.3                scattermore_0.8              
 ##   [3] flowWorkspace_4.6.0           tidyr_1.2.0                  
-##   [5] bit64_4.0.5                   knitr_1.37                   
+##   [5] bit64_4.0.5                   knitr_1.38                   
 ##   [7] irlba_2.3.5                   multcomp_1.4-18              
 ##   [9] DelayedArray_0.20.0           data.table_1.14.2            
 ##  [11] KEGGREST_1.34.0               RCurl_1.98-1.6               
 ##  [13] doParallel_1.0.17             generics_0.1.2               
 ##  [15] ScaledMatrix_1.2.0            TH.data_1.1-0                
-##  [17] RSQLite_2.2.10                RANN_2.6.1                   
+##  [17] RSQLite_2.2.12                RANN_2.6.1                   
 ##  [19] proxy_0.4-26                  ggpointdensity_0.1.0         
-##  [21] bit_4.0.4                     tzdb_0.2.0                   
+##  [21] bit_4.0.4                     tzdb_0.3.0                   
 ##  [23] xml2_1.3.3                    httpuv_1.6.5                 
 ##  [25] assertthat_0.2.1              isoband_0.2.5                
 ##  [27] viridis_0.6.2                 xfun_0.30                    
 ##  [29] hms_1.1.1                     jquerylib_0.1.4              
 ##  [31] evaluate_0.15                 promises_1.2.0.1             
 ##  [33] fansi_1.0.3                   caTools_1.18.2               
-##  [35] readxl_1.3.1                  Rgraphviz_2.38.0             
+##  [35] readxl_1.4.0                  Rgraphviz_2.38.0             
 ##  [37] DBI_1.1.2                     CATALYST_1.18.1              
 ##  [39] htmlwidgets_1.5.4             purrr_0.3.4                  
 ##  [41] ellipsis_0.3.2                RSpectra_0.16-0              
-##  [43] ggcyto_1.22.0                 ggnewscale_0.4.6             
+##  [43] ggcyto_1.22.0                 ggnewscale_0.4.7             
 ##  [45] ggpubr_0.4.0                  backports_1.4.1              
 ##  [47] cytolib_2.6.2                 permute_0.9-7                
 ##  [49] annotate_1.72.0               sparseMatrixStats_1.6.0      
@@ -3212,11 +3211,11 @@ info</h4>
 ##  [53] abind_1.4-7                   cachem_1.0.6                 
 ##  [55] withr_2.5.0                   ggforce_0.3.3                
 ##  [57] aws.signature_0.6.0           vegan_2.5-7                  
-##  [59] cluster_2.1.2                 crayon_1.5.1                 
+##  [59] cluster_2.1.3                 crayon_1.5.1                 
 ##  [61] drc_3.0-1                     genefilter_1.76.0            
 ##  [63] pkgconfig_2.0.3               labeling_0.4.2               
 ##  [65] tweenr_1.0.2                  vipor_0.4.5                  
-##  [67] nlme_3.1-155                  rlang_1.0.2                  
+##  [67] nlme_3.1-157                  rlang_1.0.2                  
 ##  [69] lifecycle_1.0.1               miniUI_0.1.1.1               
 ##  [71] sandwich_3.0-1                colourpicker_1.1.1           
 ##  [73] filelock_1.0.2                rsvd_1.0.5                   
@@ -3239,7 +3238,7 @@ info</h4>
 ## [107] compiler_4.1.1                lme4_1.1-28                  
 ## [109] clue_0.3-60                   cli_3.2.0                    
 ## [111] XVector_0.34.0                FlowSOM_2.2.0                
-## [113] mgcv_1.8-39                   tidyselect_1.1.2             
+## [113] mgcv_1.8-40                   tidyselect_1.1.2             
 ## [115] stringi_1.7.6                 forcats_0.5.1                
 ## [117] RProtoBufLib_2.6.0            highr_0.9                    
 ## [119] yaml_2.3.5                    BiocSingular_1.10.0          

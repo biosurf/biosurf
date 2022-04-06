@@ -538,7 +538,7 @@ More automated options for pre-gating can be conceived. One option is to train a
 
 <br>
 
-### Batch correction
+## Batch correction
 
 In cases where data was generated in multiple runs or one wishes to compare data from different experiments, there may be unwanted technical variation in the data. In that case, you can correct for batch effects using one of the published tools addressing this in cytometry data. One example is [cyCombine](https://github.com/biosurf/cyCombine), which we have developed, and will briefly demonstrate the use of below. Other, examples include CytoNorm, CytofRUV, iMUBAC, and CyTOFBatchAdjust. A benchmark of these tools is included in the [cyCombine publication](https://doi.org/10.1038/s41467-022-29383-5) and much more detailed descriptions of how to use cyCombine - and the other tools - may be found in the [cyCombine vignettes](https://biosurf.org/cyCombine.html).
 
