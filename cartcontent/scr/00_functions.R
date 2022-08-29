@@ -17,6 +17,7 @@
 # genomic coordinates. 
 
 library(tidyverse)
+library(tibble)
 library(janitor)
 library(wesanderson)
 library(biomaRt)
@@ -28,7 +29,7 @@ load(file = "cartcontent/data/expr_sub.Rdata")
 load(file = "cartcontent/data/gte.Rdata")
 pheno <- read_rds("cartcontent/data/pheno.rds")
 
-enst_expr <- enst_expr %>% 
+enst_expr <- enst_expr %>%
   rownames_to_column()
 enst_expr <- as_tibble(enst_expr)
 
@@ -39,39 +40,38 @@ haematological_cancers <- c("blood", "diffuse large b-cell lymphoma", "acute mye
 
 pheno_nh <- pheno[!(pheno$TCGA_GTEX_main_category %in% haematological_cancers), ] # removal of the hematological cancers
 
-# note: not all the transcripts listed in gte_list are in the enst_expr table. 
-# In the plots I am retaining the transcripts that are present in both tables. 
+# note: not all the transcripts listed in gte_list are in the enst_expr table.
+# In the plots I am retaining the transcripts that are present in both tables.
 
-# find the gene in ensg_exp with the highest number of isoforms in order to 
+# find the gene in ensg_exp with the highest number of isoforms in order to
 # decide the dimensions of the boxplot
 
 l <- vector(mode = "numeric", length = nrow(ensg_expr))
 for(i in 1:nrow(ensg_expr)) {
   ensg <- rownames(ensg_expr)[i]
   l[i] <- length(names(gte_list[[ensg]]))
-  
+
   maxl <- (max(l))
-  
+
 }
 
-maxl
+# create a boxplot function to have for each gene the expression level of all the isoforms
+# in all the tissues
 
-# create a boxplot function to have for each gene the expression level of all the isoforms 
-# in all the tissues 
-
-# conversion of the ensg id into gene symbols. In the website there will be gene symbols, not ensg id.
-mart1 <- useMart(biomart = "ENSEMBL_MART_ENSEMBL", dataset = "hsapiens_gene_ensembl")
-
-hgnc_from_ensembl <- getBM(attributes = c("ensembl_gene_id","hgnc_symbol"), 
-                           filters = "ensembl_gene_id", 
-                           mart = mart1, 
-                           values = rownames(ensg_expr))
-
-# hgnc_from_ensembl[34,2] <- "CEA" # the hgcn for the ensgID ENSG00000267881 is not in biomart, 
-# so I am adding it manually
-
+# # conversion of the ensg id into gene symbols. In the website there will be gene symbols, not ensg id.
+# mart1 <- useMart(biomart = "ENSEMBL_MART_ENSEMBL", dataset = "hsapiens_gene_ensembl")
+# 
+# hgnc_from_ensembl <- getBM(attributes = c("ensembl_gene_id","hgnc_symbol"), 
+#                            filters = "ensembl_gene_id", 
+#                            mart = mart1, 
+#                            values = rownames(ensg_expr))
+# 
+# # hgnc_from_ensembl[34,2] <- "CEA" # the hgcn for the ensgID ENSG00000267881 is not in biomart, 
+# # so I am adding it manually
+# #hgnc <- "MUC1"
 # creating the boxplot function (goal)
 boxplot_isoforms_all_tissues <- function(hgnc) {
+  hgnc_from_ensembl <- readRDS(file = "cartcontent/results/00_hgnc_from_ensembl_biomart.rds")
   
   #retrieve the ensembl gene ID from the hugo gene symbol 
   ensgID <- hgnc_from_ensembl %>% 
@@ -114,10 +114,28 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
   lt <- length(enst)
   
   palette <- wes_palette("FantasticFox1", lt, "continuous")
-    
+
+  # plot_tcga <- ggplot(enst_exp_category_tcga,
+  #                     mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+  #   geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
+  #   scale_fill_manual(values = palette) +
+  #   ylim(0, max(enst_exp_category_tcga$expression_level)) +
+  #   theme_light() +
+  #   xlab(" ") +
+  #   ylab("Log2(TPM)") +
+  #   theme(axis.text.x = element_text(angle = 40, hjust = 1, size = 40),
+  #         axis.text.y = element_text(size = 35),
+  #         axis.title = element_text(size = 35),
+  #         plot.title = element_text(size = 50),
+  #         legend.text = element_text(size = 30),
+  #         legend.title = element_text(size = 35),
+  #         plot.margin = unit(c(1,1,1,5), "cm"),
+  #         legend.position = "bottom") +
+  #   ggtitle(label = paste("Target isoforms expression for TCGA cancers"))
+
   plot_tcga <- ggplot(enst_exp_category_tcga,
                       mapping = aes(x = category, y = expression_level, fill = enst_id)) +
-    Ipaper::geom_boxplot2(alpha = 0.9, outlier.shape = NA, width = 0.9, width.errorbar = 0.1)  +
+    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9, varwidth = TRUE) +
     scale_fill_manual(values = palette) +
     ylim(0, max(enst_exp_category_tcga$expression_level)) +
     theme_light() +
@@ -129,13 +147,16 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
           plot.title = element_text(size = 50),
           legend.text = element_text(size = 30),
           legend.title = element_text(size = 35),
-          plot.margin = unit(c(1,1,1,5), "cm"), 
+          plot.margin = unit(c(1,1,1,5), "cm"),
           legend.position = "bottom") +
     ggtitle(label = paste("Target isoforms expression for TCGA cancers"))
-
+  
+  
+  
+  
   plot_gtex <- ggplot(enst_exp_category_gtex,
                       mapping = aes(x = category, y = expression_level, fill = enst_id)) +
-    Ipaper::geom_boxplot2(alpha = 0.9, outlier.shape = NA, width = 0.9, width.errorbar = 0.1)  +
+    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9)  +
     scale_fill_manual(values = palette) +
     ylim(0, max(enst_exp_category_gtex$expression_level)) +
     theme_light() +
@@ -155,7 +176,7 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
 
   ggsave(filename = paste(hgnc, "_", ensgID, "_plot.pdf", sep = ""), plot = plot, device = "pdf",
          path = "cartcontent/results/plots/isoform_expression/",
-         width = 160, height = 100, units = "cm", limitsize = F)
+         width = 150, height = 100, units = "cm", limitsize = F)
 
 
   return(plot)
@@ -357,7 +378,7 @@ target_essentiality_fun <- function(gene_name_hgnc) {
 # plot creation
   
  plot <- gene %>% ggplot(mapping = aes(x = cancer, y = dependency, fill = cancer)) +
-            Ipaper::geom_boxplot2(width = 0.8, width.errorbar = 0.3, alpha = 0.9)  +
+            geom_boxplot(width = 0.8, width.errorbar = 0.3, alpha = 0.9)  +
             scale_fill_manual(values = palette) +
             theme_light() +
             xlab(" ") +
