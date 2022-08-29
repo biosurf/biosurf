@@ -12,11 +12,10 @@ knit: (function(input, ...) {
 <style>
   .scrollingplot{
       overflow-x:scroll;
-      white-space: nowrap;
   }
 
   .scrollingplot img{
-     max-width: 40cm;
+     max-width: 40cm; 
   }
 
 </style>
@@ -24,6 +23,7 @@ knit: (function(input, ...) {
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
 setwd("../../")
 source("cartcontent/scr/00_functions.R")
+
 ```
 
 <h4>Description</h4>
@@ -38,16 +38,17 @@ Alkaline phosphatase, placental type ([ALPP](https://www.uniprot.org/uniprot/P05
 
 <h4>Target gene expression</h4>
 The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene ALPP
-`<div class="scrollingplot">
+<div class="scrollingplot">
 ```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 40}
 setwd("../../")
-boxplot_isoforms_all_tissues(hgnc = "ALPP") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+#hgnc_from_ensembl <- readRDS(file = "cartcontent/results/00_hgnc_from_ensembl_biomart.rds")
+boxplot_isoforms_all_tissues(hgnc = "MUC1") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
 ```
 </div>
 <br>
 
 <h4>Target essentiality</h4>
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 15}
+```{r, eval = F, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 15}
 setwd("../../")
 target_essentiality_fun(gene_name_hgnc = "ALPP") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
 ```
@@ -57,7 +58,7 @@ target_essentiality_fun(gene_name_hgnc = "ALPP") # it creates the boxplot in the
 <h4>Protein properties</h4>
 The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present. 
 The last three rows describe the position of potential epitopes, as well as phosphorylation and glycosylation sites. 
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height= 4}
+```{r, eval = F, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height= 4}
 setwd("../../")
 plot_function("ALPP") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
 ```
