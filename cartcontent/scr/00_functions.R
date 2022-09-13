@@ -24,6 +24,8 @@ library(biomaRt)
 library(patchwork)
 library(depmap)
 library(Ipaper)
+library(tidysq) #read fasta file
+library(readxl)
 
 load(file = "cartcontent/data/expr_sub.Rdata")
 load(file = "cartcontent/data/gte.Rdata")
@@ -58,17 +60,6 @@ for(i in 1:nrow(ensg_expr)) {
 # create a boxplot function to have for each gene the expression level of all the isoforms
 # in all the tissues
 
-# # conversion of the ensg id into gene symbols. In the website there will be gene symbols, not ensg id.
-# mart1 <- useMart(biomart = "ENSEMBL_MART_ENSEMBL", dataset = "hsapiens_gene_ensembl")
-# 
-# hgnc_from_ensembl <- getBM(attributes = c("ensembl_gene_id","hgnc_symbol"), 
-#                            filters = "ensembl_gene_id", 
-#                            mart = mart1, 
-#                            values = rownames(ensg_expr))
-# 
-# # hgnc_from_ensembl[34,2] <- "CEA" # the hgcn for the ensgID ENSG00000267881 is not in biomart, 
-# # so I am adding it manually
-# #hgnc <- "MUC1"
 # creating the boxplot function (goal)
 boxplot_isoforms_all_tissues <- function(hgnc) {
   hgnc_from_ensembl <- readRDS(file = "cartcontent/results/00_hgnc_from_ensembl_biomart.rds")
@@ -85,6 +76,28 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
   
   # list of tissues/cancers (categories) to which the samples belong
   list_of_categories <- unique(pheno_nh$TCGA_GTEX_main_category) 
+  
+  # import transcript data from ensembl website --> I want to retain only the protein coding transcripts
+
+  ensembl_table <- read_xlsx(paste("cartcontent/data/isoforms/transcripts_", hgnc, ".xlsx", sep = ""), 
+                             col_names = TRUE, skip = 1) # skip = 1 is necessary to have colnames
+  
+  # eliminate the version number from transcripts 
+  ensembl_table <- ensembl_table %>% separate(., col = `Transcript ID`, into = c("transcript", NA), sep = "\\.")
+  ensembl_table <- ensembl_table %>% filter(grepl("Protein coding",Biotype))
+  ensembl_table <- ensembl_table %>% dplyr::select(transcript, `UniProt Match`)
+  
+  # convert the vector enst into a 1 column tibble
+  enst <- as_tibble_col(enst, column_name = "transcript")
+  
+  # join the two tables retaining only the transcripts that are in common (--> protein coding in ensembl
+  # and in the gte_list object)
+  
+  ensembl_uniprot_table <- semi_join(ensembl_table, enst, by = "transcript") 
+  colnames(ensembl_uniprot_table)[2] <- "name"
+  
+  # create a new enst object, that only contains the protein coding isoforms in gte_list
+  enst <- ensembl_uniprot_table$transcript
   
   # filter retaining the transcripts in enst and their expression level in the different samples
   enst_exp_lev <- enst_expr %>% 
@@ -186,161 +199,197 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
 
 # PLOT OF PROTEIN PROPERTIES
 
-plot_function <- function(genename) {
+plot_function <- function(hgnc) {
+  hgnc_from_ensembl <- readRDS(file = "cartcontent/results/00_hgnc_from_ensembl_biomart.rds")
   
-  # import and modify TOPCONS results
+  #retrieve the ensembl gene ID from the hugo gene symbol 
+  ensgID <- hgnc_from_ensembl %>% 
+    filter(hgnc_symbol == hgnc) %>% 
+    pull(ensembl_gene_id)
   
-  topcons_result <- read.table(paste("cartcontent/results/Topcons/", genename, "/seq_0/Topcons/topcons.top", 
-                                     sep = ""), 
-                               sep = "")
+  #retrieve the ensg transcripts names
+  enst <- gte_list %>% 
+    pluck(ensgID) %>% 
+    names()
+  # the isoform sequences can be downloaded from uniprot (canonical + isoforms) and saved in a txt file. Said
+  # file is then used as input in deeptmhmm. 
+  # in the analyses we are retaining only the protein coding isoforms. The information can be 
+  # found and downloaded from the ensembl website (http://www.ensembl.org/Homo_sapiens/Gene/Splice?db=core;g=ENSG00000141736;r=17:39687914-39730426). 
   
-  topcons_result <- strsplit(as.character(topcons_result), "")
-  topcons_result <- as.data.frame(topcons_result) 
-  length_tpc <- length(topcons_result[[1]])
-  topcons_result <- cbind(as.integer(rownames(topcons_result)), topcons_result)
+  # import the csv table downloaded from ensembl website for the specific gene. Said table contains 
+  # all the isoforms of the gene. 
   
-  colnames(topcons_result) <- c("position", "domain") 
+  ensembl_table <- read_xlsx(paste("cartcontent/data/isoforms/transcripts_", hgnc, ".xlsx", sep = ""), 
+                             col_names = TRUE, skip = 1) # skip = 1 is necessary to have colnames
   
-  # retrieving the residue positions corresponding to ectodomain, endodomain and TM, 
-  # as well as starting and ending positions of each domain
+  # eliminate the version number from transcripts 
+  ensembl_table <- ensembl_table %>% separate(., col = `Transcript ID`, into = c("transcript", NA), sep = "\\.")
+  ensembl_table <- ensembl_table %>% filter(grepl("Protein coding",Biotype))
+  ensembl_table <- ensembl_table %>% dplyr::select(transcript, `UniProt Match`)
   
-  ectodomain <- topcons_result[topcons_result$domain == "o", "position"]
-  endodomain <- topcons_result[topcons_result$domain == "i", "position"]
-  tm <- topcons_result[topcons_result$domain == "M", "position"]
+  # convert the vector enst into a 1 column tibble
+  enst <- as_tibble_col(enst, column_name = "transcript")
   
-  start_ecto <- ectodomain[c(TRUE,diff(ectodomain)!=1)]
-  start_endo <- endodomain[c(TRUE, diff(endodomain) !=1)]
-  start_tm <- tm[c(TRUE, diff(tm) !=1)]
+  # join the two tables retaining only the transcripts that are in common (--> protein coding in ensembl
+  # and in the gte_list object)
   
-  end_ecto <- ectodomain[c(diff(ectodomain) != 1, TRUE)]
-  end_endo <- endodomain[c(diff(endodomain) !=1, TRUE)]
-  end_tm <- tm[c(diff(tm) !=1, TRUE)]
+  ensembl_uniprot_table <- semi_join(ensembl_table, enst, by = "transcript") 
+  colnames(ensembl_uniprot_table)[2] <- "name"
   
-  # signal peptide from signalP 
+  # import deeptmhmm output
+  deeptmhmm_output <- read.table(paste("cartcontent/results/Deeptmhmm/canonical_and_isoforms/", hgnc, sep = ""), fill = T)
   
-  signal_pep <- read.table(paste("cartcontent/results/SignalP/", genename, ".txt", sep = ""),
-                           header = T, row.names = NULL, 
-                           col.names = c("position", "aa", "SP", "CS", "other", "other2"), sep = "")[1:4]
+  #wrangling --> removing unused columns, making tibble with 3 columns: isoform name, sequence and prediction.
+  deeptmhmm_output <- deeptmhmm_output %>% dplyr::select(-V2, -V3) 
   
-  # retrieving the residue positions corresponding to signal peptide, 
-  # as well as its (starting and) ending position 
+  names_index <- seq(from = 1, to = nrow(deeptmhmm_output), by = 3)
+  sequence_index <- seq(from = 2, to = nrow(deeptmhmm_output), by = 3)
+  prediction_index <- seq(from = 3, to = nrow(deeptmhmm_output), by = 3)
   
-  signal_pep <- signal_pep[signal_pep$SP == "S", "position"]
+  deeptmhmm_output <- tibble("name" = deeptmhmm_output[names_index, ],
+                             "sequence" = deeptmhmm_output[sequence_index, ],
+                             "prediction" = deeptmhmm_output[prediction_index, ])
   
-  start_sigp <- signal_pep[c(TRUE, diff(signal_pep) != 1)]
-  end_sigp <- signal_pep[c(diff(signal_pep) != 1, TRUE)]  
+  deeptmhmm_output <- deeptmhmm_output %>% 
+    separate(., col = "name", into = c(NA, "name", NA), sep = "\\|")
   
-  # epitopes with BepiPred
+  deeptmhmm_output_ensembl <- full_join(ensembl_uniprot_table, deeptmhmm_output, by = "name")
   
-  epitopes <- read.csv(paste("cartcontent/results/BepiPred/", genename, ".csv", sep = ""))
+  write.table(deeptmhmm_output_ensembl, paste("cartcontent/results/Deeptmhmm/output_enst_", hgnc, ".txt", sep = ""), quote = F, sep = "/t")
   
-  epitopes <- as.tibble(epitopes) %>% 
-    filter(EpitopeProbability > 0.5)  # in BepiPred the column EpitopeProbability describes 
-  # the probability that the residue is part of a B cell epitope. 
-  # If prob > 0,5 the residue is considered to be part of the epitope. 
+  deeptmhmm_output_ensembl <- deeptmhmm_output_ensembl %>% drop_na() # IF THE NAMES OF THE PROTEINS IN THE ENSG FILE AND IN UNIPROT ARE NOT THE SAME, YOU LOSE DATA IN THIS STEP.
   
-  epitopes_pos <- epitopes$Position
+  # the sequences are not aligned. So I drop the sequence column. I will add the sequences aligned with msa. 
+  deeptmhmm_output_ensembl <- deeptmhmm_output_ensembl %>% dplyr::select(-sequence)
   
-  # retrieving starting and ending positions of epitopes
+  # in all the analyses and the plots, I will use the ensembl transcript IDs inside the deeptmhmm_output_ensembl table -->
+  # they are protein coding and we have expression data for them.
   
-  start_epitopes <- epitopes_pos[c(TRUE, diff(epitopes_pos) != 1)]
-  end_epitopes <- epitopes_pos[c(diff(epitopes_pos) != 1, TRUE)]
+  # import object (created using the msa script)
+  aligned_sequences <- read_fasta(paste("cartcontent/results/aligned_sequences/", hgnc, "_msa", sep = ""))
+  # wrangle to improve view 
+  aligned_sequences <- aligned_sequences %>% 
+    separate(., col = "name", into = c(NA, "name", NA), sep = "\\|")
   
-  # Phosphorylated residues with NetPhosPan
+  aligned_sequences <- full_join(aligned_sequences, deeptmhmm_output_ensembl, "name") %>% 
+    dplyr::select(-prediction) %>% na.omit()
   
-  phos <- read.table(paste("cartcontent/results/NetPhosPan/", genename, ".xls", sep = ""), 
-                     sep = "\t", header = T)
+  isoform_list <- vector(mode = "list", length = nrow(aligned_sequences))
   
-  phos_pos <- phos$Pos
   
-  # retrieving starting and ending positions of phosphorylated regions
   
-  if (is.null(nrow(phos_pos)) == T) {
-    start_phosp <- as.integer(NA)
-    end_phosp <- as.integer(NA)
-  } else {
-    start_phosp <- phos_pos[c(TRUE, diff(phos_pos) != 1)]
-    end_phosp <- phos_pos[c(diff(phos_pos) != 1, TRUE)] + 1  # Without the +1, the PTMs involving only one residue are not shown in the plot.
-    
+  
+  names(isoform_list) <- aligned_sequences$transcript
+  for (i in 1:nrow(aligned_sequences)) {
+    isoform_list[[i]] <- aligned_sequences$sq[i]
   }
   
-  # glycosilated sites with NetOglyc
+  isoforms <- isoform_list %>% 
+    map(function(x) as.character(x)) %>% 
+    map(function(x) str_split(x, pattern = "")) %>% 
+    map(function(x) as_tibble(x, .name_repair = ~ "seq")) %>% 
+    map(function(x) mutate(x, "index" = case_when(seq == "-" ~ 0,
+                                                  seq != "-" ~ 1))) %>% 
+    map(function(x) mutate(x, test = cumsum(index == 1))) %>% 
+    map(function(x) mutate(x, index = ifelse(duplicated(test), 0, test)) %>% dplyr::select(-test))
   
-  glyc <- read.table(paste("cartcontent/results/NetOGlyc/", genename, ".txt", sep = ""), 
-                     fill = T, header = T)[1:6]
+  deeptmhmm_pred <- vector(mode = "list", length = length(isoforms))
+  names(deeptmhmm_pred) <- names(isoforms)
   
-  glyc <- as.tibble(glyc) %>% filter(score > 0.5) # A residue is considered glycosylated if score is > 0.5. 
-  
-  if (nrow(glyc) != 0) {
-    start_glyc <- glyc$start
-    end_glyc <- glyc$end + 1 # Without the +1, the PTMs involving only one residue are not shown in the plot.
-  } else { 
-    start_glyc <- as.integer(NA)
-    end_glyc <- as.integer(NA)
+  for (i in 1:length(isoforms)) {
+    isoform_name <- names(deeptmhmm_pred)[i]
+    
+    deeptmhmm_pred[[isoform_name]] <- deeptmhmm_output_ensembl %>% 
+      filter(transcript == isoform_name) %>% #take the sequence of the isoform I am interested in
+      dplyr::select(-transcript, -name) %>% 
+      as.character() %>% # convert in vector of characters
+      str_split(., pattern = "") %>% 
+      as_tibble(.name_repair = ~ "prediction") # convert into tibble
+    
+    deeptmhmm_pred[[isoform_name]] <- deeptmhmm_pred[[isoform_name]] %>% 
+      mutate("index" = 1:nrow(deeptmhmm_pred[[isoform_name]])) # add index column. Needed to merge with the aligned sequence. 
   }
   
+  aligned_predictions <- vector(mode = "list", length = nrow(aligned_sequences))
+  names(aligned_predictions) <- names(isoforms)
   
-  # preparing the dataframes in order to plot with geom_rect (ggplot2)
+  ranges <- vector(mode = "list", length = nrow(aligned_sequences))
+  names(ranges) <- names(isoforms)
   
-  # "start" marks every starting point of a region (ecto, endo, signalp, etc)
-  # "end" marks the end
-  # "bin" marks the row on the plot (ecto==1, endo==2, signalp==3, epitope==4, etc)
-  ecto <- data.frame(start= start_ecto, end = end_ecto, bin = rep(7, length(start_ecto)))
-  trm <- data.frame(start = start_tm, end = end_tm, bin = rep(6, length(start_tm)))
-  endo <- data.frame(start = start_endo, end = end_endo, bin = rep(5, length(start_endo)))
-  sigp <- data.frame(start = start_sigp, end = end_sigp, bin = rep(4, length(start_sigp)))
-  epi <- data.frame(start = start_epitopes, end = end_epitopes, bin = rep(3, length(start_epitopes)))
-  phosp <- data.frame(start = start_phosp, end = end_phosp, bin = rep(2, length(start_phosp)))
-  glyco <- data.frame(start = start_glyc, end = end_glyc, bin = rep(1, length(start_glyc)))
+  for (i in 1:length(isoforms)) {
+    isoform_name <- names(aligned_predictions)[i]
+    
+    aligned_predictions[[isoform_name]] <- full_join(x = isoforms[[isoform_name]], 
+                                                     y = deeptmhmm_pred[[isoform_name]], 
+                                                     by = "index") %>% 
+      replace_na(list(prediction = "-")) 
+    
+    aligned_predictions[[isoform_name]] <- aligned_predictions[[isoform_name]] %>% 
+      dplyr::select(prediction) %>% 
+      mutate(index = 1:nrow(aligned_predictions[[isoform_name]])) %>% 
+      as.data.frame() # as df because with tibbles the following does not work
+    
+    gap <- aligned_predictions[[isoform_name]][aligned_predictions[[isoform_name]]$prediction == "-", "index"]
+    signal <- aligned_predictions[[isoform_name]][aligned_predictions[[isoform_name]]$prediction == "S", "index"]
+    outer <- aligned_predictions[[isoform_name]][aligned_predictions[[isoform_name]]$prediction == "O", "index"]
+    tm <- aligned_predictions[[isoform_name]][aligned_predictions[[isoform_name]]$prediction == "M", "index"]
+    inner <- aligned_predictions[[isoform_name]][aligned_predictions[[isoform_name]]$prediction == "I", "index"]
+    
+    start_gap <- gap[c(TRUE,diff(gap)!=1)]
+    start_signal <- signal[c(TRUE,diff(signal)!=1)]
+    start_outer <- outer[c(TRUE,diff(outer)!=1)]
+    start_tm <- tm[c(TRUE,diff(tm)!=1)]
+    start_inner <- inner[c(TRUE,diff(inner)!=1)]
+    
+    end_gap <- gap[c(diff(gap)!=1, TRUE)]
+    end_signal <- signal[c(diff(signal)!=1, TRUE)]
+    end_outer <- outer[c(diff(outer)!=1, TRUE)]
+    end_tm <- tm[c(diff(tm)!=1, TRUE)]
+    end_inner <- inner[c(diff(inner)!=1, TRUE)]
+    
+    ranges_gap <- tibble(topology = "-", start = start_gap, end = end_gap, bin = rep(i, length(start_gap)))
+    ranges_signal <- tibble(topology = "S", start = start_signal, end = end_signal, bin = rep(i, length(start_signal)))
+    ranges_outer <- tibble(topology = "O", start = start_outer, end = end_outer, bin = rep(i, length(start_outer)))
+    ranges_tm <- tibble(topology = "M", start = start_tm, end = end_tm, bin = rep(i, length(start_tm)))
+    ranges_inner <- tibble(topology = "I", start = start_inner, end = end_inner, bin = rep(i, length(start_inner)))
+    
+    ranges[[isoform_name]] <- rbind(ranges_gap, ranges_signal, ranges_outer, ranges_tm, ranges_inner) %>% 
+      arrange(start) %>% 
+      na.omit()
+  } 
   
-  palette <- c("#8EDCE6", "#E0A900","#1C8DD9", "#FF8C42", "#025C40", "#C14953", "#576490") 
+  ranges_df <- bind_rows(ranges)
   
-  p <- ggplot(mapping = aes(label = "mytext")) + 
-    geom_rect(data = ecto, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
-                               fill = "Ectodomain"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 7.5, size = 4, mapping = aes(label = "Ectodomain")) +
-    
-    geom_rect(data = trm, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
-                              fill ="TM"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 6.5, size = 4, mapping = aes(label = "TM")) +
-    
-    geom_rect(data = endo, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
-                               fill ="Endodomain"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 5.5, size = 4, mapping = aes(label = "Endodomain")) +
-    
-    geom_rect(data = sigp, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
-                               fill ="Signal peptide"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 4.5, size = 4, mapping = aes(label = "Signal Peptide")) +
-    
-    geom_rect(data = epi, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
-                              fill ="Potential Epitopes"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 3.5, size = 4, mapping = aes(label = "Potential Epitopes")) +
-    
-    geom_rect(data = phosp, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
-                                fill ="Phosphorylation sites"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 2.5, size = 4, mapping = aes(label = "Phosphorylation Sites")) +
-    
-    geom_rect(data = glyco, aes(xmin = start, xmax = end, ymin = bin + 0.1, ymax = bin + 0.9, 
-                                fill ="Glycosylation sites"), alpha = 0.8) +
-    geom_text(x = -(length_tpc/5), y = 1.5, size = 4, mapping = aes(label = "Glycosylation Sites")) +
-    
-    ggtitle(genename) +
-    xlab("Positions") +
-    theme_light() +
-    theme(plot.title = element_text(hjust = 0.5, size = 16),
+  transcript_names <- as_tibble(names(isoforms), .name_repair = ~ "transcripts")
+  
+  saveRDS(ranges_df, paste("cartcontent/results/ranges", hgnc, ".rds", sep = ""))
+  
+  ranges_df$topology <- factor(ranges_df$topology, levels=c("S", "O", "M", "I", "-"), 
+                               labels=c('Signal peptide','Outside','Trans membrane','Inside','Alignment gap'))
+  
+  
+  plot <- ranges_df %>% 
+    ggplot(aes(xmin = start, xmax = end,  ymin = bin + 0.1, ymax = bin + 0.9, fill = topology)) +
+    geom_rect() +
+    scale_y_continuous(limits = c(0.9, nrow(transcript_names) + 1.1), expand = c(0, 0), 
+                       breaks = 1:(length(transcript_names$transcripts)) + 0.5, 
+                       labels = transcript_names$transcripts, 
+                       name = "Isoform ID (ENST)") +
+    ggtitle("Protein topologies") +
+    scale_fill_manual(values=c("#C41C24", "#FFB20F", "#18848C", "#96BDC6", "#EDE7E3")) +
+    xlab("Amino acid position in multiple sequence alignment") +
+    theme_bw() +
+    labs(fill = "Protein topology") +
+    theme(axis.ticks = element_blank(), 
+          plot.title = element_text(size = 16),
+          axis.text.y = element_text(size = 11),
           axis.text.x = element_text(size = 10),
-          axis.title = element_text(size = 12),
-          axis.text.y = element_blank(), 
-          axis.ticks = element_blank(), 
-          legend.position = "NULL", 
-          plot.margin = unit(c(1,1,1,6), "cm")) +
-    coord_cartesian(clip = "off") +
-    scale_fill_manual(values = palette) 
+          axis.title = element_text(size = 12))
   
-  ggsave(filename = paste(genename, "_plot.pdf", sep = ""), plot = p, device = "pdf", 
-         path = "cartcontent/results/plots/protein_properties/", width = 25, height = 10, units = "cm")
+  ggsave(filename = paste(hgnc, "_plot_isoforms.pdf", sep = ""), plot = plot, device = "pdf", 
+         path = "cartcontent/results/plots/protein_properties/", width = 30, height = 12, units = "cm")
   
-  return(p)
+  return(plot)
   
 }
 # ------------------------------------------------------------------------------
