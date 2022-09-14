@@ -1,0 +1,7 @@
+"Transcript ID","Name","bp","Protein","Translation ID","Biotype","CCDS","UniProt Match","RefSeq Match","Flags"
+"ENST00000357183.9","RAET1E-201","6524","263aa","ENSP00000349709.4"," Protein coding","CCDS5221","Q8TD07-1","NM_001394057.1","MANE Select, Ensembl Canonical, GENCODE basic, APPRIS  P2, TSL:1, "
+"ENST00000532335.5","RAET1E-206","2099","212aa","ENSP00000437067.1"," Protein coding","CCDS59043","Q8TD07-3","-","GENCODE basic, APPRIS  ALT2, TSL:1, "
+"ENST00000529948.1","RAET1E-205","875","209aa","ENSP00000432366.1"," Protein coding","CCDS59042","Q8TD07-4","-","GENCODE basic, APPRIS  ALT2, TSL:1, "
+"ENST00000367363.3","RAET1E-202","817","227aa","ENSP00000356332.3"," Protein coding","CCDS59044","Q8TD07-2","-","GENCODE basic, TSL:1, "
+"ENST00000392270.3","RAET1E-203","743","117aa","ENSP00000376096.3"," Nonsense mediated decay","","Q3T1D4","-","TSL:2, "
+"ENST00000524905.1","RAET1E-204","611","No protein","-"," Processed transcript","","-","-","TSL:3, "

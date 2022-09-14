@@ -1,0 +1,4 @@
+"Transcript ID","Name","bp","Protein","Translation ID","Biotype","CCDS","UniProt Match","RefSeq Match","Flags"
+"ENST00000392027.3","ALPP-201","2754","535aa","ENSP00000375881.2"," Protein coding","CCDS2490","P05187","NM_001632.5","MANE Select, Ensembl Canonical, GENCODE basic, APPRIS  P1, TSL:1, "
+"ENST00000485563.1","ALPP-203","1242","No protein","-"," Retained intron","","-","-","TSL:3, "
+"ENST00000474529.1","ALPP-202","660","No protein","-"," Retained intron","","-","-","TSL:2, "
