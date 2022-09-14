@@ -148,7 +148,7 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
 
   plot_tcga <- ggplot(enst_exp_category_tcga,
                       mapping = aes(x = category, y = expression_level, fill = enst_id)) +
-    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9, varwidth = TRUE) +
+    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
     scale_fill_manual(values = palette) +
     ylim(0, max(enst_exp_category_tcga$expression_level)) +
     theme_light() +
@@ -158,14 +158,11 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
           axis.text.y = element_text(size = 35),
           axis.title = element_text(size = 35),
           plot.title = element_text(size = 50),
-          legend.text = element_text(size = 30),
-          legend.title = element_text(size = 35),
+          legend.text = element_text(size = 35),
+          legend.title = element_text(size = 40),
           plot.margin = unit(c(1,1,1,5), "cm"),
           legend.position = "bottom") +
     ggtitle(label = paste("Target isoforms expression for TCGA cancers"))
-  
-  
-  
   
   plot_gtex <- ggplot(enst_exp_category_gtex,
                       mapping = aes(x = category, y = expression_level, fill = enst_id)) +
@@ -196,9 +193,7 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
 }
 
 # -------------------------------------------------------------------------------------------------
-
 # PLOT OF PROTEIN PROPERTIES
-
 plot_function <- function(hgnc) {
   hgnc_from_ensembl <- readRDS(file = "cartcontent/results/00_hgnc_from_ensembl_biomart.rds")
   
@@ -266,7 +261,7 @@ plot_function <- function(hgnc) {
   # they are protein coding and we have expression data for them.
   
   # import object (created using the msa script)
-  aligned_sequences <- read_fasta(paste("cartcontent/results/aligned_sequences/", hgnc, "_msa", sep = ""))
+  aligned_sequences <- read_fasta(paste("cartcontent/results/aligned_sequences/", hgnc, "_msa.txt", sep = ""))
   # wrangle to improve view 
   aligned_sequences <- aligned_sequences %>% 
     separate(., col = "name", into = c(NA, "name", NA), sep = "\\|")
@@ -275,10 +270,6 @@ plot_function <- function(hgnc) {
     dplyr::select(-prediction) %>% na.omit()
   
   isoform_list <- vector(mode = "list", length = nrow(aligned_sequences))
-  
-  
-  
-  
   names(isoform_list) <- aligned_sequences$transcript
   for (i in 1:nrow(aligned_sequences)) {
     isoform_list[[i]] <- aligned_sequences$sq[i]
@@ -376,7 +367,9 @@ plot_function <- function(hgnc) {
                        labels = transcript_names$transcripts, 
                        name = "Isoform ID (ENST)") +
     ggtitle("Protein topologies") +
-    scale_fill_manual(values=c("#C41C24", "#FFB20F", "#18848C", "#96BDC6", "#EDE7E3")) +
+    scale_fill_manual(values=c('Signal peptide' = "#C41C24", 'Outside' = "#FFB20F", 
+                               'Trans membrane' = "#18848C", 'Inside' = "#96BDC6", 
+                               'Alignment gap' = "#EDE7E3")) +
     xlab("Amino acid position in multiple sequence alignment") +
     theme_bw() +
     labs(fill = "Protein topology") +
@@ -386,9 +379,14 @@ plot_function <- function(hgnc) {
           axis.text.x = element_text(size = 10),
           axis.title = element_text(size = 12))
   
+  
+  if(length(enst) < 5) {
+    ggsave(filename = paste(hgnc, "_plot_isoforms.pdf", sep = ""), plot = plot, device = "pdf", 
+           path = "cartcontent/results/plots/protein_properties/", width = 30, height = 8, units = "cm")
+  } else {
   ggsave(filename = paste(hgnc, "_plot_isoforms.pdf", sep = ""), plot = plot, device = "pdf", 
          path = "cartcontent/results/plots/protein_properties/", width = 30, height = 12, units = "cm")
-  
+  }
   return(plot)
   
 }
@@ -427,7 +425,7 @@ target_essentiality_fun <- function(gene_name_hgnc) {
 # plot creation
   
  plot <- gene %>% ggplot(mapping = aes(x = cancer, y = dependency, fill = cancer)) +
-            geom_boxplot(width = 0.8, width.errorbar = 0.3, alpha = 0.9)  +
+            geom_boxplot(width = 0.8, width.errorbar = 0.3, alpha = 0.9, outlier.shape = NA)  +
             scale_fill_manual(values = palette) +
             theme_light() +
             xlab(" ") +
