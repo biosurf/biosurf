@@ -24,7 +24,7 @@ knit: (function(input, ...) {
 
 ```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
 setwd("../../")
-source("cartcontent/scr/00_functions.R")
+source("cartcontent/scr/01_functions.R")
 ```
 
 <h4>Description</h4>
@@ -58,8 +58,7 @@ target_essentiality_fun(gene_name_hgnc = "CD38") # it creates the boxplot in the
 
 <h4>Protein properties</h4>
 The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present. 
-The last three rows describe the position of potential epitopes, as well as phosphorylation and glycosylation sites. 
-```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height= 4}
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height = 2}
 setwd("../../")
 plot_function("CD38") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
 ```
