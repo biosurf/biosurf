@@ -1,1 +1,0 @@
-seq_0	630	sp|Q13421|MSLN_HUMAN Mesothelin OS=Homo sapiens OX=9606 GN=MSLN PE=1 SV=2

@@ -1,1 +1,0 @@
-seq_0	847	1	True	cached	0.0	sp|P20273|CD22_HUMAN B-cell receptor CD22 OS=Homo sapiens OX=9606 GN=CD22 PE=1 SV=2	2020-11-28 15:25:51 CET

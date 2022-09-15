@@ -1,1 +1,0 @@
-seq_0	580	sp|P51654|GPC3_HUMAN Glypican-3 OS=Homo sapiens OX=9606 GN=GPC3 PE=1 SV=1

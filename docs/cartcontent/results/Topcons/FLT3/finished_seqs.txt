@@ -1,1 +1,0 @@
-seq_0	993	2	True	cached	0.0	sp|P36888|FLT3_HUMAN Receptor-type tyrosine-protein kinase FLT3 OS=Homo sapiens OX=9606 GN=FLT3 PE=1 SV=2	2020-12-03 11:19:20 CET

@@ -1,1 +1,0 @@
-seq_0	261	4	False	cached	0.0	sp|P56856-2|CLD18_HUMAN Isoform A2 of Claudin-18 OS=Homo sapiens OX=9606 GN=CLDN18	2020-12-03 13:42:43 CET

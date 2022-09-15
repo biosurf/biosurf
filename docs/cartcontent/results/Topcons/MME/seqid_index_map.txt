@@ -1,1 +1,0 @@
-seq_0	750	sp|P08473|NEP_HUMAN Neprilysin OS=Homo sapiens OX=9606 GN=MME PE=1 SV=2

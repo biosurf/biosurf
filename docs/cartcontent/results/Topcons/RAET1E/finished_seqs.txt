@@ -1,1 +1,0 @@
-seq_0	263	1	True	cached	0.0	sp|Q8TD07|RAE1E_HUMAN Retinoic acid early transcript 1E OS=Homo sapiens OX=9606 GN=RAET1E PE=1 SV=1	2020-12-03 13:41:09 CET

@@ -1,1 +1,0 @@
-seq_0	216	1	False	cached	0.0	sp|P26718|NKG2D_HUMAN NKG2-D type II integral membrane protein OS=Homo sapiens OX=9606 GN=KLRK1 PE=1 SV=1	2020-12-03 11:02:54 CET

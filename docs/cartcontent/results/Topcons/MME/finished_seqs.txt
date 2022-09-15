@@ -1,1 +1,0 @@
-seq_0	750	1	False	cached	0.0	sp|P08473|NEP_HUMAN Neprilysin OS=Homo sapiens OX=9606 GN=MME PE=1 SV=2	2020-11-28 15:54:37 CET
