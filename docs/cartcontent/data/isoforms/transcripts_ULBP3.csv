@@ -1,0 +1,3 @@
+"Transcript ID","Name","bp","Protein","Translation ID","Biotype","CCDS","UniProt Match","RefSeq Match","Flags"
+"ENST00000367339.7","ULBP3-201","3111","244aa","ENSP00000356308.1"," Protein coding","CCDS5225","Q9BZM4","NM_024518.3","MANE Select, Ensembl Canonical, GENCODE basic, APPRIS  P1, TSL:5, "
+"ENST00000438272.2","ULBP3-202","735","244aa","ENSP00000403562.2"," Protein coding","CCDS5225","Q9BZM4","-","GENCODE basic, APPRIS  P1, TSL:1, "

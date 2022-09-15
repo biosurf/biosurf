@@ -1,0 +1,1 @@
+seq_0	705	sp|P00533-3|EGFR_HUMAN Isoform 3 of Epidermal growth factor receptor OS=Homo sapiens OX=9606 GN=EGFR
