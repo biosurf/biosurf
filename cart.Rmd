@@ -4,7 +4,7 @@ title: "Evaluation of CAR T cell targets in clinical trials"
 
 <br>
 
-This page summarizes the evaluations of 60 protein targets for chimeric antigen receptor T cell therapy. Click  protein names for a detailed summary. Details of the evaluation criteria is described here [paper].
+This page summarizes the evaluations of 29 protein targets for chimeric antigen receptor T cell therapy. Click  protein names for a detailed summary. Details of the evaluation criteria is described here [paper].
 
 <details>
   <summary>ALPP</summary>
@@ -71,6 +71,14 @@ cat(res, sep = '\n')
 </details>
 
 <details>
+  <summary>CD276</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/CD276.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
   <summary>CEACAM5</summary>
 ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
 res <- knitr::knit_child('cartcontent/scr/CEACAM5.Rmd', quiet = TRUE)
@@ -79,9 +87,9 @@ cat(res, sep = '\n')
 </details>
 
 <details>
-  <summary>CLDN18.2</summary>
+  <summary>CLDN18</summary>
 ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
-res <- knitr::knit_child('cartcontent/scr/CLDN18_2.Rmd', quiet = TRUE)
+res <- knitr::knit_child('cartcontent/scr/CLDN18.Rmd', quiet = TRUE)
 cat(res, sep = '\n')
 ```
 </details>
@@ -90,14 +98,6 @@ cat(res, sep = '\n')
   <summary>EGFR</summary>
 ```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
 res <- knitr::knit_child('cartcontent/scr/EGFR.Rmd', quiet = TRUE)
-cat(res, sep = '\n')
-```
-</details>
-
-<details>
-  <summary>EGFRvIII</summary>
-```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
-res <- knitr::knit_child('cartcontent/scr/EGFRvIII.Rmd', quiet = TRUE)
 cat(res, sep = '\n')
 ```
 </details>
