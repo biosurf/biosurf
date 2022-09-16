@@ -1,25 +1,3 @@
->sp|Q04609-10|FOLH1_HUMAN Isoform 10 of Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------MGGSAPPDSSWR
-GSLKVPYNVGPGFTGNFSTQKVKMHIHSTNEVTRIYNVIGTLRGAVEPDRYVILGGHRDSWVFGGIDPQSGAAVVHEIVR
-SFGTLKKEGWRPRRTILFASWDAEEFGLLGSTEWAEENSRLLQERGVAYINADSSIEGNYTLRVDCTPLMYSLVHNLTKE
-LKSPDEGFEGKSLYESWTKKSPSPEFSGMPRISKLGSGNDFEVFFQRLGIASGRARYTKNWETNKFSGYPLYHSVYETYE
-LVEKFYDPMFKYHLTVAQVRGGMVFELANSIVLPFDCRDYAVVLRKYADKIYSISMKHPQEMKTYSVSFDSLFSAVKNFT
-EIASKFSERLQDFDKSNPIVLRMMNDQLMFLERAFIDPLGLPDRPFYRHVIYAPSSHNKYAGESFPGIYDALFDIESKVD
-PSKAWGEVKRQIYVAAFTVQAAAETLSEVA
->tr|Q2VPJ0|Q2VPJ0_HUMAN FOLH1 protein (Fragment) OS=Homo sapiens OX=9606 GN=FOLH1 PE=2 SV=1
--------------------------------------------------------------------------------I
-PHLAGTEQNFQLAKQIQSQWKEFGLDSVELAHYDVLLSYPNKTHPNYISIINEDGNEIFNTSLFEPPPPGYENVSDIVPP
-FSAFSPQGMPEGDLVYVNYARTEDFFKLERDMKINCSGKIVIARYGKVFRGNKVKNAQLAGAKGVILYSDPADYFAPGVK
-SYPDGWNLPGGGVQRGNILNLNGAGDPLTPGYPANEYAYRRGIAEAVGLPSIPVHPIGYYDAQKLLEKMGGSAPPDSSWR
-GSLKVPYNVGPGFTGNFSTQKVKMHIHSTNEVTRIYNVIGTLRGAVEPDRYVILGGHRDSWVFGGIDPQSGAAVVHEIVR
-SFGTLKKEGWRPRRTILFASWDAEEFGLLGSTEWAEENSRLLQERGVAYINADSSIEGNYTLRVDCTPLMYSLVHNLTKE
-LKSPDEGFEGKSLYESWTKKSPSPEFSGMPRISKLGSGNDFEVFFQRLGIASGRARYTKNWETNKFSGYPLYHSVYETYE
-LVEKFYDPMFKYHLTVAQVRGGMVFELANSIVLPFDCRDYAVVLRKYADKIYSISMKHPQEMKTYSVSFDSLFSAVKNFT
-EIASKFSERLQDFDKSNPIVLRMMNDQLMFLERAFIDPLGLPDRPFYRHVIYAPSSHNKYAGESFPGIYDALFDIESKVD
-PSKAWGEVKRQIYVAAFTVQAAAETLSEVA
 >sp|Q04609-6|FOLH1_HUMAN Isoform PSMA' of Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1
 ---------------------------------------------------------MKAFLDELKAENIKKFLYNFTQI
 PHLAGTEQNFQLAKQIQSQWKEFGLDSVELAHYDVLLSYPNKTHPNYISIINEDGNEIFNTSLFEPPPPGYENVSDIVPP
@@ -30,9 +8,28 @@ SFGTLKKEGWRPRRTILFASWDAEEFGLLGSTEWAEENSRLLQERGVAYINADSSIEGNYTLRVDCTPLMYSLVHNLTKE
 LKSPDEGFEGKSLYESWTKKSPSPEFSGMPRISKLGSGNDFEVFFQRLGIASGRARYTKNWETNKFSGYPLYHSVYETYE
 LVEKFYDPMFKYHLTVAQVRGGMVFELANSIVLPFDCRDYAVVLRKYADKIYSISMKHPQEMKTYSVSFDSLFSAVKNFT
 EIASKFSERLQDFDKSNPIVLRMMNDQLMFLERAFIDPLGLPDRPFYRHVIYAPSSHNKYAGESFPGIYDALFDIESKVD
-PSKAWGEVKRQIYVAAFTVQAAAETLSEVA
+PSKAWGEVKRQIYVAAFTVQAAAETLSEVA--------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-------------------------------------------------------
+>sp|Q04609-10|FOLH1_HUMAN Isoform 10 of Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------MGGSAPPDSSWR
+GSLKVPYNVGPGFTGNFSTQKVKMHIHSTNEVTRIYNVIGTLRGAVEPDRYVILGGHRDSWVFGGIDPQSGAAVVHEIVR
+SFGTLKKEGWRPRRTILFASWDAEEFGLLGSTEWAEENSRLLQERGVAYINADSSIEGNYTLRVDCTPLMYSLVHNLTKE
+LKSPDEGFEGKSLYESWTKKSPSPEFSGMPRISKLGSGNDFEVFFQRLGIASGRARYTKNWETNKFSGYPLYHSVYETYE
+LVEKFYDPMFKYHLTVAQVRGGMVFELANSIVLPFDCRDYAVVLRKYADKIYSISMKHPQEMKTYSVSFDSLFSAVKNFT
+EIASKFSERLQDFDKSNPIVLRMMNDQLMFLERAFIDPLGLPDRPFYRHVIYAPSSHNKYAGESFPGIYDALFDIESKVD
+PSKAWGEVKRQIYVAAFTVQAAAETLSEVA--------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-------------------------------------------------------
 >sp|Q04609-7|FOLH1_HUMAN Isoform PSMA-7 of Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1
----------------MTAGSSYPLFLAAYACTGCLAERLGWFIKSSNEATNITPKHNMKAFLDELKAENIKKFLYNFTQI
+------------MTAGSSYPLFLAAYACTG---CLAERLGWFIKSSNEATNITPKHNMKAFLDELKAENIKKFLYNFTQI
 PHLAGTEQNFQLAKQIQSQWKEFGLDSVELAHYDVLLSYPNKTHPNYISIINEDGNEIFNTSLFEPPPPGYENVSDIVPP
 FSAFSPQGMPEGDLVYVNYARTEDFFKLERDMKINCSGKIVIARYGKVFRGNKVKNAQLAGAKGVILYSDPADYFAPGVK
 SYPDGWNLPGGGVQRGNILNLNGAGDPLTPGYPANEYAYRRGIAEAVGLPSIPVHPIGYYDAQKLLEKMGGSAPPDSSWR
@@ -41,9 +38,13 @@ SFGTLKKEGWRPRRTILFASWDAEEFGLLGSTEWAEENSRLLQERGVAYINADSSIEGNYTLRVDCTPLMYSLVHNLTKE
 LKSPDEGFEGKSLYESWTKKSPSPEFSGMPRISKLGSGNDFEVFFQRLGIASGRARYTKNWETNKFSGYPLYHSVYETYE
 LVEKFYDPMFKYHLTVAQVRGGMVFELANSIVLPFDCRDYAVVLRKYADKIYSISMKHPQEMKTYSVSFDSLFSAVKNFT
 EIASKFSERLQDFDKSNPIVLRMMNDQLMFLERAFIDPLGLPDRPFYRHVIYAPSSHNKYAGESFPGIYDALFDIESKVD
-PSKAWGEVKRQIYVAAFTVQAAAETLSEVA
+PSKAWGEVKRQIYVAAFTVQAAAETLSEVA--------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-------------------------------------------------------
 >sp|Q04609-9|FOLH1_HUMAN Isoform PSMA-9 of Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1
----------------MTAGSSYPLFLAAYACTGCLAERLGWFIKSSNEATNITPKHNMKAFLDELKAENIKKFLYNFTQI
+------------MTAGSSYPLFLAAYACTG---CLAERLGWFIKSSNEATNITPKHNMKAFLDELKAENIKKFLYNFTQI
 PHLAGTEQNFQLAKQIQSQWKEFGLDSVELAHYDVLLSYPNKTHPNYISIINEDGNEIFNTSLFEPPPPGYENVSDIVPP
 FSAFSPQGMPEGDLVYVNYARTEDFFKLERDMKINCSGKIVIARYGKVFRGNKVKNAQLAGAKGVILYSDPADYFAPGVK
 SYPDGWNLPGGGVQRGNILNLNGAGDPLTPGYPANEYAYRRGIAEAVGLPSIPVHPIGYYDAQKLLEKMGGSAPPDSSWR
@@ -52,18 +53,11 @@ SFGTLKKEGWRPRRTILFASWDAEEFGLLGSTEWAEENSRLLQERGVAYINADSSIEGNYTLRVDCTPLMYSLVHNLTKE
 LKSPDEGFEGKSLYESWTKKSPSPEFSGMPRISKLGSGNDFEVFFQRLGIASGRARYTKNWETNKFSGYPLYHSVYETYE
 LVEKFYDPMFKYHLTVAQVRGGMVFELANSIVLPFDCRDYAVVLRKYADKIYSISMKHPQEMKTYSVSFDSLFSAVKNFT
 EIASKFSERLQDFDKS-------------------------------KHVIYAPSSHNKYAGESFPGIYDALFDIESKVD
-PSKAWGEVKRQIYVAAFTVQAAAETLSEVA
->tr|E9PKM3|E9PKM3_HUMAN Glutamate carboxypeptidase 2 (Fragment) OS=Homo sapiens OX=9606 GN=FOLH1 PE=1 SV=1
+PSKAWGEVKRQIYVAAFTVQAAAETLSEVA--------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
----------------------------------------------------------------------MKAFLD----E
-LKAEN---IKKFLYN----------FTQIPHLA--GTEQNFQLAKQ---IQS-------QWK--EFG--------LDSVE
-LAH--YD-----------------------------------VLLSYPN-------------------------------
---------------------------------------------------------------------------------
-------------------------------
+-------------------------------------------------------
 >sp|Q04609|FOLH1_HUMAN Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1 PE=1 SV=1
 MWNLLHETDSAVATARRPRWLCAGALVLAGGFFLLGFLFGWFIKSSNEATNITPKHNMKAFLDELKAENIKKFLYNFTQI
 PHLAGTEQNFQLAKQIQSQWKEFGLDSVELAHYDVLLSYPNKTHPNYISIINEDGNEIFNTSLFEPPPPGYENVSDIVPP
@@ -74,7 +68,11 @@ SFGTLKKEGWRPRRTILFASWDAEEFGLLGSTEWAEENSRLLQERGVAYINADSSIEGNYTLRVDCTPLMYSLVHNLTKE
 LKSPDEGFEGKSLYESWTKKSPSPEFSGMPRISKLGSGNDFEVFFQRLGIASGRARYTKNWETNKFSGYPLYHSVYETYE
 LVEKFYDPMFKYHLTVAQVRGGMVFELANSIVLPFDCRDYAVVLRKYADKIYSISMKHPQEMKTYSVSFDSLFSAVKNFT
 EIASKFSERLQDFDKSNPIVLRMMNDQLMFLERAFIDPLGLPDRPFYRHVIYAPSSHNKYAGESFPGIYDALFDIESKVD
-PSKAWGEVKRQIYVAAFTVQAAAETLSEVA
+PSKAWGEVKRQIYVAAFTVQAAAETLSEVA--------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-------------------------------------------------------
 >sp|Q04609-8|FOLH1_HUMAN Isoform PSMA-8 of Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1
 MWNLLHETDSAVATARRPRWLCAGALVLAGGFFLLGFLFGWFIKSSNEATNITPKHNMKAFLDELKAENIKKFLYNFTQI
 PHLAGTEQNFQLAKQIQSQWKEFGLDSVELAHYDVLLSYPNKTHPNYISIINEDGNEIFNTSLFEPPPPGYENVSDIVPP
@@ -85,59 +83,53 @@ SFGTLKKEGWRPRRTILFASWDAEEFGLLGSTEWAEENSRLLQERGVAYINADSSIEGNYTLRVDCTPLMYSLVHNLTKE
 LKSPDEGFEGKSLYESWTKKSPSPEFSGMPRISKLGSGNDFEVFFQRLGIASGRARYTKNWETNKFSGYPLYHSVYETYE
 LVEKFYDPMFKYHLTVAQVRGGMVFELANSIVLPFDCRDYAVVLRKYADKIYSISMKHPQEMKTYSVSFDSLFSAVKNFT
 EIASKFSERLQDFDKS-------------------------------KHVIYAPSSHNKYAGESFPGIYDALFDIESKVD
-PSKAWGEVKRQIYVAAFTVQAAAETLSEVA
->sp|Q04609-3|FOLH1_HUMAN Isoform PSMA-3 of Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1
-MWNLLHETDSAVATARRPRWLCAGALVLAGGFFLLGFLFGWFIKSSNEATNITPKHNMKAFLDELKAENIKKFLYNFTQI
-PHLAGTEQNFQLAKQIQSQWKEFGLDSVELAHYDVLLSYPNKTHPNYISIINEDGNEIFNTSLFEPPPPGYENVSDIVPP
-FSAFSPQGMPEGDLVYVNYARTEDFFKLERDMKINCSGKIVIARYGKVFRGNKVKNAQLAGAKGVILYSDPADYFAPGVK
-SYPDGWNLPGGGVQRGNILNLNGAGDPLTPGYPANEYAYRRGIAEAVGLPSIPVHPIGYYDAQKLLEKMGGSAPPDSSWR
-GSLKVPYNVGPGFTGNFSTQKVKMHIHSTNEVTRIYNVIGTLRGAVEPDRYVILGGHRDSWVFGGIDPQSGAAVVHEIVR
-SFGTLKKEGWRPRRTILFASWDAEEFGLLGSTEWAEENSRLLQERGVAYINADSSIEGNYTLRVDCTPLMYSLVHNLTKE
-LKSPDEGFEGKSLYESWTKKSPSPEFSGMPRISKLGSGNDFEVFFQRLGIASGRARYTKNWETNKFSGYPLYHSVYETYE
-LVEKFYDPMFKYHLTVAQVRGGMVFELANSIVLPFDCRDYAVVLRKYADKIYSISMKHPQEMKTYSVSFDSLFSAVKNFT
-EIASKFSERLQDFDKS-------------------------------------MSSMLQAATTSMQGSHSQEFMMLC---
-----------LILKAKWTLPRPGEK-----
->tr|E9PI29|E9PI29_HUMAN Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1 PE=1 SV=1
+PSKAWGEVKRQIYVAAFTVQAAAETLSEVA--------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------------------------MWNLLHETDSAVATAR-------RPRWLCAGALVLAGG--------
--------------------------FFLLG----------FLF---VKVGKRN---------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-------------------------------
->tr|E9PLV0|E9PLV0_HUMAN Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1 PE=1 SV=1
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------------------------MWNLLHETDSAVATAR-------RPRWLCAGALVLAGG--------
--------------------------FFLLG----------FLF---VTEASLGTV-------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-------------------------------
->tr|E9PMK6|E9PMK6_HUMAN Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1 PE=1 SV=1
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------------------------MWNLLHETDSAVATAR-------RPRWLCAGALVLAGG--------
--------------------------FFLLG----------FLFGWFIKSSNEATNITPKHNMKAFLDELKAENIKKFL--
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-------------------------------
+-------------------------------------------------------
 >sp|Q04609-4|FOLH1_HUMAN Isoform PSMA-4 of Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
+-----------------------------------------------------------------------------MWN
+----------------------LLHETDSAVATARRPRWLCAGALVLAGGFFLLG-FLFGWFIKSSNEATNITPKHNMKA
+FLDELKAENIK---KFLYN---FTQIPHLAGTEQNFQLAKQIQSQWKEFG-LDSVELAHYDVLLSYPNKTHPNYISIINE
+--------DGNEIFNTSLFEPPPPGYENVSDIVPPFSA------FSPQGMPEG-------------------DLVYVNYA
+RTEDFFK-----------LERDMKINCSGKIVIAR----YGKVFRGNK--------------------------------
+-----------NML-------------------------------------IG-VELQRLLV------------------
+-FQV--------FL--FIQLDTMMHRSS----------------------------------------------------
 --------------------------------------------------------------------------------
-----------------------------------MWNLLHETDSAVATAR-------RPRWLCAGALVLAGG--------
--------------------------FFLLG----------FLFGWFIKSSNEATNITPKHNMKAFLDELKAENIKKFLYN
-FTQIPHLAGTEQNFQLAKQIQSQWKEFGLDSVELAHYDVLLSYPNKTHPNYISIINEDGNEIFNTSLFEPPPPGYENVSD
-IVPPFSAFSPQGMPEGDLVYVNYARTEDFFKLERDMKINCSGKIVIARYGKVFRGNKNMLIGVELQRLLVFQVFLFIQLD
-TMMHRSS-------------------------------------------------------------------------
-------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-------------------------------------------------------
+>tr|E9PKM3|E9PKM3_HUMAN Glutamate carboxypeptidase 2 (Fragment) OS=Homo sapiens OX=9606 GN=FOLH1 PE=1 SV=1
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-----------------------------------------------------------------------------MKA
+FLDELKAENIK---KFLYN---FTQIPHLAGTEQNFQLAKQIQSQWKEFG-LDSVELAHYDVLLSYPN------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-------------------------------------------------------
+>sp|Q04609-3|FOLH1_HUMAN Isoform PSMA-3 of Glutamate carboxypeptidase 2 OS=Homo sapiens OX=9606 GN=FOLH1
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-----------------------------------------------------------------------------MWN
+----------------------LLHETDSAVATARRPRWLCAGALVLAGGFFLLG-FLFGWFIKSSNEATNITPKHNMKA
+FLDELKAENIK---KFLYN---FTQIPHLAGTEQNFQLAKQIQSQWKEFG-LDSVELAHYDVLLSYPNKTHPNYISIINE
+--------DGNEIFNTSLFEPPPPGYENVSDIVPPFSA------FSPQGMPEG-------------------DLVYVNYA
+RTEDFFK-----------LERDMKINCSGKIVIAR----YGKVFRGNKVKNAQLAGAKGVILYSDPADYFAPGVKSYPDG
+WNLPGGGVQRGNILNLNGAGDPLTPGYPANEYAYRRGIAEAVGLPSIPVHPIGYYDAQKLLEKMGGSAPPDSSWRGSLKV
+PYNVG-----PGFTGNFSTQKVKMHIHSTNEVTRIYNVIGTLRGAVEPDRYVILGGHRDSWVFGGIDPQSGAAVVHEIVR
+SFGTLKKEGWRPRRTILFASWDAEEFGLLGSTEWAEENSRLLQERGVAYINADSSIEGNYTLRVDCTPLMYSLVHNLTKE
+LKSPDEGFEGKSLYESWTKKSPSPEFSGMPRISKLGSGNDFEVFFQRLGIASGRARYTKNWETNKFSGYPLYHSVYETYE
+LVEKFYDPMFKYHLTVAQVRGGMVFELANSIVLPFDCRDYAVVLRKYADKIYSISMKHPQEMKTYSVSFDSLFSAVKNFT
+EIASKFSERLQDFDKSMSSMLQAATTSMQGSHSQEFMMLCLILKAKWTLPRPGEK
