@@ -107,4 +107,4 @@ for(i in 1:length(target_list)) {
   msa_function(hgnc = name)
 }
 
-
+msa_function("CD7")

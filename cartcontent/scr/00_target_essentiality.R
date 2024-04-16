@@ -18,7 +18,7 @@ targets <- read.table("cartcontent/data/targets_tcga.txt", header = F, sep = "")
 
 eh <- ExperimentHub()
 query(eh, "depmap")
-crispr <- eh[["EH6118"]] # import of the most recent crispr dataset, containing the essentiality data. 
+crispr <- eh[["EH6118"]] # import the most recent crispr dataset, containing the essentiality data. 
 # Note that the most recent crispr dataset can be automatically loaded into
 # R by using the depmap_crispr() function.
 

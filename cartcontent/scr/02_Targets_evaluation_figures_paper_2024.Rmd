@@ -1,0 +1,324 @@
+---
+title: "Evaluation of targets for paper"
+author: "Giorgia Moranzoni"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r}
+rm(list = ls())
+library(tidyverse, quietly = T, verbose = F)
+# library(tibble)
+# library(janitor)
+library(wesanderson, quietly = T, verbose = F)
+# library(biomaRt)
+library(patchwork, quietly = T, verbose = F)
+# library(depmap)
+# library(Ipaper)
+library(tidysq, quietly = T, verbose = F) #read fasta file
+library(readxl, quietly = T, verbose = F)
+library(IRanges, quietly = T, verbose = F)
+
+source("00_functions_2024.R")
+
+enst_expr <- read_rds("../results/01_wrangled_data/01_enst_expr.rds")
+ensg_expr <- read_rds("../results/01_wrangled_data/01_ensg_expr.rds")
+load(file = "../data/gte.Rdata") # transcripts for each gene + genomic coordinates
+pheno_nh <- read_rds("../results/01_wrangled_data/01_pheno_no_haematological_cancers.rds")
+hgnc_from_ensembl <- readRDS(file = "../results/00_hgnc_from_ensembl_biomart.rds")
+
+
+list_of_categories <- unique(pheno_nh$TCGA_GTEX_main_category)
+
+# # find the gene in ensg_exp with the highest number of isoforms in order to
+# # decide the dimensions of the boxplot
+# 
+# l <- vector(mode = "numeric", length = nrow(ensg_expr))
+# for(i in 1:nrow(ensg_expr)) {
+#   ensg <- rownames(ensg_expr)[i]
+#   l[i] <- length(names(gte_list[[ensg]]))
+#   
+#   maxl <- (max(l))
+#   
+# }
+
+```
+
+## EGFR
+### Isoforms expression
+```{r, fig.width = 50, fig.height = 25}
+# to view the categories, print list_of_categories
+# import transcript data from ensembl website --> I want to keep only the protein coding transcripts
+EGFR_transcripts <- read_xlsx("../data/isoforms/transcripts_EGFR.xlsx", 
+                             col_names = TRUE, skip = 1) # skip = 1 is necessary to have colnames
+
+# select the tissues and cancer of interest and find isoforms expression in those tissues
+EGFR_isoforms <- isoforms_selected_tissues(hgnc = "EGFR", TCGA_interest = c("thyroid carcinoma", "lung squamous cell carcinoma", "head & neck squamous cell carcinoma"), GTEX_interest = c("thyroid", "skin", "ovary", "breast"), gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = EGFR_transcripts)
+
+# plot the tcga and gtex of interest
+lt <- EGFR_isoforms$gtex$enst_id %>% unique() %>% length()
+palette <- wes_palette("FantasticFox1", lt, "continuous")
+
+plot_tcga <- ggplot(EGFR_isoforms$tcga,
+                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
+    scale_fill_manual(values = palette) +
+    ylim(0, max(EGFR_isoforms$tcga$expression_level)) +
+    theme_light() +
+    xlab(" ") +
+    ylab("Log2(TPM)") +
+    theme(axis.text.x = element_text(angle = 40, hjust = 1, size = 35),
+          axis.text.y = element_text(size = 30),
+          axis.title = element_text(size = 30),
+          plot.title = element_text(size = 50),
+          legend.text = element_text(size = 38),
+          legend.title = element_text(size = 50),
+          plot.margin = unit(c(1,1,1,10), "cm"),
+          legend.position = "bottom") +
+    ggtitle(label = "EGFR expression for TCGA cancers")
+
+  plot_gtex <- ggplot(EGFR_isoforms$gtex,
+                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
+    scale_fill_manual(values = palette) +
+    ylim(0, max(EGFR_isoforms$gtex$expression_level)) +
+    theme_light() +
+    xlab(" ") +
+    ylab("Log2(TPM)") +
+    theme(axis.text.x = element_text(angle = 40, hjust = 1, size = 35),
+          axis.text.y = element_text(size = 30),
+          axis.title = element_text(size = 30),
+          plot.title = element_text(size = 50),
+          # legend.text = element_text(size = 30),
+          # legend.title = element_text(size = 35),
+          plot.margin = unit(c(1,6,1,4), "cm"),
+          legend.position = "none") +
+    ggtitle(label = paste("EGFR expression for GTEX  normal tissues"))
+
+  (plot <- plot_tcga + plot_gtex)
+
+  ggsave(filename = "EGFR_isoforms_expression_selected_tissues_plot.pdf", plot = plot, device = "pdf",
+         path = "../results/plots/isoform_expression/",
+         width = 120, height = 55, units = "cm", limitsize = F)
+
+```
+### Protein properties
+```{r, fig.width = 10, fig.height = 4}
+deeptmhmm_output <- read.table("../results/Deeptmhmm/canonical_and_isoforms/EGFR", fill = T)
+# import object (created using the msa script)
+aligned_sequences <- read_fasta(paste("../results/aligned_sequences/EGFR_msa.txt"))
+
+(EGFR_topology <- protein_properties(hgnc = "EGFR", hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = EGFR_transcripts, deeptmhmm_output = deeptmhmm_output, aligned_sequences = aligned_sequences))
+
+```
+
+
+### Cellular localization
+
+### Epitope colocalization
+
+
+## CD7
+### Isoforms expression
+```{r, fig.width = 50, fig.height = 25}
+# to view the categories, print list_of_categories
+# import transcript data from ensembl website --> I want to keep only the protein coding transcripts
+CD7_transcripts <- read_xlsx("../data/isoforms/transcripts_CD7.xlsx",
+                             col_names = TRUE, skip = 1) # skip = 1 is necessary to have colnames
+
+# select the tissues and cancer of interest and find isoforms expression in those tissues
+CD7_isoforms <- isoforms_selected_tissues(hgnc = "CD7", TCGA_interest = c("thyroid carcinoma", "lung squamous cell carcinoma", "head & neck squamous cell carcinoma"), GTEX_interest = c("thyroid", "skin", "ovary", "breast"), gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = CD7_transcripts)
+
+# plot the tcga and gtex of interest
+lt <- CD7_isoforms$gtex$enst_id %>% unique() %>% length()
+palette <- wes_palette("FantasticFox1", lt, "continuous")
+
+plot_tcga <- ggplot(CD7_isoforms$tcga,
+                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
+    scale_fill_manual(values = palette) +
+    ylim(0, max(CD7_isoforms$tcga$expression_level)) +
+    theme_light() +
+    xlab(" ") +
+    ylab("Log2(TPM)") +
+    theme(axis.text.x = element_text(angle = 40, hjust = 1, size = 35),
+          axis.text.y = element_text(size = 30),
+          axis.title = element_text(size = 30),
+          plot.title = element_text(size = 50),
+          legend.text = element_text(size = 30),
+          legend.title = element_text(size = 35),
+          plot.margin = unit(c(1,10,1,10), "cm"),
+          legend.position = "bottom") +
+    ggtitle(label = "CD7 expression for TCGA cancers")
+
+  plot_gtex <- ggplot(CD7_isoforms$gtex,
+                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
+    scale_fill_manual(values = palette) +
+    ylim(0, max(CD7_isoforms$gtex$expression_level)) +
+    theme_light() +
+    xlab(" ") +
+    ylab("Log2(TPM)") +
+    theme(axis.text.x = element_text(angle = 40, hjust = 1, size = 35),
+          axis.text.y = element_text(size = 30),
+          axis.title = element_text(size = 30),
+          plot.title = element_text(size = 50),
+          # legend.text = element_text(size = 30),
+          # legend.title = element_text(size = 35),
+          plot.margin = unit(c(1,6,1,4), "cm"),
+          legend.position = "none") +
+    ggtitle(label = paste("CD7 expression for GTEX  normal tissues"))
+
+  (plot <- plot_tcga + plot_gtex)
+
+  ggsave(filename = "CD7_isoforms_expression_selected_tissues_plot.pdf", plot = plot, device = "pdf",
+         path = "../results/plots/isoform_expression/",
+         width = 120, height = 55, units = "cm", limitsize = F)
+
+```
+### Protein properties
+```{r, fig.width = 10, fig.height = 3}
+deeptmhmm_output <- read.table("../results/Deeptmhmm/canonical_and_isoforms/CD7", fill = T)
+# import object (created using the msa script)
+aligned_sequences <- read_fasta(paste("../results/aligned_sequences/CD7_msa.txt"))
+
+(CD7_topology <- protein_properties(hgnc = "CD7", hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = CD7_transcripts, deeptmhmm_output = deeptmhmm_output, aligned_sequences = aligned_sequences))
+
+```
+
+## MSLN
+### Isoforms expression
+```{r, fig.width = 50, fig.height = 25}
+# to view the categories, print list_of_categories
+# import transcript data from ensembl website --> I want to keep only the protein coding transcripts
+MSLN_transcripts <- read_xlsx("../data/isoforms/transcripts_MSLN.xlsx",
+                             col_names = TRUE, skip = 1) # skip = 1 is necessary to have colnames
+
+# select the tissues and cancer of interest and find isoforms expression in those tissues
+MSLN_isoforms <- isoforms_selected_tissues(hgnc = "MSLN", TCGA_interest = c("thyroid carcinoma", "lung squamous cell carcinoma", "head & neck squamous cell carcinoma"), GTEX_interest = c("thyroid", "skin", "ovary", "breast"), gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = MSLN_transcripts)
+
+# plot the tcga and gtex of interest
+lt <- MSLN_isoforms$gtex$enst_id %>% unique() %>% length()
+palette <- wes_palette("FantasticFox1", lt, "continuous")
+
+plot_tcga <- ggplot(MSLN_isoforms$tcga,
+                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
+    scale_fill_manual(values = palette) +
+    ylim(0, max(MSLN_isoforms$tcga$expression_level)) +
+    theme_light() +
+    xlab(" ") +
+    ylab("Log2(TPM)") +
+    theme(axis.text.x = element_text(angle = 40, hjust = 1, size = 35),
+          axis.text.y = element_text(size = 30),
+          axis.title = element_text(size = 30),
+          plot.title = element_text(size = 50),
+          legend.text = element_text(size = 30),
+          legend.title = element_text(size = 32),
+          plot.margin = unit(c(1,6,1,10), "cm"),
+          legend.position = "bottom") +
+    ggtitle(label = "MSLN expression for TCGA cancers")
+
+  plot_gtex <- ggplot(MSLN_isoforms$gtex,
+                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
+    scale_fill_manual(values = palette) +
+    ylim(0, max(MSLN_isoforms$gtex$expression_level)) +
+    theme_light() +
+    xlab(" ") +
+    ylab("Log2(TPM)") +
+    theme(axis.text.x = element_text(angle = 40, hjust = 1, size = 35),
+          axis.text.y = element_text(size = 30),
+          axis.title = element_text(size = 30),
+          plot.title = element_text(size = 50),
+          # legend.text = element_text(size = 30),
+          # legend.title = element_text(size = 35),
+          plot.margin = unit(c(1,6,1,4), "cm"),
+          legend.position = "none") +
+    ggtitle(label = paste("MSLN expression for GTEX  normal tissues"))
+
+  (plot <- plot_tcga + plot_gtex)
+
+  ggsave(filename = "MSLN_isoforms_expression_selected_tissues_plot.pdf", plot = plot, device = "pdf",
+         path = "../results/plots/isoform_expression/",
+         width = 120, height = 55, units = "cm", limitsize = F)
+
+```
+
+### Protein properties
+```{r, fig.width = 10, fig.height = 4}
+deeptmhmm_output <- read.table("../results/Deeptmhmm/canonical_and_isoforms/MSLN", fill = T)
+# import object (created using the msa script)
+aligned_sequences <- read_fasta("../results/aligned_sequences/MSLN_msa.txt")
+
+(MSLN_topology <- protein_properties(hgnc = "MSLN", hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = MSLN_transcripts, deeptmhmm_output = deeptmhmm_output, aligned_sequences = aligned_sequences))
+
+```
+
+## CD19
+### Isoforms expression
+```{r, fig.width = 50, fig.height = 25}
+# to view the categories, print list_of_categories
+# import transcript data from ensembl website --> I want to keep only the protein coding transcripts
+CD19_transcripts <- read_xlsx("../data/isoforms/transcripts_CD19.xlsx",
+                             col_names = TRUE, skip = 1) # skip = 1 is necessary to have colnames
+
+# select the tissues and cancer of interest and find isoforms expression in those tissues
+CD19_isoforms <- isoforms_selected_tissues(hgnc = "CD19", TCGA_interest = c("thyroid carcinoma", "lung squamous cell carcinoma", "head & neck squamous cell carcinoma"), GTEX_interest = c("thyroid", "skin", "ovary", "breast"), gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = CD19_transcripts)
+
+# plot the tcga and gtex of interest
+lt <- CD19_isoforms$gtex$enst_id %>% unique() %>% length()
+palette <- wes_palette("FantasticFox1", lt, "continuous")
+
+plot_tcga <- ggplot(CD19_isoforms$tcga,
+                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
+    scale_fill_manual(values = palette) +
+    ylim(0, max(CD19_isoforms$tcga$expression_level)) +
+    theme_light() +
+    xlab(" ") +
+    ylab("Log2(TPM)") +
+    theme(axis.text.x = element_text(angle = 40, hjust = 1, size = 35),
+          axis.text.y = element_text(size = 30),
+          axis.title = element_text(size = 30),
+          plot.title = element_text(size = 50),
+          legend.text = element_text(size = 30),
+          legend.title = element_text(size = 32),
+          plot.margin = unit(c(1,6,1,10), "cm"),
+          legend.position = "bottom") +
+    ggtitle(label = "CD19 expression for TCGA cancers")
+
+  plot_gtex <- ggplot(CD19_isoforms$gtex,
+                      mapping = aes(x = category, y = expression_level, fill = enst_id)) +
+    geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
+    scale_fill_manual(values = palette) +
+    ylim(0, max(CD19_isoforms$gtex$expression_level)) +
+    theme_light() +
+    xlab(" ") +
+    ylab("Log2(TPM)") +
+    theme(axis.text.x = element_text(angle = 40, hjust = 1, size = 35),
+          axis.text.y = element_text(size = 30),
+          axis.title = element_text(size = 30),
+          plot.title = element_text(size = 50),
+          # legend.text = element_text(size = 30),
+          # legend.title = element_text(size = 35),
+          plot.margin = unit(c(1,6,1,4), "cm"),
+          legend.position = "none") +
+    ggtitle(label = paste("CD19 expression for GTEX  normal tissues"))
+
+  (plot <- plot_tcga + plot_gtex)
+
+  ggsave(filename = "CD19_isoforms_expression_selected_tissues_plot.pdf", plot = plot, device = "pdf",
+         path = "../results/plots/isoform_expression/",
+         width = 120, height = 55, units = "cm", limitsize = F)
+
+```
+### Protein properties
+```{r, fig.width = 10, fig.height = 2}
+deeptmhmm_output <- read.table("../results/Deeptmhmm/canonical_and_isoforms/CD19", fill = T)
+# import object (created using the msa script)
+aligned_sequences <- read_fasta("../results/aligned_sequences/CD19_msa.txt")
+
+(CD19_topology <- protein_properties(hgnc = "CD19", hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = CD19_transcripts, deeptmhmm_output = deeptmhmm_output, aligned_sequences = aligned_sequences))
+
+```

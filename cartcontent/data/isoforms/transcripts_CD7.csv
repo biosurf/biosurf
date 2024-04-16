@@ -1,0 +1,8 @@
+"Transcript ID","Name","bp","Protein","Translation ID","Biotype","CCDS","UniProt Match","RefSeq Match","Flags"
+"ENST00000312648.8","CD7-201","1284","240aa","ENSP00000312027.3"," Protein coding","CCDS11807","P09564 Q29VG3","NM_006137.7","MANE Select, Ensembl Canonical, GENCODE basic, APPRIS  P2, TSL:1, "
+"ENST00000584284.5","CD7-207","2021","221aa","ENSP00000463612.1"," Protein coding","","J3QLM0","-","GENCODE basic, APPRIS  ALT2, TSL:1, "
+"ENST00000583376.1","CD7-206","1659","140aa","ENSP00000463489.1"," Protein coding","","J3QLC7","-","GENCODE basic, TSL:1, "
+"ENST00000578509.1","CD7-202","925","121aa","ENSP00000464565.1"," Protein coding","","J3QS78","-","GENCODE basic, TSL:3, "
+"ENST00000582480.1","CD7-205","564","160aa","ENSP00000464182.1"," Protein coding","","J3QRF1","-","TSL:4, CDS 3' incomplete, "
+"ENST00000581434.1","CD7-203","572","35aa","ENSP00000464546.1"," Nonsense mediated decay","","J3QS65","-","TSL:3, "
+"ENST00000581744.1","CD7-204","990","No protein","-"," Retained intron","","-","-","TSL:2, "

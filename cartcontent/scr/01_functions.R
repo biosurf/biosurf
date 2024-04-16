@@ -194,7 +194,7 @@ boxplot_isoforms_all_tissues <- function(hgnc) {
 
 # -------------------------------------------------------------------------------------------------
 # PLOT OF PROTEIN PROPERTIES
-plot_function <- function(hgnc) {
+plot_function <- function(hgnc) { 
   hgnc_from_ensembl <- readRDS(file = "cartcontent/results/00_hgnc_from_ensembl_biomart.rds")
   
   #retrieve the ensembl gene ID from the hugo gene symbol 
@@ -264,7 +264,7 @@ plot_function <- function(hgnc) {
   aligned_sequences <- read_fasta(paste("cartcontent/results/aligned_sequences/", hgnc, "_msa.txt", sep = ""))
   # wrangle to improve view 
   aligned_sequences <- aligned_sequences %>% 
-    separate(., col = "name", into = c(NA, "name", NA), sep = "\\|")
+    tidyr::separate(., col = "name", into = c(NA, "name", NA), sep = "\\|")
   
   aligned_sequences <- full_join(aligned_sequences, deeptmhmm_output_ensembl, "name") %>% 
     dplyr::select(-prediction) %>% na.omit()
