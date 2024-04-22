@@ -150,7 +150,7 @@ isoforms_selected_tissues <- function(hgnc, TCGA_interest, GTEX_interest, gte_li
      names()
   
   # list of tissues/cancers (categories) to which the samples belong
-  list_of_categories <- unique(pheno_nh$TCGA_GTEX_main_category)
+  list_of_categories <- unique(pheno$TCGA_GTEX_main_category)
 
   # eliminate the version number from transcripts
   ensembl_table <- ensembl_table %>% separate(., col = `Transcript ID`, into = c("transcript", NA), sep = "\\.")
@@ -176,7 +176,7 @@ isoforms_selected_tissues <- function(hgnc, TCGA_interest, GTEX_interest, gte_li
     pivot_longer(., cols = colnames(enst_exp_lev)[-1],
                  names_to = "sample", values_to = "expression_level")
 
-  enst_exp_category_tcga <- full_join(enst_exp_lev, pheno_nh, by = "sample") %>%
+  enst_exp_category_tcga <- full_join(enst_exp_lev, pheno, by = "sample") %>%
     filter(dataset == "tcga") %>%
     dplyr::select(-(dataset)) # the result is a tibble with the transcript on the rows, while on the columns
   # there is the expression level of each transcript in each category/sample
@@ -184,7 +184,7 @@ isoforms_selected_tissues <- function(hgnc, TCGA_interest, GTEX_interest, gte_li
   enst_exp_category_tcga <- enst_exp_category_tcga %>%
     filter(TCGA_GTEX_main_category %in% TCGA_interest)
 
-  enst_exp_category_gtex <- full_join(enst_exp_lev, pheno_nh, by = "sample") %>%
+  enst_exp_category_gtex <- full_join(enst_exp_lev, pheno, by = "sample") %>%
     filter(dataset == "gtex") %>%
     dplyr::select(-(dataset)) # the result is a tibble with the transcript on the rows, while on the columns
   # there is the expression level of each transcript in each category/sample

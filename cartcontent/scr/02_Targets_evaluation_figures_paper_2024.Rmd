@@ -25,10 +25,12 @@ enst_expr <- read_rds("../results/01_wrangled_data/01_enst_expr.rds")
 ensg_expr <- read_rds("../results/01_wrangled_data/01_ensg_expr.rds")
 load(file = "../data/gte.Rdata") # transcripts for each gene + genomic coordinates
 pheno_nh <- read_rds("../results/01_wrangled_data/01_pheno_no_haematological_cancers.rds")
+pheno <- read_rds("../data/pheno.rds")
 hgnc_from_ensembl <- readRDS(file = "../results/00_hgnc_from_ensembl_biomart.rds")
 
 
-list_of_categories <- unique(pheno_nh$TCGA_GTEX_main_category)
+list_of_categories_nh <- unique(pheno_nh$TCGA_GTEX_main_category)
+list_of_categories <- unique(pheno$TCGA_GTEX_main_category)
 
 # # find the gene in ensg_exp with the highest number of isoforms in order to
 # # decide the dimensions of the boxplot
@@ -41,7 +43,7 @@ list_of_categories <- unique(pheno_nh$TCGA_GTEX_main_category)
 #   maxl <- (max(l))
 #   
 # }
-
+list_of_categories
 ```
 
 ## EGFR
@@ -53,7 +55,7 @@ EGFR_transcripts <- read_xlsx("../data/isoforms/transcripts_EGFR.xlsx",
                              col_names = TRUE, skip = 1) # skip = 1 is necessary to have colnames
 
 # select the tissues and cancer of interest and find isoforms expression in those tissues
-EGFR_isoforms <- isoforms_selected_tissues(hgnc = "EGFR", TCGA_interest = c("thyroid carcinoma", "lung squamous cell carcinoma", "head & neck squamous cell carcinoma"), GTEX_interest = c("thyroid", "skin", "ovary", "breast"), gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = EGFR_transcripts)
+EGFR_isoforms <- isoforms_selected_tissues(hgnc = "EGFR", TCGA_interest = c("glioblastoma multiforme", "lung squamous cell carcinoma", "lung adenocarcinoma", "breast invasive carcinoma", "stomach adenocarcinoma", "liver hepatocellular carcinoma"), GTEX_interest = c("heart", "kidney", "liver", "lung"), gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = EGFR_transcripts)
 
 # plot the tcga and gtex of interest
 lt <- EGFR_isoforms$gtex$enst_id %>% unique() %>% length()
@@ -81,7 +83,7 @@ plot_tcga <- ggplot(EGFR_isoforms$tcga,
                       mapping = aes(x = category, y = expression_level, fill = enst_id)) +
     geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
     scale_fill_manual(values = palette) +
-    ylim(0, max(EGFR_isoforms$gtex$expression_level)) +
+    ylim(0, max(EGFR_isoforms$tcga$expression_level)) +
     theme_light() +
     xlab(" ") +
     ylab("Log2(TPM)") +
@@ -127,8 +129,9 @@ CD7_transcripts <- read_xlsx("../data/isoforms/transcripts_CD7.xlsx",
                              col_names = TRUE, skip = 1) # skip = 1 is necessary to have colnames
 
 # select the tissues and cancer of interest and find isoforms expression in those tissues
-CD7_isoforms <- isoforms_selected_tissues(hgnc = "CD7", TCGA_interest = c("thyroid carcinoma", "lung squamous cell carcinoma", "head & neck squamous cell carcinoma"), GTEX_interest = c("thyroid", "skin", "ovary", "breast"), gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = CD7_transcripts)
+CD7_isoforms <- isoforms_selected_tissues(hgnc = "CD7", TCGA_interest = c("acute myeloid leukemia", "diffuse large b-cell lymphoma"), GTEX_interest = c("lung", "small intestine", "spleen", "stomach"), gte_list = gte_list, pheno = pheno, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = CD7_transcripts)
 
+# (plot <- boxplot_isoforms_all_tissues(hgnc = "CD7", gte_list = gte_list, pheno = pheno, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl)) 
 # plot the tcga and gtex of interest
 lt <- CD7_isoforms$gtex$enst_id %>% unique() %>% length()
 palette <- wes_palette("FantasticFox1", lt, "continuous")
@@ -155,7 +158,7 @@ plot_tcga <- ggplot(CD7_isoforms$tcga,
                       mapping = aes(x = category, y = expression_level, fill = enst_id)) +
     geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
     scale_fill_manual(values = palette) +
-    ylim(0, max(CD7_isoforms$gtex$expression_level)) +
+    ylim(0, max(CD7_isoforms$tcga$expression_level)) +
     theme_light() +
     xlab(" ") +
     ylab("Log2(TPM)") +
@@ -195,7 +198,8 @@ MSLN_transcripts <- read_xlsx("../data/isoforms/transcripts_MSLN.xlsx",
                              col_names = TRUE, skip = 1) # skip = 1 is necessary to have colnames
 
 # select the tissues and cancer of interest and find isoforms expression in those tissues
-MSLN_isoforms <- isoforms_selected_tissues(hgnc = "MSLN", TCGA_interest = c("thyroid carcinoma", "lung squamous cell carcinoma", "head & neck squamous cell carcinoma"), GTEX_interest = c("thyroid", "skin", "ovary", "breast"), gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = MSLN_transcripts)
+MSLN_isoforms <- isoforms_selected_tissues(hgnc = "MSLN", TCGA_interest = c("lung squamous cell carcinoma", "mesothelioma", "colon adenocarcinoma", "rectum adenocarcinoma", "pancreatic adenocarcinoma", "ovarian serous cystadenocarcinoma", "stomach adenocarcinoma", "cholangiocarcinoma", "cervical & endocervical cancer", "uterine corpus endometrioid carcinoma", "breast invasive carcinoma"), GTEX_interest = c("lung", "kidney", "uterus", "fallopian tube", "heart"), gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = MSLN_transcripts)
+# (plot <- boxplot_isoforms_all_tissues(hgnc = "MSLN", gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl))
 
 # plot the tcga and gtex of interest
 lt <- MSLN_isoforms$gtex$enst_id %>% unique() %>% length()
@@ -223,7 +227,7 @@ plot_tcga <- ggplot(MSLN_isoforms$tcga,
                       mapping = aes(x = category, y = expression_level, fill = enst_id)) +
     geom_boxplot(alpha = 0.9, outlier.shape = NA, width = 0.9) +
     scale_fill_manual(values = palette) +
-    ylim(0, max(MSLN_isoforms$gtex$expression_level)) +
+    ylim(0, max(MSLN_isoforms$tcga$expression_level)) +
     theme_light() +
     xlab(" ") +
     ylab("Log2(TPM)") +
@@ -237,11 +241,11 @@ plot_tcga <- ggplot(MSLN_isoforms$tcga,
           legend.position = "none") +
     ggtitle(label = paste("MSLN expression for GTEX  normal tissues"))
 
-  (plot <- plot_tcga + plot_gtex)
+  (plot <- plot_tcga + plot_gtex +  plot_layout(widths = c(2, 1)))
 
   ggsave(filename = "MSLN_isoforms_expression_selected_tissues_plot.pdf", plot = plot, device = "pdf",
          path = "../results/plots/isoform_expression/",
-         width = 120, height = 55, units = "cm", limitsize = F)
+         width = 140, height = 55, units = "cm", limitsize = F)
 
 ```
 
@@ -264,7 +268,9 @@ CD19_transcripts <- read_xlsx("../data/isoforms/transcripts_CD19.xlsx",
                              col_names = TRUE, skip = 1) # skip = 1 is necessary to have colnames
 
 # select the tissues and cancer of interest and find isoforms expression in those tissues
-CD19_isoforms <- isoforms_selected_tissues(hgnc = "CD19", TCGA_interest = c("thyroid carcinoma", "lung squamous cell carcinoma", "head & neck squamous cell carcinoma"), GTEX_interest = c("thyroid", "skin", "ovary", "breast"), gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = CD19_transcripts)
+CD19_isoforms <- isoforms_selected_tissues(hgnc = "CD19", TCGA_interest = c("acute myeloid leukemia", "diffuse large b-cell lymphoma", "glioblastoma multiforme", "uveal melanoma", "pheochromocytoma & paraganglioma", "adrenocortical cancer", "thyroid carcinoma", "breast invasive carcinoma", "lung squamous cell carcinoma", "lung adenocarcinoma", "sarcoma", "pancreatic adenocarcinoma"), GTEX_interest = c("small intestine", "spleen", "stomach", "testis"), gte_list = gte_list, pheno = pheno_nh, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = CD19_transcripts)
+
+# (plot <- boxplot_isoforms_all_tissues(hgnc = "CD19", gte_list = gte_list, pheno = pheno, enst_expr = enst_expr, hgnc_from_ensembl = hgnc_from_ensembl))
 
 # plot the tcga and gtex of interest
 lt <- CD19_isoforms$gtex$enst_id %>% unique() %>% length()
@@ -306,7 +312,7 @@ plot_tcga <- ggplot(CD19_isoforms$tcga,
           legend.position = "none") +
     ggtitle(label = paste("CD19 expression for GTEX  normal tissues"))
 
-  (plot <- plot_tcga + plot_gtex)
+  (plot <- plot_tcga + plot_gtex + plot_layout(widths = c(2, 1)))
 
   ggsave(filename = "CD19_isoforms_expression_selected_tissues_plot.pdf", plot = plot, device = "pdf",
          path = "../results/plots/isoform_expression/",
