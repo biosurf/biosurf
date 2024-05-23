@@ -8,6 +8,7 @@ output: html_document
 ```{r}
 rm(list = ls())
 library(tidyverse, quietly = T, verbose = F)
+library(stringr)
 # library(tibble)
 # library(janitor)
 library(wesanderson, quietly = T, verbose = F)
@@ -18,6 +19,7 @@ library(patchwork, quietly = T, verbose = F)
 library(tidysq, quietly = T, verbose = F) #read fasta file
 library(readxl, quietly = T, verbose = F)
 library(IRanges, quietly = T, verbose = F)
+library(pheatmap)
 
 source("00_functions_2024.R")
 
@@ -43,8 +45,15 @@ list_of_categories <- unique(pheno$TCGA_GTEX_main_category)
 #   maxl <- (max(l))
 #   
 # }
-list_of_categories
 ```
+For each target we want to evaluate the following: 
+<ul>
+  <li>Expression in cancer and healthy tissue of the target variants.</li>
+  <li>Protein topology of the different variants. </li>
+  <li>Cellular localization of the variants.</li>
+  <li>Epitope colocalization in other proteins. </li>
+</ul> 
+
 
 ## EGFR
 ### Isoforms expression
@@ -116,6 +125,38 @@ aligned_sequences <- read_fasta(paste("../results/aligned_sequences/EGFR_msa.txt
 
 
 ### Cellular localization
+Import the table coming from DeepLoc2.
+Delete the variants that we should not be considering (we keep the same as before, that should be the protein coding).
+Make a heatmap with variant name on the rows and localization in the columns, colored by probability.
+
+```{r, fig.width = 8, fig.height = 4}
+EGFR_deeploc <- read_csv(file = "../results/DeepLoc/EGFR_with_variants.csv")
+
+# remove non-relevant columns 
+EGFR_deeploc <- EGFR_deeploc %>% select(-Localizations, -Signals)
+
+# filter out the variants that we don't need (based on what we used in the previous analyses)
+keep <- EGFR_transcripts$`UniProt Match` %>% str_subset(pattern = "^-$", negate = TRUE)
+
+EGFR_deeploc <- EGFR_deeploc %>% filter(str_detect(Protein_ID, paste(keep, collapse = "|"))) %>%
+  mutate(Protein_ID = str_extract(Protein_ID, "(?<=_)[^_]+_[^_]+")) %>%
+  separate(Protein_ID, into = c("Protein_ID", NA), sep = "_")
+
+# make heatmap with DeepLoc2 probabilities
+# add the ensemble IDs to the EGFR_deeploc dataframe
+
+ensg <- EGFR_transcripts %>% select(`Transcript ID`, `UniProt Match`) %>% 
+  separate(., col = `Transcript ID`, into = c("transcript", NA), sep = "\\.")
+
+EGFR_deeploc <- ensg %>% right_join(., EGFR_deeploc, by = c("UniProt Match" = "Protein_ID"))
+
+EGFR_heatmap <- EGFR_deeploc %>% column_to_rownames("transcript") %>% select(-`UniProt Match`)
+
+pheatmap(EGFR_heatmap,
+         cluster_cols = F, cluster_rows = F)
+         
+```
+
 
 ### Epitope colocalization
 
@@ -189,6 +230,39 @@ aligned_sequences <- read_fasta(paste("../results/aligned_sequences/CD7_msa.txt"
 
 ```
 
+### Cellular localization
+
+```{r, fig.width = 8, fig.height = 4}
+CD7_deeploc <- read_csv(file = "../results/DeepLoc/CD7_with_variants.csv")
+
+# remove non-relevant columns 
+CD7_deeploc <- CD7_deeploc %>% select(-Localizations, -Signals)
+
+# filter out the variants that we don't need (based on what we used in the previous analyses)
+keep <- CD7_transcripts$`UniProt Match` %>% str_subset(pattern = "^-$", negate = TRUE)
+keep[1] <- "P09564" # there are two uniprot IDs corresponding to this variant. I am keeping the one that matches the CD7_deeploc entry.
+
+CD7_deeploc <- CD7_deeploc %>% filter(str_detect(Protein_ID, paste(keep, collapse = "|"))) %>%
+  mutate(Protein_ID = str_extract(Protein_ID, "(?<=_)[^_]+_[^_]+")) %>%
+  separate(Protein_ID, into = c("Protein_ID", NA), sep = "_")
+
+# make heatmap with DeepLoc2 probabilities
+# add the ensemble IDs to the CD7_deeploc dataframe
+
+ensg <- CD7_transcripts %>% select(`Transcript ID`, `UniProt Match`) %>% 
+  separate(., col = `Transcript ID`, into = c("transcript", NA), sep = "\\.")
+ensg[1, 2] <- keep[1] # same as before. There are two uniprot IDs corresponding to this variant. I am keeping the one that matches the CD7_deeploc entry.
+
+CD7_deeploc <- ensg %>% right_join(., CD7_deeploc, by = c("UniProt Match" = "Protein_ID"))
+
+CD7_heatmap <- CD7_deeploc %>% column_to_rownames("transcript") %>% select(-`UniProt Match`)
+
+pheatmap(CD7_heatmap,
+         cluster_cols = F, cluster_rows = F)
+         
+```
+
+
 ## MSLN
 ### Isoforms expression
 ```{r, fig.width = 50, fig.height = 25}
@@ -259,6 +333,38 @@ aligned_sequences <- read_fasta("../results/aligned_sequences/MSLN_msa.txt")
 
 ```
 
+### Cellular localization
+
+```{r, fig.width = 8, fig.height = 5}
+MSLN_deeploc <- read_csv(file = "../results/DeepLoc/MSLN_with_variants.csv")
+
+# remove non-relevant columns 
+MSLN_deeploc <- MSLN_deeploc %>% select(-Localizations, -Signals)
+
+# filter out the variants that we don't need (based on what we used in the previous analyses)
+keep <- MSLN_transcripts$`UniProt Match` %>% str_subset(pattern = "^-$", negate = TRUE)
+
+MSLN_deeploc <- MSLN_deeploc %>% filter(str_detect(Protein_ID, paste(keep, collapse = "|"))) %>%
+  mutate(Protein_ID = str_extract(Protein_ID, "(?<=_)[^_]+_[^_]+")) %>%
+  separate(Protein_ID, into = c("Protein_ID", NA), sep = "_")
+
+# make heatmap with DeepLoc2 probabilities
+# add the ensemble IDs to the MSLN_deeploc dataframe
+
+ensg <- MSLN_transcripts %>% select(`Transcript ID`, `UniProt Match`) %>% 
+  separate(., col = `Transcript ID`, into = c("transcript", NA), sep = "\\.")
+
+MSLN_deeploc <- ensg %>% right_join(., MSLN_deeploc, by = c("UniProt Match" = "Protein_ID")) %>% 
+  drop_na()
+
+MSLN_heatmap <- MSLN_deeploc %>% column_to_rownames("transcript") %>% select(-`UniProt Match`)
+
+pheatmap(MSLN_heatmap,
+         cluster_cols = F, cluster_rows = F)
+         
+```
+
+
 ## CD19
 ### Isoforms expression
 ```{r, fig.width = 50, fig.height = 25}
@@ -327,4 +433,34 @@ aligned_sequences <- read_fasta("../results/aligned_sequences/CD19_msa.txt")
 
 (CD19_topology <- protein_properties(hgnc = "CD19", hgnc_from_ensembl = hgnc_from_ensembl, ensembl_table = CD19_transcripts, deeptmhmm_output = deeptmhmm_output, aligned_sequences = aligned_sequences))
 
+```
+
+### Cellular localization
+
+```{r, fig.width = 8, fig.height = 3}
+CD19_deeploc <- read_csv(file = "../results/DeepLoc/CD19_with_variants.csv")
+
+# remove non-relevant columns 
+CD19_deeploc <- CD19_deeploc %>% select(-Localizations, -Signals)
+
+# filter out the variants that we don't need (based on what we used in the previous analyses)
+keep <- CD19_transcripts$`UniProt Match` %>% str_subset(pattern = "^-$", negate = TRUE)
+
+CD19_deeploc <- CD19_deeploc %>% filter(str_detect(Protein_ID, paste(keep, collapse = "|"))) %>%
+  mutate(Protein_ID = str_extract(Protein_ID, "(?<=_)[^_]+_[^_]+")) %>%
+  separate(Protein_ID, into = c("Protein_ID", NA), sep = "_")
+
+# make heatmap with DeepLoc2 probabilities
+# add the ensemble IDs to the MSLN_deeploc dataframe
+
+ensg <- CD19_transcripts %>% select(`Transcript ID`, `UniProt Match`) %>% 
+  separate(., col = `Transcript ID`, into = c("transcript", NA), sep = "\\.")
+
+CD19_deeploc <- ensg %>% right_join(., CD19_deeploc, by = c("UniProt Match" = "Protein_ID")) 
+
+CD19_heatmap <- CD19_deeploc %>% column_to_rownames("transcript") %>% select(-`UniProt Match`)
+
+pheatmap(CD19_heatmap,
+         cluster_cols = F, cluster_rows = F)
+         
 ```
