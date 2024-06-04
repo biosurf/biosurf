@@ -10,7 +10,7 @@ library(tidyverse)
 #     2. enst_expr: transcripts (of the different gene isoforms) on the rows. 
 # On the columns there are the TCGA cancers and the corresponding normal
 # tissues from GTEX. 
-# - "pheno.rds": table mapping each TCGA or GTEX sample to the corresponing 
+# - "pheno.rds": table mapping each TCGA or GTEX sample to the corresponding 
 # cancer/tissue (category)
 # - "gte.Rdata" list with all the transcripts for each gene. It also contains 
 # genomic coordinates. 
@@ -32,7 +32,7 @@ haematological_cancers <- c("blood", "diffuse large b-cell lymphoma", "acute mye
 pheno_nh <- pheno[!(pheno$TCGA_GTEX_main_category %in% haematological_cancers), ] # removal of the hematological cancers
 
 # note: not all the transcripts listed in gte_list are in the enst_expr table.
-# In the plots I am retaining the transcripts that are present in both tables.
+# In the plots I am keeping the transcripts that are present in both tables.
 
 saveRDS(object = enst_expr, "cartcontent/results/01_wrangled_data/01_enst_expr.rds")
 saveRDS(object = ensg_expr, "cartcontent/results/01_wrangled_data/01_ensg_expr.rds")
