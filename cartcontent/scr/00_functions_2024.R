@@ -235,6 +235,10 @@ protein_properties <- function(hgnc, hgnc_from_ensembl, ensembl_table, deeptmhmm
   ensembl_table <- ensembl_table %>% separate(., col = `Transcript ID`, into = c("transcript", NA), sep = "\\.")
   ensembl_table <- ensembl_table %>% filter(grepl("Protein coding",Biotype))
   ensembl_table <- ensembl_table %>% dplyr::select(transcript, `UniProt Match`)
+  # the following line is used in case one transcript has multiple values in the "UniProt Match" column. It will keep the first one, which
+  # is the one matching with the UniProt name in the aligned sequences file (at least for the target tested up until now).If this is not done,
+  # the transcript with 2 UniProt names will be discarded downstream.
+  ensembl_table <- ensembl_table %>% separate(., col = `UniProt Match`, into = c("UniProt Match", NA), sep = " ")
   
   # convert the vector enst into a 1 column tibble
   enst <- as_tibble_col(enst, column_name = "transcript")

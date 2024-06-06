@@ -353,7 +353,7 @@ plot_function <- function(hgnc) {
   
   transcript_names <- as_tibble(names(isoforms), .name_repair = ~ "transcripts")
   
-  saveRDS(ranges_df, paste("cartcontent/results/ranges", hgnc, ".rds", sep = ""))
+  saveRDS(ranges_df, paste("cartcontent/results/ranges/ranges", hgnc, ".rds", sep = ""))
   
   ranges_df$topology <- factor(ranges_df$topology, levels=c("S", "O", "M", "I", "-"), 
                                labels=c('Signal peptide','Outside','Trans membrane','Inside','Alignment gap'))

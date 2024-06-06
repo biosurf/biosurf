@@ -26,7 +26,7 @@ msa_function <- function(hgnc, pheno) {
   # otherwise the protein properties picture looks weird. In the following I am deleting from
   # the fasta the isoforms that are not protein coding and that do not have expression data.
   
-  hgnc_from_ensembl <- readRDS(file = "cartcontent/results/00_hgnc_from_ensembl_biomart.rds")
+  hgnc_from_ensembl <- readRDS(file = "cartcontent/results/001_hgnc_from_ensembl_biomart.rds")
   
   #retrieve the ensembl gene ID from the hugo gene symbol 
   ensgID <- hgnc_from_ensembl %>% 
@@ -50,6 +50,10 @@ msa_function <- function(hgnc, pheno) {
   ensembl_table <- ensembl_table %>% separate(., col = `Transcript ID`, into = c("transcript", NA), sep = "\\.")
   ensembl_table <- ensembl_table %>% filter(grepl("Protein coding",Biotype))
   ensembl_table <- ensembl_table %>% dplyr::select(transcript, `UniProt Match`)
+  # the following line is used in case one transcript has multiple values in the "UniProt Match" column. It will keep the first one, which
+  # is the one matching with the UniProt name in the aligned sequences file (at least for the target tested up until now).If this is not done,
+  # the transcript with 2 UniProt names will be discarded downstream.
+  ensembl_table <- ensembl_table %>% separate(., col = `UniProt Match`, into = c("UniProt Match", NA), sep = " ")
   
   # convert the vector enst into a 1 column tibble
   enst <- as_tibble_col(enst, column_name = "transcript")
