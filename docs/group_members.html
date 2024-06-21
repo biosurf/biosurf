@@ -13,7 +13,7 @@
 
 <title>Group members</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
@@ -129,11 +129,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -162,8 +166,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -171,16 +175,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -309,8 +306,6 @@ $(document).ready(function () {
 
 <!-- Add icon library -->
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-<p><br></p>
-<p><img src="images/SCO_group.jpg" /></p>
 <p><br><br></p>
 <table>
 <colgroup>
@@ -338,33 +333,23 @@ Health Tech &amp; Heidelberg University Hospital <br> <br>
 <a href="mailto:b_campos@young-alliance.org" class="fa fa-envelope"></a></td>
 </tr>
 <tr class="odd">
-<td><img src="images/KVS.png" width="150" alt="KVS" /><br></td>
-<td></td>
-<td><span style="color: #008CBA;"><strong>Kristoffer
-Vitting-Seerup</strong></span> <br> Assistant Professor, PhD<br>DTU
-Health Tech<br>
-<br><a href="mailto:kristoffer.vittingseerup@bio.ku.dk" class="fa fa-envelope"></a>
-<a href="https://www.linkedin.com/in/kristoffervs/" class="fa fa-linkedin"></a></td>
-</tr>
-<tr class="even">
 <td><img src="images/CAKL.png" width="150" alt="CAKL" /><br></td>
 <td></td>
 <td><span style="color: #008CBA;"><strong>Camilla Koldbæk
-Lemvigh</strong></span> <br> PhD student<br>DTU Health Tech &amp;
-Dana-Farber Cancer Institute <br>
+Lemvigh</strong></span> <br> Postdoc <br>DTU Health Tech <br>
 <br><a href="mailto:cakl@dtu.dk" class="fa fa-envelope"></a>
 <a href="https://www.linkedin.com/in/camilla-lemvigh/" class="fa fa-linkedin"></a></td>
 </tr>
-<tr class="odd">
-<td><img src="images/GIMOR.jpg" width="150" alt="GIMOR" /><br></td>
+<tr class="even">
+<td><img src="images/GIMO.jpg" width="150" alt="GIMO" /><br></td>
 <td></td>
 <td><span style="color: #008CBA;"><strong>Giorgia
-Moranzoni</strong></span> <br> PhD student<br>DTU Health Tech
+Moranzoni</strong></span> <br> Postdoc <br>DTU Health Tech
 <br><br><a href="mailto:gimo@dtu.dk" class="fa fa-envelope"></a>
 <a href="https://www.linkedin.com/in/giorgia-moranzoni-30696a1b6" class="fa fa-linkedin"></a>
 <a href="https://github.com/gmoranzoni" class="fa fa-github"></a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><img src="images/NANBA.jpg" width="150" alt="NANBA" /><br></td>
 <td></td>
 <td><span style="color: #008CBA;"><strong>Nanna Møller
@@ -372,21 +357,22 @@ Barnkob</strong></span> <br> PhD student<br>Symphogen A/S &amp; DTU
 Health Tech
 <br><br><a href="mailto:nanba@dtu.dk" class="fa fa-envelope"></a></td>
 </tr>
-<tr class="odd">
-<td><img src="images/PANMAN.png" width="150" alt="PANMAN" /><br></td>
-<td></td>
-<td><span style="color: #008CBA;"><strong>Panagiotis
-Mantas</strong></span> <br> PhD student<br>DTU Health Tech
-<br><br><a href="mailto:panman@dtu.dk" class="fa fa-envelope"></a></td>
-</tr>
 <tr class="even">
-<td><img src="images/SOHDAM.jpg" width="150" alt="SOHDAM" /><br></td>
+<td><img src="images/SOHDAM.png" width="150" alt="SOHDAM" /><br></td>
 <td></td>
 <td><span style="color: #008CBA;"><strong>Søren Helweg
 Dam</strong></span> <br> PhD student<br>DTU Health Tech
 <br><br><a href="mailto:sohdam@dtu.dk" class="fa fa-envelope"></a>
 <a href="https://dk.linkedin.com/in/shdam" class="fa fa-linkedin"></a>
 <a href="https://github.com/shdam" class="fa fa-github"></a></td>
+</tr>
+<tr class="odd">
+<td><img src="images/ANDSON.jpg" width="150" alt="ANDSON" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Andrea Michaela
+Sonnenholzner</strong></span> <br> PhD student<br>DTU Health Tech
+<br><br><a href="mailto:andson@dtu.dk" class="fa fa-envelope"></a>
+<a href="https://www.linkedin.com/in/andrea-sonnenholzner-68b423179/" class="fa fa-linkedin"></td>
 </tr>
 </tbody>
 </table>
