@@ -29,50 +29,59 @@ Chimeric Antigen Receptor T-cell (CAR-T) therapy represents a revolutionary appr
 
 This vignette provides a comprehensive workflow for evaluating potential CAR-T targets, guiding non-bioinformaticians through essential computational analyses. We demonstrate this workflow using  **ERBB2** (also known as HER2/neu) as an example, a receptor tyrosine kinase overexpressed in approximately 25-30% of breast cancers [Slamon, D.J. et al.](https://pubmed.ncbi.nlm.nih.gov/2470152/) and an established target for monoclonal antibody therapy (trastuzumab) [Yoon, J. et al.](https://www.nature.com/articles/s41571-024-00924-9#citeas). 
 
+## Target Audience and Methodology
 
-# Find Isoforms: Ensembl
+This vignette is designed for **clinicians and researchers without coding experience**, utilizing web-based tools with graphical interfaces. While many tools necessarily operate through web servers, we recommend adopting computational approaches whenever possible for improved reproducibility, traceability, and reduced error rates. Collaborating with a bioinformatician can help implement more robust, automated workflows for comprehensive target assessment.
+
+# Retrieve Isoforms: Ensembl
 Understanding protein isoform diversity is crucial for CAR-T target assessment, as different isoforms may have altered membrane topology, expression patterns, or epitope accessibility. We begin by identifying all coding isoforms of the potential CAR-T target using Ensembl.
 
 **Step 1: Search for the gene**
+
 - Go to https://www.ensembl.org/
 - Enter the gene name (e.g. "ERBB2") in the search box
 - Select "Human" from the species dropdown if not already selected
 - Click "Go" or press Enter
 
 **Step 2: Navigate to the gene page**
+
 - From the search results, click on the gene entry (usually the first result showing the gene symbol, Ensembl gene ID and description)
 - This takes you to the main gene summary page
 
 
-```{r, fig.cap="Ensembl search results showing the ERBB2 gene entry with gene symbol, Ensembl ID, and brief description.", out.width="100%"}
-knitr::include_graphics("vignette/ensembl2.png")
-```
+<!-- ```{r fig1, fig.cap="Ensembl search results showing the ERBB2 gene entry with gene symbol, Ensembl ID, and brief description.", out.width="100%"} -->
+<!-- knitr::include_graphics("ensembl2.png") -->
+<!-- ``` -->
 
 
 **Step 3: Access the transcript information**
+
 - Locate the "Transcripts" section on the gene summary page
 - Click "Show transcript table" to view all transcript variants
 
 **Step 4: Indentify coding isoforms**
+
 - In the transcripts table, examine the "Biotype" column - coding isoforms are labeled as "protein_coding"
 - Sort by this column to focus on protein-coding transcripts
 - Each row shows transcript ID, number of amino acids (Protein), UniProt match, and other relevant information
 
 
-```{r, fig.cap="Ensembl transcripts table showing protein-coding isoforms with transcript IDs, protein lengths, and UniProt matches.", out.width="100%"}
-knitr::include_graphics("vignette/ensembl3.png")
+```{r fig2, fig.cap="Ensembl transcripts table showing protein-coding isoforms with transcript IDs, protein lengths, and UniProt matches.", out.width="100%"}
+knitr::include_graphics("ensembl3.png")
 ```
 
 
 **Step 5: Examine individual isoforms**
+
 - Click on any transcript ID (e.g., ENST00000269571) to view detailed information
 - This shows the transcript structure, exons, protein sequence, and other annotations
 - The transcript page also indicates if it is the canonical/principal isoform
 
 **Step 6: Export transcript data**
-- Above the transcripts table, click on the Excel icon to download the table and use it for further analyses
 
-# Find Isoform Sequences: UniProt
+- The transcripttable can be downloaded and used for further analyses
+
+# Retrieve Isoform Sequences: UniProt
 
 Protein sequences are essential for downstream computational analyses. They can be found in UniProt, which provides high-quality, manually curated protein sequences, though not all Ensembl-predicted isoforms may be represented. UniProt applies rigorous curation standards requiring experimental evidence, while Ensembl includes all computationally predicted coding transcripts. This discrepancy means some predicted isoforms may lack UniProt entries.
 
@@ -82,17 +91,20 @@ Protein sequences are essential for downstream computational analyses. They can 
 To retrieve FASTA sequences of a gene and its protein-coding isoforms from UniProt:
 
 **Step 1: Search for the protein**
+
 - Go to https://www.uniprot.org/.
 - Enter the gene name (e.g., "ERBB2") or Ensembl transcript ID in the search box
 - Select "UniProtKB" from the dropdown menu, if not already selected
 - Click search or press Enter
 
 **Step 2: Identify the canonical entry**
+
 - On the left, in the section "Popular organisms", select "Human"
 - From the search results, look for entries marked as "Reviewed" (Swiss-Prot) - these are manually curated
 - Click on the main protein entry (e.g., P04626 for ERBB2_HUMAN)
 
 **Step 3: Download FASTA sequences**
+
 - Click on "Download"
 - In the download menu:
   - Select "Entry" under "Dataset"
@@ -101,72 +113,83 @@ To retrieve FASTA sequences of a gene and its protein-coding isoforms from UniPr
 
 
 ```{r, fig.cap="UniProt download interface showing options for retrieving FASTA sequences of canonical and isoform variants.", out.width="75%"}
-knitr::include_graphics("vignette/Uniprot1.png")
+knitr::include_graphics("Uniprot1.png")
 ```
 
 
 **Step 4: Individual isoform access**
+
 - Alternatively, you can access specific isoforms by adding the isoform identifier to the URL
 - Example: https://www.uniprot.org/uniprot/P04626-2
 
-# Find Subcellular Localization with DeepLoc2.1
+# Investigate Subcellular Localization with DeepLoc2.1
+
 Subcellular localization prediction is fundamental for CAR-T target validation. Targets must localize to the cell membrane to be accessible for CAR recognition. DeepLoc2.1 provides state-of-the-art localization and membrane association predictions.
 
+DeepLoc2.1 uses transformer-based protein language models to predict where proteins localize within cells. The method analyzes amino acid sequences to identify sorting signals and structural features that determine cellular targeting. The deep learning model was trained on thousands of experimentally validated protein localizations and can predict multiple simultaneous localizations, reflecting the biological reality that some proteins function in multiple cellular compartments.
+
+
 **Step 1: Access the web server**
+
 - Go to https://services.healthtech.dtu.dk/services/DeepLoc-2.1/
-- DeepLoc 2.1 predicts multi-label subcellular localization and membrane association for eukaryotic proteins
 
 **Step 2: Input your protein sequence**
+
 - Paste your protein FASTA sequences (obtained from UniProt) into the text box, or upload a FASTA file containing your sequence(s)
-- Select the model under "Model" at the bottom:
-  - **High-quality (ProtT5)**: More accurate predictions with longer computation time
-  - **High-throughput (ESM1b)**: Faster predictions with slightly reduced accuracy
-- Choose output format:
-  - **Long output**: Includes attention plots per sequence
-  - **Short output**: Results only, no plots
+<!-- - Select the model under "Model" at the bottom: -->
+<!--   - **High-quality (ProtT5)**: More accurate predictions with longer computation time -->
+<!--   - **High-throughput (ESM1b)**: Faster predictions with slightly reduced accuracy -->
+<!-- - Choose output format: -->
+<!--   - **Long output**: Includes attention plots per sequence -->
+<!--   - **Short output**: Results only, no plots -->
 
 **Step 3: Submit the prediction**
+
 - Click "Submit" to start the analysis
-- The prediction typically takes a few seconds to complete
+
+
+
+<!-- ```{r, fig.cap="DeepLoc2.1 results showing predicted subcellular localizations, membrane associations, and confidence scores.", out.width="100%"} -->
+<!-- knitr::include_graphics("deeploc2.png") -->
+<!-- ``` -->
 
 **Step 4: Interpret the results**
 
-
-```{r, fig.cap="DeepLoc2.1 results showing predicted subcellular localizations, membrane associations, and confidence scores.", out.width="100%"}
-knitr::include_graphics("vignette/deeploc2.png")
-```
+The results page contains several key sections for each analysed isoform. For comprehensive interpretation of predicted localizations, confidence scores, and attention plots, refer to the [DeepLoc2.1 user manual](https://services.healthtech.dtu.dk/services/DeepLoc-2.1/).
 
 
-The results page contains several key sections for each analysed isoform: 
+<!-- **Predicted Localizations**: Identifies subcellular compartments where the protein localizes among 10 categories: Cytoplasm, Nucleus, Extracellular, Cell membrane, Mitochondrion, Plastid, Endoplasmic reticulum, Lysosome/Vacuole, Golgi apparatus, and Peroxisome. -->
 
-**Predicted Localizations**: Identifies subcellular compartments where the protein localizes among 10 categories: Cytoplasm, Nucleus, Extracellular, Cell membrane, Mitochondrion, Plastid, Endoplasmic reticulum, Lysosome/Vacuole, Golgi apparatus, and Peroxisome.
+<!-- **Predicted Membrane Association**: Classifies proteins into 4 membrane types: -->
+<!-- - **Transmembrane**: Spans the lipid bilayer -->
+<!-- - **Peripheral**: Associates with membrane surfaces -->
+<!-- - **Lipid-anchored**: Covalently attached to membrane lipids -->
+<!-- - **Soluble**: Non-membrane associated -->
 
-**Predicted Membrane Association**: Classifies proteins into 4 membrane types:
-- **Transmembrane**: Spans the lipid bilayer
-- **Peripheral**: Associates with membrane surfaces
-- **Lipid-anchored**: Covalently attached to membrane lipids
-- **Soluble**: Non-membrane associated
+<!-- **Predicted Sorting Signals**: Shows which sorting signals (if any) were detected that influence the localization prediction. DeepLoc 2.1 can predict the presence of the sorting signal(s) that had an influence on the prediction of the subcellular localization(s). -->
 
-**Predicted Sorting Signals**: Shows which sorting signals (if any) were detected that influence the localization prediction. DeepLoc 2.1 can predict the presence of the sorting signal(s) that had an influence on the prediction of the subcellular localization(s).
+<!-- **Probability Table**: The Probability table displays the probability assigned by the model to each of the subcellular localizations. Localizations with a probability above the threshold are highlighted in green. The green intensity reflects the proximity of the localization probability to the threshold. Higher probability scores indicate more confident predictions. -->
 
-**Probability Table**: The Probability table displays the probability assigned by the model to each of the subcellular localizations. Localizations with a probability above the threshold are highlighted in green. The green intensity reflects the proximity of the localization probability to the threshold. Higher probability scores indicate more confident predictions.
+<!-- **Attention Plot**: Visualizes sequence regions important for localization predictions, potentially corresponding to sorting signals. This visualization helps identify which regions of your protein sequence are most important for the localization prediction. -->
 
-**Attention Plot**: Visualizes sequence regions important for localization predictions, potentially corresponding to sorting signals. This visualization helps identify which regions of your protein sequence are most important for the localization prediction.
+<!-- **Step 5: Download results** -->
 
-**Step 5: Download results**
-- The prediction summary is available for download as a comma-separated file (CSV) at the top which consists of the predicted subcellular localization and sorting signals
-- Individual plots and attention values can also be downloaded separately
+<!-- - The prediction summary is available for download as a comma-separated file (CSV) at the top which consists of the predicted subcellular localization and sorting signals -->
+<!-- - Individual plots and attention values can also be downloaded separately -->
 
-# Find Target Expression Across Tissues (TCGA and GTEx): Xena Browser
+# Examine Target Expression Across Tissues (TCGA and GTEx): Xena Browser
 Expression analysis across healthy and cancer tissues is crucial for assessing target specificity and potential off-target effects. The UCSC Xena Browser provides access to uniformly processed TCGA (cancer) and GTEx (normal tissue) expression data.
 
-**Note**: This analysis examines gene-level expression; isoform-specific expression analysis requires computational approaches (refer to coding vignette for advanced methods).
+**Note**: The Xena Browser interface can be challenging to navigate for new users. While the following workflow provides basic functionality, we strongly recommend utilizing computational approaches for more comprehensive and reliable expression analysis (refer to the coding vignette for advanced methods).
+
 
 **Step 1: Access the Xena Browser**
+
 - Go to https://xena.ucsc.edu/
 - Click "Launch Xena" to open the Visual Spreadsheet Wizard
 
 **Step 2: Select the TCGA TARGET GTEx cohort**
+
 - In the study selection box, type "TCGA TARGET GTEx"
 - Select "TCGA TARGET GTEx" from the dropdown menu
 - Click "To first variable"
@@ -174,20 +197,23 @@ Expression analysis across healthy and cancer tissues is crucial for assessing t
 This cohort contains uniformly processed samples from TCGA (cancer), TARGET (pediatric cancer), and GTEx (normal tissue). 
 
 **Step 3: Add your gene of interest**
+
 - Type your gene name (e.g., "ERBB2") in the variable search box and select it from the dropdown menu
 - Select "Gene Expression" under "Dataset" in the "Basic" tab
 - Click "To second variable"
 
 ```{r, fig.cap="Xena Browser interface showing gene selection and data type options.", out.width="100%"}
-knitr::include_graphics("vignette/xena1.png")
+knitr::include_graphics("xena1.png")
 ```
 
 **Step 4: Add the phenotype categories**
+
 - Select "Phenotypic" under "Select Data Type"
 - In the "Phenotype" dropdown menu, select "Main category" 
 - Press "Done"
 
 **Step 5: Visualize and interpret the data**
+
 - Click the bar chart icon in the top right
 - Select "Compare subgroups"
 - Configure the comparison:
@@ -200,69 +226,92 @@ knitr::include_graphics("vignette/xena1.png")
 <!-- ``` -->
 
 ```{r, fig.cap="Box plot visualization comparing ERBB2 expression across cancer types and normal tissues.", out.width="100%"}
-knitr::include_graphics("vignette/xena3.png")
+knitr::include_graphics("xena3.png")
 ```
 
 **Step 6: Download results**
+
 From here you can: 
 - Export the visualization as images
 - Download the underlying data as TSV files for further analysis (top right of the page)
 
-# Figure Out Membrane Topology: DeepTMHMM
+## Transcript-Level Expression Analysis
+
+For isoform-specific expression analysis:
+
+- Go to the transcript-dedicated section: https://xenabrowser.net/transcripts/
+- Type the gene name in the search box
+- In the dropdown menus, select the two tissues you want to compare (e.g., TCGA Breast invasive carcinoma and GTEX Breast)
+- Here one can examine the expression of the different isoforms of the gene in the different healthy and cancer tissues
+
+```{r, fig.cap="Transcript-level expression comparison showing isoform-specific patterns across cancer and normal tissues.", out.width="100%"}
+knitr::include_graphics("xenat1.png")
+```
+
+# Investigate Membrane Topology: DeepTMHMM
+
 Membrane topology prediction is essential for understanding protein architecture and identifying accessible extracellular domains for CAR targeting. DeepTMHMM provides accurate predictions for both α-helical and β-barrel transmembrane proteins.
 
+DeepTMHMM employs deep learning protein language models to predict transmembrane protein topology. The method analyzes amino acid sequences to identify hydrophobic transmembrane regions, signal peptides, and the orientation of protein domains relative to cellular membranes. The model integrates evolutionary information and physical properties of amino acids to achieve state-of-the-art accuracy in distinguishing between cytoplasmic, extracellular, and membrane-spanning regions.
+
+
 **Step 1: Access DeepTMHMM**
+
 - Go to https://services.healthtech.dtu.dk/services/DeepTMHMM-1.0/
-- Alternatively, use the BioLib version at https://dtu.biolib.com/DeepTMHMM -> add or not? 
 
 **Step 2: Prepare your protein sequences**
+
 - Use the FASTA sequences obtained from UniProt for your target protein and all its isoforms
 - Ensure sequences are in proper FASTA format with descriptive headers
 
 **Step 3: Submit the analysis**
+
 - Paste your protein sequence(s) in FASTA format into the text box, or upload it from your computer
 - Click "Submit" to start the prediction
 
 ```{r, fig.cap="DeepTMHMM submission interface for protein topology prediction.", out.width="75%"}
-knitr::include_graphics("vignette/deeptmhmm0.png")
+knitr::include_graphics("deeptmhmm0.png")
 ```
 
 **Step 4: Interpret the results**
 
-DeepTMHMM provides several output sections:
+DeepTMHMM provides comprehensive topology predictions through several output sections. For detailed interpretation of topology classifications, coordinate systems, and confidence assessments, refer to the [DeepTMHMM user manual](https://services.healthtech.dtu.dk/services/DeepTMHMM-1.0/).
 
-**Predicted Topologies Section**:
-Each isoform shows:
-- **Header line**: Contains protein ID and topology classification (SP+TM, TM, or GLOB)
-  - **SP+TM**: Signal peptide + transmembrane protein
-  - **TM**: Transmembrane protein
-  - **GLOB**: Globular (non-membrane) protein
-- **Amino acid sequence**: The input protein sequence
-- **Topology string**: Using symbols S (signal), O (outside/extracellular), M (transmembrane), I (inside/cytoplasmic)
 
-```{r, fig.cap="DeepTMHMM topology predictions showing protein classifications and topology strings.", out.width="75%"}
-knitr::include_graphics("vignette/deeptmhmm2.png")
-```
+<!-- DeepTMHMM provides several output sections: -->
 
-**GFF3 Format Section**:
-Provides precise coordinates for each predicted region:
-- **signal**: Signal peptide location (amino acid positions)
-- **outside**: Extracellular domain regions
-- **TMhelix**: Transmembrane helix positions
-- **inside**: Cytoplasmic domain regions
-- **Number of predicted TMRs**: Count of transmembrane regions per protein
+<!-- **Predicted Topologies Section**: -->
+<!-- Each isoform shows: -->
+<!-- - **Header line**: Contains protein ID and topology classification (SP+TM, TM, or GLOB) -->
+<!--   - **SP+TM**: Signal peptide + transmembrane protein -->
+<!--   - **TM**: Transmembrane protein -->
+<!--   - **GLOB**: Globular (non-membrane) protein -->
+<!-- - **Amino acid sequence**: The input protein sequence -->
+<!-- - **Topology string**: Using symbols S (signal), O (outside/extracellular), M (transmembrane), I (inside/cytoplasmic) -->
 
-```{r, fig.cap="GFF3 format output showing precise coordinates for each predicted structural region.", out.width="50%"}
-knitr::include_graphics("vignette/deeptmhmm3.png")
-```
+<!-- ```{r, fig.cap="DeepTMHMM topology predictions showing protein classifications and topology strings.", out.width="75%"} -->
+<!-- knitr::include_graphics("deeptmhmm2.png") -->
+<!-- ``` -->
 
-**Job Summary**:
-- **Protein types**: Count of each topology class across all submitted sequences
-- **Region types**: Total count of each structural element identified
+<!-- **GFF3 Format Section**: -->
+<!-- Provides precise coordinates for each predicted region: -->
+<!-- - **signal**: Signal peptide location (amino acid positions) -->
+<!-- - **outside**: Extracellular domain regions -->
+<!-- - **TMhelix**: Transmembrane helix positions -->
+<!-- - **inside**: Cytoplasmic domain regions -->
+<!-- - **Number of predicted TMRs**: Count of transmembrane regions per protein -->
 
-```{r, fig.cap="Job summary showing distribution of protein types and structural regions across analyzed sequences.", out.width="25%"}
-knitr::include_graphics("vignette/deeptmhmm1.png")
-```
+<!-- ```{r, fig.cap="GFF3 format output showing precise coordinates for each predicted structural region.", out.width="50%"} -->
+<!-- knitr::include_graphics("deeptmhmm3.png") -->
+<!-- ``` -->
+
+<!-- **Job Summary**: -->
+<!-- - **Protein types**: Count of each topology class across all submitted sequences -->
+<!-- - **Region types**: Total count of each structural element identified -->
+
+<!-- ```{r, fig.cap="Job summary showing distribution of protein types and structural regions across analyzed sequences.", out.width="25%"} -->
+<!-- knitr::include_graphics("deeptmhmm1.png") -->
+<!-- ``` -->
 
 # Investigate the 3D Structure: PDB or AlphaFold3
 
@@ -271,63 +320,73 @@ Three-dimensional structural analysis provides crucial insights into epitope acc
 ## Finding Experimental Structures in the Protein Data Bank (PDB)
 
 **Step 1: Access the RCSB PDB**
+
 - Go to https://www.rcsb.org/
 - The RCSB PDB is the primary repository for experimentally determined protein structures
 
 **Step 2: Search for your protein**
+
 - Enter your protein name (e.g., "ERBB2") or UniProt ID (e.g., "P04626") in the search box
 - Click the search button to retrieve all related structures
 
 ```{r, fig.cap="PDB search results showing available experimental structures for ERBB2.", out.width="100%"}
-knitr::include_graphics("vignette/pdb1.png")
+knitr::include_graphics("pdb1.png")
 ```
 
-**Step 3: Evaluate available structures**
-- Review the search results for experimentally determined structures
-- Check key information for each structure:
-  - **Resolution**: Lower numbers (e.g., 1.5 Å) indicate higher quality structures
-  - **Method**: X-ray crystallography, NMR, or cryo-EM
-  - **Coverage**: Which parts of the protein sequence are resolved
-  - **Ligands**: Whether the structure includes bound molecules
-  - **Date**: More recent structures often have better quality
+<!-- **Step 3: Evaluate available structures** -->
 
-**Step 4: Select appropriate structures**
-- For CAR-T target analysis, prioritize structures that include:
-  - Extracellular domains (the regions accessible for CAR binding)
-  - High resolution (< 3.0 Å preferred)
-  - Complete or near-complete coverage of extracellular regions
-- Note which protein regions are missing or disordered
+<!-- - Review the search results for experimentally determined structures -->
+<!-- - Check key information for each structure: -->
+<!--   - **Resolution**: Lower numbers (e.g., 1.5 Å) indicate higher quality structures -->
+<!--   - **Method**: X-ray crystallography, NMR, or cryo-EM -->
+<!--   - **Coverage**: Which parts of the protein sequence are resolved -->
+<!--   - **Ligands**: Whether the structure includes bound molecules -->
+<!--   - **Date**: More recent structures often have better quality -->
 
-**Step 5: Download and analyze structures**
-- Click on the PDB ID (e.g., "1N8Z") to access the structure page.
-- Download the structure file (.pdb or .cif format)
-- Use molecular visualization software (PyMOL, ChimeraX, or online viewers) to examine:
-  - Overall protein fold and domain organization
-  - Surface accessibility of potential epitope regions
-  - Glycosylation sites and other modifications
+<!-- **Step 4: Select appropriate structures** -->
+
+<!-- - For CAR-T target analysis, prioritize structures that include: -->
+<!--   - Extracellular domains (the regions accessible for CAR binding) -->
+<!--   - High resolution (< 3.0 Å preferred) -->
+<!--   - Complete or near-complete coverage of extracellular regions -->
+<!-- - Note which protein regions are missing or disordered -->
+
+<!-- **Step 5: Download and analyze structures** -->
+
+<!-- - Click on the PDB ID (e.g., "1N8Z") to access the structure page. -->
+<!-- - Download the structure file (.pdb or .cif format) -->
+<!-- - Use molecular visualization software (PyMOL, ChimeraX, or online viewers) to examine: -->
+<!--   - Overall protein fold and domain organization -->
+<!--   - Surface accessibility of potential epitope regions -->
+<!--   - Glycosylation sites and other modifications -->
 
 
 **Note**: PDB often lacks complete structures of potential CAR-T targets, particularly full-length membrane proteins. In such cases, AlphaFold3 (detailed below) provides comprehensive structural predictions. However, PDB is particularly valuable when it contains antibody-bound complexes, as these reveal clinically validated epitopes that could potentially be used in CAR-T therapy design.
 
 ```{r, fig.cap="Example PDB structure showing antibody-bound complex.", out.width="100%"}
-knitr::include_graphics("vignette/pdb2.png")
+knitr::include_graphics("pdb2.png")
 ```
 
 ## Predicting Structures with AlphaFold3
 
 For isoforms or complete proteins lacking experimental structures, AlphaFold3 provides highly accurate computational predictions.
 
+AlphaFold3 uses advanced deep learning architecture combining transformer-based language models with diffusion networks to predict protein structures. The method analyzes amino acid sequences and evolutionary relationships to predict how proteins fold into their three-dimensional shapes. AlphaFold3 can also model protein complexes with DNA, RNA, and small molecules, providing unprecedented capability for studying molecular interactions.
+
+
 **Step 1: Check existing predictions**
+
 - Search https://alphafold.ebi.ac.uk/ for existing predictions
 - The database contains over 200 million protein structure predictions
 - Search using UniProt ID or gene name
 - Download available predictions 
 
 ```{r, fig.cap="af1 erbb2 existing prediction.", out.width="100%"}
-knitr::include_graphics("vignette/af1.png")
+knitr::include_graphics("af1.png")
 ```
 
 **Step 2: Submit new predictions (if needed)**
+
 The non-canonical isoforms of the potential CAR-T target may not be in the database. Hence, to get their 3D structure, one needs to predict it using Alphafold3. 
 - Navigate to the AlphaFold server https://alphafoldserver.com/
 - On the AlphaFold Server, create an account or log in
@@ -339,34 +398,61 @@ The non-canonical isoforms of the potential CAR-T target may not be in the datab
 
 **Step 5: Interpret AlphaFold3 results**
 
+For comprehensive understanding of confidence scores (pLDDT), predicted aligned error (PAE), and structural interpretation, refer to the [AlphaFold documentation](https://alphafold.ebi.ac.uk/faq).
+
 ```{r, fig.cap="AlphaFold3 prediction results showing structure with confidence coloring and quality metrics.", out.width="100%"}
-knitr::include_graphics("vignette/af2.png")
+knitr::include_graphics("af2.png")
 ```
 
-**Confidence Assessment**:
+<!-- **Confidence Assessment**: -->
 
-- **pLDDT scores** (per-residue confidence, 0-100)
-  - **>90**: Very high confidence (atomic accuracy)
-  - **70-90**: Confident (good backbone accuracy)
-  - **50-70**: Low confidence
-  - **<50**: Very low confidence
-  
+<!-- - **pLDDT scores** (per-residue confidence, 0-100) -->
+<!--   - **>90**: Very high confidence (atomic accuracy) -->
+<!--   - **70-90**: Confident (good backbone accuracy) -->
+<!--   - **50-70**: Low confidence -->
+<!--   - **<50**: Very low confidence -->
 
-- **PAE (Predicted Aligned Error)**: Expected position error between residue pairs
-  - **<1 Å**: Very accurate relative positioning
-  - **1-5 Å**: Good confidence for overall fold
-  - **>5 Å**: High uncertainty in relative positioning
-  
-  
-  
-# References
 
-1. Ensembl Genome Browser: https://www.ensembl.org/
-2. UniProt Protein Database: https://www.uniprot.org/
-3. DeepLoc 2.1: Protein subcellular localization prediction
-4. UCSC Xena Browser: https://xena.ucsc.edu/
-5. DeepTMHMM: Transmembrane topology prediction
-6. RCSB Protein Data Bank: https://www.rcsb.org/
-7. AlphaFold Protein Structure Database: https://alphafold.ebi.ac.uk/
-8. AlphaFold Server: https://alphafoldserver.com/
-  
+<!-- - **PAE (Predicted Aligned Error)**: Expected position error between residue pairs -->
+<!--   - **<1 Å**: Very accurate relative positioning -->
+<!--   - **1-5 Å**: Good confidence for overall fold -->
+<!--   - **>5 Å**: High uncertainty in relative positioning -->
+
+# Multiple Sequence Alignment
+
+Multiple sequence alignment (MSA) is a critical step that allows comparison of protein sequences across isoforms to understand structural and functional conservation. This analysis is essential for determining whether potential epitopes are maintained across different protein variants.
+
+Multiple sequence alignment algorithms identify regions of similarity and difference between related protein sequences by optimally aligning amino acids based on evolutionary relationships and structural constraints. MSA reveals conserved domains, variable regions, and helps predict which areas of the protein are functionally important and structurally preserved across isoforms.
+
+At this stage, MSA becomes crucial because you need to determine:
+
+- **Epitope conservation**: Whether your target epitope spans all isoforms or only specific variants
+- **Domain preservation**: If the epitope consistently localizes to extracellular domains across isoforms  
+- **Structural context**: How sequence variations might affect the epitope's accessibility and presentation
+- **Isoform selection**: Which protein variants maintain the target epitope in accessible regions
+
+**Recommended Tools**: Use online MSA tools such as [Clustal Omega](https://www.ebi.ac.uk/jdispatcher/msa/clustalo?stype=protein) or [MUSCLE](https://www.ebi.ac.uk/jdispatcher/msa/muscle?reJobId=muscle-I20250910-125035-0115-16449492-p1m&format=clw&tree=none&stype=protein) to align your protein isoforms. Analyze the alignment in conjunction with your topology predictions to identify the most suitable target variants.
+
+For computational MSA approaches and advanced analysis methods, refer to the coding vignette.
+
+```{r, fig.cap="Multiple sequence alignment of ERBB2 protein isoforms using MUSCLE.", out.width="100%"}
+  knitr::include_graphics("muscle_msa.png")
+```
+
+
+# Epitope Identification and Validation
+
+The goal of this workflow is to verify whether a specific epitope represents a suitable CAR-T target based on the comprehensive analyses performed in previous steps. To conduct this validation, you first need to obtain the epitope sequence, which can be found through literature searches, patent databases, or other published sources. However, there is no standardized workflow for epitope identification, as the available information varies greatly depending on the target protein and existing research.
+
+Once you have identified a potential epitope sequence, use the results from this workflow to assess its suitability: confirm the epitope is located in accessible extracellular domains (topology analysis), verify it is conserved across therapeutically relevant isoforms (sequence alignment), ensure it is expressed in target cancers while minimally present in healthy tissues (expression analysis), and validate its structural accessibility (3D structure analysis).
+
+<!-- # References -->
+
+<!-- 1. Ensembl Genome Browser: https://www.ensembl.org/ -->
+<!-- 2. UniProt Protein Database: https://www.uniprot.org/ -->
+<!-- 3. DeepLoc 2.1: Protein subcellular localization prediction -->
+<!-- 4. UCSC Xena Browser: https://xena.ucsc.edu/ -->
+<!-- 5. DeepTMHMM: Transmembrane topology prediction -->
+<!-- 6. RCSB Protein Data Bank: https://www.rcsb.org/ -->
+<!-- 7. AlphaFold Protein Structure Database: https://alphafold.ebi.ac.uk/ -->
+<!-- 8. AlphaFold Server: https://alphafoldserver.com/ -->
