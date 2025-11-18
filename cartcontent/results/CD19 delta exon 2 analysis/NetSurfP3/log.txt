@@ -1,0 +1,4 @@
+# 2025-11-11 11:27 NetSurfP-3.0 Web: INFO     Started job 69130F5D00010EDCECF52EA1
+# 2025-11-11 11:27 NetSurfP-3.0 Web: INFO     Node: compute01
+# 2025-11-11 11:27 NetSurfP-3.0 Web: INFO     Loaded model (6.0 s), starting predictions..
+# 2025-11-11 11:27 NetSurfP-3.0 Web: INFO     Finished predictions (1.9 s, 0.9 s per sequence) ...
