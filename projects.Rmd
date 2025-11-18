@@ -1,0 +1,61 @@
+---
+title: "Projects"
+---
+
+<br>
+
+
+
+
+
+### <span style="color: #008CBA;">Single cell immune profiling of blood cancers during immunotherapy treatment</span>
+
+**PhD student:** Camilla Koldbæk Lemvigh
+
+**Supervisor:** Catherine J. Wu & Lars Rønn Olsen
+
+
+<br><br>
+
+
+
+### <span style="color: #db931f;">The myeloproliferative neoplasms as a model for cancer immunoediting: an inquiry into the coevolution of cancer and immune cells</span>
+
+**PhD student:** Giorgia Moranzoni
+
+**Supervisor:** Lars Rønn Olsen
+
+
+
+<br><br>
+
+
+### <span style="color: #242880;">B cells and antibodies in anti-tumour immunity in colorectal cancer</span>
+
+**PhD student:** Nanna Møller Barnkob
+
+**Supervisor:** Lars Rønn Olsen & Nikolaj Dietrich
+
+<br><br>
+
+
+
+
+### <span style="color: #468a43;">Immunogenomics and systems biology towards personalized medicine for MPN cancer</span>
+
+**PhD student:** Panagiotis Mantas
+
+**Supervisor:** Hans Hasselbach & Lars Rønn Olsen
+
+
+<br><br>
+
+
+
+### <span style="color: #7d438f;">Towards machine learning-supported clinical diagnostics</span>
+
+**PhD student:** Søren Helweg Dam
+
+**Supervisor:** Lars Rønn Olsen & Kristoffer Vitting-Seerup
+
+

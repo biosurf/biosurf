@@ -1,0 +1,63 @@
+---
+title: "CD276"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+<style>
+  .scrollingplot{
+      overflow-x:scroll;
+      white-space: nowrap;
+  }
+
+  .scrollingplot img{
+     max-width: 40cm;
+  }
+
+</style>
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/01_functions.R")
+```
+
+<h4>Description</h4>
+CD276 antigen ([CD276](https://www.uniprot.org/uniprot/Q5ZPR3)). May participate in the regulation of T-cell-mediated immune response. May play a protective role in tumor cells by inhibiting natural-killer mediated cell lysis as well as a role of marker for detection of neuroblastoma cells. May be involved in the development of acute and chronic transplant rejection and in the regulation of lymphocytic activity at mucosal surfaces. Could also play a key role in providing the placenta and fetus with a suitable immunological environment throughout pregnancy.
+
+<br> 
+
+<h4>Clinical trials</h4> 
+
+[NCT04483778](https://clinicaltrials.gov/ct2/show/NCT04483778) - Melanoma 
+
+<br>
+
+<h4>Target gene expression</h4>
+The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene CD276.
+<div class="scrollingplot">
+```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 40}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "CD276") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+</div>
+<br>
+
+<h4>Target essentiality</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 15}
+setwd("../../")
+target_essentiality_fun(gene_name_hgnc = "CD276") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
+```
+
+<br>
+
+<h4>Protein properties</h4>
+The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present. 
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height = 4}
+setwd("../../")
+plot_function("CD276") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```

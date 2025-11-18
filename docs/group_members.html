@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Group members</title>
+
+<script src="site_libs/header-attrs-2.27/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">The Single Cell Omics Group</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="blog.html">Blog</a>
+</li>
+<li>
+  <a href="group_members.html">People</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Research
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="projects.html">Projects</a>
+    </li>
+    <li>
+      <a href="publications.html">Publications</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Teaching
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="http://kurser.dtu.dk/course/22140">Course: Introduction to Systems Biology</a>
+    </li>
+    <li>
+      <a href="http://kurser.dtu.dk/course/22104">Course: Health, Diseases, and Technology</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cytof.html">CyTOF primers</a>
+    </li>
+    <li>
+      <a href="spectracular.html">Spectracular</a>
+    </li>
+    <li>
+      <a href="cart.html">CAR T target evaluation</a>
+    </li>
+    <li>
+      <a href="cyCombine.html">cyCombine vignettes</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Group members</h1>
+
+</div>
+
+
+<!-- Add icon library -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<p><br><br></p>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="2%" />
+<col width="86%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><img src="images/LRONN.png" width="150" alt="LRONN" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Lars Rønn
+Olsen</strong></span><br>Group Leader, Associate Professor, PhD<br>DTU
+Health Tech &amp; Center for Genomic Medicine, Rigshospitalet <br> <br>
+<a href="mailto:lronn@dtu.dk" class="fa fa-envelope"></a>
+<a href="https://www.linkedin.com/in/larsronnolsen/" class="fa fa-linkedin"></a>
+<a href="https://github.com/biosurf/" class="fa fa-github"></a></td>
+</tr>
+<tr class="even">
+<td><img src="images/BC.jpeg" width="150" alt="BC" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Benito
+Campos</strong></span><br>Adjunct Associate Professor, MD, MBA<br>DTU
+Health Tech &amp; Heidelberg University Hospital <br> <br>
+<a href="mailto:b_campos@young-alliance.org" class="fa fa-envelope"></a></td>
+</tr>
+<tr class="odd">
+<td><img src="images/CAKL.png" width="150" alt="CAKL" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Camilla Koldbæk
+Lemvigh</strong></span> <br> Postdoc <br>DTU Health Tech <br>
+<br><a href="mailto:cakl@dtu.dk" class="fa fa-envelope"></a>
+<a href="https://www.linkedin.com/in/camilla-lemvigh/" class="fa fa-linkedin"></a></td>
+</tr>
+<tr class="even">
+<td><img src="images/GIMO.jpg" width="150" alt="GIMO" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Giorgia
+Moranzoni</strong></span> <br> Postdoc <br>DTU Health Tech
+<br><br><a href="mailto:gimo@dtu.dk" class="fa fa-envelope"></a>
+<a href="https://www.linkedin.com/in/giorgia-moranzoni-30696a1b6" class="fa fa-linkedin"></a>
+<a href="https://github.com/gmoranzoni" class="fa fa-github"></a></td>
+</tr>
+<tr class="odd">
+<td><img src="images/NANBA.jpg" width="150" alt="NANBA" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Nanna Møller
+Barnkob</strong></span> <br> PhD student<br>Symphogen A/S &amp; DTU
+Health Tech
+<br><br><a href="mailto:nanba@dtu.dk" class="fa fa-envelope"></a></td>
+</tr>
+<tr class="even">
+<td><img src="images/SOHDAM.png" width="150" alt="SOHDAM" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Søren Helweg
+Dam</strong></span> <br> PhD student<br>DTU Health Tech
+<br><br><a href="mailto:sohdam@dtu.dk" class="fa fa-envelope"></a>
+<a href="https://dk.linkedin.com/in/shdam" class="fa fa-linkedin"></a>
+<a href="https://github.com/shdam" class="fa fa-github"></a></td>
+</tr>
+<tr class="odd">
+<td><img src="images/ANDSON.jpg" width="150" alt="ANDSON" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Andrea Michaela
+Sonnenholzner</strong></span> <br> PhD student<br>DTU Health Tech
+<br><br><a href="mailto:andson@dtu.dk" class="fa fa-envelope"></a>
+<a href="https://www.linkedin.com/in/andrea-sonnenholzner-68b423179/" class="fa fa-linkedin"></td>
+</tr>
+</tbody>
+</table>
+<p><br><br><br></p>
+<div id="collaborators" class="section level1">
+<h1>Collaborators</h1>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="2%" />
+<col width="86%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><img src="images/RegionH.png" width="150" alt="RegionH" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Center for Genomic Medicine,
+Rigshospitalet</strong><br><strong>Center for Cancer Immune Therapy,
+Herlev Hospital</strong></span></td>
+</tr>
+<tr class="even">
+<td><img src="images/DFCI.png" width="150" alt="DFCI" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Wu Lab, Dana-Farber Cancer
+Institute</strong></span></td>
+</tr>
+<tr class="odd">
+<td><br><br><img src="images/SDU.jpg" width="150"
+alt="SDU" /><br><br><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>The Clinical Immunology
+Research Unit, University of Southern Denmark</strong></span></td>
+</tr>
+<tr class="even">
+<td><img src="images/Stanford.png" width="150" alt="HIMC" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Human Immune Monitoring
+Center, Stanford Univeristy</strong></span></td>
+</tr>
+</tbody>
+</table>
+<p><br><br><br></p>
+</div>
+<div id="alumni" class="section level1">
+<h1>Alumni</h1>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="2%" />
+<col width="86%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><img src="images/CHRBL.png" width="150" alt="CHRBL" /><br></td>
+<td></td>
+<td><span style="color: #008CBA;"><strong>Christina Bligaard
+Pedersen</strong></span> <br> PhD student, 2019-2021 <br> Postdoc, 2022
+<br><br>
+<a href="https://www.linkedin.com/in/bligaard/" class="fa fa-linkedin"></a></td>
+</tr>
+</tbody>
+</table>
+<p><br><br><br></p>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: center;">Contact</p>
+
+<!-- Add icon library -->
+<script src="https://kit.fontawesome.com/2089613833.js" crossorigin="anonymous"></script>
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+    <a href="mailto:lronn@dtu.dk" class="fas fa-envelope"></a>
+    <a href="https://www.linkedin.com/in/larsronnolsen/" class="fab fa-linkedin-in"></a>
+    <a href="https://github.com/biosurf/" class="fab fa-github"></a>
+</p>
+
+&nbsp;
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

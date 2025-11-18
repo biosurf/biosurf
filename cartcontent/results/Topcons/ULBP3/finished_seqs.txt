@@ -1,0 +1,1 @@
+seq_0	244	1	True	cached	0.0	sp|Q9BZM4|ULBP3_HUMAN UL16-binding protein 3 OS=Homo sapiens OX=9606 GN=ULBP3 PE=1 SV=1	2020-12-03 11:29:41 CET

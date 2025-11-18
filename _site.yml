@@ -1,0 +1,38 @@
+name: "The Single Cell Omics Group"
+navbar:
+  title: "The Single Cell Omics Group"
+  type: inverse
+  left:
+    - text: "Blog"
+      href: blog.html
+    - text: "People"
+      href: group_members.html
+    - text: "Research"
+      menu:
+        - text: "Projects"
+          href: projects.html
+        - text: "Publications"
+          href: publications.html
+    - text: "Teaching"
+      menu:
+        - text: "Course: Introduction to Systems Biology"
+          href: http://kurser.dtu.dk/course/22140
+        - text: "Course: Health, Diseases, and Technology"
+          href: http://kurser.dtu.dk/course/22104
+    - text: "Resources"
+      menu:
+        - text: "CyTOF primers"
+          href: cytof.html
+        - text: "Spectracular"
+          href: spectracular.html
+        - text: "CAR T target evaluation"
+          href: cart.html
+        - text: "cyCombine vignettes"
+          href: cyCombine.html
+output:
+  html_document:
+    theme: yeti
+    highlight: haddock
+    includes:
+      after_body: footer.html
+output_dir: docs

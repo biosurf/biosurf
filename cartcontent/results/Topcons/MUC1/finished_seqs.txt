@@ -1,0 +1,1 @@
+seq_0	1255	1	True	cached	0.0	sp|P15941|MUC1_HUMAN Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1 PE=1 SV=3	2020-11-20 10:24:40 UTC

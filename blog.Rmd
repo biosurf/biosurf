@@ -1,0 +1,56 @@
+---
+title: "Blog"
+---
+
+<br>
+
+
+```{r load package, include=FALSE}
+library(tweetrmd)
+```
+
+## cyCombine
+#### March 31 2022
+Robust integration of single-cell cytometry datasets.
+
+```{r cyCombine, echo=FALSE}
+thread <- c(
+  "https://twitter.com/cbligaard/status/1509572937216450568",
+  "https://twitter.com/cbligaard/status/1509573036025921536", 
+  "https://twitter.com/cbligaard/status/1509573140275294210",
+  "https://twitter.com/cbligaard/status/1509574553948676105",
+  "https://twitter.com/cbligaard/status/1509576466580660233"
+)
+
+htmltools::tagList(
+  lapply(thread, tweet_embed, hide_thread = T)
+)
+
+```
+
+Make sure to check out the [R package](https://github.com/biosurf/cyCombine) and the [vignettes](https://biosurf.org/cyCombine.html).
+
+
+<br><br>
+
+## Spectracular
+#### March 19 2021
+
+```{r Spectracular, echo=FALSE}
+
+thread <- c(
+  "https://twitter.com/mikebarnkob/status/1372998013854093313",
+  "https://twitter.com/mikebarnkob/status/1372999506632056839", 
+  "https://twitter.com/mikebarnkob/status/1373000888709709827",
+  "https://twitter.com/mikebarnkob/status/1373002101308145672",
+  "https://twitter.com/mikebarnkob/status/1373003666555342853",
+  "https://twitter.com/mikebarnkob/status/1373005137866809349"
+)
+
+htmltools::tagList(
+  lapply(thread, tweet_embed, hide_thread = T)
+)
+
+```
+
+Please check out the [Shiny](https://biosurf.shinyapps.io/spectracular/) and the [manual](https://biosurf.org/spectracular.html)!

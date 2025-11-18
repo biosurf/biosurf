@@ -1,0 +1,120 @@
+>tr|H0YKQ9|H0YKQ9_HUMAN CD276 antigen (Fragment) OS=Homo sapiens OX=9606 GN=CD276 PE=4 SV=1
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+------------------------------------------------------------------MLR-----------
+-------------RRGSPGMG---------------VH--VGAALGA--LWFCLT----------------------GAL
+EVQVPEDPVVA----------LVGTDATLCCS------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---------------------------------------------------------
+>tr|H3BM68|H3BM68_HUMAN CD276 antigen (Fragment) OS=Homo sapiens OX=9606 GN=CD276 PE=1 SV=1
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---------------------MSLKAP----------------------------------MSSRKKKLY-LQQHCEAGA
+AFH---------------------------------------------------HGEPSCQPPHRKMLR-----------
+-------------RRGSPGMG---------------VH--VGAALGA--LWFCLT----------------------GAL
+EVQVPEDPVVA----------LVGTDATLCCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFAEGQDQGSAYANRTALFPDL
+LAQGNASL------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---------------------------------------------------------
+>tr|H0YLT8|H0YLT8_HUMAN CD276 antigen (Fragment) OS=Homo sapiens OX=9606 GN=CD276 PE=1 SV=8
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+------------------------------------------------------------------MLR-----------
+-------------RRGSPGMG---------------VH--VGAALGA--LWFCLT----------------------GAL
+EVQVPEDPVVA----------LVGTDATLCCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFAEGQDQGSAYANRTALFPDL
+LAQGNASLRLQRVRVADEGSFTCFVSIRDFGSA-----------------------------------------------
+--------------------------------------------------------------------------------
+---------------------------------------------------------
+>tr|H0YN85|H0YN85_HUMAN CD276 antigen (Fragment) OS=Homo sapiens OX=9606 GN=CD276 PE=1 SV=1
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+------------------------------------------------------------------MLR-----------
+-------------RRGSPGMG---------------VH--VGAALGA--LWFCLT----------------------GAL
+EVQVPEDPVVA----------LVGTDATLCCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFAEGQDQGSAYANRTALFPDL
+LAQGNASLRLQRVRVADEGSFTCFVSIRDFGSAAVSL-------------------------------------------
+--------------------------------------------------------------------------------
+---------------------------------------------------------
+>sp|Q5ZPR3-3|CD276_HUMAN Isoform 3 of CD276 antigen OS=Homo sapiens OX=9606 GN=CD276
+--------------------------------------------------------------------------------
+-------------------------------------------------------------------------MLRRRGS
+PGMGVHVGAALGALWFCLTGALEVQVPEDPVVALVGTDATLCCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFAEGQDQGS
+AYANRTALFPDLLAQGNASLRLQRVRVADEGSFTCFVSIRDFGSAAVSLQVAAPYSKPSMTLEPNKDLRPGDTVTITCSS
+YQGYPEAEVFWQDGQGVPLTGNVTTSQMANEQGLFDVHSILRVVLGANGTYSCLVRNPVLQQDAHSSVTITPQRSPTGAV
+EVQVPEDPVVA----------LVGTDATLRCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFTEGRDQGSAYANRTALFPDL
+LAQGNASLRLQRVRVADEGSFTCFVSIRDFGSAAVSLQVAAPYSKPSMTLEPNKDLRPGDTVTITCSSYRGYPEAEVFWQ
+DGQGVPLTGNVTTSQMANEQGLFDVHSVLRVVLGANGTYSCLVRNPVLQQDAHGSVTITGQPMTFPPGPASSAVPLSPAH
+PPHGSMCWSHWFSRGL-----------------------------------------
+>tr|H0YK40|H0YK40_HUMAN CD276 antigen (Fragment) OS=Homo sapiens OX=9606 GN=CD276 PE=1 SV=2
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+------------------------------------------------------------------MLR-----------
+-------------RRGSPGMG---------------VH--VGAALGA--LWFCLT----------------------GAL
+EVQVPEDPVVA----------LVGTDATLCCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFAEGQDQGSAYANRTALFPDL
+LAQGNASLRLQRVRVADEGSFTCFVSIRDFGSAAVSLQVAAPYSKPSMTLEPNKDLR-----------------------
+--------------------------------------------------------------------------------
+---------------------------------------------------------
+>tr|H0YK59|H0YK59_HUMAN CD276 antigen (Fragment) OS=Homo sapiens OX=9606 GN=CD276 PE=1 SV=1
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+------------------------------------------------------------------MLR-----------
+-------------RRGSPGMG---------------VH--VGAALGA--LWFCLT----------------------GAL
+EVQVPEDPVVA----------LVGTDATLCCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFAEGQDQGSAYANRTALFPDL
+LAQGNASLRLQRVRVADEGSFTCFVSIRDFGSAAVSLQVAAPYSKPSMTLEPNKDLRPGDTVTITC--------------
+--------------------------------------------------------------------------------
+---------------------------------------------------------
+>sp|Q5ZPR3-4|CD276_HUMAN Isoform 4 of CD276 antigen OS=Homo sapiens OX=9606 GN=CD276
+--------------------------------------------------------------------------------
+-------------------------------------------------------------------------MLRRRGS
+PGMGVHVGAALGALWFCLTGALEVQVPEDPVVALVGTDATLCCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFAEGQDQGS
+AYANRTALFPDLLAQGNASLRLQRVRVADEGSFTCFVSIRDFGSAAVSLQVAAPYSKPSMTLEPNKDLRPGDTVTITCSS
+YQGYPEAEVFWQDGQGVPLTGNVTTSQMANEQGLFDVHSILRVVLGANGTYSCLVRNPVLQQDAHSSVTITPQRSPTGAV
+EVQVPEDPVVA----------LVGTDATLRCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFTEGRDQGSAYANRTALFPDL
+LAQGNASLRLQRVRVADEGSFTCFVSIRDFGSAAVSLQVAAPYSKPSMTLEPNKDLRPGDTVTITCSSYRGYPEAEVFWQ
+DGQGVPLTGNVTTSQMANEQGLFDVHSVLRVVLGANGTYSCLVRNPVLQQDAHGSVTITGQPMTFPPEALWVTVGLSVCL
+IALLVALAFVCWRKIKQSCEEENAGAEDQDGEGEGSKTALQPLKHSDSKEGKDTWA-
+>sp|Q5ZPR3-2|CD276_HUMAN Isoform 2 of CD276 antigen OS=Homo sapiens OX=9606 GN=CD276
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+------------------------------------------------------------------MLR-----------
+-------------RRGSPGMG---------------VH--VGAALGA--LWFCLT----------------------GAL
+EVQVPEDPVVA----------LVGTDATLCCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFAEGQDQGSAYANRTALFPDL
+LAQGNASLRLQRVRVADEGSFTCFVSIRDFGSAAVSLQVAAPYSKPSMTLEPNKDLRPGDTVTITCSSYRGYPEAEVFWQ
+DGQGVPLTGNVTTSQMANEQGLFDVHSVLRVVLGANGTYSCLVRNPVLQQDAHGSVTITGQPMTFPPEALWVTVGLSVCL
+IALLVALAFVCWRKIKQSCEEENAGAEDQDGEGEGSKTALQPLKHSDSKEDDGQEIA
+>sp|Q5ZPR3|CD276_HUMAN CD276 antigen OS=Homo sapiens OX=9606 GN=CD276 PE=1 SV=1
+--------------------------------------------------------------------------------
+-------------------------------------------------------------------------MLRRRGS
+PGMGVHVGAALGALWFCLTGALEVQVPEDPVVALVGTDATLCCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFAEGQDQGS
+AYANRTALFPDLLAQGNASLRLQRVRVADEGSFTCFVSIRDFGSAAVSLQVAAPYSKPSMTLEPNKDLRPGDTVTITCSS
+YQGYPEAEVFWQDGQGVPLTGNVTTSQMANEQGLFDVHSILRVVLGANGTYSCLVRNPVLQQDAHSSVTITPQRSPTGAV
+EVQVPEDPVVA----------LVGTDATLRCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFTEGRDQGSAYANRTALFPDL
+LAQGNASLRLQRVRVADEGSFTCFVSIRDFGSAAVSLQVAAPYSKPSMTLEPNKDLRPGDTVTITCSSYRGYPEAEVFWQ
+DGQGVPLTGNVTTSQMANEQGLFDVHSVLRVVLGANGTYSCLVRNPVLQQDAHGSVTITGQPMTFPPEALWVTVGLSVCL
+IALLVALAFVCWRKIKQSCEEENAGAEDQDGEGEGSKTALQPLKHSDSKEDDGQEIA
+>tr|A0A0C4DGH0|A0A0C4DGH0_HUMAN CD276 antigen OS=Homo sapiens OX=9606 GN=CD276 PE=1 SV=1
+MTLEPNKDLRPGDTVTITCSSYQGYPEAEVFWQDGQGVPLTGNVTTSQMANEQGLFDVHSILRVVLGANGTYSCLVRNPV
+LQQDAHSSVTITPQRSPTGAVEVQVPEDPVVALVGTDATLRCSFSPEPGFSLAQLNLIWQLTDTKQLVHSFTEGRDQGSA
+YANRTALFPDLLAQGNASLRLQRVRVAD----------------------------------EGSFTCFVSIRDFGSAAV
+SLQVAAP-----------------------------------------------YSKPSMTLEPNKDLRPGDTVTITCSS
+YRGYPEAEVFWQDGQGVPLTGNVTTSQMANEQGLFDVHSVLRVVLGANGTYSCLVRN--------------------PVL
+QQDAHGSVTITGQPMTFPPEALWVTVGLSVCLIALLVALAFVCWRKIKQSCEEENAGAEDQDGEGEGSKTALQPLKHSDS
+KEDDGQEIA-----------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---------------------------------------------------------
+>tr|H0YL10|H0YL10_HUMAN CD276 antigen (Fragment) OS=Homo sapiens OX=9606 GN=CD276 PE=1 SV=1
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---------------------XRVRVAD----------------------------------EGSFTCFVSIRDFGSAAV
+SLQVAAP-----------------------------------------------YSKPSMTLEPNKDLRPGDTVTITCSS
+YRGYPEAEVFWQDGQGVPLTGNVTTSQMANEQGLFDVHSVLRVVLGANGTYSCLVRN--------------------PVL
+QQDAHGSVTIT--------EALWVTVGLSVCLIALLVALAFVCWRKIKQSCEEENAGAEDQDGEGEGSKTALQPLKHSDS
+KEDDGQEIA-----------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---------------------------------------------------------

@@ -1,0 +1,70 @@
+---
+title: "ERBB2"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+<style>
+  .scrollingplot{
+      overflow-x:scroll;
+      white-space: nowrap;
+  }
+
+  .scrollingplot img{
+     max-width: 40cm;
+  }
+
+</style>
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/01_functions.R")
+```
+
+
+<h4>Description</h4>
+Receptor tyrosine-protein kinase erbB-2 ([ERBB2](https://www.uniprot.org/uniprot/P04626)). Protein tyrosine kinase that is part of several cell surface receptor complexes. In the nucleus it is involved in transcriptional regulation. Enhances protein synthesis and cell growth.
+
+<br> 
+
+<h4>Clinical trials</h4> 
+[NCT03740256](https://clinicaltrials.gov/ct2/show/NCT03740256)	- Bladder Cancer, Breast Cancer, Colorectal    Cancer, Esophagus Cancer, Head and Neck Squamous Cell Carcinoma, Lung Cancer, Pancreatic Adenocarcinoma <br>
+[NCT03696030](https://clinicaltrials.gov/ct2/show/NCT03696030)	- Breast Cancer <br>
+[NCT02547961](https://clinicaltrials.gov/ct2/show/NCT02547961) -	Breast Cancer <br>
+[NCT04511871](https://clinicaltrials.gov/ct2/show/NCT04511871) -	Breast Cancer, Ovarian Cancer, Sarcoma <br>
+[NCT02713984](https://clinicaltrials.gov/ct2/show/NCT02713984)	- Breast Cancer, Colorectal Cancer, Lung Cancer, Ovarian Cancer, Pancreatic Adenocarcinoma <br>
+[NCT01109095](https://clinicaltrials.gov/ct2/show/NCT01109095)	- Glioblastoma Multiforme <br>
+[NCT03267173](https://clinicaltrials.gov/ct2/show/NCT03267173)	- Pancreatic Cancer <br>
+[NCT00902044](https://clinicaltrials.gov/ct2/show/NCT00902044) -	Sarcoma 
+
+<br>
+
+<h4>Target gene expression</h4>
+The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene ERBB2.
+<div class="scrollingplot">
+```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 40}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "ERBB2") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+</div>
+<br>
+
+<h4>Target essentiality</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 15}
+setwd("../../")
+target_essentiality_fun(gene_name_hgnc = "ERBB2") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
+```
+
+<br>
+
+<h4>Protein properties</h4>
+The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present. 
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height = 5}
+setwd("../../")
+plot_function("ERBB2") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```

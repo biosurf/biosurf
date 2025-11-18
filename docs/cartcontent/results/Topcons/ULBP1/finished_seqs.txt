@@ -1,0 +1,1 @@
+seq_0	244	1	True	cached	0.0	sp|Q9BZM6|ULBP1_HUMAN UL16-binding protein 1 OS=Homo sapiens OX=9606 GN=ULBP1 PE=1 SV=1	2020-12-03 11:27:47 CET

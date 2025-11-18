@@ -1,0 +1,442 @@
+---
+title: "cyCombine: Reference manual"
+author: "Søren Helweg Dam & Christina Bligaard Pedersen"
+date: "Last updated on Febraury 10, 2022"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: kate
+---
+<style type="text/css">
+
+h1.title {
+  color: #004d66;
+}
+h4.author {
+  font-style: italic;
+  font-size: 18px;
+  color: #008cba;
+}
+h4.date {
+  font-style: italic;
+  font-size: 16px;
+  color: #008cba;
+}
+h1 { /* Header 1 */
+  color: #004d66;
+  font-size: 28px;
+}
+h2 { /* Header 2 */
+  color: #004d66;
+  font-size: 22px;
+}
+h3 { /* Header 3 */
+  color: #004d66;
+  font-size: 16px;
+}
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+</style>
+
+<br><br> 
+Welcome to the cyCombine reference manual!
+This manual will show how to use the main functions of cyCombine - either using the recommended (all-in-one) workflow or the modular workflow, which is more customizable to fit specific data inputs.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  strip.white = T, comment = ""
+)
+```
+
+<br>
+
+cyCombine works on dataframes/tibbles in R. If you already have data in R or in a readable text format, the conversion to dataframe/tibble should be relatively straightforward. However, it is expected that most users will start their analysis from FCS files. 
+
+<br>
+
+Alongside a directory of FCS files, a metadata and a panel file are assumed to be present. These files are helpful in generating the tibble structure, which is processable with cyCombine. I.e. besides containing the protein marker expression per cell, the tibble should also contain information regarding the batch of origin per cell, and generally it is easier to work with data that also encompasses the sample IDs - and potential conditions. This information should be contained in a metadata file. 
+
+The panel information is also nice to have for several reasons: 
+
+#. FCS files contain some columns, which should not be included in batch correction - such as "Time" and "Event_length". Furthermore, there may be "empty" channels, which should also be ignored during analysis
+#. Sometimes, FCS files do not contain the proper protein names and a panel file can help ensure that the FCS files are read correctly. 
+
+<br>
+
+The metadata of our example has the following columns:
+
+| Filename | batch | condition | Patient_id |
+|:--------:|:-----:|:---------:|:----------:|
+|          |       |           |            |
+
+In addition, when replicated samples/anchors are included, it may be relevant to also use the column `anchor` as described [below](#replicates).
+
+<br>
+
+And the panel should contain the columns:
+
+| Channel | Antigen | Type |
+|:-------:|:-------:|:----:|
+|         |         |      |
+
+<br>
+
+By setting Type = 'none' in a panel file, the columns to exclude are easy to identify.
+
+<br><br>
+
+
+# Prepare data
+
+The first step of a cyCombine analysis is to convert the relevant FCS files into a work-able *tibble*. We introduce two approaches for this.
+
+<br>
+
+## The recommended workflow
+
+```{r, eval=FALSE}
+# Load packages
+library(cyCombine)
+library(tidyverse)
+
+# Directory with FCS files
+data_dir <- "~/data"
+
+# Extract markers from panel
+panel_file <- file.path(data_dir, "panel.csv") # Can also be .xlsx
+metadata_file <- file.path(data_dir, "metadata.csv") # Can also be .xlsx
+
+# Extract markers of interest
+markers <- read.csv(panel_file) %>% 
+  filter(Type != "none") %>% 
+  pull(Antigen)
+
+# Prepare a tibble from directory of FCS files
+uncorrected <- prepare_data(
+  data_dir = data_dir,
+  metadata = metadata_file, 
+  filename_col = "Filename",
+  batch_ids = "batch",
+  condition = "condition",
+  down_sample = FALSE,
+  markers = markers
+)
+# Store result
+saveRDS(uncorrected, file = file.path(data_dir, "uncorrected.RDS"))
+```
+
+<br>
+
+## Modular workflow
+
+In case you want more control, you can adjust any step of this approach.
+Feel free to skip this segment, if the method above worked just fine for you.
+
+This example will include all possible input parameters to give an overview of what can be modified.
+
+```{r, eval=FALSE}
+# Load packages
+library(cyCombine)
+library(tidyverse)
+
+# Directory with FCS files
+data_dir <- "~/data"
+
+# Extract markers from panel
+panel <- read_csv(file.path(data_dir, "panel.csv")) # Can also be .xlsx
+metadata <- read_csv(file.path(data_dir, "metadata.csv"))
+
+# Extract markers of interest
+markers <- panel %>% 
+  filter(Type != "none") %>% 
+  pull(Antigen)
+
+# Read FCS files
+flowset <- compile_fcs(
+  data_dir = data_dir,
+  pattern = "\\.fcs" # Read all FCS files
+)
+
+# Convert flowset to tibble
+df <- convert_flowset(
+  flowset = flowset,
+  metadata = metadata,
+  filename_col = "Filename",
+  sample_ids = "Filename", # By default the filename is used to get sample ids
+  batch_ids = "batch",
+  condition = "condition",
+  down_sample = TRUE,
+  sample_size = 2000000,
+  seed = 101,
+  panel = panel, # Can also be the filename. It is solely used to ensure the channel names match what you expect (i.e. what is in the panel_antigen column)
+  panel_channel = "Channel",
+  panel_antigen = "Antigen"
+)
+
+# Transform data - This function also de-randomizes the data
+uncorrected <- transform_asinh(
+  df = df,
+  markers = markers,
+  cofactor = 5,
+  .keep = TRUE # Lets you keep all columns, in case they are useful to you
+)
+# Store result
+saveRDS(uncorrected, file = file.path(data_dir, "uncorrected.RDS"))
+```
+
+<!-- ## Minimal input use-case 
+
+This example illustrates the minimal, runnable use-case.
+Feel free to skip.
+It is recommended to as a minimum include the batches from the metadata, either as above or as a vector of the same length as the data.
+
+
+```{r, eval=FALSE}
+# Load packages
+library(cyCombine)
+library(tidyverse)
+
+# Directory with FCS files
+data_dir <- "~/data"
+
+# Extract markers from panel
+panel_file <- "data/panel.csv" # Can also be .xlsx
+metadata <- read.csv("data/metadata.csv") # Can also be .xlsx
+
+# Extract markers of interest
+markers <- read.csv(panel_file) %>% 
+  filter(Type != "none") %>% 
+  pull(Antigen)
+
+# Prepare a tibble from directory of FCS files
+uncorrected <- prepare_data(
+  data_dir = data_dir,
+  down_sample = FALSE
+)
+
+# Extract batches
+
+  
+
+# Store result
+saveRDS(uncorrected, file = "data/uncorrected.RDS")
+``` 
+-->
+<br><br>
+
+# Batch correction
+
+Now that the data is converted to a tibble format, it is straightforward to perform batch correction with cyCombine. Again, we demonstrate two different workflows.
+
+Besides the functionality used below, it is also possible to directly inform cyCombine about which samples are replicates. For this, please refer to the [relevant section](#replicates) below.
+
+
+<br>
+
+
+## The recommended workflow
+
+Skip this segment if you are interested in more modularity.
+
+```{r, eval=FALSE}
+# Load packages
+library(cyCombine)
+library(tidyverse)
+
+# Load data (if not already loaded)
+# uncorrected <- readRDS("data/uncorrected.RDS")
+# markers <- get_markers(uncorrected)
+
+# Batch correct
+corrected <- batch_correct(
+  df = uncorrected,
+  covar = "condition",
+  markers = markers,
+  norm_method = "scale", # "rank" is recommended when combining data with heavy batch effects
+  rlen = 10, # Higher values are recommended if 10 does not appear to perform well
+  seed = 101 # Recommended to use your own random seed
+)
+
+# Save result
+saveRDS(corrected, file.path(data_dir, "corrected.RDS"))
+```
+
+<br>
+
+## Modular workflow
+
+```{r, eval = FALSE}
+# Load packages
+library(cyCombine)
+library(tidyverse)
+
+# Load data (if not already loaded)
+# uncorrected <- readRDS("data/uncorrected.RDS")
+# markers <- get_markers(uncorrected)
+
+# Create cell type labels using a SOM grid (if you want to use your own labels, they can be added manually and this step should not be run)
+labels <- uncorrected %>% 
+  normalize(markers = markers,
+            norm_method = "rank", # "scale" is recommended in cases with light batch effects (e.g. when combining similar data)
+            ties.method = "average") %>% # Can also be minimum
+  create_som(markers = markers,
+             rlen = 10, # If results are not convincing, consider using a higher value (e.g. 100)
+             seed = 101,
+             xdim = 8,
+             ydim = 8)
+
+# Batch correct
+corrected <- correct_data(
+  df = uncorrected,
+  label = labels, # Add custom labels here, if desired
+  covar = "condition",
+  markers = markers,
+  parametric = TRUE,
+  )
+
+# Save result
+saveRDS(corrected, file.path(data_dir, "corrected.RDS"))
+```
+
+<br>
+
+
+## Batch correction with replicates (recommended workflow) {#replicates}
+
+There are several ways to inform cyCombine which samples are replicates. One option is to add an additional column (e.g. "anchor") to your metadata file, which can then be added as a column to your uncorrected data by using `prepare_data()`. This information may also be added manually to the uncorrected data, or it is possible to provide the information directly to `batch_correct()` using a vector.
+
+To perform the batch correction, one should use `batch_correct()` with the `anchor` parameter, which should be set to the column name (e.g. "anchor") or the name of the vector containing the information. cyCombine will automatically check whether the covariate and anchor are confounded with each other or the batch.
+
+
+```{r, eval=FALSE}
+# Load packages
+library(cyCombine)
+library(tidyverse)
+
+# Load data (if not already loaded)
+# uncorrected <- readRDS("data/uncorrected.RDS")
+# markers <- get_markers(uncorrected)
+
+# Batch correct
+corrected <- batch_correct(
+  df = uncorrected,
+  covar = "condition",
+  markers = markers,
+  norm_method = "scale", # "rank" is recommended when combining data with heavy batch effects
+  rlen = 10, # Higher values are recommended if 10 does not appear to perform well
+  seed = 101, # Recommended to use your own random seed
+  anchor = "anchor"
+)
+
+# Save result
+saveRDS(corrected, file.path(data_dir, "corrected.RDS"))
+```
+
+
+
+<br><br>
+
+
+# Evaluate performance
+
+The cyCombine package includes two performance metrics. The Earth Mover's Distance (EMD) reduction and the Median Absolute Deviation (MAD) score
+
+The EMD reduction is implemented as the first performance metric; EMDs are computed for both the uncorrected and corrected data, removing those values where both had an EMD < 2.
+
+<br>
+
+$$EMD_{reduction} = \frac{\sum_{i=1}^n {(EMD_{before_i} - EMD_{after_i})}} {\sum_{i=1}^n {EMD_{before_i}}}$$
+<br>
+
+
+
+The MAD score is implemented as the second performance metric; MADs are computed for both the uncorrected and corrected data per-cluster, per-marker, per-batch. The MAD score is then calculated as the median of the absolute difference in MAD per value:
+
+<br>
+
+$$MAD_{score} = \mathrm{median}_{i=1}^n (|MAD_{before_i} - MAD_{after_i}|)$$
+<br>
+
+Because the MAD score quantifies the information 'loss', the ideal tool has a *small* MAD score.
+
+
+```{r, eval=FALSE}
+# Load packages
+library(cyCombine)
+library(tidyverse)
+
+# Load data (if not already loaded)
+# data_dir <- "~/data"
+# uncorrected <- readRDS(file.path(data_dir, "uncorrected.RDS"))
+# corrected <- readRDS(file.path(data_dir, "corrected.RDS"))
+# markers <- get_markers(uncorrected)
+
+# Re-run clustering on corrected data
+labels <- corrected %>% 
+  create_som(markers = markers,
+             rlen = 10)
+uncorrected$label <- corrected$label <- labels
+
+# Evaluate EMD
+emd <- evaluate_emd(uncorrected, corrected, cell_col = "label")
+
+# Reduction
+emd$reduction
+
+# Violin plot
+emd$violin
+
+# Scatter plot
+emd$scatter
+
+
+
+# Evaluate MAD
+mad <- evaluate_mad(uncorrected, corrected, cell_col = "label")
+
+# Score
+mad$score
+
+```
+
+
+<br><br>
+
+
+
+# Create UMAPs and density plots
+
+This segment will demonstrate the built-in functions for generating UMAPs and density plots.
+
+```{r, eval=FALSE}
+# Load packages
+library(cyCombine)
+library(tidyverse)
+
+# Load data (if not already loaded)
+# data_dir <- "~/data"
+# uncorrected <- readRDS(file.path(data_dir, "uncorrected.RDS"))
+# corrected <- readRDS(file.path(data_dir, "corrected.RDS"))
+# markers <- get_markers(uncorrected)
+
+# Create UMAPs
+sam <- sample(1:nrow(uncorrected), 30000)
+plot1 <- plot_dimred(uncorrected[sam, ], "Uncorrected", type = "umap", plot = "batch", markers = markers)
+plot2 <- plot_dimred(corrected[sam, ], "Corrected", type = "umap", plot = "batch", markers = markers)
+plot_save_two(plot1, plot2, "figs/umap.png")
+
+# Density plots
+plot_density(uncorrected,
+             corrected,
+             markers = markers,
+             filename = "figs/density.png",
+             y = "batch",
+             ncol = 6,
+             xlim = 10)
+```
+

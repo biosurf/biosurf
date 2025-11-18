@@ -1,0 +1,162 @@
+>sp|P15941-12|MUC1_HUMAN Isoform S2 of Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1
+--------------------------------MTPGTQSP--FFLLLLLTVLTATTAPKPATVVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNA--------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-----------------------------------------------------------------FNSSLEDPSTDYYQE
+LQR-------DISEM-----------------------------------------------------------------
+----------------------------------------AVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>sp|P15941-9|MUC1_HUMAN Isoform 9 of Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1
+--------------------------------MTPGTQSP--FFLLLLLTVLT---------VVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNALSTGVSFFFLSF--------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-----------------------------------------------------------HISNLQFNSSLEDPSTDYYQE
+LQR-------DISEM-----------------------------------------------------------------
+----------------------------------------AVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>tr|A6ZIE4|A6ZIE4_HUMAN MUC1 isoform M10 OS=Homo sapiens OX=9606 GN=MUC1 PE=1 SV=1
+--------------------------------MTPGTQSP--FFLLLLLTVLTATTAPKPATVVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNA--------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-----------------------------------------------------------------FNSSLEDPSTDYYQE
+LQR-------DISEMSGAGV------------------------------------------------------------
+---------------PGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>sp|P15941-11|MUC1_HUMAN Isoform Y-LSP of Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1
+--------------------------------MTPGTQSP--FFLLLLLTVLTATTAPKPATVVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNA--------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-----------------------------------------------------------------FNSSLEDPSTDYYQE
+LQR-------DISEMFLQIYKQGGFLGLSNIKFRPGSVVVQLTLAFREGTINVHDVETQFNQYKTEAASRYNLTISDVSV
+SDVPFPFSAQSGAGVPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>sp|P15941-6|MUC1_HUMAN Isoform 6 of Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1
+--------------------------------MTPGTQSP--FFLLLLLTVLT---------VVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNAIPAPTTTKSCR---------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------------------------ETFLKWPGSVVVQLTLAFREGTINVHDVETQFNQYKTEAASRYNLT
+ISDV------SVSDVPFPFSAQSGAG------------------------------------------------------
+--------------VPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>tr|A0A087X0L2|A0A087X0L2_HUMAN Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1 PE=1 SV=1
+--------------------------------MTPGTQSP--FFLLLLLTVLTATTAPKPATVVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNAIPAPTTTKSCR---------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------------------------ETFLKWPGSVVVQLTLAFREGTINVHDVETQFNQYKTEAASRYNLT
+ISDV------SVSDVPFPFSAQSGAG------------------------------------------------------
+--------------VPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>sp|P15941-10|MUC1_HUMAN Isoform F of Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1
+--------------------------------MTPGTQSP--FFLLLLLTVLT---------VVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNAIPAPTTTKSCR---------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------------------------ETFLKC-------------------------FCRFINKGVFWASPI
+LS--------SVSDVPFPFSAQSGAG------------------------------------------------------
+--------------VPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>sp|P15941-16|MUC1_HUMAN Isoform E2 of Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1
+--------------------------------MTPGTQSP--FFLLLLLTVLTATTAPKPATVVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKN---------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---------------------ASGAG------------------------------------------------------
+--------------VPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>tr|A0A0A0MRB3|A0A0A0MRB3_HUMAN Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1 PE=1 SV=1
+--------------------------------MTPGTQSP--FFLLLLLTVLTATTAPKPATVVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNAFLQIYKQGGFLG--------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---------------------------------LSNIKFRPGSVVVQLTLAFREGTINVHDVETQFNQYKTEAASRYNLT
+ISDV------SVSDVPFPFSAQSGAG------------------------------------------------------
+--------------VPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>tr|B1AVQ7|B1AVQ7_HUMAN Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1 PE=1 SV=1
+--------------------------------MTPGTQSP--FFLLLLLTVLT---------VVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNAIYKQGGFLGLS---------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-----------------------------------NIKFRPGSVVVQLTLAFREGTINVHDVETQFNQYKTEAASRYNLT
+ISDV------SVSDVPFPFSAQSGAG------------------------------------------------------
+--------------VPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>sp|P15941-7|MUC1_HUMAN Isoform Y of Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1
+--------------------------------MTPGTQSP--FFLLLLLTVLT---------VVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNAFNSSLEDPSTDYYQE-----------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-------------LQRDISEMFLQIYKQGGFLGLSNIKFRPGSVVVQLTLAFREGTINVHDVETQFNQYKTEAASRYNLT
+ISDV------SVSDVPFPFSAQSGAG------------------------------------------------------
+--------------VPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>sp|P15941-8|MUC1_HUMAN Isoform 8 of Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1
+--------------------------------MTPGTQSP--FFLLLLLTVLT---------VVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNALSTGVSFFFLSFHISN----------------------------------------------
+--------------------------------------------------------------------------------
+----------------------------------------------------------------------------LQFN
+SSLEDPSTDYYQELQRDISEMFLQIYKQGGFLGLSNIKFRPGSVVVQLTLAFREGTINVHDVETQFNQYKTEAASRYNLT
+ISDV------SVSDVPFPFSAQSGAG------------------------------------------------------
+--------------VPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>tr|A0A0C4DGW3|A0A0C4DGW3_HUMAN Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1 PE=1 SV=1
+--------------------------------MTPGTQSP--FFLLLLLTVLT---------VVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNAVSMTSSVLSSHSPGSGSSTTQGQDVTLAPATEPASGSAATWGQDVTSVPVTRPALGSTTPPA
+HDVTSAPDNKPAPGSTAPPAHGVTSAPDTRPAPGSTAPPAHGVTSAPDNRPALGSTAPPVHNVTSASGSASGSASTLVHN
+GTSARATTTPASKSTPFSIPSHHSDTPTTLASHSTKTDASSTHHSTVPPLTSSNHSTSPQLSTGVSFFFLSFHISNLQFN
+SSLEDPSTDYYQELQRDISEMFLQIYKQGGFLGLSNIKFRPGSVVVQLTLAFREGTINVHDVETQFNQYKTEAASRYNLT
+ISDV------SVSDVPFPFSAQSGAG------------------------------------------------------
+--------------VPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKVSAGNGGSSLSYTNPAVAATSANL
+>tr|A0A087WVJ0|A0A087WVJ0_HUMAN Mucin-1 (Fragment) OS=Homo sapiens OX=9606 GN=MUC1 PE=1 SV=1
+------------------------------ASSTHHSTVP----PLTSSNHSTSP------QLSTGVSFFFLSFHISNLQ
+FNSSLEDPSTDYYQELQRDISEMFLQIYKQGGFLG---------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---------------------------------LSNIKFRPGSVVVQLTLAFREGTINVHDVETQFNQYKTEAASRYNLT
+ISDV------SVSDVPFPFSAQSGAG------------------------------------------------------
+--------------VPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKEWRVDR-ERLA-------------
+>tr|A0A0A0MSH4|A0A0A0MSH4_HUMAN Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1 PE=1 SV=1
+MTPGTQSPFFLLLLLTVLTATTAPKPATVVTGSGHASSTPGGEKETSATQRSSVPSSTEKNALSTGVSFFFLSFHISNLQ
+FNSSLEDPSTDYYQELQRDISEMFLQIYKQGGFLG---------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+---------------------------------LSNIKFRPGSVVVQLTLAFREGTINVHDVETQFNQYKTEAASRYNLT
+ISDV------SVSDVPFPFSAQSGAG------------------------------------------------------
+--------------VPGWGIALLVLVCVLVALAIVYLIALAVCQCRRKNYGQLDIFPARDTYHPMSEYPTYHTHGRYVPP
+SSTDRSPYEKEWRVDR-ERLA-------------
+>tr|Q7Z536|Q7Z536_HUMAN Mucin short variant SV10 OS=Homo sapiens OX=9606 GN=MUC1 PE=1 SV=1
+--------------------------------MTPGTQSP--FFLLLLLTVLT---------VVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNA--------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-----------------------------------------------------------------FNSSLEDPSTDYYQE
+LQR-------DISEMFLQIYKQGG--------------------------------------------------------
+----------------------------FLGLSNIKFSLGLGCQAGASRCWCWSVFWLR---WPLSISLP------WLSV
+SAAERTTGSWTSFQPGIPTIL-------------
+>sp|P15941-13|MUC1_HUMAN Isoform M6 of Mucin-1 OS=Homo sapiens OX=9606 GN=MUC1
+--------------------------------MTPGTQSP--FFLLLLLTVLT---------VVTGSG--HASSTPGGEK
+ETSATQRSSVPSSTEKNALSTGVSFFFLSFHISNL---------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------------------------------------------------------QFNSSLEDPSTDYYQE
+LQRDISEMFLQIYKQGGFLGLSNIKF------------------------------------------------------
+----------------RPGSVVVQLTLAFREGTINVHDVETQFNQYKTEAASRYNLTISDVSGCLSVPPKELRAAGHLS-
+SPGYLPSYERVPHLPHPWALCAP-----------
+>tr|A0A087WTR1|A0A087WTR1_HUMAN Mucin-1 (Fragment) OS=Homo sapiens OX=9606 GN=MUC1 PE=1 SV=1
+--------------------------------------------------------------------------------
+-TEAASR-------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-----------------------------------------------------------------YNLTISDVS------
+-----------VWGWGARLGHR----------------------------------------------------------
+---------------------------AAGAG-------------LCSGCAG---HCLSHCLGCLSVPPKELRAAGHLS-
+SPGYLPSYERVPHLPHPWALCAP-----------

@@ -1,0 +1,1 @@
+seq_0	385	sp|P28906|CD34_HUMAN Hematopoietic progenitor cell antigen CD34 OS=Homo sapiens OX=9606 GN=CD34 PE=1 SV=2

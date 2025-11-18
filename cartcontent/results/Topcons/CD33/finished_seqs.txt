@@ -1,0 +1,1 @@
+seq_0	364	1	True	cached	0.0	sp|P20138|CD33_HUMAN Myeloid cell surface antigen CD33 OS=Homo sapiens OX=9606 GN=CD33 PE=1 SV=2	2020-11-28 14:35:33 UTC

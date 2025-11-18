@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Blog</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/twitter-widget-0.0.1/widgets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">The Single Cell Omics Group</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="blog.html">Blog</a>
+</li>
+<li>
+  <a href="group_members.html">People</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Research
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="projects.html">Projects</a>
+    </li>
+    <li>
+      <a href="publications.html">Publications</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Teaching
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="http://kurser.dtu.dk/course/22140">Course: Introduction to Systems Biology</a>
+    </li>
+    <li>
+      <a href="http://kurser.dtu.dk/course/22104">Course: Health, Diseases, and Technology</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cytof.html">CyTOF primers</a>
+    </li>
+    <li>
+      <a href="spectracular.html">Spectracular</a>
+    </li>
+    <li>
+      <a href="cart.html">CAR T target evaluation</a>
+    </li>
+    <li>
+      <a href="cyCombine.html">cyCombine vignettes</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Blog</h1>
+
+</div>
+
+
+<p><br></p>
+<div id="cycombine" class="section level2">
+<h2>cyCombine</h2>
+<div id="march-31-2022" class="section level4">
+<h4>March 31 2022</h4>
+<p>Robust integration of single-cell cytometry datasets.</p>
+<blockquote class="twitter-tweet" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">Technical variance is a challenge for working with large single-cell <a href="https://twitter.com/hashtag/cytometry?src=hash&amp;ref_src=twsrc%5Etfw">#cytometry</a> datasets - which is why we are proud to present cyCombine as a tool enabling <a href="https://twitter.com/hashtag/DataIntegration?src=hash&amp;ref_src=twsrc%5Etfw">#DataIntegration</a> both within and across technologies.<a href="https://t.co/G1Vs4KNWo5">https://t.co/G1Vs4KNWo5</a></p>&mdash; Christina Bligaard Pedersen (@cbligaard) <a href="https://twitter.com/cbligaard/status/1509572937216450568?ref_src=twsrc%5Etfw">March 31, 2022</a></blockquote>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">cyCombine is composed of two main modules: One for <a href="https://twitter.com/hashtag/BatchCorrection?src=hash&amp;ref_src=twsrc%5Etfw">#BatchCorrection</a> and one for panel merging. In combination, they can yield a complete integration of data, also when the antibody panels are not identical.</p>&mdash; Christina Bligaard Pedersen (@cbligaard) <a href="https://twitter.com/cbligaard/status/1509573036025921536?ref_src=twsrc%5Etfw">March 31, 2022</a></blockquote>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">In the article, cyCombine is applied to a dataset of CLL patients and healthy donors to demonstrate its full potential - and even with a large dataset of more than 12 million cells, cyCombine is able to run quickly on a standard laptop.</p>&mdash; Christina Bligaard Pedersen (@cbligaard) <a href="https://twitter.com/cbligaard/status/1509573140275294210?ref_src=twsrc%5Etfw">March 31, 2022</a></blockquote>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">A comparison with other tools also underlines the flexibility and robustness of our new tool, which we are excited to share with the community as an R package on GitHub.</p>&mdash; Christina Bligaard Pedersen (@cbligaard) <a href="https://twitter.com/cbligaard/status/1509574553948676105?ref_src=twsrc%5Etfw">March 31, 2022</a></blockquote>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">I am grateful to have worked with an excellent team of scientists on this project including <a href="https://twitter.com/sorenhdam?ref_src=twsrc%5Etfw">@sorenhdam</a>, <a href="https://twitter.com/mikebarnkob?ref_src=twsrc%5Etfw">@mikebarnkob</a>, <a href="https://twitter.com/JALALFA?ref_src=twsrc%5Etfw">@JALALFA</a>, <a href="https://twitter.com/SatyenGohil?ref_src=twsrc%5Etfw">@SatyenGohil</a>, <a href="https://twitter.com/larsronnolsen?ref_src=twsrc%5Etfw">@larsronnolsen</a> - and of course the non-Twitter users: Mike Leipold, Noelia Purroy, Laura Rassenti, Thomas Kipps, Jennifer Nguyen, Cathy Wu</p>&mdash; Christina Bligaard Pedersen (@cbligaard) <a href="https://twitter.com/cbligaard/status/1509576466580660233?ref_src=twsrc%5Etfw">March 31, 2022</a></blockquote>
+
+<p>Make sure to check out the <a
+href="https://github.com/biosurf/cyCombine">R package</a> and the <a
+href="https://biosurf.org/cyCombine.html">vignettes</a>.</p>
+<p><br><br></p>
+</div>
+</div>
+<div id="spectracular" class="section level2">
+<h2>Spectracular</h2>
+<div id="march-19-2021" class="section level4">
+<h4>March 19 2021</h4>
+<blockquote class="twitter-tweet" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">Four years ago I had a beer with <a href="https://twitter.com/larsronnolsen?ref_src=twsrc%5Etfw">@larsronnolsen</a> and complained about what a fuss it was to find good fluorochromes combinations for <a href="https://twitter.com/hashtag/flowcytometry?src=hash&amp;ref_src=twsrc%5Etfw">#flowcytometry</a>. And today we wrote this: <a href="https://t.co/jlrb8layMC">https://t.co/jlrb8layMC</a>. It’s still a work in progress with functions being added, but here it is.</p>&mdash; Mike Bogetofte Barnkob (@mikebarnkob) <a href="https://twitter.com/mikebarnkob/status/1372998013854093313?ref_src=twsrc%5Etfw">March 19, 2021</a></blockquote>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">The idea is quite simply that humans are pretty bad at choosing which fluorochromes to combine, especially when having to pick a large number: 5-10–15, not to say 20 or more. Which are best of these ten? <a href="https://t.co/AgakFdh4xm">pic.twitter.com/AgakFdh4xm</a></p>&mdash; Mike Bogetofte Barnkob (@mikebarnkob) <a href="https://twitter.com/mikebarnkob/status/1372999506632056839?ref_src=twsrc%5Etfw">March 19, 2021</a></blockquote>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">So why not let a computer calculate the ones with the least overlap. Easy right? Well, it’s actually quite complex especially if you want to compare more then 30 different spectra. Fluorochromes these days are abound! We included over 100 on Spectracular, but there are many more</p>&mdash; Mike Bogetofte Barnkob (@mikebarnkob) <a href="https://twitter.com/mikebarnkob/status/1373000888709709827?ref_src=twsrc%5Etfw">March 19, 2021</a></blockquote>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">Enter Alfredo, Gianfranco and Lars who came up with some brilliant ideas for how to turn this complexity into something that gives combinations that are near optimal suggestion, and does so in only a few seconds.</p>&mdash; Mike Bogetofte Barnkob (@mikebarnkob) <a href="https://twitter.com/mikebarnkob/status/1373002101308145672?ref_src=twsrc%5Etfw">March 19, 2021</a></blockquote>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">We wanted to test Spectracular against something and decided to look at the expertly-made OMIP panels, which started out back in 2010. Turns out you can improve considerably on them if you start taking into account all the fluorochromes (=k in image) available today: <a href="https://t.co/aO35ZEWdA7">pic.twitter.com/aO35ZEWdA7</a></p>&mdash; Mike Bogetofte Barnkob (@mikebarnkob) <a href="https://twitter.com/mikebarnkob/status/1373003666555342853?ref_src=twsrc%5Etfw">March 19, 2021</a></blockquote>
+
+<blockquote class="twitter-tweet" data-conversation="none" data-width="550" data-lang="en" data-dnt="true" data-theme="light"><p lang="en" dir="ltr">We are still working on my favorite function in all this: the ability to couple one or more antibody to several specific fluorochromes and ask Spectracular to find the best combinations of these and say five others. Stay tuned. But here’s the beta version: <a href="https://t.co/47xKSZdmw5">https://t.co/47xKSZdmw5</a></p>&mdash; Mike Bogetofte Barnkob (@mikebarnkob) <a href="https://twitter.com/mikebarnkob/status/1373005137866809349?ref_src=twsrc%5Etfw">March 19, 2021</a></blockquote>
+
+<p>Please check out the <a
+href="https://biosurf.shinyapps.io/spectracular/">Shiny</a> and the <a
+href="https://biosurf.org/spectracular.html">manual</a>!</p>
+</div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: center;">Contact</p>
+
+<!-- Add icon library -->
+<script src="https://kit.fontawesome.com/2089613833.js" crossorigin="anonymous"></script>
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+    <a href="mailto:lronn@dtu.dk" class="fas fa-envelope"></a>
+    <a href="https://www.linkedin.com/in/larsronnolsen/" class="fab fa-linkedin-in"></a>
+    <a href="https://github.com/biosurf/" class="fab fa-github"></a>
+</p>
+
+&nbsp;
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+---
+title: "ULBP2"
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_format = "html_document",
+      output_dir = "../results/html_docs",
+    )
+  })
+---
+<style>
+  .scrollingplot{
+      overflow-x:scroll;
+      white-space: nowrap;
+  }
+
+  .scrollingplot img{
+     max-width: 40cm;
+  }
+
+</style>
+
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+setwd("../../")
+source("cartcontent/scr/01_functions.R")
+```
+
+<h4>Description</h4>
+UL16-binding protein 2 ([ULBP2](https://www.uniprot.org/uniprot/Q9BZM5)). Binds and activates the KLRK1/NKG2D receptor, mediating natural killer cell cytotoxicity.
+
+<br> 
+
+<h4>Clinical trials</h4> 
+[NCT04107142](https://clinicaltrials.gov/ct2/show/NCT04107142) - Colorectal Cancer, Prostate Cancer, Sarcoma
+
+<br>
+
+<h4>Target gene expression</h4>
+The following plot describes the expression, in different tissues and TCGA cancers, of the different isoforms of the gene ULBP2.
+<div class="scrollingplot">
+```{r , echo = FALSE, warning = FALSE, message = FALSE, fig.width = 80, fig.height = 40}
+setwd("../../")
+boxplot_isoforms_all_tissues(hgnc = "ULBP2") # it creates the boxplot in the html and saves it as .pdf in the plot/isoform_expression folder
+```
+</div>
+<br>
+
+<h4>Target essentiality</h4>
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 25, fig.height= 15}
+setwd("../../")
+target_essentiality_fun(gene_name_hgnc = "ULBP2") # it creates the boxplot in the html and saves it as .pdf in the plot/target_essentiality folder
+```
+
+<br>
+
+<h4>Protein properties</h4>
+The following plot describes the target topology, highlighting the position of the endo-, ecto- and transmembrane domains, as well as the position of a signal peptide, when present. 
+```{r, eval = TRUE, echo = FALSE, warning = FALSE, message = F, fig.width = 10, fig.height = 2}
+setwd("../../")
+plot_function("ULBP2") # it creates the plot in the html and saves it as .pdf in the plot/protein_properties folder
+```

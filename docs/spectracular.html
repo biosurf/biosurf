@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Spectracular</title>
+
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">The Single Cell Omics Group</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="blog.html">Blog</a>
+</li>
+<li>
+  <a href="group_members.html">People</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Research
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="projects.html">Projects</a>
+    </li>
+    <li>
+      <a href="publications.html">Publications</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Teaching
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="http://kurser.dtu.dk/course/22140">Course: Introduction to Systems Biology</a>
+    </li>
+    <li>
+      <a href="http://kurser.dtu.dk/course/22104">Course: Health, Diseases, and Technology</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cytof.html">CyTOF primers</a>
+    </li>
+    <li>
+      <a href="spectracular.html">Spectracular</a>
+    </li>
+    <li>
+      <a href="cart.html">CAR T target evaluation</a>
+    </li>
+    <li>
+      <a href="cyCombine.html">cyCombine vignettes</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Spectracular</h1>
+
+</div>
+
+
+<p><br></p>
+<p>Welcome to Spectracular, the online tool for minimizing spectra overlap in multicolor flow cytometry panels. <br><br></p>
+<table style="width:100%">
+<tr>
+<td>
+<center>
+<a href="https://biosurf.shinyapps.io/spectracular/" target="_blank"><img src="spectracular_files/figure-html/launch.png" style="width:50.0%" /></a>
+</center>
+</td>
+</tr>
+</table>
+<p><br></p>
+<div id="what-is-spectracular" class="section level3">
+<h3>What is Spectracular?</h3>
+<p>Spectracular is a computational tool to support selection of fluorochromes for multicolor flow cytometry panels. Specifically, Spectracular finds the optimal (or near-optimal) combination of fluorochromes from a user-defined pool of fluorochromes to choose from. <br><br></p>
+</div>
+<div id="how-to-use-spectracular" class="section level3">
+<h3>How to use Spectracular</h3>
+<p>In order to use spectracular, you need to know how many fluorochromes you would like in your panel, out of which pool of fluorochromes you want to choose, and the laser configuration of your flow cytometer. <br><br></p>
+First, you will be required to select a number of fluorochromes in your desired panel (denoted <em>k</em> in the following). You can do this by adjusting the slider in the input panel on the left. <br><br>
+<table style="width:100%">
+<tr>
+<td>
+<center>
+<img src="spectracular_files/figure-html/slider.png" style="width:50.0%" />
+</center>
+</td>
+</tr>
+</table>
+<p><br><br> Note that as a default, you can choose between 2 and 43 - this is because the default pool of fluorochromes that Spectracular consideres consist of 44 commonly used fluorochromes. The slider will automatically increase and decrease in range as you add or remove fluorochromes to consider. <br><br></p>
+This is done by clicking the light blue “Fluorochromes to consider” button immediately below the slider. <br><br>
+<table style="width:100%">
+<tr>
+<td>
+<center>
+<img src="spectracular_files/figure-html/consider.png" style="width:50.0%" />
+</center>
+</td>
+</tr>
+</table>
+<p><br><br></p>
+<p>This reveals the full list of 133 fluorochromes to choose from. While it will not change the runtime of the algorithm much to include all of them, we recommend selecting a reasonable subset based on what fluorochromes are available for the antibodies you intend to use. <br><br></p>
+<p>Immediately below that, is a dark blue “Fluorochromes to include”" button. Clicking this will reveal a list consisting of the fluorochromes selected above. From these, you may select a subset of no more than <em>k</em> fluorochromes that will be included in your solution, regardless of their overlap. This option allows users to force Spectracular to consider fluorochromes that they may want to use for reasons beyond overlap.</p>
+<br><br>
+<table style="width:100%">
+<tr>
+<td>
+<center>
+<img src="spectracular_files/figure-html/include.png" style="width:50.0%" />
+</center>
+</td>
+</tr>
+</table>
+<p><br><br></p>
+<p>Lastly, clicking the red “Instrument laser configuration” button reveals the following dialog box:</p>
+<br><br>
+<table style="width:100%">
+<tr>
+<td>
+<center>
+<img src="spectracular_files/figure-html/laser.png" style="width:50.0%" />
+</center>
+</td>
+</tr>
+</table>
+<p><br><br></p>
+<p>Lasers are added by typing the wavelength (in positive integers between 300 and 900) and hitting enter. Lasers can be removed by placing the cursor in front of a laser and hitting delete. The minimal excitation ratio, is a threshold for including fluorochromes in the final solution. A minimal excitation ratio of 25% means that in order for a fluorochrome to be considered for the final solution, it must be excited to at least 25% of the theoretical maximum excitation. A fluorochrome will be assumed to be excited by the laser which leads to the highest emission signal. <br><br></p>
+</div>
+<div id="how-does-spectracular-work" class="section level3">
+<h3>How does Spectracular work?</h3>
+Calculating the total overlap of every combination of k fluorochromes out of a pool of n, is a combinatorial problem with the complexity: <br>
+<center>
+<span class="math inline">\(\frac{n!}{k!(n-k)}\)</span>
+</center>
+<br> This means that if you wish to find the optimal combination of, say, 20 fluorochromes out of 133 fluorochromes currently available in spectracular, we would need to calculate the sum overlap coefficient of:<br> <br>
+<center>
+<span class="math inline">\(\frac{133!}{20!(133-20)}=2.74\times10^{23}\)</span>
+</center>
+<p><br> This is <em>a lot</em> of combinations to calculate. For comparison, there are an estimated <span class="math inline">\(7.5\times10^{18}\)</span> grains of sand on earth and somewhere between <span class="math inline">\(10^{22}\)</span> and <span class="math inline">\(10^{24}\)</span> stars in the observable universe. Given that the computational problem is NP hard (which roughly means that the effort required to solve the problem grows exponentially with the size of <span class="math inline">\(N\)</span>), this number of combinations is essentially not possibly to calculate using a brute force approach. Spectracular approximates the optimal solution by intelligently reducing the combinatorial complexity (the precise algorithm is detailed in our bioRxiv paper). <br><br></p>
+</div>
+<div id="problems" class="section level3">
+<h3>Problems?</h3>
+<p>Questions, comments, or issues? Please contact us (see contact info at the bottom of this page).</p>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: center;">Contact</p>
+
+<!-- Add icon library -->
+<script src="https://kit.fontawesome.com/2089613833.js" crossorigin="anonymous"></script>
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+    <a href="mailto:lronn@dtu.dk" class="fas fa-envelope"></a>
+    <a href="https://www.linkedin.com/in/larsronnolsen/" class="fab fa-linkedin-in"></a>
+    <a href="https://github.com/biosurf/" class="fab fa-github"></a>
+</p>
+
+&nbsp;
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

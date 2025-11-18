@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Publications</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">The Single Cell Omics Group</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="blog.html">Blog</a>
+</li>
+<li>
+  <a href="group_members.html">People</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Research
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="projects.html">Projects</a>
+    </li>
+    <li>
+      <a href="publications.html">Publications</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Teaching
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="http://kurser.dtu.dk/course/22140">Course: Introduction to Systems Biology</a>
+    </li>
+    <li>
+      <a href="http://kurser.dtu.dk/course/22104">Course: Health, Diseases, and Technology</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cytof.html">CyTOF primers</a>
+    </li>
+    <li>
+      <a href="spectracular.html">Spectracular</a>
+    </li>
+    <li>
+      <a href="cart.html">CAR T target evaluation</a>
+    </li>
+    <li>
+      <a href="cyCombine.html">cyCombine vignettes</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Publications</h1>
+
+</div>
+
+
+<p><br></p>
+<div id="section" class="section level2">
+<h2>2022</h2>
+<p><strong>Pedersen, C. B.</strong>, <strong>Dam, S. H.</strong>,
+Barnkob, M. B., Leipold, M. D., Purroy, N., Rassenti, L. Z., Kipps, T.
+J., Nguyen, J., Lederer, J. A., Gohil, S. H., Wu, C. J., <strong>Olsen,
+L. R.</strong> (2022). cyCombine allows for robust integration of
+single-cell cytometry datasets within and across technologies.
+<em>Nature Communications, 13, 1698</em>. <a
+href="https://doi.org/10.1038/s41467-022-29383-5">doi:10.1038/s41467-022-29383-5</a></p>
+<p>Purroy Zuriguel, N., Tong, Y. E., <strong>Lemvigh, C. K.</strong>,
+Cieri, N., Li, S., Parry, E. M., Zhang, W., Rassenti, L. Z., Kipps, T.
+J., Slager, S. L., Kay, N. E., Lesnick, C., Shanafelt, T. D., Ghia, P.,
+Scarfò, L., Livak, K. J., Kharchenko, P., Neuberg, D., <strong>Olsen, L.
+R.</strong>, Fan, J., Gohil, S. H., &amp; Wu, C. J. (2022). Single cell
+analysis reveals immune dysfunction from the earliest stages of CLL that
+can be reversed by ibrutinib. <em>Blood</em>. <a
+href="https://doi.org/10.1182/blood.2021013926">doi:10.1182/blood.2021013926</a></p>
+<p><br><br></p>
+</div>
+<div id="section-1" class="section level2">
+<h2>2021</h2>
+<p>Gabrielaite, M., Torp, M. H., Rasmussen, M. S., Andreu-Sánchez, S.,
+Vieira, F. G., <strong>Pedersen, C. B.</strong>, Kinalis, S., Madsen, M.
+B., Kodama, M., Demircan, G. S., Simonyan, A., Yde, C. W.,
+<strong>Olsen, L. R.</strong>, Marvig, R. L., Østrup, O., Rossing, M.,
+Nielsen, F. C., Winther, O., &amp; Bagger, F. O. (2021). A Comparison of
+Tools for Copy-Number Variation Detection in Germline Whole Exome and
+Whole Genome Sequencing Data. <em>Cancers, 13, 6283</em>. <a
+href="https://doi.org/10.3390/cancers13246283">doi:10.3390/cancers13246283</a></p>
+<p>Barnkob, M. B., Benso, A., Politano, G., <strong>Olsen L. R.</strong>
+(2021). Spectracular: minimizing spectral overlap in multicolor flow
+cytometry experiments. <em>bioRxiv</em>. <a
+href="https://doi.org/10.1101/2021.03.17.435861">doi:10.1101/2021.03.17.435861</a></p>
+<p>Rossing, M., <strong>Pedersen, C. B.</strong>, Tvedskov, T., Vejborg,
+I., Talman, M. L., <strong>Olsen, L. R.</strong>, Kroman, N., Nielsen,
+F. C., Jensen, M. B., &amp; Ejlertsen, B. (2021). Clinical implications
+of intrinsic molecular subtypes of breast cancer for sentinel node
+status. <em>Scientific Reports, 11(1), [2259]</em>. <a
+href="https://doi.org/10.1038/s41598-021-81538-4">doi:10.1038/s41598-021-81538-4</a></p>
+<p>Kretzmer, H., Biran, A., Purroy, N., <strong>Lemvigh, C. K.</strong>,
+Clement, K., Gruber, M., Gu, H., Rassenti, L., Mohammad, A. W., Lesnick,
+C., Slager, S. L., Braggio, E., Shanafelt, T. D., Kay, N. E., Fernandes,
+S., Brown, J. R., Wang, L., Li, S., Livak, K. J., Neuberg, D. S.,
+Klages, S., Timmermann, B., Kipps, T. J., Campo, E., Gnirke, A., Wu, C.
+J., &amp; Meissner, A. (2021). Preneoplastic alterations define CLL DNA
+methylome and persist through disease progression and therapy. <em>Blood
+cancer discovery, 2(1), 54.</em> <a
+href="https://doi.org/10.1158/2643-3230.BCD-19-0058">doi:10.1158/2643-3230.BCD-19-0058</a></p>
+<p>Braun, D. A., Street, K., Burke, K. P., Cookmeyer, D. L., Denize, T.,
+<strong>Pedersen, C. B.</strong>, Gohil, S. H., Schindler, N,,
+Pomerance, L., Hirsch, L., Bakouny, Z., Hou, Y., Forman, J., Huang, T.,
+Li, S., Cui, A., Keskin, D. B., Steinharter, J., Bouchard, G., Sun, M.,
+Pimenta, E. M., Xu, W., Mahoney, K. M., McGregor, B. A., Hirsch, M. S.,
+Chang, S. L., Livak, K. J., McDermott, D. F., Shukla, S. A.,
+<strong>Olsen, L. R.</strong>, Signoretti, S., Sharpe, A. H., Irizarry,
+R. A., Choueiri, T. K., Wu, C. J. (2021). Progressive immune dysfunction
+with advancing disease stage in renal cell carcinoma. <em>Cancer
+Cell.</em> <a
+href="https://doi.org/10.1016/j.ccell.2021.02.013">doi:10.1016/j.ccell.2021.02.013</a></p>
+<p>Crump, N. T., Hadjinicolaou, A. V., Xia, M., Walsby-Tickle, J.,
+Gileadi, U., Chen, J. L., Setshedi, M., <strong>Olsen, L. R.</strong>,
+Lau, I. J., Godfrey, L. Quek, L., Yu, Z., Ballabio, E., Barnkob, M. B.,
+Napolitani, G., Salio, M., Koohy, H., Kessler, B. M., Taylor, S., Vyas,
+P., McCullagh, J. S. O., Milne, T. A., Cerundolo, V. (2021). Chromatin
+accessibility governs the differential response of cancer and T cells to
+arginine starvation. <em>Cell reports, 35(6), p.109101</em>. <a
+href="https://doi.org/10.1016/j.celrep.2021.109101">doi:10.1016/j.celrep.2021.109101</a></p>
+<p>Choudry, F. A., Bagger, F. O., Macaulay, I. C., Farrow, S., Burden,
+F., Kempster, C., McKinney, H., <strong>Olsen, L. R.</strong>, Huang,
+N., Downes, K., Voet, T., Uppal, R., Martin, J. F., Mathur, A.,
+Ouwehand, W. H., Laurenti, E., Teichmann, S. A., &amp; Frontini, M.
+(2021). Transcriptional characterization of human megakaryocyte
+polyploidization and lineage commitment. <em>Journal of Thrombosis and
+Haemostasis</em>. <a
+href="https://doi.org/10.1111/jth.15271">doi:10.1111/jth.15271</a></p>
+<p>Hu, Z., Leet, D. E., Allesøe, R. L., Oliveira, G., Li, S., Luoma, A.
+M., Liu, J., Forman, J., Huang, T., Iorgulescu, J. B., Holden, R.,
+Sarkizova, S., Gohil, S. H., Redd, R. A., Sun, J., Elagina, L.,
+Giobbie-Hurder, A., Zhang, W., Peter, L., Ciantra, Z., Rodig, S., Olive,
+O., Shetty, K., Pyrdol, J., Uduman, M., Lee, P. C., Bachireddy, P.,
+Buchbinder, E. I., Yoon, C. H., Neuberg, D., Pentelute, B. L., Hacohen,
+N., Livak, K. J., Shukla, S. A., <strong>Olsen, L. R.</strong>, Barouch,
+D. H., Wucherpfennig, K. W, Fritsch, E. F., Keskin, D. B., Wu, C. J.,
+&amp; Ott, P. A. (2021). Personal neoantigen vaccines induce persistent
+memory T cell responses and epitope spreading in patients with melanoma.
+<em>Nature Medicine, 1-11.</em> <a
+href="https://doi.org/10.1038/s41591-020-01206-4">doi:10.1038/s41591-020-01206-4</a></p>
+<p><br><br></p>
+</div>
+<div id="section-2" class="section level2">
+<h2>2020</h2>
+<p><strong>Pedersen, C. B.</strong>, &amp; <strong>Olsen, L. R.</strong>
+(2020). Algorithmic Clustering Of Single‐Cell Cytometry Data—How
+Unsupervised Are These Analyses Really?. <em>Cytometry Part A.</em> <a
+href="https://doi.org/10.1002/cyto.a.23917">doi:10.1002/cyto.a.23917</a></p>
+<p>Kverneland, A. H., Pedersen, M., Westergaard, M. C. W., Nielsen, M.,
+Borch, T. H., <strong>Olsen, L. R.</strong>, <strong>Aasbjerg,
+G.</strong>, Santegoets, S. J., van der Burg, S. H., Milne, K., Nelson,
+B. H., Met, Ö., Donia, M., &amp; Svane, I. M. (2020). Adoptive cell
+therapy in combination with checkpoint inhibitors in ovarian cancer.
+<em>OncoTarget, 11(22), 2092-2105</em>. <a
+href="https://doi.org/10.18632/oncotarget.27604">doi:10.18632/oncotarget.27604</a></p>
+<p>Westergaard, M. C. W., Milne, K., Pedersen, M., Hasselager, T.,
+<strong>Olsen, L. R.</strong>, Anglesio, M. S., Borch, T. H., Kennedy,
+M., Briggs, G., Ledoux, S., Kreuzinger, C., von der Decken, I., Donia,
+M., Castillo-Tong, D. C., Nelson, B. H., &amp; Svane, I. M. (2020).
+Changes in the tumor immune microenvironment during disease progression
+in patients with ovarian cancer. <em>Cancers, 12(12), [3828]</em>. <a
+href="https://doi.org/10.3390/cancers12123828">doi:10.3390/cancers12123828</a></p>
+<p>Jørgensen, N. G., Klausen, U., Grauslund, J. H., Helleberg, C.,
+Aagaard, T. G., Do, T. H., Ahmad, S. M., <strong>Olsen, L. R.</strong>,
+Klausen, T. W., Breinholt, M. F., Hansen, M., Martinenaite, E., Met, Ö.,
+Svane, I. M., Knudsen, L. M., &amp; Andersen, M. H. (2020). Peptide
+Vaccination Against PD-L1 With IO103 a Novel Immune Modulatory Vaccine
+in Multiple Myeloma: A Phase I First-in-Human Trial. <em>Frontiers in
+Immunology, 11, [595035]</em>. <a
+href="https://doi.org/10.3389/fimmu.2020.595035">doi:10.3389/fimmu.2020.595035</a></p>
+<p><br><br></p>
+</div>
+<div id="section-3" class="section level2">
+<h2>2019</h2>
+<p><strong>Pedersen, C. B.</strong>, &amp; <strong>Olsen, L. R.</strong>
+(2019). Analysis of Mass Cytometry Data. In Mass Cytometry
+(pp. 267-279). <em>Humana, New York, NY.</em> <a
+href="https://doi.org/10.1007/978-1-4939-9454-0_17">doi:10.1007/978-1-4939-9454-0_17</a></p>
+<p>Simon, C., Davidsen, K., <strong>Hansen, C.</strong>, Seymour, E.,
+Barnkob, M. B., &amp; <strong>Olsen, L. R.</strong> (2019). BioReader: a
+text mining tool for performing classification of biomedical literature.
+<em>BMC bioinformatics, 19(13), 57.</em> <a
+href="https://doi.org/10.1186/s12859-019-2607-x">doi:10.1186/s12859-019-2607-x</a></p>
+<p>Jurtz, V. I., &amp; <strong>Olsen, L. R.</strong> (2019).
+Computational methods for identification of T cell neoepitopes in
+tumors. In Cancer Bioinformatics (pp. 157-172). Humana Press, New York,
+NY. <a
+href="https://doi.org/10.1007/978-1-4939-8868-6_9">doi:10.1007/978-1-4939-8868-6_9</a></p>
+<p><strong>Olsen, L. R.</strong>, <strong>Pedersen, C. B.</strong>,
+Leipold, M. D., &amp; Maecker, H. T. (2019). Getting the Most from Your
+High-Dimensional Cytometry Data. <em>Immunity, 50(3), 535-536.</em> <a
+href="https://doi.org/10.1016/j.immuni.2019.02.015">doi:10.1016/j.immuni.2019.02.015</a></p>
+<p>Li, S., Sun, J., <strong>Allesøe, R.</strong>, Datta, K., Bao, Y.,
+Oliveira, G., Forman, J., Jin, R., <strong>Olsen, L. R.</strong>,
+Keskin, D. B., Shukla, S. A., Wu, C. J. &amp; Livak, K. J. (2019). RNase
+H–dependent PCR-enabled T-cell receptor sequencing for highly specific
+and efficient targeted sequencing of T-cell receptor mRNA for
+single-cell and repertoire analysis. <em>Nature protocols, 14(8),
+2571-2594.</em> <a
+href="https://doi.org/10.1038/s41596-019-0195-x">doi:10.1038/s41596-019-0195-x</a></p>
+<p><strong>Olsen, L. R.</strong>, Leipold, M. D., <strong>Pedersen, C.
+B.</strong>, &amp; Maecker, H. T. (2019). The anatomy of single cell
+mass cytometry data. <em>Cytometry Part A, 95(2), 156-172.</em> <a
+href="https://doi.org/10.1002/cyto.a.23621">doi:10.1002/cyto.a.23621</a></p>
+<p>Keskin, D. B., Anandappa, A. J., Sun, J., Tirosh, I., Mathewson, N.
+D., Li, S., Oliveira, G., Giobbie-Hurder, A., Felt, K., Gjini, E.,
+Shukla, S. A., Hu, Z., Li, L., Le, P. M., <strong>Allesøe, R.
+L.</strong>, Richman, A. R., Kowalczyk, M. S., Abdelrahman, S.,
+Geduldig, J. E., Charbonneau, S., Pelton, K., Iorgulescu, J. B.,
+Elagina, L., Zhang, W., Olive, O., McCluskey, C., <strong>Olsen, L.
+R.</strong>, Stevens, J., Lane, W. J., Salazar, A. M., Daley, H., Wen, P
+.Y., Chiocca, E. A., Harden, M., Lennon, N. J., Gabriel, S., Getz, G.,
+Lander, E. S., Regev, A., Ritz, J., Neuberg, D., Rodig, S. J., Ligon, K.
+L., Suvà, M. L., Wucherpfennig, K. W., Hacohen, N., Fritsch, E. F.,
+Livak, K. J., Ott, P. A., Wu, C. J., Reardon, D. A. (2018). Neoantigen
+vaccine generates intratumoral T cell responses in phase Ib glioblastoma
+trial. <em>Nature, 565, 234-239</em>. <a
+href="https://doi.org/10.1038/s41586-018-0792-9">doi:10.1038/s41586-018-0792-9</a></p>
+<p><br><br></p>
+</div>
+<div id="section-4" class="section level2">
+<h2>2018</h2>
+<p>Napolitani, G., Kurupati, P., Teng, K. W. W., Gibani, M. M., Rei, M.,
+Aulicino, A., Preciado-Llanes, L., Wong, M. T.; Becht, E., Howson, L.,
+de Haas, P., Salio, M., Blohmke, C. J., <strong>Olsen, L. R.</strong>,
+Pinto, D. M. S., Scifo, L., Jones, C., Dobinson, H. Campbell, D., Juel,
+H. B., Thomaides-Brears, H., Pickard, D., Bumann, D., Baker, S., Dougan,
+G., Simmons, A., Gordon, M. A., Newell, E. W., Pollard, A. J. &amp;
+Cerundolo, Vincenzo (2018). Clonal analysis of Salmonella-specific
+effector T cells reveals serovar-specific and cross-reactive T cell
+responses. <em>Nature immunology, 19(7), 742-754.</em> <a
+href="https://doi.org/10.1038/s41590-018-0133-z">doi:10.1038/s41590-018-0133-z</a></p>
+<p>Leipold, M. D., Obermoser, G., Fenwick, C., Kleinstuber, K., Rashidi,
+N., McNevin, J. P., Nau, A. N., Wagar, L. E., Rozot, V., Davis, M. M.,
+DeRosa, S., Pantaleo, G., Scriba, T. J., Walker, B. D., <strong>Olsen,
+L. R.</strong> &amp; Maecker, H. T. (2018). Comparison of CyTOF assays
+across sites: Results of a six-center pilot study. <em>Journal of
+immunological methods, 453, 37-43.</em> <a
+href="https://doi.org/10.1016/j.jim.2017.11.008">doi:10.1016/j.jim.2017.11.008</a></p>
+<p><strong>Pedersen, C. B.</strong>, Nielsen, F. C., Rossing, M., &amp;
+<strong>Olsen, L. R.</strong> (2018). Using microarray‐based subtyping
+methods for breast cancer in the era of high‐throughput RNA sequencing.
+<em>Molecular oncology, 12(12), 2136-2146.</em> <a
+href="https://doi.org/10.1002/1878-0261.12389">doi:10.1002/1878-0261.12389</a></p>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: center;">Contact</p>
+
+<!-- Add icon library -->
+<script src="https://kit.fontawesome.com/2089613833.js" crossorigin="anonymous"></script>
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+    <a href="mailto:lronn@dtu.dk" class="fas fa-envelope"></a>
+    <a href="https://www.linkedin.com/in/larsronnolsen/" class="fab fa-linkedin-in"></a>
+    <a href="https://github.com/biosurf/" class="fab fa-github"></a>
+</p>
+
+&nbsp;
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

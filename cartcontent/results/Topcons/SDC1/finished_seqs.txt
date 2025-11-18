@@ -1,0 +1,1 @@
+seq_0	310	1	True	cached	0.0	sp|P18827|SDC1_HUMAN Syndecan-1 OS=Homo sapiens OX=9606 GN=SDC1 PE=1 SV=3	2020-11-28 15:51:59 CET
