@@ -1,0 +1,11 @@
+NMA comparison summary
+WT CA residues: 218
+DeltaEx2 CA residues: 160
+
+Part1 (PKLYVWAKDRPEI) avg fluct (WT): 0.273
+Part1 (PKLYVWAKDRPEI) avg fluct (Δex2): 0.655
+Part2 (WTHVHPKGPKS) avg fluct (WT): 0.227
+Part2 (WTHVHPKGPKS) avg fluct (Δex2): 1.003
+Combined epitope avg (WT): 0.252
+Combined epitope avg (Δex2): 0.814
+
