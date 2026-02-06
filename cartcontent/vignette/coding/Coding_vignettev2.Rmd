@@ -1,0 +1,1047 @@
+---
+title: "CAR-T Target Assessment Workflow: Computational Approaches"
+author: "Giorgia Moranzoni"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: tango
+    code_folding: show
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, 
+                      cache = TRUE, fig.width = 12, fig.height = 8)
+```
+
+# Introduction
+
+This vignette provides a comprehensive computational workflow for CAR-T target assessment, designed for bioinformaticians and computational biologists. All analyses are reproducible, scalable, and follow best practices for data provenance and quality control.
+
+We demonstrate this workflow using **ERBB2** (HER2/neu) as an example target.
+
+## Required Packages
+
+```{r load_packages}
+rm(list = ls())
+library(tidyverse)
+library(biomaRt)
+library(Biostrings)
+library(ggnewscale)
+library(patchwork)
+library(scales)
+library(msa)
+library(pwalign)
+
+# Set global options
+options(timeout = 300)
+theme_set(theme_light())
+```
+## Part1
+
+### Step 1: Identify Available Transcripts from Expression Data
+```{r}
+# Load pre-filtered expression data
+her2_expr <- readRDS("../../results/HER2_analysis/her2_expr_filtered.rds")
+
+# Extract available transcript IDs (without version numbers)
+her2_available_transcripts <- her2_expr %>% 
+  mutate(transcript_clean = str_remove(sample, "\\..*")) %>%
+  pull(transcript_clean) %>%
+  unique()
+
+cat("Number of HER2 transcripts with expression data:", length(her2_available_transcripts), "\n\n")
+cat("Transcript IDs:\n")
+print(her2_available_transcripts)
+```
+### Step 2: Download All Sequences from Ensembl
+```{r}
+# Connect to Ensembl
+ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
+
+# Get all ERBB2 transcripts
+get_gene_transcripts <- function(gene_symbol, mart) {
+  raw_data <- getBM(
+    attributes = c("ensembl_gene_id", "ensembl_transcript_id", 
+                   "transcript_biotype", "transcript_length"),
+    filters = "hgnc_symbol",
+    values = gene_symbol,
+    mart = mart
+  )
+  
+  raw_data %>%
+    filter(transcript_biotype == "protein_coding") %>%
+    arrange(desc(transcript_length))
+}
+
+her2_transcripts <- get_gene_transcripts("ERBB2", ensembl)
+
+cat("Total ERBB2 protein-coding transcripts in Ensembl:", nrow(her2_transcripts), "\n\n")
+print(her2_transcripts)
+
+# Get protein sequences from Ensembl
+get_protein_sequences <- function(transcript_ids, mart) {
+  seqs <- getBM(
+    attributes = c("ensembl_transcript_id", "peptide"),
+    filters = "ensembl_transcript_id",
+    values = transcript_ids,
+    mart = mart
+  )
+  
+  # Convert to AAStringSet
+  sequences <- AAStringSet(seqs$peptide)
+  names(sequences) <- seqs$ensembl_transcript_id
+  
+  # Remove empty sequences
+  sequences <- sequences[width(sequences) > 0]
+  
+  return(sequences)
+}
+
+her2_sequences_all <- get_protein_sequences(
+  transcript_ids = her2_transcripts$ensembl_transcript_id,
+  mart = ensembl
+)
+
+cat("\nSequences retrieved:", length(her2_sequences_all), "\n")
+```
+
+### Step 3: Filter Sequences to Match Expression Data
+
+```{r}
+# Remove version numbers from sequence names for matching
+sequence_names_clean <- str_remove(names(her2_sequences_all), "\\..*")
+
+# Filter to keep only sequences with expression data
+keep_indices <- sequence_names_clean %in% her2_available_transcripts
+
+her2_sequences_filtered <- her2_sequences_all[keep_indices]
+
+cat("Sequences before filtering:", length(her2_sequences_all), "\n")
+cat("Sequences after filtering:", length(her2_sequences_filtered), "\n")
+cat("Sequences removed:", sum(!keep_indices), "\n\n")
+
+cat("Kept sequences:\n")
+print(names(her2_sequences_filtered))
+```
+### Step 4: Save FASTA for DeepLoc and DeepTMHMM
+
+```{r}
+# Write sequences to FASTA file
+fasta_file <- "../../data/her2_isoforms_filtered.fasta"
+writeXStringSet(her2_sequences_filtered, filepath = fasta_file)
+
+cat("✓ FASTA file saved to:", fasta_file, "\n")
+cat("✓ Number of sequences:", length(her2_sequences_filtered), "\n\n")
+
+cat("========================================\n")
+cat("NEXT STEPS (Manual):\n")
+cat("========================================\n")
+cat("1. Upload", fasta_file, "to DeepLoc 2.1:\n")
+cat("   https://services.healthtech.dtu.dk/services/DeepLoc-2.1/\n\n")
+cat("2. Upload", fasta_file, "to DeepTMHMM:\n")
+cat("   https://dtu.biolib.com/DeepTMHMM\n")
+cat("   Download the .3line output file\n\n")
+cat("3. Save DeepLoc results as: ../../results/HER2_analysis/HER2_deeploc21.csv\n")
+cat("4. Save DeepTMHMM results as: ../../results/HER2_analysis/HER2_deeptmhmm_predicted_topologies.3line\n\n")
+cat("5. Continue with Part 2 of this vignette\n")
+cat("========================================\n")
+```
+## Part 2: Analysis and Visualization (After Running DeepLoc/DeepTMHMM)
+
+### Step 5: Import DeepLoc and DeepTMHMM Results
+
+```{r}
+# Import DeepLoc results
+deeploc_file <- "../../results/HER2_analysis/HER2_deeploc21_filtered.csv"
+deeploc_results <- read_csv(deeploc_file, show_col_types = FALSE)
+
+# Filter to match available transcripts
+deeploc_filtered <- deeploc_results %>%
+  dplyr::mutate(transcript_clean = str_remove(Protein_ID, "\\..*")) %>%
+  filter(transcript_clean %in% her2_available_transcripts)
+
+cat("DeepLoc results:\n")
+cat("  Total entries:", nrow(deeploc_results), "\n")
+cat("  Filtered entries:", nrow(deeploc_filtered), "\n\n")
+
+# Parse DeepTMHMM 3line format
+parse_deeptmhmm <- function(file_path) {
+  lines <- readLines(file_path)
+  results <- list()
+  i <- 1
+  
+  while (i <= length(lines)) {
+    if (startsWith(lines[i], ">")) {
+      header <- lines[i]
+      transcript_id <- str_extract(header, "(?<=>)[^ ]+")
+      type <- str_extract(header, "(?<=\\| )[^ ]+")
+      sequence <- lines[i + 1]
+      topology <- lines[i + 2]
+      
+      segments <- data.frame(
+        position = 1:nchar(topology),
+        aa = strsplit(sequence, "")[[1]],
+        topology = strsplit(topology, "")[[1]],
+        stringsAsFactors = FALSE
+      ) %>%
+        mutate(
+          topology_type = case_when(
+            topology == "S" ~ "Signal peptide",
+            topology == "O" ~ "Extracellular",
+            topology == "M" ~ "Transmembrane",
+            topology == "I" ~ "Intracellular",
+            topology == "X" ~ "Gap",
+            TRUE ~ "Unknown"
+          )
+        )
+      
+      results[[transcript_id]] <- list(
+        transcript_id = transcript_id,
+        type = type,
+        sequence = sequence,
+        topology = topology,
+        segments = segments
+      )
+      
+      i <- i + 3
+    } else {
+      i <- i + 1
+    }
+  }
+  
+  return(results)
+}
+
+# Import DeepTMHMM results
+deeptmhmm_file <- "../../results/HER2_analysis/HER2_deeptmhmm_predicted_topologies_filtered.3line"
+deeptmhmm_results <- parse_deeptmhmm(deeptmhmm_file)
+```
+
+### Step 6: Create DeepLoc Heatmap
+
+```{r}
+# Define localization columns
+localization_cols <- c("Cell membrane", "Cytoplasm", "Endoplasmic reticulum",
+                       "Extracellular", "Golgi apparatus", "Lysosome/Vacuole",
+                       "Mitochondrion", "Nucleus", "Peroxisome", "Plastid")
+
+# Prepare plot data
+plot_data <- deeploc_filtered %>%
+  dplyr::select(Protein_ID, all_of(localization_cols)) %>%
+  pivot_longer(
+    cols = -Protein_ID,
+    names_to = "localization",
+    values_to = "probability"
+  )
+
+# Create heatmap
+deeploc_plot <- ggplot(plot_data, aes(x = localization, y = Protein_ID, fill = probability)) +
+  geom_tile(color = "white", linewidth = 0.5) +
+  scale_fill_gradientn(
+    colors = c("#4A90B8", "#5E9DC3", "#FFFACD", "#F26D5E", "#D73027"),
+    values = c(0, 0.2, 0.5, 0.8, 1),
+    limits = c(0, 1),
+    breaks = c(0.25, 0.50, 0.75),
+    labels = c("0.25", "0.50", "0.75")
+  ) +
+  labs(
+    title = "Target: HER2 (ERBB2) - Subcellular Localization",
+    x = NULL,
+    y = "Transcript ID",
+    fill = "Probability"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 12),
+    axis.text.y = element_text(size = 10, family = "mono"),
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = "right",
+    panel.grid = element_blank()
+  )
+
+print(deeploc_plot)
+
+# Save
+ggsave("../../results/HER2_analysis/figures/her2_deeploc_heatmap.png", 
+        deeploc_plot, width = 8, height = 4, dpi = 300)
+```
+
+### Step 7: Align Sequences with MAFFT 
+```{r}
+# Save sequences to temporary FASTA file
+temp_input <- tempfile(fileext = ".fasta")
+temp_output <- tempfile(fileext = ".fasta")
+
+writeXStringSet(her2_sequences_filtered, temp_input)
+
+# Run MAFFT with localpair algorithm (better for sequences with large indels)
+# --localpair: uses local pairwise alignment
+# --maxiterate 1000: refines alignment up to 1000 iterations
+# --quiet: suppresses progress messages
+system2(
+  command = "mafft",
+  args = c("--localpair", "--maxiterate", "1000", "--quiet", temp_input),
+  stdout = temp_output
+)
+
+# Read aligned sequences back into R
+her2_aligned_mafft <- readAAStringSet(temp_output)
+
+# Clean up temporary files
+unlink(c(temp_input, temp_output))
+
+# Show alignment summary
+cat("MAFFT alignment complete!\n")
+print(her2_aligned_mafft)
+cat("\nAlignment width:", unique(width(her2_aligned_mafft)), "\n")
+
+# Check if signal peptide is now properly aligned
+cat("\nFirst 50 positions of each sequence:\n")
+for(i in 1:length(her2_aligned_mafft)) {
+  cat(names(her2_aligned_mafft)[i], ":\n")
+  cat(substr(as.character(her2_aligned_mafft[i]), 1, 50), "\n\n")
+}
+
+# Save alignment
+writeXStringSet(her2_aligned_mafft, "../../results/HER2_analysis/her2_aligned_mafft.fasta")
+```
+
+<!-- ### Step 7: Align Sequences with MSA -->
+
+<!-- ```{r} -->
+<!-- her2_msa <- msa(her2_sequences_filtered, method = "ClustalOmega") -->
+
+<!-- # Convert to AAStringSet -->
+<!-- her2_aligned <- AAStringSet(her2_msa) -->
+
+<!-- # Show alignment summary -->
+<!-- print(her2_aligned) -->
+
+<!-- # Save alignment -->
+<!-- writeXStringSet(her2_aligned, "../../results/HER2_analysis/her2_aligned_msa.fasta") -->
+<!-- ``` -->
+
+### Step 8: Map Topology to Alignment and Create DeepTMHMM Plot
+
+```{r}
+# Map topology annotations to aligned sequences
+map_topology_to_alignment <- function(deeptmhmm_results, aligned_sequences) {
+  all_segments <- map_dfr(names(deeptmhmm_results), function(tid) {
+    topology <- deeptmhmm_results[[tid]]$topology
+    aligned_seq <- as.character(aligned_sequences[tid])
+    
+    topology_chars <- strsplit(topology, "")[[1]]
+    aligned_chars <- strsplit(aligned_seq, "")[[1]]
+    aligned_topology <- character(length(aligned_chars))
+    
+    original_pos <- 1
+    for (aligned_pos in 1:length(aligned_chars)) {
+      if (aligned_chars[aligned_pos] == "-") {
+        aligned_topology[aligned_pos] <- "-"
+      } else {
+        if (original_pos <= length(topology_chars)) {
+          aligned_topology[aligned_pos] <- topology_chars[original_pos]
+        }
+        original_pos <- original_pos + 1
+      }
+    }
+    
+    data.frame(
+      position = 1:length(aligned_chars),
+      aa = aligned_chars,
+      topology = aligned_topology,
+      transcript_id = tid,
+      stringsAsFactors = FALSE
+    ) %>%
+      mutate(
+        topology_type = case_when(
+          topology == "S" ~ "Signal peptide",
+          topology == "O" ~ "Extracellular",
+          topology == "M" ~ "Transmembrane",
+          topology == "I" ~ "Intracellular",
+          topology == "-" ~ "Alignment gap",
+          topology == "X" ~ "Gap",
+          TRUE ~ "Unknown"
+        )
+      )
+  })
+  
+  return(all_segments)
+}
+
+aligned_segments <- map_topology_to_alignment(deeptmhmm_results, her2_aligned_mafft)
+
+cat("Mapped topology to", nrow(aligned_segments), "positions across", 
+    length(unique(aligned_segments$transcript_id)), "transcripts\n\n")
+
+# Create topology plot
+plot_aligned_topology <- function(aligned_segments, transcript_order = NULL) {
+  if (is.null(transcript_order)) {
+    transcript_order <- unique(aligned_segments$transcript_id)
+  }
+  
+  aligned_segments <- aligned_segments %>%
+    mutate(transcript_id = factor(transcript_id, levels = transcript_order))
+  
+  topology_colors <- c(
+    "Signal peptide" = "#C41C24",
+    "Extracellular" = "#FFB20F",
+    "Transmembrane" = "#18848C",
+    "Intracellular" = "#96BDC6",
+    "Alignment gap" = "#EDE7E3"
+  )
+  
+  ggplot(aligned_segments, aes(x = position, y = transcript_id, fill = topology_type)) +
+    geom_tile(height = 0.8, width = 1) +
+    scale_fill_manual(values = topology_colors, name = NULL) +
+    scale_x_continuous(expand = c(0, 0), breaks = seq(0, max(aligned_segments$position), 400)) +
+    labs(
+      x = "Amino acid position in MAFTT",
+      y = "Transcript ID",
+      title = "HER2 Isoform Topology (Aligned)"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(size = 12),
+      axis.text.y = element_text(size = 10, family = "mono"),
+      axis.title = element_text(size = 12),
+      plot.title = element_text(size = 14, face = "bold"),
+      legend.text = element_text(size = 10),
+      panel.grid = element_blank(),
+      legend.position = "right"
+    )
+}
+
+transcript_order <- names(her2_aligned_mafft)
+topology_plot <- plot_aligned_topology(aligned_segments, transcript_order)
+
+
+# # Save
+# ggsave("../../results/HER2_analysis/figures/her2_topology_aligned.png", 
+#        topology_plot, width = 14, height = 8, dpi = 300)
+
+print(topology_plot)
+```
+
+### Step 9: Map Epitopes and Visualize on Topology
+```{r}
+# Define epitope positions in canonical HER2 (ENST00000269571)
+# P = Pertuzumab epitopes, T = Trastuzumab epitopes
+epitope_positions <- list(
+  P = list(c(257, 267), c(308, 318)),
+  T = list(c(580, 582), c(593, 595), c(610, 625))
+)
+
+# Function to map epitope positions from canonical to all isoforms
+map_epitopes_from_alignment <- function(aligned_seqs, canonical_name, epitope_pos) {
+  
+  canonical_seq <- as.character(aligned_seqs[[canonical_name]])
+  epitope_map_list <- list()
+  
+  for(seq_name in names(aligned_seqs)) {
+    
+    isoform_seq <- as.character(aligned_seqs[[seq_name]])
+    
+    # Track canonical ungapped position while iterating through alignment
+    canonical_ungapped_pos <- 0
+    epitope_positions_aligned <- list()
+    
+    for(i in 1:nchar(canonical_seq)) {
+      canon_char <- substr(canonical_seq, i, i)
+      iso_char <- substr(isoform_seq, i, i)
+      
+      # Increment canonical position for non-gap characters
+      if(canon_char != "-") canonical_ungapped_pos <- canonical_ungapped_pos + 1
+      
+      # Check if current position is in any epitope region
+      for(epitope_name in names(epitope_pos)) {
+        for(region in epitope_pos[[epitope_name]]) {
+          # Mark position if: (1) in epitope range in canonical, (2) isoform has residue
+          if(canonical_ungapped_pos >= region[1] && 
+             canonical_ungapped_pos <= region[2] &&
+             iso_char != "-") {
+            
+            epitope_positions_aligned[[length(epitope_positions_aligned) + 1]] <- data.frame(
+              epitope = epitope_name,
+              position = i,
+              canonical_pos = canonical_ungapped_pos
+            )
+          }
+        }
+      }
+    }
+    
+    # Store results for this isoform
+    if(length(epitope_positions_aligned) > 0) {
+      epitope_map_list[[seq_name]] <- bind_rows(epitope_positions_aligned)
+    }
+  }
+  
+  result <- bind_rows(epitope_map_list, .id = "transcript_id")
+  return(result)
+}
+
+# Map epitopes across all isoforms
+epitope_mapping <- map_epitopes_from_alignment(
+  aligned_seqs = her2_aligned_mafft,
+  canonical_name = "ENST00000269571",
+  epitope_pos = epitope_positions
+)
+
+cat("Epitopes mapped to", length(unique(epitope_mapping$transcript_id)), "isoforms\n")
+
+# Summary of epitope retention CHECK IF CORRECT
+epitope_summary <- epitope_mapping %>%
+  group_by(transcript_id, epitope) %>%
+  summarise(n_positions = n(), .groups = "drop") %>%
+  pivot_wider(names_from = epitope, values_from = n_positions, values_fill = 0)
+
+cat("\nEpitope retention summary:\n")
+print(epitope_summary)
+```
+```{r}
+# Enhanced topology plotting function with epitope overlay
+plot_aligned_topology_with_epitopes <- function(aligned_segments, epitope_data = NULL, 
+                                                 transcript_order = NULL) {
+  
+  if (is.null(transcript_order)) {
+    transcript_order <- unique(aligned_segments$transcript_id)
+  }
+  
+  aligned_segments <- aligned_segments %>%
+    mutate(transcript_id = factor(transcript_id, levels = transcript_order))
+  
+  topology_colors <- c(
+    "Signal peptide" = "#C41C24",
+    "Extracellular" = "#FFB20F",
+    "Transmembrane" = "#18848C",
+    "Intracellular" = "#96BDC6",
+    "Alignment gap" = "#EDE7E3"
+  )
+  
+  epitope_colors <- c(
+    "P" = "#55a630",  # Pink for pertuzumab
+    "T" = "#ff5d8f"   # Purple for trastuzumab
+  )
+  
+  # Base topology plot
+  p <- ggplot(aligned_segments, aes(x = position, y = transcript_id, fill = topology_type)) +
+    geom_tile(height = 0.8, width = 1) +
+    scale_fill_manual(values = topology_colors, name = "Topology") +
+    scale_x_continuous(expand = c(0, 0), breaks = seq(0, max(aligned_segments$position), 400)) +
+    labs(
+      x = "Amino acid position in MAFTT",
+      y = "Transcript ID",
+      title = "HER2 Isoform Topology with Epitopes"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(size = 12),
+      axis.text.y = element_text(size = 10, family = "mono"),
+      axis.title = element_text(size = 12),
+      plot.title = element_text(size = 14, face = "bold"),
+      legend.text = element_text(size = 10),
+      panel.grid = element_blank(),
+      legend.position = "right"
+    )
+  
+  # Add epitope overlay if provided
+  if(!is.null(epitope_data) && nrow(epitope_data) > 0) {
+    
+    epitope_data <- epitope_data %>%
+      mutate(transcript_id = factor(transcript_id, levels = transcript_order))
+    
+    p <- p +
+      new_scale_fill() +
+      geom_tile(
+        data = epitope_data,
+        aes(x = position, y = transcript_id, fill = epitope),
+        height = 0.8,
+        width = 1,
+        alpha = 0.9, 
+        inherit.aes = FALSE
+      ) +
+      scale_fill_manual(
+        values = epitope_colors,
+        name = "Epitope",
+        labels = c("P" = "Pertuzumab", "T" = "Trastuzumab")
+      )
+  }
+  
+  return(p)
+}
+
+# Create topology plot with epitopes
+topology_plot_with_epitopes <- plot_aligned_topology_with_epitopes(
+  aligned_segments = aligned_segments, 
+  epitope_data = epitope_mapping,
+  transcript_order = transcript_order
+)
+
+print(topology_plot_with_epitopes)
+
+# Save plot
+ggsave("../../results/HER2_analysis/figures/her2_topology_with_epitopes.png", 
+        topology_plot_with_epitopes, width = 14, height = 6, dpi = 300)
+```
+
+```{r}
+# Define custom transcript order
+transcript_order <- c(
+  "ENST00000580074",
+  "ENST00000578709",  
+  "ENST00000584601",
+  "ENST00000584450",
+  "ENST00000584014",
+  "ENST00000582818",
+  "ENST00000578502",  # Longest isoform
+  "ENST00000578199",  # Secreted
+  "ENST00000445658",  # Truncated membrane-bound
+  "ENST00000269571"  # Canonical
+)
+
+# Create combined plot (DeepLoc + Topology)
+results_filtered <- deeploc_filtered %>%
+  mutate(Protein_ID = factor(Protein_ID, levels = transcript_order)) %>%
+  arrange(Protein_ID)
+
+plot_data_combined <- results_filtered %>%
+  dplyr::select(Protein_ID, all_of(localization_cols)) %>%
+  pivot_longer(cols = -Protein_ID, names_to = "localization", values_to = "probability")
+
+deeploc_heatmap_combined <- ggplot(plot_data_combined, 
+                                    aes(x = localization, y = Protein_ID, fill = probability)) +
+  geom_tile(color = "white", linewidth = 0.5) +
+  scale_fill_gradientn(
+    colors = c("#4A90B8", "#5E9DC3", "#FFFACD", "#F26D5E", "#D73027"),
+    values = c(0, 0.2, 0.5, 0.8, 1),
+    limits = c(0, 1),
+    breaks = c(0.25, 0.50, 0.75),
+    labels = c("0.25", "0.50", "0.75")
+  ) +
+  labs(title = "Target: HER2 (ERBB2)", x = NULL, y = NULL, fill = NULL) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 16),
+    axis.text.y = element_text(size = 17, family = "mono"),
+    plot.title = element_text(size = 19, face = "bold"),
+    legend.text = element_text(size = 14),
+    legend.position = "top",
+    legend.direction = "horizontal",
+    legend.key.width = unit(1, "cm"),
+    legend.key.height = unit(0.5, "cm"),
+    panel.grid = element_blank(),
+    plot.margin = margin(5, 0, 5, 5)
+  ) +
+  guides(fill = guide_colorbar(title.position = "top", title.hjust = 0.5))
+
+topology_plot_combined <- plot_aligned_topology_with_epitopes(aligned_segments = aligned_segments,
+                                                              transcript_order = transcript_order, 
+                                                              epitope_data = epitope_mapping) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    plot.margin = margin(5, 5, 5, 0)
+  )
+
+combined_plot_loctmm <- deeploc_heatmap_combined + topology_plot_combined + 
+  plot_layout(widths = c(1, 1.5)) 
+
+print(combined_plot_loctmm)
+
+ggsave("../../results/HER2_analysis/figures/her2_deeploc_deeptmhmm_combined.png",
+       combined_plot_loctmm, width = 14, height = 8, dpi = 300)
+# Save PDF
+ggsave("../../results/HER2_analysis/figures/her2_deeploc_deeptmhmm_combined.pdf",
+       combined_plot_loctmm, width = 20, height = 8)
+```
+
+### Step 9: Expression Analysis Across TCGA and GTEx - generic
+Based on the topology, we can exclude some isoforms, where the ectodomain is untaregtable and does not harbor any of the epitopes. We keep 9571, 4601, 4450, 4014, 8502, 8199, 5658, 2818 for the remaining analyses. 
+```{r, fig.width = 22}
+# Read phenotype file
+phenotype <- read_tsv("../../data/HER2_TCGA_GTEX_category_2026.txt", show_col_types = FALSE)
+to_keep <- c("ENST00000269571", "ENST00000584601", "ENST00000584450", "ENST00000584014", "ENST00000578502", "ENST00000578199", "ENST00000445658", "ENST00000582818")
+# Split TCGA_GTEX_main_category
+phenotype <- phenotype %>%
+  separate(TCGA_GTEX_main_category, 
+           into = c("dataset", "tissue_or_disease"), 
+           sep = " ", extra = "merge", remove = TRUE)
+
+# Transform expression data from wide to long
+her2_long <- her2_expr %>%
+  pivot_longer(cols = -sample, names_to = "sample_id", values_to = "log2_tpm001") %>%
+  dplyr::rename(transcript_id = sample) %>%
+  mutate(transcript_clean = str_remove(transcript_id, "\\..*"))
+
+# Join with phenotype
+her2_combined <- her2_long %>%
+  left_join(phenotype, by = c("sample_id" = "sample")) %>%
+  filter(!is.na(dataset))
+
+# Convert log2(TPM + 0.001) to log2(TPM + 1)
+her2_combined <- her2_combined %>%
+  mutate(
+    original_tpm = 2^log2_tpm001 - 0.001,
+    original_tpm = pmax(original_tpm, 0),  # Fix floating-point negatives
+    log2_tpm_plus1 = log2(original_tpm + 1)
+  )
+
+her2_combined <- her2_combined %>% filter(transcript_clean == to_keep)
+```
+
+
+### Step 9: with membrane/extracellular classification and color coded
+```{r}
+# Classify transcripts based on DeepLoc predictions
+transcript_classification <- deeploc_filtered %>%
+  dplyr::select(Protein_ID, `Cell membrane`, Extracellular) %>%
+  mutate(
+    transcript_clean = str_remove(Protein_ID, "\\..*"),
+    # Classify based on highest probability
+    classification = case_when(
+      `Cell membrane` > Extracellular ~ "Membrane-bound",
+      Extracellular > `Cell membrane` ~ "Secreted",
+      TRUE ~ "Ambiguous"
+    ),
+    # Store the probabilities for reference
+    membrane_prob = `Cell membrane`,
+    secreted_prob = Extracellular
+  ) %>%
+  dplyr::select(Protein_ID, transcript_clean, classification, membrane_prob, secreted_prob)
+```
+
+```{r}
+her2_combined <- her2_combined %>%
+  mutate(tissue_or_disease = tolower(tissue_or_disease))
+
+# Add classification to expression data 
+her2_expr_classified <- her2_combined %>%
+  left_join(transcript_classification, by = "transcript_clean")
+# phenotype %>% filter(dataset == "GTEX") %>% .$tissue_or_disease %>% unique()
+```
+
+```{r}
+# Categorize tissues by survival necessity
+tissue_categories <- list(
+  "Critical" = c("brain", "blood", "blood vessel", "heart", "liver", "lung", "nerve"),
+  
+  "Important" = c("pancreas", "kidney", "stomach", "colon", "small intestine", "bladder", "esophagus", "thyroid", 
+                                              "adrenal gland", "pituitary"),
+  
+  "Non-essential" = c("spleen", "uterus", "ovary", "testis", "prostate", "breast", "cervix uteri", 
+                      "fallopian tube", "vagina", "salivary gland", "adipose tissue", 
+                      "muscle", "skin")
+)
+
+# Create category mapping
+tissue_category_df <- data.frame(
+  tissue_or_disease = unlist(tissue_categories),
+  category = rep(names(tissue_categories), sapply(tissue_categories, length))
+) %>%
+  mutate(category = factor(category, levels = c("Critical", 
+                                                  "Important", 
+                                                  "Non-essential")))
+
+# Add category to expression data
+her2_expr_categorized <- her2_expr_classified %>%
+  filter(dataset == "GTEX") %>%
+  left_join(tissue_category_df, by = "tissue_or_disease") %>%
+  filter(!is.na(category))
+
+
+
+
+# Ensure both category and transcript_clean are properly ordered factors
+her2_expr_categorized <- her2_expr_categorized %>%
+  mutate(
+    category = factor(category, levels = c("Critical", 
+                                            "Important", 
+                                            "Non-essential")),
+    transcript_clean = factor(transcript_clean),  # Make it a factor
+    # Create ordered interaction with category FIRST
+    cat_isoform = interaction(category, transcript_clean, sep = "_", lex.order = TRUE)
+  )
+
+
+# Define colors for classification
+classification_colors <- c(
+  "Membrane-bound" = "#E74C3C",  # Red
+  "Secreted" = "#3498DB",        # Blue
+  "Ambiguous" = "#95A5A6"        # Gray
+)
+
+```
+
+```{r}
+# Create position variable with gaps
+her2_expr_categorized <- her2_expr_categorized %>%
+  arrange(category, transcript_clean) %>%
+  group_by(category) %>%
+  mutate(position_within_cat = as.numeric(factor(transcript_clean))) %>%
+  ungroup() %>%
+  mutate(
+    # Add gaps
+    gap_offset = case_when(
+      category == "Critical" ~ 0,
+      category == "Important" ~ 9,
+      category == "Non-essential" ~ 18
+    ),
+    x_position = gap_offset + position_within_cat
+  )
+
+# Plot with spacing
+gtex_by_category <- her2_expr_categorized %>%
+  ggplot(aes(x = x_position, y = log2_tpm_plus1, 
+             fill = classification, group = interaction(category, transcript_clean))) +
+  geom_boxplot(outlier.shape = NA) +
+  scale_fill_manual(values = classification_colors, name = "Localization") +
+  scale_x_continuous(
+    breaks = her2_expr_categorized %>% 
+      distinct(x_position, cat_isoform) %>% 
+      pull(x_position),
+    labels = her2_expr_categorized %>% 
+      distinct(x_position, cat_isoform) %>% 
+      pull(cat_isoform)
+  ) +
+  labs(
+    title = "HER2 Isoform Expression by Tissue Essentiality",
+    subtitle = "GTEx normal tissues grouped by survival necessity",
+    x = "Category_Isoform",
+    y = "Expression (log2(TPM + 1))"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.margin = margin(t = 10, r = 10, b = 10, l = 40),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
+    axis.text.y = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 11),
+    legend.position = "right",
+    legend.text = element_text(size = 10)
+  )
+print(gtex_by_category)
+```
+
+```{r}
+# TCGA with 3 cancer categories
+tcga_interest_grouped <- c("breast invasive carcinoma", "stomach adenocarcinoma", "glioblastoma multiforme")
+
+# Prepare TCGA data with positioning
+tcga_by_disease <- her2_expr_classified %>%
+  filter(dataset == "TCGA" & tissue_or_disease %in% tcga_interest_grouped) %>%
+  mutate(
+    tissue_or_disease = factor(tissue_or_disease, 
+                                levels = c("breast invasive carcinoma", 
+                                          "stomach adenocarcinoma", 
+                                          "glioblastoma multiforme"))
+  ) %>%
+  arrange(tissue_or_disease, transcript_clean) %>%
+  group_by(tissue_or_disease) %>%
+  mutate(position_within_disease = as.numeric(factor(transcript_clean))) %>%
+  ungroup() %>%
+  mutate(
+    # Add gaps between cancer types
+    gap_offset = case_when(
+      tissue_or_disease == "breast invasive carcinoma" ~ 0,
+      tissue_or_disease == "stomach adenocarcinoma" ~ 9,
+      tissue_or_disease == "glioblastoma multiforme" ~ 18
+    ),
+    x_position = gap_offset + position_within_disease,
+    disease_isoform = paste0(tissue_or_disease, "_", transcript_clean)
+  )
+
+# Plot TCGA with spacing
+tcga_by_disease_plot <- tcga_by_disease %>%
+  ggplot(aes(x = x_position, y = log2_tpm_plus1, 
+             fill = classification, group = interaction(tissue_or_disease, transcript_clean))) +
+  geom_boxplot(outlier.shape = NA) +
+  scale_fill_manual(values = classification_colors, name = "Localization") +
+  scale_x_continuous(
+    breaks = tcga_by_disease %>% 
+      distinct(x_position, disease_isoform) %>% 
+      pull(x_position),
+    labels = tcga_by_disease %>% 
+      distinct(x_position, disease_isoform) %>% 
+      pull(disease_isoform)
+  ) +
+  labs(
+    title = "HER2 Isoform Expression - TCGA Cancer Types",
+    subtitle = "Three selected cancer types",
+    x = "Cancer Type_Isoform",
+    y = "Expression (log2(TPM + 1))"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.margin = margin(t = 10, r = 10, b = 10, l = 40),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
+    axis.text.y = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 11),
+    legend.position = "right",
+    legend.text = element_text(size = 10)
+  )
+
+print(tcga_by_disease_plot)
+```
+
+```{r}
+# Combine GTEx and TCGA data with adjusted positions
+# GTEx uses positions 1-26, so TCGA will start at position 28 (with a gap)
+
+gtex_for_combined <- her2_expr_categorized %>%
+  mutate(
+    dataset_type = "GTEx",
+    group_label = paste0(category, "_", transcript_clean),
+    final_x_position = x_position
+  )
+
+tcga_for_combined <- tcga_by_disease %>%
+  mutate(
+    dataset_type = "TCGA",
+    group_label = disease_isoform,
+    final_x_position = x_position + 27  # Add offset to place after GTEx (26 + 1 gap)
+  )
+
+# Combine datasets
+combined_data <- bind_rows(
+  gtex_for_combined %>% 
+    dplyr::select(transcript_clean, log2_tpm_plus1, classification, 
+           dataset_type, group_label, final_x_position),
+  tcga_for_combined %>% 
+    dplyr::select(transcript_clean, log2_tpm_plus1, classification, 
+           dataset_type, group_label, final_x_position)
+)
+
+# Create combined plot
+combined_plot <- combined_data %>%
+  ggplot(aes(x = final_x_position, y = log2_tpm_plus1, 
+             fill = classification, group = interaction(dataset_type, group_label))) +
+  geom_boxplot(outlier.shape = NA) +
+  scale_fill_manual(values = classification_colors, name = "Localization") +
+  scale_x_continuous(
+    breaks = combined_data %>% 
+      distinct(final_x_position, group_label) %>% 
+      pull(final_x_position),
+    labels = combined_data %>% 
+      distinct(final_x_position, group_label) %>% 
+      pull(group_label)
+  ) +
+  coord_cartesian(ylim = c(0, 7.5)) +  
+  # Add vertical line to separate GTEx from TCGA
+  geom_vline(xintercept = 26.5, linetype = "dashed", color = "gray50", linewidth = 0.5) +
+  # Add dataset labels at the top
+  annotate("text", x = 13, y = max(combined_data$log2_tpm_plus1) * 1.05, 
+           label = "GTEx (Normal Tissues)", fontface = "bold", size = 4) +
+  annotate("text", x = 40, y = max(combined_data$log2_tpm_plus1) * 1.05, 
+           label = "TCGA (Cancer Types)", fontface = "bold", size = 4) +
+  labs(
+    title = "HER2 Isoform Expression Across Normal Tissues and Cancer Types",
+    subtitle = "GTEx tissues grouped by essentiality, followed by TCGA cancer types",
+    x = "Tissue/Cancer Type_Isoform",
+    y = "Expression (log2(TPM + 1))"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.margin = margin(t = 20, r = 10, b = 10, l = 40),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 7),
+    axis.text.y = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 11),
+    legend.position = "right",
+    legend.text = element_text(size = 10)
+  )
+
+print(combined_plot)
+
+# Save the plot
+ggsave("../../results/HER2_analysis/figures/her2_combined_gtex_tcga_expression.png", 
+       combined_plot, width = 16, height = 6, dpi = 300)
+# Save the plot
+ggsave("../../results/HER2_analysis/figures/her2_combined_gtex_tcga_expression.pdf", 
+       combined_plot, width = 16, height = 6, dpi = 300)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
