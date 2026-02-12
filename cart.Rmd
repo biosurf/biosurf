@@ -29,11 +29,11 @@ output:
 </div>
 
 <div class="button-container">
-  <a href="cartcontent/vignette/coding/CAR-T_vignette_coding.html">
-    <img src="cartcontent/vignette/non_coding/cart_img_computer.png" alt="Bioinformatician Vignette" class="img-button" style="width: 350px;">
+  <a href="vignette/coding/CAR-T_vignette_coding.html">
+    <img src="vignette/non_coding/cart_img_computer.png" alt="Bioinformatician Vignette" class="img-button" style="width: 350px;">
   </a>
   
-  <a href="cartcontent/vignette/non_coding/Vignette_noncoding.html">
-    <img src="cartcontent/vignette/non_coding/cart_img_doc.png" alt="Medical Doctor Vignette" class="img-button" style="width: 350px;">
+  <a href="vignette/non_coding/Vignette_noncoding.html">
+    <img src="vignette/non_coding/cart_img_doc.png" alt="Medical Doctor Vignette" class="img-button" style="width: 350px;">
   </a>
 </div>

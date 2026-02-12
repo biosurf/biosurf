@@ -1,0 +1,239 @@
+---
+title: "Evaluation of CAR T cell targets in clinical trials"
+---
+
+<br>
+
+This page summarizes the evaluations of 29 protein targets for chimeric antigen receptor T cell therapy. Click  protein names for a detailed summary. Details of the evaluation criteria is described here [paper].
+
+<details>
+  <summary>ALPP</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/ALPP.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>AXL</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/AXL.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>CD19</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/CD19.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>CD22</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/CD22.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>CD276</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/CD276.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>CD33</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/CD33.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>CD38</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/CD38.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>CD70</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/CD70.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>CD276</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/CD276.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>CEACAM5</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/CEACAM5.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>CLDN18</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/CLDN18.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>EGFR</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/EGFR.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>EPCAM</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/EPCAM.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>ERBB2</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/ERBB2.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>FOLH1</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/FOLH1.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>GPC3</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/GPC3.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>IL3RA</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/IL3RA.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>MET</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/MET.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>MS4A1</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/MS4A1.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>MSLN</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/MSLN.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>MUC1</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/MUC1.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>PSCA</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/PSCA.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>RAET1E</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/RAET1E.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>ROR2</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/ROR2.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>TNFRSF10B</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/TNFRSF10B.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>TNFRSF17</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/TNFRSF17.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>ULBP1</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/ULBP1.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>ULBP2</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/ULBP2.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
+
+<details>
+  <summary>ULBP3</summary>
+```{r, echo = FALSE, results = 'asis', message = FALSE, warning = FALSE}
+res <- knitr::knit_child('cartcontent/scr/ULBP3.Rmd', quiet = TRUE)
+cat(res, sep = '\n')
+```
+</details>
