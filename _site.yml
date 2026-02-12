@@ -26,7 +26,7 @@ navbar:
         - text: "Spectracular"
           href: spectracular.html
         - text: "CAR T target evaluation"
-          href: cart_vignettes.html
+          href: cart.html
         - text: "cyCombine vignettes"
           href: cyCombine.html
 output:
