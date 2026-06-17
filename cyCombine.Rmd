@@ -63,15 +63,36 @@ If you have any issues or questions regarding the use of cyCombine, please do no
 
 </tr>
 </table>
-<!-- <br> -->
+<br>
 
 
-<!-- <table style="width:100%"> -->
-<!-- <tr> -->
+<table style="width:100%">
+<tr>
 
-<!-- <td><center>[![](images/cyCombine/Flow1.png){ width=75% }](cyCombine/Flow_CyTOF.html)<br>Vignette for flow cytrometry and CyTOF integration</center></td> -->
+<td><center>[![](images/cyCombine/Logos/RNAseq.png){ width=75% }](cyCombine_RNAseq_RNAseq.html)<br>Vignette for scRNA-seq integration</center></td>
 
-<!-- <td><center>[![](images/cyCombine/CITEseq.png){ width=75% }](cyCombine/CITEseq_CyTOF.html)<br>Vignette for CITE-seq and CyTOF integration</center></td> -->
+<td><center>[![](images/cyCombine/Logos/RNAseq_citeseq.png){ width=75% }](cyCombine_RNAseq_CITEseq.html)<br>Vignette for scRNA-seq and CITE-seq integration</center></td>
 
-<!-- </tr> -->
-<!-- </table> -->
+</tr>
+</table>
+
+
+<table style="width:100%">
+<tr>
+
+<td><center>[![](images/cyCombine/Logos/RNAseq_cytof.png){ width=75% }](cyCombine_RNAseq_CyTOF.html)<br>Vignette for scRNA-seq and CyTOF integration</center></td>
+
+<td><center>[![](images/cyCombine/Logos/RNAseq_Flow.png){ width=75% }](cyCombine_RNAseq_SFC.html)<br>Vignette for scRNA-seq and Spectral flow cytometry integration</center></td>
+
+</tr>
+</table>
+
+<table style="width:100%">
+<tr>
+
+<td><center>[![](images/cyCombine/Logos/cocluster.png){ width=75% }](cyCombine_cytof_RNA_cocluster.html)<br>Vignette for scRNA-seq and CyTOF split-sample co-cluster analysis</center></td>
+
+<td><center>[![](images/cyCombine/Logos/empty.png){ width=75% }]()</center></td>
+
+</tr>
+</table>

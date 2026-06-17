@@ -1,0 +1,910 @@
+---
+title: "Integrating and co-clustering CyTOF and scRNA-seq"
+author: "Søren H Dam"
+date: "Last updated on `r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: kate
+    df_print: paged
+---
+
+<style type="text/css">
+
+h1.title {
+  color: #004d66;
+}
+h4.author {
+  font-style: italic;
+  font-size: 18px;
+  color: #008cba;
+}
+h4.date {
+  font-style: italic;
+  font-size: 16px;
+  color: #008cba;
+}
+h1 { /* Header 1 */
+  color: #004d66;
+  font-size: 28px;
+}
+h2 { /* Header 2 */
+  color: #004d66;
+  font-size: 22px;
+}
+h3 { /* Header 3 */
+  color: #004d66;
+  font-size: 16px;
+}
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+</style>
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This vignette demonstrates integrating a split-sample scRNA-seq and CyTOF experiment ([Su et al.](https://www.nature.com/articles/s41597-024-03399-6)). The purpose is to improve their individual annotations through a co-clustered annotation.
+To assimilate scRNA-seq data to CyTOF, we use our own implementation of Single-cell nearest-neighbor pseudobulking ([scennep](https://github.com/shdam/scennep)).
+
+## Dependencies
+
+```{r dependencies}
+library("Seurat")
+library("anndata")
+library("dplyr")
+library("ggplot2")
+library("patchwork")
+library("cyCombine")
+library("cyDefine") # Available at https://github.com/biosurf/cyDefine
+library("scennep") # Available at https://github.com/shdam/scennep
+seed <- 447
+mc.cores <- 20
+```
+
+
+## Download data 
+
+We got the download instructions from the article's [Data availability section](https://www.nature.com/articles/s41597-024-03399-6#Sec7). CyTOF is available on FlowRepository ([FR-FCM-Z6ZN](https://flowrepository.org/id/FR-FCM-Z6ZN)) and scRNA-seq data is available on SRA ([SRR23497303](https://trace.ncbi.nlm.nih.gov/Traces/?run=SRR23497303)). Getting the scRNA-seq metadata took some looking around, but direct download links are presented in the code chunks.
+
+### Get CyTOF data (FR-FCM-Z6ZN)
+
+FlowRepositoryR might be depricated, so manual download can be required.
+
+```{r get-cytof, eval = FALSE}
+if (!require("FlowRepositoryR")) {
+  remotes::install_github("jspidlen/FlowRepositoryR")
+}
+
+
+library(FlowRepositoryR)
+
+x <- flowRep.get("FR-FCM-Z6ZN")
+
+x <- download(x)
+
+```
+
+### Get scRNA-seq data (SRR23497303)
+
+Run in bash.
+
+```{bash get-rna, eval = FALSE}
+cd ../../../data/pbmc/paired_cytometry_scrna/rnaseq
+
+# SRA Normalized 
+#wget https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR23497303/SRR23497303
+# Raw bam file (used)
+wget https://sra-pub-src-1.s3.amazonaws.com/SRR23497303/possorted_genome_bam.bam.1
+mv possorted_genome_bam.bam.1 possorted_genome.bam
+
+# Metadata
+wget https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM7048nnn/GSM7048570/suppl/GSM7048570%5Fpbmc%5Fseq.h5ad.gz
+gunzip rnaseq/GSM7048570_pbmc_seq.h5ad.gz
+rm rnaseq/GSM7048570_pbmc_seq.h5ad.gz
+```
+
+
+## Preprocessing
+
+Before I found the preprocessed data from the article, I manually rerun the preprocessing steps. In the end, I used my own preprocessing, but used their filtering. There is commented out code for reusing their expression data, if you are redoing the analysis and want to keep it simple.
+
+### scRNA-seq
+
+First, I convert the bam file to fastq in order to reanalyze with Cell Ranger.
+
+```{bash cellranger, eval = FALSE}
+module load cellranger/9.0.1
+module load bamtofastq/1.3.0
+
+# Get reference
+wget "https://cf.10xgenomics.com/supp/cell-exp/refdata-gex-GRCh38-2024-A.tar.gz"
+tar -zxvf refdata-gex-GRCh38-2024-A.tar.gz
+
+# Bam to fastq 
+bamtofastq --nthreads 38 possorted_genome.bam fastq
+mv fastq/ES-PBMC-2_HiSeq_MissingLibrary_1_HJK5NBCX2/* fastq/.
+rm -rf fastq/ES-PBMC-2_HiSeq_MissingLibrary_1_HJK5NBCX
+
+# Cell Ranger
+cellranger count --transcriptome refdata-gex-GRCh38-2024-A --fastqs fastq --localcores 39 --localmem 110 --output-dir cr_out --id cr_paired_rna --create-bam=false
+```
+
+Then, I load the output into Seurat for preprocessing.
+
+```{r seurat}
+seu <- Seurat::Read10X("../../../data/pbmc/paired_cytometry_scrna/rnaseq/cr_out/outs/filtered_feature_bc_matrix")
+seu <- CreateSeuratObject(counts = seu, project = "paired_rna", min.cells = 3, min.features = 200)
+seu[["percent.mt"]] <- PercentageFeatureSet(seu, pattern = "^MT-")
+
+# VlnPlot(seu, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+```
+
+(Commented out) I manually set the processing thresholds as follows:
+
+```{r subset}
+# seu <- subset(seu, subset = nFeature_RNA > 250 & nFeature_RNA < 2800 & percent.mt < 5)
+# VlnPlot(seu, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+```
+
+I reused the filtering and annotation from Su et al.
+
+```{r extract_metadata}
+# Load anndata
+adata <- read_h5ad("../../../data/pbmc/paired_cytometry_scrna/rnaseq/GSM7048570_pbmc_seq.h5ad")
+# 
+# # Access the data
+# count_matrix <- adata$X
+# seu <- Seurat::CreateSeuratObject(t(adata$raw$X))
+# seu <- seu[, adata$raw$obs_names %in% rownames(metadata)]
+# count_matrix <- count_matrix[adata$raw$obs_names %in% rownames(metadata), ]
+metadata <- adata$obs
+# gene_info <- adata$var
+
+
+seu <- seu[, colnames(seu) %in% rownames(metadata)]
+
+# rna <- tibble::as_tibble(count_matrix) |> 
+#   mutate(cell_id = rownames(count_matrix),
+#          celltype = metadata$celltype) 
+
+seu <- AddMetaData(seu, metadata)
+```
+
+#### Visualizing scRNA-seq
+
+```{r umap}
+
+set.seed(seed)
+# Normalize and PCA
+seu <- NormalizeData(seu)
+seu <- FindVariableFeatures(seu, selection.method = "vst", nfeatures = 3000)
+seu <- ScaleData(seu)
+seu <- RunPCA(seu)
+
+
+# Cluster
+seu <- FindNeighbors(seu, dims = 1:10)
+seu <- FindClusters(seu, algorithm = 4, random.seed = seed)
+
+# UMAP
+seu <- RunUMAP(seu, dims = 1:10, seed.use = seed)
+DimPlot(seu, reduction = "umap", group.by = "celltype")
+```
+<!--
+I plot manually selected features to annotate by.
+```{r features, eval=FALSE}
+features <- c("CD3D", "CD8A", "CD4", "CD19", "CD79A", "CD14", "FCGR3A", "CD68", "NCAM1", "PPBP")
+
+FeaturePlot(seu, features = features)
+```
+
+#### Annotation
+
+Annotation rules:
+
+```{r table, echo=FALSE, include=FALSE}
+
+knitr::kable(
+  data.frame(
+    "Celltype" = c(
+      "CD8 T cells", "CD4 T cells", "B cells", "NK cells", "Monocytes", "cDC2"
+    ),
+    "Rule" = c(
+      "CD3D + CD8A", "CD3D + CD4", "CD19", "NCAM1 + FCGR3A", "CD14", "CD68 + PPBP"
+    )
+  )
+)
+
+```
+
+```{r annotation_, eval=FALSE}
+annotation <- c(
+  "1" = "CD8 T cell", 
+  "2" = "CD4 T cell", 
+  "3" = "CD4 T cell", 
+  "4" = "B cell", 
+  "5" = "NK cell", 
+  "6" = "Monocytes", 
+  "7" = "CD8 T cell", 
+  "8" = "dendritic cell")
+
+celltypes <- annotation[seu$seurat_clusters]
+names(celltypes) <- colnames(seu)
+seu <- Seurat::AddMetaData(seu, celltypes, col.name = "celltype")
+DimPlot(seu, reduction = "umap", group.by = "celltype")
+
+
+# saveRDS(seu, "~/mnt/cr2/data/pbmc/paired_cytometry_scrna/rnaseq/rna_annotated.rds")
+```
+-->
+
+### CyTOF
+
+Load FCS files into R and clean marker names.
+
+```{r prep_cytof}
+data_dir <- "../../../data/pbmc/paired_cytometry_scrna/FR-FCM-Z6ZN/"
+cytof_fs <- cyCombine::compile_fcs(data_dir, pattern = "analyze_normalized")
+cytof_fs[[1]] |> flowCore::parameters() |> Biobase::pData() |> 
+  dplyr::filter(stringr::str_detect(desc, "_"),
+         stringr::str_detect(desc, "BC", negate = T)) |> 
+  pull("desc") 
+cytof <- prepare_data(flowset = cytof_fs, clean_colnames = F, down_sample = F, transform = T)
+
+
+colnames(cytof) <- colnames(cytof) |> 
+  stringr::str_remove_all("^\\d+[A-Za-z]+_?")
+cytof <- cytof[, stringr::str_detect(colnames(cytof), "^(CD|Fox|Tbet|id|sample|IgD|HLA)")]
+
+markers <- cyCombine::get_markers(cytof)
+```
+
+#### Annotation
+
+I could not extract the annotation used in Su et al., so I manually annotated using more or less the same approach as they do.
+
+```{r cy_annotation}
+
+cytof$label <- create_som(
+  cytof, seed = 334, cluster_method = "flowsom", xdim = 6, ydim = 6, nClus = 18)
+
+umap_cytof <- cytof |> 
+  plot_umap(markers = markers, col = "label", seed = 334, return_data = TRUE, down_sample = T, sample_n = 30000, title = "CyTOF UMAP")
+umap_cytof$plot
+# plot_embedding(umap_cytof$data, col = "CD4", title = "CyTOF CD4")
+plot_markers(umap_cytof$data, markers = c("CD14", "CD16", "CD68", "HLADR", "CD3", "CD4", "CD8a", "CD19", "CD20", "CD56", "CD38"), show_legend = F)
+plot_markers(umap_cytof$data, markers = sort(markers), show_legend = F)
+
+
+cyDefine::plot_heatmap(umap_cytof$data, population_col = "label", markers_to_plot = sort(markers))
+```
+
+| Cell Type | Markers |
+|-----------|---------|
+| CD4 T cells | CD3+, CD4+ |
+| CD8 T cells | CD3+, CD8a+ |
+| B cells | CD19+, CD20+, CD79b+, HLADR+ |
+| NK cells | CD56+ |
+| NKT cells | CD56+, CD3+ |
+| CD16- monocytes | CD14+, CD16- |
+| CD16+ monocytes | CD16+ |
+| DCs | HLADR+, CD68+ |
+| DN T cells | CD3+, CD4-, CD8a- |
+| DP T cells | CD3+, CD4+, CD8a+ |
+
+```{r}
+annotation <- c(
+  "1" = "CD8 T cell", 
+  "2" = "CD8 T cell", 
+  "3" = "CD8 T cell", 
+  "4" = "CD8 T cell", 
+  "5" = "DP T cell", 
+  "6" = "DN T cell", 
+  "7" = "CD4 T cell", 
+  "8" = "CD4 T cell",
+  "9" = "NKT cell",
+  "10" = "NK cell",
+  "11" = "CD4 T cell", 
+  "12" = "CD4 T cell", 
+  "13" = "dendritic cell", 
+  "14" = "unassigned", 
+  "15" = "dendritic cell",
+  "16" = "DN T cell",
+  "17" = "CD16- monocyte",
+  "18" = "B cell")
+
+cytof <- cytof |> 
+  mutate(label = stringr::str_remove_all(label, "cluster_"),
+         batch = "CyTOF",
+         celltype = annotation[label])
+
+umap_cytof$data$celltype <- annotation[stringr::str_remove_all(umap_cytof$data$label, "cluster_")]
+
+unique_cells <- c(as.character(seu$celltype), cytof$celltype) |> unique() |> sort()
+celltype_colors <- cyDefine::get_distinct_colors(unique_cells)
+celltype_colors["dendritic cell"] <- "#AA0A0A"
+
+plot_cytof_exprs <- plot_embedding(umap_cytof$data, col = "celltype", title = "CyTOF", colors = celltype_colors, legend_title = "Cell type")
+plot_cytof_exprs
+```
+
+
+### Convert protein to gene
+
+I convert protein names to gene names to find the common features between the two datasets.
+
+```{r convert_genename}
+
+protein_gene <- data.frame(
+  Protein = c("CD45", "CD11b", "CD79b", "CD11c", "IgD", "CD16", "CD25", "CD43", "CD103", "CD45RA",
+              "Tbet", "FoxP3", "CD161", "CD8a", "CD49a", "CD3", "CD20", "CD45RO", "HLADR", "CD56"),
+  Gene_Symbol = c("PTPRC", "ITGAM", "CD79B", "ITGAX", "IGHD", "FCGR3A", "IL2RA", "SPN", "ITGAE",
+                 "PTPRC", "TBX21", "FOXP3", "KLRB1", "CD8A", "ITGA1", "CD3E", "MS4A1", "PTPRC",
+                 "HLA-DRA", "NCAM1")
+)
+
+
+if ("CD45RO" %in% colnames(cytof)) {
+  cd45 <- pmax(cytof$CD45, cytof$CD45RA, cytof$CD45RO)
+  cytof <- cytof |> 
+    select(-starts_with("CD45")) |> 
+    mutate(CD45 = cd45)
+  markers <- get_markers(cytof)
+}
+
+genes_to_rename <- rownames(seu)[rownames(seu) %in% protein_gene$Gene_Symbol]
+rownames(seu)[rownames(seu) %in% genes_to_rename] <- protein_gene$Protein[match(genes_to_rename, protein_gene$Gene_Symbol)]
+
+```
+
+
+Here is the UMAP when only using those common features.
+
+```{r}
+
+umap_rna_exprs <- seu@assays$RNA$data[markers, ] |> 
+  t() |> 
+  as.data.frame() |> 
+  mutate(celltype = seu$celltype) |> 
+  plot_umap(ref_col = "celltype", 
+            seed = 334, 
+            metric = "cosine",
+            return_data = TRUE, 
+            title = "scRNA-seq raw", 
+            colors = celltype_colors)
+
+
+plot_rna_exprs <- umap_rna_exprs$plot
+plot_rna_exprs
+
+```
+
+## Run scennep
+
+I run single-cell nearest-neighbor pseudobulking (scennep) using cosine distance.
+The umap demonstrates the impact of running scennep on the data.
+
+```{r scennep}
+## Run scennep
+library(scennep)
+rna <- scennep(
+  seu,
+  markers = markers, 
+  mc.cores = 4,
+  distance = "cosine",
+  return_S4 = FALSE
+)
+
+rna <- as.data.frame(t(rna))
+rna$batch <- "RNA"
+rna$sample <- "RNA"
+rna$celltype <- seu$celltype
+
+umap_rna <- rna |> 
+  plot_umap(markers = markers, 
+            col = "celltype", 
+            legend_title = "Cell type",
+            title = "scRNA-seq scennep", 
+            colors = celltype_colors,
+            seed = 334, 
+            return_data = TRUE, 
+            metric = "cosine")
+plot_rna_scennep <- umap_rna$plot
+# plot_embedding(umap_cytof$data, col = "CD4", title = "CyTOF CD4")
+# plot_markers(umap_rna$data, markers = markers, show_legend = F)
+
+
+plot_cytof_exprs + plot_rna_exprs + plot_rna_scennep + patchwork::plot_layout(
+  guides = "collect",
+design = "
+#11#
+2233
+")
+```
+
+## Merge datasets - exprs
+
+I want to compare the integration with and without scennep, so I merge and correct both variants of the data using the same parameters.
+
+```{r merge_exprs}
+
+# Extract expressions
+exprs <- seu@assays$RNA$data
+exprs <- as.data.frame(t(exprs))
+exprs$batch <- "RNA"
+exprs$sample <- "RNA"
+exprs$celltype <- seu$celltype
+
+# Merge datasets
+set.seed(seed)
+uncorrected_exprs <- exprs |> 
+  # 
+  dplyr::select(dplyr::any_of(c(markers, non_markers))) |> 
+  dplyr::bind_rows(cytof |> 
+                     # dplyr::slice_sample(n = n_cells*3) |>
+                     dplyr::select(dplyr::any_of(c(markers, non_markers)))) |> 
+  dplyr::mutate(id = dplyr::row_number())
+
+# saveRDS(uncorrected, "results/05_cytof_rnaseq_uncorrected.rds")
+```
+
+## Batch correct - exprs
+```{r correct_exprs}
+
+system.time({
+  suppressMessages({ # Hide per-cluster correction info
+    corrected_exprs <- cyCombine(
+      uncorrected_exprs,
+      markers = markers,
+      norm_method = "scale",
+      cluster_method = "flowsom",
+      distf = "cosine",
+      seed = seed,
+      xdim = c(1, 5),
+      ydim = c(1, 5),
+      mc.cores = 4,
+      method = "ComBat"
+    )
+  })
+})
+# saveRDS(corrected, "results/05_cytof_rnaseq_corrected.rds")
+```
+
+
+## Merge datasets - scennep
+
+```{r merge}
+
+# Merge datasets
+set.seed(seed)
+uncorrected <- rna |> 
+  dplyr::select(dplyr::any_of(c(markers, non_markers))) |> 
+  dplyr::bind_rows(cytof |> 
+                     dplyr::select(dplyr::any_of(c(markers, non_markers)))) |> 
+  dplyr::mutate(id = dplyr::row_number())
+
+# saveRDS(uncorrected, "results/05_cytof_rnaseq_uncorrected.rds")
+```
+
+```{r uncorrected}
+
+set.seed(seed)
+uncor_batch <- uncorrected |> 
+  dplyr::group_by(sample) |> 
+  dplyr::slice_sample(n = nrow(rna)) |> 
+  plot_umap(
+  down_sample = F,
+  title = "Uncorrected",
+  legend_title = "Technology",
+  metric = "cosine",
+  markers = markers,
+  col = "batch")
+
+# saveRDS(uncor_batch, "results/05_cytof_rnaseq_uncor.rds")
+
+uncor_batch
+```
+
+
+## Batch correct - scennep
+
+```{r correct}
+
+system.time({
+  suppressMessages({ # Hide per-cluster correction info
+    corrected <- cyCombine(
+      uncorrected,
+      markers = markers,
+      norm_method = "scale",
+      cluster_method = "flowsom",
+      distf = "cosine",
+      # ref.batch = "CyTOF",
+      seed = seed,
+      xdim = c(1, 5),
+      ydim = c(1, 5),
+      mc.cores = 4,
+      method = "ComBat"
+    )
+  })
+})
+# saveRDS(corrected, "results/05_cytof_rnaseq_corrected.rds")
+```
+
+
+
+
+## Plot results - Batch
+
+```{r plot_batch}
+set.seed(seed)
+plot_batch <- corrected |> 
+  dplyr::group_by(sample) |> 
+  dplyr::slice_sample(n = 10000) |> 
+  plot_umap(
+  down_sample = F,
+  # markers = markers,
+  title = "CyTOF + scRNA-seq", 
+  return_data = T,
+  metric = "cosine", 
+  legend_title = "Technology",
+  col = "batch")
+# ggplot2::ggsave(plot_batch$plot, filename = "figs/05_cytof_rnaseq_batch.png")
+# saveRDS(plot_batch$plot, "results/05_cytof_rnaseq_batch.rds")
+plot_batch$plot
+```
+
+## Plot results - Cells
+
+Here, I reuse the umap generated above to plot celltype labels on the two modalities side by side.
+
+```{r plot_cells}
+
+xlim <- c(min(plot_batch$data$UMAP1), max(plot_batch$data$UMAP1))
+ylim <- c(min(plot_batch$data$UMAP2), max(plot_batch$data$UMAP2))
+
+plot_cell <- 
+  plot_embedding(
+    dplyr::filter(plot_batch$data, batch == "CyTOF"),
+    colors = celltype_colors, 
+    xlim = xlim,
+    ylim = ylim,
+    title = "Integrated CyTOF",
+    col = "celltype",
+    legend_title = "Cell type") + 
+  plot_embedding(
+    dplyr::filter(plot_batch$data, batch == "RNA"),
+    colors = celltype_colors, 
+    xlim = xlim,
+    ylim = ylim,
+    title = "Integrated scRNA-seq scennep",
+    col = "celltype",
+    legend_title = "Cell type") + 
+  patchwork::plot_layout(
+    axes = "collect",
+    axis_titles = "collect")
+
+# plot_cell <- cyDefine::plot_umap(
+#   corrected |> dplyr::filter(batch == "CyTOF"),
+#   corrected |> dplyr::filter(batch == "RNA"),
+#   down_sample = T, 
+#   # build_umap_on = "reference",
+#   # min_dist = 0.2,
+#   colors = celltype_colors,
+#   sample_n = 5000,
+#   title = c("Integrated CyTOF", "Integrated scRNA-seq scennep"),
+#   markers = get_markers(corrected),
+#   return_data = T,
+#   metric = "cosine",
+#   col = "celltype")
+plot_cell
+# & ggplot2::theme(legend.position = "right")
+
+# saveRDS(plot_cell, "results/05_cytof_rnaseq_cell.rds")
+# ggplot2::ggsave(plot_cell, filename = "figs/05_cytof_rnaseq_cell.png")
+
+
+```
+
+And here is a side-by-side comparison of the raw and integrated data with and without scennep.
+
+```{r}
+
+set.seed(seed)
+plot_cell_exprs <- cyDefine::plot_umap(
+  corrected_exprs |> dplyr::filter(batch == "CyTOF"),
+  corrected_exprs |> dplyr::filter(batch == "RNA"),
+  down_sample = T, 
+  # min_dist = 0.2,
+  colors = celltype_colors,
+  sample_n = nrow(rna),
+  title = c("CyTOF", "Integrated scRNA-seq raw"),
+  markers = markers, 
+  metric = "cosine",
+  col = "celltype")
+
+plot_cell_exprs / plot_cell + plot_layout(guides = "collect")
+ # plot_corrected_exprs_cytof + plot_corrected_cytof
+
+umap_integration <- plot_cytof_exprs + 
+  plot_rna_exprs + 
+  plot_rna_scennep + 
+  plot_cell_exprs[[2]] + 
+  plot_cell[[2]] + 
+  plot_cell[[1]] + 
+  patchwork::plot_layout(
+  guides = "collect",
+  design = "
+  2244
+  3355
+  1166
+  ")
+umap_integration
+
+# ggplot2::ggsave(umap_integration, filename = "figs/05_integrationv2.png", height = 40, width = 35, units = "cm")
+# ggplot2::ggsave(umap_integration, filename = "figs/05_integrationv2.pdf", height = 40, width = 35, units = "cm", )
+
+```
+
+
+## Co-clustering
+
+Here, we aim to improve the annotation of the individual datasets by co-clustering and annotating them jointly. Depending on the seed, a few subclusterings are necessary to separate the DC and monocyte populations.
+
+```{r cocluster}
+
+set.seed(seed)
+corrected$label <- create_som(
+  corrected, seed = seed, distf = "cosine", cluster_method = "flowsom", xdim = 6, ydim = 6, nClus = 18) |> 
+  as.character()
+
+# markers_to_rename <- colnames(plot_batch$data) %in% protein_gene$Gene_Symbol
+# colnames(plot_batch$data)[markers_to_rename] <- protein_gene$Protein[match(colnames(plot_batch$data)[markers_to_rename], protein_gene$Gene_Symbol)]
+# markers <- get_markers(corrected)
+
+plot_batch$data$label <- NULL
+umap_combined <- plot_batch$data |> 
+  left_join(corrected[, c("id", "label")], by = "id")
+
+plot_embedding(umap_combined, col = "label", title = "Co-cluster labels")
+
+lab13 <- paste0("13.", create_som(
+  corrected[corrected$label == "13", markers], seed = seed, distf = "cosine", cluster_method = "flowsom", xdim = 1, ydim = 2))
+corrected$label[corrected$label == "13"] <- lab13
+
+lab14 <- paste0("14.", create_som(
+  corrected[corrected$label == "14", markers], seed = seed, distf = "cosine", cluster_method = "flowsom", xdim = 1, ydim = 2))
+corrected$label[corrected$label == "14"] <- lab14
+
+lab15 <- paste0("15.", create_som(
+  corrected[corrected$label == 15, markers], seed = seed, xdim = 1, ydim = 3))
+corrected$label[corrected$label == "15"] <- lab15
+
+umap_combined <- plot_batch$data |> 
+  left_join(corrected[, c("id", "label")], by = "id")
+
+plot_embedding(umap_combined, col = "label", title = "Co-cluster labels")
+
+
+
+
+
+# 
+
+# 
+# umap_combined <- bind_rows(
+#   plot_cell$reference,
+#   plot_cell$query
+# ) |> 
+#   left_join(corrected[, c("id", "label")], by = "id")
+  
+
+# set.seed(seed)
+# umap_combined <- corrected |> 
+#   dplyr::group_by(sample) |> 
+#   dplyr::slice_sample(n = n_cells) |> 
+#   plot_umap(markers = markers, ref_col = "label", seed = seed, return_data = TRUE, down_sample = F)
+
+# ggsave(plot_embedding(umap_combined, col = "label", title = "Co-cluster labels"),
+#        file = "figs/05_cocluster_labels.png")
+
+```
+
+
+```{r}
+annotation <- c(
+  "1" = "NK cell", 
+  "2" = "NKT cell", 
+  "3" = "CD8 T cell", 
+  "4" = "NK cell", 
+  "5" = "CD4 T cell", 
+  "6" = "CD8 T cell", 
+  "7" = "CD4 T cell", 
+  "8" = "CD4 T cell",
+  "9" = "CD4 T cell",
+  "10" = "DN T cell",
+  "11" = "CD8 T cell", 
+  "12" = "DP T cell", 
+  "13.1" = "dendritic cell",
+  "13.2" = "CD16- monocyte",
+  "14.1" = "CD16- monocyte",
+  "14.2" = "Mk", 
+  "15.1" = "dendritic cell",
+  "15.2" = "CD16+ monocyte",
+  "15.3" = "CD16- monocyte",
+  "16" = "CD16- monocyte",
+  "17" = "B cell",
+  "18" = "B cell")
+
+corrected <- corrected |> 
+  mutate(celltype_cocluster = annotation[label])
+
+umap_combined$celltype_cocluster <- annotation[umap_combined$label]
+plot_embedding(umap_combined, col = "celltype_cocluster", title = "CyTOF UMAP")
+
+p_cocluster_annotation <- (plot_embedding(umap_combined, col = "label", title = "Co-cluster labels") + theme(legend.position = "none"))  + 
+(plot_embedding(umap_combined, col = "celltype_cocluster", colors = celltype_colors, title = "Co-cluster annotation", legend_title = "Cell type") + 
+   theme(legend.position = "bottom", legend.direction = "horizontal", legend.justification = "left") + guides(
+    color = guide_legend(title = "Cell type",
+      nrow = 2,
+      override.aes = list(size = 4, alpha = 1)
+    ))) +
+  (plot_embedding(umap_combined, col = "celltype", colors = celltype_colors, title = "Independent Annotation") + theme(legend.position = "none"))
+p_cocluster_annotation
+ 
+# ggsave(p_cocluster_annotation, filename = "figs/05_cocluster_annotation.png", height = 15, width = 30, units = "cm")
+
+```
+
+```{r, eval=FALSE, include=FALSE}
+# Marker plots and heatmaps for aiding the annotation
+plot_markers(umap_combined, markers = sort(get_markers(umap_combined)), show_legend = F)
+plot_markers(umap_combined, markers = sort(c("CD14", "CD16", "CD11b", "CD11c", "CD33", "CD38", "CD4", "CD68", "CD86", "HLADR")), show_legend = F)
+# plot_embedding(umap_cytof$data, col = "CD4", title = "CyTOF CD4")
+
+# co_markers <- sort(get_markers(umap_combined))
+# co_markers <- co_markers[co_markers != "celltype_cocluster"]
+cyDefine::plot_heatmap(corrected, population_col = "celltype_cocluster", markers_to_plot = sort(markers))
+cyDefine::plot_heatmap(corrected, population_col = "label", markers_to_plot = sort(markers))
+```
+
+### Figure 4
+
+```{r abundance}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(patchwork)
+
+corrected$celltype <- as.character(corrected$celltype)
+corrected$celltype_cocluster <- as.character(corrected$celltype_cocluster)
+
+p_abundance_co <- plot_abundance_comparison(
+  corrected |> dplyr::filter(batch == "CyTOF"),
+  corrected |> dplyr::filter(batch == "RNA"),
+  ref_name = "CyTOF", query_name = "scRNA-seq",
+  ref_col = "celltype_cocluster", query_col = "celltype_cocluster") + ggtitle("Co-clustered") +
+  scale_y_continuous(trans = scales::transform_pseudo_log(base = 10))
+p_abundance <- plot_abundance_comparison(
+  corrected |> dplyr::filter(batch == "CyTOF"),
+  corrected |> dplyr::filter(batch == "RNA"),
+  ref_name = "CyTOF", query_name = "scRNA-seq",
+  ref_col = "celltype", query_col = "celltype") + 
+  ggtitle("Independently") +
+  scale_y_continuous(trans = scales::transform_pseudo_log(base = 10))
+
+p_abundances <- (p_abundance + theme(legend.position = "none")) / p_abundance_co
+p_abundances
+
+# saveRDS(p_abundances, "results/05_cytof_rnaseq_abundance.rds")
+# ggplot2::ggsave(p_abundances, filename = "figs/05_cytof_rnaseq_abundance.png")
+
+Fig4 <- p_cocluster_annotation / (p_abundance + p_abundance_co + patchwork::plot_layout(guides = "collect") & theme(legend.position = "bottom"))  + 
+  patchwork::plot_layout(
+  design = "
+  1111111111
+  2222222222
+  ") +
+  # patchwork::plot_layout(
+  # design = "
+  # 11111111
+  # #222222#
+  # ") +
+  plot_annotation(tag_levels = "A")
+
+
+Fig4
+# ggplot2::ggsave(Fig4, filename = "figs/05_annotation_abundance.png", height = 30, width = 30, units = "cm")
+```
+
+
+<!--
+
+## Phenotype transfer with cyDefine
+
+```{r cyDefine}
+
+classified <- cyDefine::cyDefine(
+  corrected |> dplyr::filter(batch == "CyTOF"),
+  corrected |> dplyr::filter(batch == "RNA"),
+  markers = markers,
+  using_pbmc = FALSE,
+  adapt_reference = FALSE,
+  batch_correct = FALSE,
+  seed = seed,
+  identify_unassigned = TRUE,
+  train_on_unassigned = FALSE,
+  # mtry = 10,
+  num.threads = 4,
+  num.trees = 1000
+)
+
+```
+
+### Figure 5A - UMAP
+```{r, eval=FALSE, include=FALSE}
+# colors <- cyDefine::get_distinct_colors(sort(unique(classified$reference$celltype)))
+p_umap <- plot_umap(
+    classified$reference,
+    classified$query,
+    markers = markers,
+    colors = celltype_colors, 
+    ref_col = "celltype",
+    query_col = "model_prediction",
+    build_umap_on = "reference",
+    title = c("Reference (CyTOF)", "Query (scRNA-seq)"),
+    seed = seed)
+saveRDS(p_umap, "results/05_cytof_rnaseq_umap.rds")
+ggplot2::ggsave(p_umap, filename = "figs/05_cytof_rnaseq_umap.png")
+p_umap 
+```
+
+
+### Figure 5B - Celltype abundances
+
+```{r abundance_cydefine, eval=FALSE, include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(patchwork)
+p_abundance <- plot_abundance_comparison(classified, ref_name = "CyTOF", query_name = "scRNA-seq")
+
+saveRDS(p_abundance, "results/05_cytof_rnaseq_abundance.rds")
+ggplot2::ggsave(p_abundance, filename = "figs/05_cytof_rnaseq_abundance.png")
+p_abundance 
+```
+
+### Figure 5C - Marker correlation
+
+```{r marker_correlation, eval=FALSE, include=FALSE}
+p_correlation <- plot_expression_correlation(classified, markers = markers, ref_name = "CyTOF", query_name = "scRNA-seq")
+
+uncorrected$celltype <- c(as.character(classified$query$model_prediction), classified$reference$celltype)
+p_correlation_raw <- plot_expression_correlation(uncorrected |> dplyr::filter(batch == "CyTOF"),
+  uncorrected |> dplyr::filter(batch == "RNA"), query_col = "celltype", markers = markers, ref_name = "CyTOF", query_name = "scRNA-seq")
+
+saveRDS(p_correlation, "results/05_cytof_rnaseq_correlation.rds")
+ggplot2::ggsave(p_correlation, filename = "figs/05_cytof_rnaseq_correlation.png", height = 20, width = 20, units = "cm")
+p_correlation
+
+
+p_collected <- (( p_umap / p_abundance + theme(legend.position = "right")) | p_correlation ) +
+  plot_layout(tag_level = 'new') + 
+  plot_annotation(tag_levels = list(c("A", " ","B","C")))
+
+p_collected
+
+
+
+ggplot2::ggsave(p_collected, filename = "figs/05_cytof_rnaseq_abundance_correlation.png", height = 20, width = 35, units = "cm")
+ggplot2::ggsave(p_collected, filename = "figs/05_cytof_rnaseq_abundance_correlation.pdf", height = 20, width = 35, units = "cm")
+```
+
+-->

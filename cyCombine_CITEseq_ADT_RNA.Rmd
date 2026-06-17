@@ -1,0 +1,495 @@
+---
+title: "Integrating CITE-seq - ADT and RNA"
+author: "Søren H Dam"
+date: "Last updated on `r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: kate
+    df_print: paged
+---
+
+<style type="text/css">
+
+h1.title {
+  color: #004d66;
+}
+h4.author {
+  font-style: italic;
+  font-size: 18px;
+  color: #008cba;
+}
+h4.date {
+  font-style: italic;
+  font-size: 16px;
+  color: #008cba;
+}
+h1 { /* Header 1 */
+  color: #004d66;
+  font-size: 28px;
+}
+h2 { /* Header 2 */
+  color: #004d66;
+  font-size: 22px;
+}
+h3 { /* Header 3 */
+  color: #004d66;
+  font-size: 16px;
+}
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+</style>
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# rmarkdown::render("cyCombine_CITEseq_ADT_RNA.Rmd")
+```
+
+This vignette demonstrates integrating the RNA and ADT parts of a CITE-seq dataset using cyCombine.
+In order to assimilate the two data modalities, we use our own implementation of a Single-cell nearest-neighbor pseudobulking ([scennep](https://github.com/shdam/scennep)).
+
+## Dependencies
+
+```{r dependencies}
+# remotes::install_github("mojaveazure/seurat-disk#198")
+library("Seurat")
+library("SeuratDisk")
+library("dplyr")
+library("ggplot2")
+library("patchwork")
+library("cyCombine")
+library("cyDefine") # Available at https://github.com/biosurf/cyDefine
+library("scennep")
+library("spaceRATScaffolds") # Available at https://github.com/shdam/spaceRATScaffolds
+seed <- 942
+mc.cores <- 20
+```
+
+
+## The CITE-seq dataset
+
+We use the Seurat PBMC atlas by [Hao et al., 2021](https://www.cell.com/cell/fulltext/S0092-8674(21)00583-3)
+
+### ADT
+
+
+```{r load_data}
+if (file.exists("data/01_citeseq_seurat_adt.RDS")) {
+  adt <- readRDS("data/01_citeseq_seurat_adt.RDS")
+} else {
+  seu_pbmc <- LoadH5Seurat("/home/projects/dp_immunoth/people/s153398/cytograted/data/aml/scrna-seq/pbmc_multimodal.h5seurat",
+                            assays = c("ADT"),
+                            reductions = FALSE,
+                            graphs = FALSE,
+                            images = FALSE)
+  
+  seu_pbmc$batch <- seu_pbmc$orig.ident
+  seu_pbmc$sample <- "ADT"
+  suppressMessages({ # Hide per-cluster correction info
+  seu_pbmc <- seu_pbmc |> 
+    cyCombine(
+      norm_method = "clr",
+      markers = rownames(seu_pbmc), 
+      xdim = 4, ydim = 3, 
+      cluster_method = "kohonen", 
+      layer = "data",
+      mc.cores = 1
+    )
+  })
+  
+  
+  adt <- seu_pbmc |> 
+    GetAssayData("cyCombine", "data") |>
+    t() |> 
+    tibble::as_tibble() |> 
+    mutate(
+      sample = "ADT",
+      batch = "ADT",
+      cell_id = colnames(seu_pbmc),
+      celltype = seu_pbmc$celltype.l2,
+      celltype = dplyr::case_when(
+    startsWith(celltype, "B") ~ "B cells",
+    endsWith(celltype, "Mono") ~ "Monocytes",
+    startsWith(celltype, "CD4") ~ "CD4pos",
+    celltype == "Treg" ~ "CD4pos",
+    startsWith(celltype, "CD8") ~ "CD8pos",
+    startsWith(celltype, "NK") ~ "NK cells",
+    celltype == "gdT" ~ "TCRgd",
+    celltype == "pDC" ~ "pDCs",
+    startsWith(celltype, "cDC") ~ "cDCs",
+    celltype == "ASDC" ~ "cDCs",
+    celltype == "TCRgd" ~ celltype,
+    # celltype == "Platelets" ~ celltype,
+    TRUE ~ "Other"
+  ))
+}
+
+```
+
+### Map CITE-seq markers to gene names
+
+```{r map_markers}
+if (!file.exists("data/01_citeseq_seurat_adt.RDS")) {
+  # Download marker info
+  if (!file.exists("ab_info.xlsx")) system("wget https://ars.els-cdn.com/content/image/1-s2.0-S0092867421005833-mmc1.xlsx -O ab_info.xlsx")
+  
+  # Load marker mapper
+  gene_marker <- readxl::read_excel("ab_info.xlsx")
+  
+  # gene_marker <- 
+  gene_marker$`Ensembl Gene Id` <- gene_marker$`Ensembl Gene Id` |> stringr::str_remove_all(".*MUS.* ")
+  gene_marker$`#protein` <- gsub("_", "-", gene_marker$`#protein`)
+  # Select relevant genes-marker pairs
+  gm <- sapply(colnames(adt), function(m) gene_marker$`Ensembl Gene Id`[stringr::str_detect(gene_marker$`#protein`, m)][1])
+  
+  # Manually assign gene IDs for remaining markers
+  gm[is.na(gm)]
+  gm[c("CD11a/CD18", "CD18") ] <- c("ENSG00000005844", "ENSG00000160255")
+  gm <- gsub("ENSMUSG\\d+, ", "", gm)
+  gm <- gsub("NA", NA, gm)
+
+  gm <- gm[!is.na(gm)]
+  
+  colnames(adt)[which(colnames(adt) %in% names(gm))] <- gm[colnames(adt)[which(colnames(adt) %in% names(gm))]]
+  c <- colnames(adt)
+  duplicated_genes <- unique(c[duplicated(c) & !is.na(c)])
+  duplicated_location <- which(c %in% duplicated_genes)
+  
+  dup_pbmc <- lapply(setNames(duplicated_genes, duplicated_genes), function(gene) {
+    dup_max <- apply(adt[, gm[gm == gene]], 1, max)
+    return(dup_max)
+  })
+  adt[, duplicated_location] <- NULL
+  
+  adt <- cbind(adt, dup_pbmc)
+  
+  adt <- adt |> 
+    dplyr::select(dplyr::any_of(non_markers), dplyr::starts_with("ENSG"))
+  
+  saveRDS(adt, file = "data/01_citeseq_seurat_adt.RDS")
+}
+```
+
+### RNA
+
+```{r rna}
+if (file.exists("data/01_citeseq_seurat_rna.RDS")) {
+  seu_rna <- readRDS("data/01_citeseq_seurat_rna.RDS")
+} else {
+
+# RNAseq
+# devtools::load_all("../spaceRATScaffolds")
+seu_rna <- LoadH5Seurat("/home/projects/dp_immunoth/people/s153398/cytograted/data/aml/scrna-seq/pbmc_multimodal.h5seurat",
+                    assays = c("SCT"),
+                    reductions = FALSE,
+                    graphs = FALSE,
+                    images = FALSE)
+
+
+rna <- GetAssayData(seu_rna, layer = "data")
+counts <- GetAssayData(seu_rna, layer = "counts")
+md <- seu_rna[[]]
+
+data(gene_id_converter_hs, package = "spaceRATScaffolds")
+
+convert_gene2id <- function(genes) {
+  gene_id_converter_hs$ensembl_gene[match(genes, gene_id_converter_hs$hgnc_symbol)]
+}
+
+rownames(rna) <- convert_gene2id(rownames(rna))
+rna <- rna[!is.na(rownames(rna)),]
+rownames(counts) <- convert_gene2id(rownames(counts))
+counts <- counts[!is.na(rownames(counts)),]
+
+variable_feats <- convert_gene2id(VariableFeatures(seu_rna))
+variable_feats <- variable_feats[!is.na(variable_feats)]
+
+seu_rna <- CreateSeuratObject(counts = counts, data = rna, assay = "SCT")
+VariableFeatures(seu_rna) <- variable_feats
+seu_rna <- AddMetaData(seu_rna, md)
+
+
+celltype <- seu_rna$celltype.l2
+seu_rna$celltype <- dplyr::case_when(
+  startsWith(celltype, "B") ~ "B cells",
+  endsWith(celltype, "Mono") ~ "Monocytes",
+  startsWith(celltype, "CD4") ~ "CD4pos",
+  startsWith(celltype, "CD8") ~ "CD8pos",
+  celltype == "NK" ~ "NK cells",
+  celltype == "pDC" ~ "pDCs",
+  startsWith(celltype, "cDC") ~ "cDCs",
+  celltype == "TCRgd" ~ celltype,
+  celltype == "Platelets" ~ celltype,
+  TRUE ~ "Other"
+) |> as.character()
+
+saveRDS(seu_rna, "data/01_citeseq_seurat_rna.RDS")
+}
+```
+
+## Pseudobulk neighbors of RNA-part
+
+```{r scennep, warning=FALSE}
+# Common markers
+markers <- intersect(colnames(adt), rownames(seu_rna))
+
+if (file.exists("data/citeseq_scennep_rna.RDS")) {
+  rna <- readRDS("data/citeseq_scennep_rna.RDS")
+} else {
+
+rna <- scennep(
+  seu_rna,
+  mc.cores = 30,
+  markers = markers,
+  flavor = "SCT",
+  distance = "cosine",
+  pb = interactive(), 
+  return_S4 = FALSE,
+)
+
+saveRDS(seu_rna, "data/citeseq_scennep_rna.RDS")
+}
+```
+
+## Merge datasets
+
+```{r merge}
+#GetAssayData(rna, "scennep","data") |> 
+# rna[["SCT"]]$data[markers,] |>
+rna_df <- rna |> 
+  t() |>
+  tibble::as_tibble() |> 
+  dplyr::mutate(
+    batch = "scRNA-seq",
+    sample = "scRNA-seq",
+    cell_id = colnames(rna),
+    celltype = rna$celltype
+) |> 
+  dplyr::filter(cell_id %in% adt$cell_id)
+
+# Merge datasets
+set.seed(seed)
+uncorrected <- rna_df |> 
+  dplyr::bind_rows(adt) |> 
+  dplyr::select(dplyr::any_of(c(markers, non_markers))) |> 
+  dplyr::mutate(id = dplyr::row_number())
+
+# saveRDS(uncorrected, "results/04_citeseq_adt_rna_uncorrected_scennep.RDS")
+```
+
+## Uncorrected
+
+```{r uncorrected}
+set.seed(seed)
+uncor_batch <- plot_umap(
+  uncorrected,
+  down_sample = T,
+  sample_n = 5000,
+  markers = markers,
+  title = "Uncorrected",
+  ref_col = "batch")
+
+# saveRDS(uncor_batch, "results/04_citeseq_adt_rna_uncor.RDS")
+# uncor_cytof + uncor_rnaseq +
+#   patchwork::plot_layout(guides = "collect")
+uncor_batch
+```
+
+## Batch correct
+```{r correct}
+
+system.time({
+  corrected <- cyCombine(
+    uncorrected,
+    markers = markers,
+    norm_method = "scale",
+    cluster_method = "flowsom",
+    distf = "cosine",
+    seed = seed,
+    xdim = c(1,1,5),
+    ydim = c(1,5),
+    mc.cores = 1
+  )
+})
+# saveRDS(corrected, "results/04_citeseq_adt_rna_corrected.RDS")
+```
+
+## Plot results - Cells
+
+```{r plot_cells}
+colors <- get_distinct_colors(sort(unique(corrected$celltype)))
+set.seed(seed)
+
+plot_cell <- plot_umap(
+  corrected[corrected$batch == "scRNA-seq",],
+  corrected[corrected$batch == "ADT",],
+  down_sample = T,
+  sample_n = 5000,
+  markers = markers,
+  title = c("RNA", "ADT"),
+  ref_col = "celltype",
+  colors = colors,
+  query_col = "celltype")
+
+# saveRDS(plot_cell, "results/04_citeseq_adt_rna_cell.RDS")
+# ggplot2::ggsave(plot_cell, filename = "figs/04_citeseq_adt_rna_cell.png")
+plot_cell
+
+```
+
+## Plot results - Batch
+
+```{r plot_batch}
+set.seed(seed)
+umap_batch <- plot_umap(
+  corrected,
+  down_sample = T, 
+  sample_n = 5000,
+  markers = markers,
+  title = "CITEseq - ADT + RNA",
+  ref_col = "batch")
+
+# ggplot2::ggsave(umap_batch, filename = "figs/04_citeseq_adt_rna_batch.png")
+# saveRDS(umap_batch, "results/04_citeseq_adt_rna_batch.RDS")
+umap_batch
+```
+
+
+## Measure performance
+
+```{r}
+if (! exists("uncorrected")) uncorrected <- readRDS("results/04_citeseq_adt_rna_uncorrected_SCT.RDS")
+if (! exists("corrected")) corrected <- readRDS("results/04_citeseq_adt_rna_corrected_SCT.RDS")
+if (! exists("markers")) markers <- cyCombine::get_markers(uncorrected)
+```
+
+
+```{r performance}
+
+
+corrected$label <- create_som(corrected, ydim = 5, xdim = 5, seed = seed, markers = markers, cluster_method = "flowsom", distf = "cosine")
+uncorrected$label <- corrected$label
+
+system.time({
+  lu <- cyCombine::compute_cilisi(df = uncorrected, markers = get_markers(uncorrected), label_cols = "batch", split_by = "label", return_mean = F)
+})
+message("CiLISI uncorrected: ", mean(unlist(lu)))
+
+system.time({
+  l <- cyCombine::compute_cilisi(df = corrected, markers = get_markers(corrected), label_cols = "batch", split_by = "label", return_mean = F)
+})
+message("CiLISI corrected: ", mean(unlist(l)))
+
+mad <- cyCombine::evaluate_mad(uncorrected, corrected, cell_col = "label", markers = markers)
+emd <- cyCombine::evaluate_emd(uncorrected, corrected, cell_col = "label", markers = markers)
+# saveRDS(list("emd" = emd, "mad" = mad, "CiLISI_uc" = lu, "CiLISI_c" = l), "results/04_citeseq_adt_rna_performance_SCT.RDS")
+
+```
+
+## Measure distance
+
+
+```{r distance}
+if ("cell" %in% colnames(uncorrected)) { # Fix legacy names
+  uncorrected <- rename(uncorrected, celltype = cell)
+  corrected <- rename(corrected, celltype = cell)
+}
+APPLY <- cyCombine:::set_apply(mc.cores, pb = TRUE)
+markers <- get_markers(uncorrected)
+colors <- get_distinct_colors(sort(unique(corrected$celltype)))
+distances_uncorrected <- uncorrected |> 
+  group_by(cell_id) |> 
+  dplyr::group_split() |> 
+  APPLY(function(df) {
+    proxy::dist(as.matrix(df[, markers]), method = "cosine")
+  }, mc.cores = mc.cores)
+distances_uncorrected <- do.call(rbind, distances_uncorrected)
+distances_uncorrected_df <- data.frame(
+  "distance" = distances_uncorrected,
+  "type" = "Uncorrected"
+)
+
+
+distances <- corrected |> 
+  group_by(cell_id) |> 
+  dplyr::group_split() |> 
+  APPLY(function(df) {
+    proxy::dist(as.matrix(df[, markers]), method = "cosine")
+  }, mc.cores = mc.cores)
+# distances <- do.call(rbind, distances)
+distances_df <- data.frame(
+  "distance" = do.call(rbind, distances),
+  "type" = "Corrected"
+)
+# distances_df_celltype <- distances |> rename(type = cell) |> 
+  # select(distance, type)
+
+distances_celltypes <- corrected |> 
+  dplyr::filter(batch == "ADT") |> 
+  group_by(celltype) |> 
+  summarize(across(all_of(markers), mean, rm.na=TRUE)) |> 
+  select(all_of(markers)) |> 
+  proxy::dist(method = "cosine")
+#distances_celltypes <- do.call(rbind, distances_celltypes)
+distances_celltypes_df <- data.frame(
+  "distance" = distances_celltypes,
+  "type" = "Celltype"
+)
+
+set.seed(seed)
+distances_celltypes_pop <- corrected |> 
+  dplyr::filter(batch == "ADT") |> 
+  dplyr::group_by(celltype) |> 
+  dplyr::slice_sample(n = 1000) |> 
+  dplyr::group_split(.keep = TRUE) |>
+  APPLY(function(df) {
+    d <- proxy::dist(as.matrix(df[, markers]), method = "cosine") |> 
+      as.numeric()
+    d <- dplyr::tibble(distance = d, type = df$celltype[1])
+    return(d)
+  }, mc.cores = mc.cores)
+  # summarize(across(any_of(markers), mean, rm.na=TRUE)) |> 
+  # select(markers) |> 
+  # dist()
+#distances_celltypes <- do.call(rbind, distances_celltypes)
+distances_celltypes_pop <- do.call(rbind, distances_celltypes_pop)
+# distances_celltypes_pop_df <- data.frame(
+#   "distance" = distances_celltypes_pop,
+#   "type" = "Population"
+# )
+
+combined_distances <- rbind(distances_uncorrected_df, distances_df, distances_celltypes_pop)
+combined_distances$type <- factor(combined_distances$type, levels = c(
+  "Corrected", "Uncorrected",
+  "B cells", "CD4pos", "CD8pos", "Monocytes", "NK cells", "cDCs", "pDCs"
+))
+
+saveRDS(combined_distances, "results/04_citeseq_adt_rna_distances_SCT.RDS")
+# combined_distances <- readRDS("results/04_citeseq_adt_rna_distances.RDS")
+combined_distances$size <- as.numeric(case_when(combined_distances$type %in% c("Corrected", "Uncorrected") ~ 0.6, TRUE ~ .5))
+plot_distance <- ggplot(combined_distances, aes(x = distance, color = type)) +
+  geom_density(linewidth = .8) +
+  labs(title = "Cell-by-cell distances",
+       x = "Distance",
+       y = "Density", color = "Type") +
+  theme_bw() + 
+  scale_color_manual(values = c(colors, "Corrected" = "black", "Uncorrected" = "gray"))
+
+# ggplot2::ggsave(plot_distance, filename = "figs/04_citeseq_adt_rna_distance_SCT.png")
+plot_distance
+# ggsave(plot_distance, filename = "figs/04_citeseq_adt_rna_distance_SCT.pdf", height = 10, width = 20, units = "cm")
+```
+
+```{r plots, include=FALSE}
+plots <- plot_cell / plot_distance +
+  plot_layout(tag_level = 'new') + 
+  plot_annotation(tag_levels = "A") +
+  theme(plot.tag = element_text(size = 14))
+# ggsave(plots, filename = "figs/04_citeseq_adt_rna_cell_distance_SCT.png", height = 20, width = 20, units = "cm")
+# ggsave(plots, filename = "figs/04_citeseq_adt_rna_cell_distance_SCT.pdf", height = 20, width = 20, units = "cm")
+```

@@ -1,0 +1,362 @@
+---
+title: "Integrating RNAseq and RNAseq"
+author: "Søren H Dam"
+date: "Last updated on `r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: kate
+    df_print: paged
+---
+
+<style type="text/css">
+
+h1.title {
+  color: #004d66;
+}
+h4.author {
+  font-style: italic;
+  font-size: 18px;
+  color: #008cba;
+}
+h4.date {
+  font-style: italic;
+  font-size: 16px;
+  color: #008cba;
+}
+h1 { /* Header 1 */
+  color: #004d66;
+  font-size: 28px;
+}
+h2 { /* Header 2 */
+  color: #004d66;
+  font-size: 22px;
+}
+h3 { /* Header 3 */
+  color: #004d66;
+  font-size: 16px;
+}
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# rmarkdown::render("cyCombine_RNAseq_RNAseq.Rmd")
+```
+
+This vignette demonstrates integrating two separate scRNA-seq datasets using cyCombine. The integration is done on the SCTransformed counts.
+
+
+## Dependencies
+
+```{r dependencies, message=FALSE, warning=FALSE}
+library("Seurat")
+library("dplyr")
+library("ggplot2")
+library("patchwork")
+library("cyDefine") # Available at https://github.com/biosurf/cyDefine
+library("cyCombine")
+
+seed <- 942
+system("mkdir -p data")
+system("mkdir -p results")
+```
+
+## The datasets
+
+### scRNA-seq - Lee
+
+We are using the normal samples from a public COVID paper, [Lee et al., 2020](https://www.science.org/doi/10.1126/sciimmunol.abd1554)
+
+```{r lee}
+# Individual Single-Cell RNA-seq PBMC Data from Lee et al. (DOI: 10.1126/sciimmunol.abd1554)
+if (!file.exists("data/lee.rds")) system("wget https://datasets.cellxgene.cziscience.com/bdee03e4-14ee-4f3e-a225-3d12f032841f.rds -O data/lee.rds")
+  
+# Load and transform Lee
+lee <- readRDS("data/lee.rds")
+if (! "SCT" %in% Seurat::Assays(lee)) {
+  lee <- lee[, grepl("Normal", lee$sample)]
+  lee <- FindVariableFeatures(lee)
+  oopts <- options(future.globals.maxSize = 1.0 * 1e9) 
+  on.exit(options(oopts))
+  
+  lee <- Seurat::SCTransform(lee)
+  lee <- FindVariableFeatures(lee)
+  
+  lee@reductions <- list()
+  lee[["RNA"]] <- NULL
+}
+
+# Align annotation labels
+lee$batch <- "lee"
+# lee$sample <- "lee"
+celltype <- lee$Cell.group
+lee$celltype <- dplyr::case_when(
+         celltype == "B cell" ~ "B cells",
+         stringr::str_starts(celltype, "CD4") ~ "CD4pos",
+         stringr::str_starts(celltype, "CD8") ~ "CD8pos",
+         stringr::str_ends(celltype, "Monocyte") ~ "Monocytes",
+         celltype == "NK cell" ~ "NK cells",
+         celltype %in% c("cDC", "pDC") ~ paste0(celltype, "s"),
+         lee$cell_type == "gamma-delta T cell" ~ "TCRgd",
+         celltype == "Platelet" ~ "Platelets",
+         TRUE ~ "Other"
+         )
+
+```
+
+### scRNA-seq - Yoshida
+
+```{r yoshida}
+# https://cellxgene.cziscience.com/collections/03f821b4-87be-4ff4-b65a-b5fc00061da7
+# Local and systemic responses to SARS-CoV-2 infection in children and adults
+if (!file.exists("data/yoshida.rds")) system("wget https://datasets.cellxgene.cziscience.com/d911082e-b5e2-40e6-8f08-fb53c7894622.rds -O data/yoshida.rds")
+
+# Load and transform Lee
+yoshida <- readRDS("data/yoshida.rds")
+
+if (! "SCT" %in% Seurat::Assays(yoshida)) {
+  yoshida <- yoshida[, grepl("AN", yoshida$sample_id)]
+  
+  yoshida <- FindVariableFeatures(yoshida)
+  
+  oopts <- options(future.globals.maxSize = 2.0 * 1e9) 
+  on.exit(options(oopts))
+  
+  yoshida <- Seurat::SCTransform(yoshida)
+  yoshida <- FindVariableFeatures(yoshida)
+  
+  yoshida@reductions <- list()
+  yoshida[["RNA"]] <- NULL
+  
+}
+
+yoshida$batch <- "yoshida"
+# yoshida$sample <- "yoshida"
+celltype <- yoshida$cell_type
+yoshida$celltype <- dplyr::case_when(
+  grepl("B cell", celltype) ~ "B cells",
+  grepl("natural killer cell", celltype) ~ "NK cells",
+  celltype == "conventional dendritic cell" ~ "cDCs",
+  celltype == "plasmacytoid dendritic cell" ~ "pDCs",
+  celltype == "gamma-delta T cell" ~ "TCRgd",
+  celltype == "platelet" ~ "Platelets",
+  grepl("CD4", celltype) ~ "CD4pos",
+  celltype == "regulatory T cell" ~ "CD4pos",
+  grepl("CD8", celltype) ~ "CD8pos",
+  grepl("onocyte", celltype) ~ "Monocytes",
+  TRUE ~ "Other")
+
+
+```
+
+
+### Merge datasets
+
+We use the union of variable features to speed up the integration significantly. Please only use the integrated values for visualizations etc., perform your analyses and draw your conclusions based on the raw/unintegrated values.
+
+In this vignette, we convert the Seurat object to a data.frame for compatibility with plotting and performance measures, but cyCombine can integrate the merged Seurat object directly.
+
+```{r merge}
+
+seu <- merge(x = lee, y = yoshida, project = "integrate_RNAseq")
+# Variable features
+markers <- union(VariableFeatures(lee), VariableFeatures(yoshida))
+rm(lee); rm(yoshida)
+
+
+# Convert to data frame
+uncorrected <- seu[markers,] |> 
+  GetAssayData("SCT","data") |>
+  t() |> 
+  as.data.frame() |> 
+  dplyr::mutate(batch = seu$batch,
+                sample = seu$sample,
+                celltype = seu$celltype,
+                id = dplyr::row_number())
+rm(seu)
+# saveRDS(uncorrected, "results/02_rnaseq_rnaseq_uncorrected.RDS")
+
+```
+
+```{r, include=FALSE, eval=FALSE}
+# Recompute UMAP
+# seu <- ScaleData(seu)
+# seu <- RunPCA(seu, npcs = 30, verbose = FALSE)
+# seu <- RunUMAP(seu, dims = 1:30)
+# # 
+# seu_umap <- Seurat::DimPlot(split.by = "sample",seu, reduction = "umap", group.by = "celltype")
+# seu_umap
+```
+
+
+## Uncorrected
+
+```{r uncorrected}
+set.seed(seed)
+uncor_batch <- plot_umap(
+  uncorrected,
+  down_sample = T,
+  sample_n = 5000,
+  markers = markers,
+  title = "Uncorrected",
+  ref_col = "celltype")
+
+# saveRDS(uncor_batch, "results/02_rnaseq_rnaseq_uncor.RDS")
+# ggplot2::ggsave(plot_cell, filename = "figs/02_rnaseq_rnaseq_uncor.RDS")
+uncor_batch
+```
+
+## Batch correction
+
+For this integration, we are running two iterations of cyCombine to ensure a robust result. The first iteration uses a coarse 1x5 grid clustering, whereas the second iteration uses a somewhat fine-grained 5x5 clustering grid.
+Cosine distance is used with a FlowSOM clustering to emphasize the angle of variation rather than the amplitude. Note that cosine distance is not available in the default Kohonen cluster method.
+
+```{r correct}
+system.time({
+  suppressMessages({ # Hide per-cluster correction info
+  corrected <- cyCombine(
+    uncorrected,
+    markers = markers,
+    cluster_method = "flowsom",
+    distf = "cosine",
+    seed = seed, 
+    method = "ComBat",
+    xdim = c(1,5),
+    ydim = 5,# Note: the "5" is reused in the second iteration
+    mc.cores = 1
+  )
+  })
+})
+# saveRDS(corrected, "results/02_rnaseq_rnaseq_corrected.RDS")
+```
+
+
+## Plot results - Batch
+
+```{r plot_batch}
+set.seed(seed)
+umap_batch <- corrected |> 
+  group_by(sample) |> 
+  slice_sample(n = 5000) |> 
+  plot_umap(
+    return_data = T,
+    down_sample = F, 
+    seed = seed,
+    metric = "cosine",
+    markers = markers,
+    title = "scRNA-seq Lee vs Yoshida",
+    legend_title = "Dataset",
+    col = "batch")
+
+# ggplot2::ggsave(umap_batch$plot, filename = "figs/02_rnaseq_rnaseq_batch.png")
+# saveRDS(umap_batch$plot, "results/02_rnaseq_rnaseq_batch.RDS")
+umap_batch$plot
+```
+
+## Plot results - Cells
+
+Note: We use `plot_embedding` to reuse the UMAP coordinates from the plot above. We could also have rerun `plot_umap` for a simpler call.
+
+```{r plot_cell}
+celltype_colors <- cyDefine::get_distinct_colors(sort(unique(uncorrected$celltype)))
+celltype_colors[["Other"]] <- "black"
+set.seed(seed)
+
+xlim <- c(min(umap_batch$data$UMAP1), max(umap_batch$data$UMAP1))
+ylim <- c(min(umap_batch$data$UMAP2), max(umap_batch$data$UMAP2))
+
+plot_cell <- 
+  plot_embedding(
+    dplyr::filter(umap_batch$data, batch == "lee"),
+    colors = celltype_colors, 
+    xlim = xlim,
+    ylim = ylim,
+    title = "scRNAseq - Lee",
+    col = "celltype",
+    legend_title = "Cell type") + 
+  plot_embedding(
+    dplyr::filter(umap_batch$data, batch == "yoshida"),
+    colors = celltype_colors, 
+    xlim = xlim,
+    ylim = ylim,
+    title = "scRNAseq - Yoshida",
+    col = "celltype",
+    legend_title = "Cell type") +
+  patchwork::plot_layout(
+    guides = "collect",
+    axes = "collect",
+    axis_titles = "collect")
+
+# ggplot2::ggsave(plot_cell, filename = "figs/02_rnaseq_rnaseq_cell.png")
+# saveRDS(plot_cell, "results/02_rnaseq_rnaseq_cell.RDS")
+
+plot_cell
+```
+
+
+
+## Measure performance
+
+- EMD: Reduction in Earth Movers Distance [0,1] is a metric of how much more aligned the two modalities have become
+- MAD: Reduction in Median Absolute Deviation [0,1] is a metric of how much biological variance has been removed.
+- CiLISI: Cell-type aware iLISI [0,1] is the global mean of the iLISIs computed for each cell type or cluster.
+
+
+```{r reload, include=FALSE}
+if (! exists("uncorrected")) uncorrected <- readRDS("results/02_rnaseq_rnaseq_uncorrected.RDS")
+if (! exists("corrected")) corrected <- readRDS("results/02_rnaseq_rnaseq_corrected.RDS")
+if (! exists("markers")) markers <- cyCombine::get_markers(uncorrected)
+```
+
+
+```{r performance}
+
+corrected$label <- create_som(corrected, ydim = 5, xdim = 5, seed = seed, markers = markers, cluster_method = "flowsom", distf = "cosine")
+uncorrected$label <- corrected$label
+
+system.time({
+  lu <- cyCombine::compute_cilisi(
+    uncorrected, 
+    markers = get_markers(uncorrected), 
+    label_cols = "batch", 
+    split_by = "label", 
+    return_mean = F)
+})
+message("CiLISI uncorrected: ", mean(unlist(lu)))
+
+system.time({
+  l <- cyCombine::compute_cilisi(
+    corrected, 
+    markers = get_markers(corrected), 
+    label_cols = "batch", 
+    split_by = "label", 
+    return_mean = F)
+})
+message("CiLISI corrected: ", mean(unlist(l)))
+
+
+mad <- cyCombine::evaluate_mad(
+  uncorrected, 
+  corrected, 
+  cell_col = "label", 
+  markers = markers
+  )
+
+emd <- cyCombine::evaluate_emd(
+  uncorrected, 
+  corrected,
+  binSize = 1, 
+  cell_col = "label", 
+  markers = markers, 
+  mc.cores = 39)
+
+# saveRDS(list("emd" = emd, "mad" = mad, "CiLISI_uc" = lu, "CiLISI_c" = l), "results/02_rnaseq_rnaseq_counts_performance.RDS")
+
+```
