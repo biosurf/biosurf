@@ -1,0 +1,474 @@
+---
+title: "Adapting the PBMC Reference"
+author: "Søren H Dam"
+date: "Last updated: `r format(Sys.Date(), '%Y.%m.%d')`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: kate
+    df_print: paged
+---
+
+<style type="text/css">
+
+h1.title {
+  color: #004d66;
+}
+h4.author {
+  font-style: italic;
+  font-size: 18px;
+  color: #008cba;
+}
+h4.date {
+  font-style: italic;
+  font-size: 16px;
+  color: #008cba;
+}
+h1 { /* Header 1 */
+  color: #004d66;
+  font-size: 28px;
+}
+h2 { /* Header 2 */
+  color: #004d66;
+  font-size: 22px;
+}
+h3 { /* Header 3 */
+  color: #004d66;
+  font-size: 16px;
+}
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+</style>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Adapting a reference to the query markers
+
+This vignette demonstrates the process of adapting a reference dataset, specifically a reference of Peripheral Blood Mononuclear Cells (PBMCs), to match the marker panels of different query datasets.
+Reference adaptation is sometimes necessary because it is not always possible to achieve the same level of annotation granularity with a smaller set of markers than what is possible in a reference set with many markers.
+The adaptation involves merging populations that cyDefine fails to distinguish between.
+
+This vignette demonstrates the adaptation process using a CyTOF (Z2YR) and Spectral Flow Cytometry (OMIP69) panel as well as the small OMIP23 panel. 
+
+
+## Dependencies
+
+```{r dependencies}
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+library(cyCombine)
+library(cyDefine)
+
+```
+
+## The panels
+
+```{r, panels}
+# Set up seed and number of cells
+seed <- 430
+n_cells <- 30000
+
+
+# HIMC (FR-FCM-Z2YR) panel
+himc_panel <- c("CD45", "CD57", "HLA-DR", "CCR6", "CD19", "IgG", "CD4", "IgD", "CD20", "IgA", "CD56", "CD86", "ICOS", "TCRgd", "CD45RA", "CD123", "CD27", "CXCR3", "NKG2A", "anti", "CD11c", "CD14", "CD26", "CD8a", "CD33", "CD161", "CD127", "CCR10", "CCR7", "CCR9", "CD25", "CD3", "CXCR5", "CD38", "a4b7", "PD-1", "CD62L", "CLA", "CD16")
+
+# OMIP-023 markers
+omip23 <- c("CD45", "CD3", "CD8", "CD4", "CD25", "CD127", "CD19", "CD38", "HLA-DR", "CD16", "CD56", "CD14", "CD69")
+
+# OMIP-069 markers
+omip69 <- c("CD45","CD3","CD4","CD8","CD25","TCRgd","CD14","CD16","CD11c","CD19","CD20","CD24","CD39","IgD","IgG","IgM","CD141","CD1c","CD123","CD2","CD56","CCR7","CD27","CD28","CD45RA","CD95","CD127","CD337","CCR6","CCR5","CXCR5","CXCR3","HLADR","CD38","CD57","PD-1","CD159a","CD159c","CD314")
+
+# POISED markers
+poised_panel <- c("CD16", "IFNg", "CD69", "CXCR3", "IL.17", "LAP",
+             "CD27", "CD40L", "PD1", "CD123", "CD45RA", "CD28",
+             "GPR15", "HLA.DR", "CD33", "CD14", "CD127", "CD86",
+             "TCRgd", "CD19", "CD49b", "IL.4", "CD4", "CD8",
+             "CD38", "LAG3", "OX40", "CD20", "CCR4", "IL9",
+             "CD3", "CD11c", "CCR7", "CD57", "IL.10", "integrin",
+             "CD25", "CD56", "CLA")
+```
+
+## The Seurat PBMC reference
+
+```{r, plot_ref}
+# Get and filter markers from Seurat reference
+pbmc_reference <- get_reference("pbmc", path = "data", store = TRUE)
+ref_markers <- get_markers(pbmc_reference)
+ref_markers <- ref_markers[!startsWith(ref_markers, "cell") & !startsWith(ref_markers, "Rat")]
+
+# Subset reference
+reference <- pbmc_reference |> 
+    dplyr::filter(
+      !celltype.l2 %in% c("Doublet", "Platelet", "Eryth", "HSPC")
+  )
+# Set up color palette for cell types
+set.seed(seed)
+colors <- reference |> 
+  pull(celltype.l2) |> 
+  unique() |> sort() |> 
+  get_distinct_colors()
+
+# UMAP plot for Seurat reference
+umap_ref <- plot_umap(
+  reference,
+  return_data = T,
+  sample_n = n_cells,
+  markers = ref_markers,
+  add_centroids = "text",
+  title = "Universal PBMC reference",
+  col = "celltype.l2")
+
+umap_ref$plot
+```
+## OMIP23 - Adapt reference
+
+### Map markers
+
+```{r, mapped_dummy_omip23}
+# Create a dummy query data frame based on OMIP23 markers
+dummy_query <- data.frame(matrix(0, nrow = 1, ncol = length(omip23)))
+colnames(dummy_query) <- omip23
+
+# Map reference markers to OMIP23 panel
+mapped_dummy_omip23 <- map_marker_names(ref_markers = ref_markers,
+  using_pbmc = TRUE, query = dummy_query,
+  query_markers = omip23
+)
+
+```
+
+### Reference on query markers
+
+```{r, plot_ref_omip23}
+# Generate UMAP plot using OMIP23 markers
+umap_ref_omip23 <- plot_umap(
+  umap_ref$data,
+  down_sample = F,
+  return_data = T,
+  markers = colnames(mapped_dummy_omip23),
+  add_centroids = "text",
+  title = "OMIP-023 marker subset",
+  col = "celltype.l2")
+
+umap_ref_omip23$plot
+```
+
+
+### Adapt OMIP23 to reference
+
+```{r, adapted_reference_omip23}
+# Adapt the Seurat reference to match OMIP23 markers
+adapted_reference_omip23 <- adapt_reference(
+  reference = reference,
+  markers = colnames(mapped_dummy_omip23),
+  mtry = floor(ncol(mapped_dummy_omip23)/2),
+  num.threads = 4,
+  # exclude_celltypes = c("Doublet", "Platelet", "Eryth", "HSPC"),
+  using_pbmc = TRUE,
+  seed = seed
+)
+```
+
+```{r adapted_celltypes_omip23}
+# List names to add custom colors (optional)
+table(adapted_reference_omip23$celltype)
+```
+
+```{r, plot_adapted_omip23, out.width="100%"}
+
+colors <- cyDefine:::expand_colors(adapted_celltypes = adapted_reference_omip23$celltype, original_celltypes = reference$celltype.l2, colors = colors)
+# Join adapted cell types and plot the UMAP
+plot_adapted_omip23 <- umap_ref_omip23$data |> 
+  dplyr::left_join(adapted_reference_omip23[, c("cell_id", "celltype", "celltype_original")], by = c("cell_id")) |> 
+  plot_embedding(
+    add_centroids = "text",
+    title = "Adapted reference for OMIP-023",
+    highlight_labels = T,
+    colors = colors,
+    col = "celltype")
+umap_ref_omip23$plot + plot_adapted_omip23
+```
+
+```{r diagram_omip23}
+# Generate a diagram visualizing the adapted reference structure
+fontcolor_nodes <- c(
+  "NK" = "white", 
+  "NK Proliferating / NK" = "white"
+)
+
+plot_diagram(adapted_reference_omip23, colors = colors, fontcolor_nodes = fontcolor_nodes)
+```
+
+
+
+## OMIP69 - Adapt reference
+
+### Map markers
+```{r, mapped_dummy_omip69}
+# Create a dummy query data frame based on OMIP69 markers
+dummy_query <- data.frame(matrix(0, nrow = 1, ncol = length(omip69)))
+colnames(dummy_query) <- omip69
+
+# Map reference markers to OMIP69 panel
+mapped_dummy_omip69 <- map_marker_names(
+  ref_markers = ref_markers,
+  using_pbmc = TRUE, query = dummy_query,
+  query_markers = omip69
+)
+```
+
+### Reference on query markers
+
+```{r, plot_ref_omip69}
+# Generate UMAP plot using OMIP69 markers
+umap_ref_omip69 <- plot_umap(
+  umap_ref$data,
+  return_data = T,
+  down_sample = F,
+  add_centroids = "text",
+  title = "OMIP-069 marker subset",
+  markers = colnames(mapped_dummy_omip69),
+  col = "celltype.l2")
+
+umap_ref_omip69$plot
+```
+
+### Adapt reference
+```{r, adapted_reference_omip69}
+# Adapt the Seurat reference to match OMIP69 markers
+adapted_reference_omip69 <- adapt_reference(
+  reference = reference,
+  markers = colnames(mapped_dummy_omip69),
+  mtry = floor(ncol(mapped_dummy_omip69)/2),
+  num.threads = 4,
+  # exclude_celltypes = c("Doublet", "Platelet", "Eryth", "HSPC"),
+  using_pbmc = TRUE,
+  seed = seed
+)
+```
+
+```{r, plot_adapted_omip69, out.width="100%"}
+# Adjust color mapping for specific cell types
+colors <- cyDefine:::expand_colors(adapted_celltypes = adapted_reference_omip69$celltype, original_celltypes = reference$celltype.l2, colors = colors)
+# Join adapted cell types and plot the UMAP
+plot_adapted_omip69 <- umap_ref_omip69$data |> 
+  dplyr::left_join(adapted_reference_omip69[, c("cell_id", "celltype", "celltype_original")], by = c("cell_id")) |> 
+  plot_embedding(
+    add_centroids = "text",
+    highlight_labels = T,
+    title = "Adapted reference for OMIP-069",
+    colors = colors,
+    col = "celltype")
+umap_ref_omip69$plot + plot_adapted_omip69
+```
+
+
+
+
+```{r diagram_omip69}
+# Generate a diagram visualizing which cell types had to be merged
+fontcolor_nodes <- c(
+  "NK" = "white", 
+  "NK Proliferating / NK" = "white"
+)
+
+plot_diagram(adapted_reference_omip69, colors = colors, fontcolor_nodes = fontcolor_nodes)
+```
+
+## Figure 2
+
+```{r full_plot_small, out.width="100%"}
+layout <- "
+##BBCC
+AABBCC
+AADDEE
+##DDEE
+"
+
+full_plot_small <- umap_ref$plot + umap_ref_omip23$plot + plot_adapted_omip23 + umap_ref_omip69$plot + plot_adapted_omip69 +
+  plot_layout(design = layout) +
+  patchwork::plot_annotation(tag_levels = "a") &
+  theme(text = element_text(size = 12))
+
+
+# full_plot
+# ggsave(full_plot_small, filename = "../figs/adapt_reference_omip23_omip69.pdf", units = "cm", height = 25, width = 35)
+full_plot_small
+```
+
+
+## Z2YR - Adapt reference
+
+### Map markers
+```{r, mapped_dummy_himc}
+# Create a dummy query data frame based on HIMC markers
+dummy_query <- data.frame(matrix(0, nrow = 1, ncol = length(himc_panel)))
+colnames(dummy_query) <- himc_panel
+
+# Map reference markers to HIMC panel
+mapped_dummy_himc <- map_marker_names(ref_markers = ref_markers,
+  using_pbmc = TRUE, query = dummy_query,
+  query_markers = himc_panel
+)
+
+```
+
+### Reference on query markers
+
+```{r, plot_ref_himc}
+
+# Generate UMAP plot using HIMC markers
+umap_ref_himc <- plot_umap(
+  umap_ref$data,
+  down_sample = F,
+  return_data = T,
+  add_centroids = "text",
+  title = "Z2YR marker subset (CyTOF)",
+  colors = colors,
+  markers = colnames(mapped_dummy_himc),
+  col = "celltype.l2")
+
+umap_ref_himc$plot
+```
+
+
+### Adapt Z2YR to reference
+
+```{r, adapted_reference_himc}
+# Adapt the Seurat reference to match HIMC markers
+adapted_reference_himc <- adapt_reference(
+  reference = reference,
+  markers = colnames(mapped_dummy_himc),
+  mtry = floor(ncol(mapped_dummy_himc)/2),
+  num.threads = 4,
+  # exclude_celltypes = c("Doublet", "Platelet", "Eryth", "HSPC"),
+  using_pbmc = TRUE,
+  seed = seed
+)
+```
+
+```{r adapted_celltypes}
+# List names to add custom colors (optional)
+table(adapted_reference_himc$celltype)
+```
+
+```{r, plot_adapted_himc, out.width="100%"}
+# Adjust color mapping for specific cell types
+# colors["CD8 TCM / CD8 Naive"] <- colors["CD8 Naive"]
+# colors["cDC"] <- colors["cDC1"]
+colors <- cyDefine:::expand_colors(adapted_celltypes = adapted_reference_himc$celltype, original_celltypes = reference$celltype.l2, colors = colors)
+# Join adapted cell types and plot the UMAP
+plot_adapted_himc <- umap_ref_himc$data |> 
+  dplyr::left_join(adapted_reference_himc[, c("cell_id", "celltype", "celltype_original")], by = c("cell_id")) |> 
+  plot_embedding(
+    add_centroids = "text",
+    title = "Adapted reference for Z2YR (CyTOF)",
+    highlight_labels = T,
+    colors = colors,
+    col = "celltype")
+umap_ref_himc$plot + plot_adapted_himc
+```
+
+```{r diagram_himc}
+# Generate a diagram visualizing the adapted reference structure
+fontcolor_nodes <- c(
+  "NK" = "white", 
+  "NK Proliferating / NK" = "white"
+)
+
+plot_diagram(adapted_reference_himc, colors = colors, fontcolor_nodes = fontcolor_nodes)
+```
+
+
+## POISED - Adapt reference
+
+### Map markers
+```{r, mapped_dummy_poised}
+# Create a dummy query data frame based on OMIP23 markers
+dummy_query <- data.frame(matrix(0, nrow = 1, ncol = length(poised_panel)))
+colnames(dummy_query) <- poised_panel
+
+# Map reference markers to OMIP23 panel
+mapped_dummy_poised <- map_marker_names(ref_markers = ref_markers,
+  using_pbmc = TRUE, query = dummy_query,
+  query_markers = poised_panel, map_specific_from = c("integrin"), map_specific_to = c("Integrin-7")
+)
+
+```
+
+### Reference on query markers
+
+```{r, plot_ref_poised}
+# Generate UMAP plot using POISED markers
+umap_ref_poised <- plot_umap(
+  umap_ref$data,
+  down_sample = F,
+  return_data = T,
+  markers = colnames(mapped_dummy_poised),
+  add_centroids = "text",
+  title = "POISED marker subset",
+  col = "celltype.l2")
+
+umap_ref_poised$plot
+```
+
+
+### Adapt POISED to reference
+
+```{r, adapted_reference_poised}
+# Adapt the Seurat reference to match POISED markers
+adapted_reference_poised <- adapt_reference(
+  reference = reference,
+  markers = colnames(mapped_dummy_poised),
+  mtry = floor(ncol(mapped_dummy_poised)/2),
+  num.threads = 4,
+  # exclude_celltypes = c("Doublet", "Platelet", "Eryth", "HSPC"),
+  using_pbmc = TRUE,
+  seed = seed
+)
+```
+
+```{r adapted_celltypes_poised}
+# List names to add custom colors (optional)
+table(adapted_reference_poised$celltype)
+```
+
+```{r, plot_adapted_poised, out.width="100%"}
+
+colors <- cyDefine:::expand_colors(adapted_celltypes = adapted_reference_poised$celltype, original_celltypes = reference$celltype.l2, colors = colors)
+# Join adapted cell types and plot the UMAP
+plot_adapted_poised <- umap_ref_poised$data |> 
+  dplyr::left_join(adapted_reference_poised[, c("cell_id", "celltype", "celltype_original")], by = c("cell_id")) |> 
+  plot_embedding(
+    add_centroids = "text",
+    title = "Adapted reference for POISED",
+    highlight_labels = T,
+    colors = colors,
+    col = "celltype")
+umap_ref_poised$plot + plot_adapted_poised
+```
+
+```{r diagram_poised}
+# Generate a diagram visualizing the adapted reference structure
+fontcolor_nodes <- c(
+  "NK" = "white", 
+  "NK Proliferating / NK" = "white"
+)
+
+plot_diagram(adapted_reference_poised, colors = colors, fontcolor_nodes = fontcolor_nodes)
+```
+
+
+
+
+
+

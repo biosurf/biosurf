@@ -1,15 +1,48 @@
 ---
 title: 'Vignettes for cyDefine'
+output:
+  html_document:
+    output_dir: "docs"
 ---
 
 <br>
 
-<!-- <img src="images/cyDefine/Logos/cyDefine_logo.png" width="170" align="right" /> -->
+<img src="images/cyDefine/Logos/cyDefine_logo.png" width="170" align="right" />
 
 #### cyDefine enables reproducible cross-technology phenotype transfer in single-cell cytometry data
 
 
-#### R Package on [GitHub](https://github.com/claradrachmann/cyDefine)
+#### R Package on [GitHub](https://github.com/biosurf/cyDefine)
 
 
-The vignettes are under construction.
+This page contains the vignettes demonstrating use cases and examples of phenotype transfer with `cyDefine`. The article introducing `cyDefine` is in prep.
+
+
+If you have any issues or questions regarding the use of cyDefine, please do not hesitate to raise an issue on GitHub. In this way, others may also benefit from the answers and discussions.
+
+
+<br>
+<br>
+<table style="width:100%">
+<tr>
+
+<td><center>[![](images/cyDefine/Logos/Reference_manual.png){ width=75% }](cyDefine_ref_manual.html)<br>Reference manual</center></td>
+
+<td><center>[![](images/cyDefine/Logos/Adapt_reference.png){ width=75% }](cyDefine_adapting_reference.html)<br>Reference adaptation</center></td>
+
+</tr>
+</table>
+<br>
+
+
+
+<table style="width:100%">
+<tr>
+
+<td><center>[![](images/cyDefine/Logos/Pregating.png){ width=75% }](cyDefine_pregating.html)<br>Vignette for pregating analysis</center></td>
+    
+<!-- <td><center>[![](images/cyCombine/Logos/Panel_merging.png){ width=75% }](cyCombine_panel_merging.html)<br>Vignette for panel merging module</center></td> -->
+
+</tr>
+</table>
+<br>

@@ -29,6 +29,8 @@ navbar:
           href: cart.html
         - text: "cyCombine vignettes"
           href: cyCombine.html
+        - text: "cyDefine vignettes"
+          href: cyDefine.html
 output:
   html_document:
     theme: yeti

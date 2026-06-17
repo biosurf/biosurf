@@ -1,0 +1,445 @@
+---
+title: "cyDefine - Reference Manual"
+author: "Søren H Dam & Clara Drachmann"
+date: "Last updated on `r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: kate
+    df_print: paged
+---
+
+<style type="text/css">
+
+h1.title {
+  color: #004d66;
+}
+h4.author {
+  font-style: italic;
+  font-size: 18px;
+  color: #008cba;
+}
+h4.date {
+  font-style: italic;
+  font-size: 16px;
+  color: #008cba;
+}
+h1 { /* Header 1 */
+  color: #004d66;
+  font-size: 28px;
+}
+h2 { /* Header 2 */
+  color: #004d66;
+  font-size: 22px;
+}
+h3 { /* Header 3 */
+  color: #004d66;
+  font-size: 16px;
+}
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+</style>
+
+This vignette will walk you through the full pipeline of `cyDefine`. 
+The adapt reference step is optional but relevant when you want to adapt a reference of a larger marker panel (e.g., when using the PBMC reference offered with `cyDefine`) to a smaller query panel.
+
+The vignette will cover both how you can load in your own reference and how you can use the built-in PBMC reference.
+
+The vignette will cover data preparation, mapping of marker naming conventions, reference adaptation, batch correction via `cyCombine`, cell type annotation, identification of unassigned cells, and visualizations.
+
+```{r options, include = FALSE}
+knitr::opts_chunk$set(
+  strip.white = T, 
+  comment = ""
+)
+```
+
+## Installation
+
+`cyDefine` builds on top of `cyCombine`. Both packages can be installed from GitHub:
+
+```{r installation, eval=FALSE}
+# To ensure Rstudio looks up BioConductor packages run:
+setRepositories(ind = 1:2)
+# Then install package with
+remotes::install_github("biosurf/cyCombine")
+remotes::install_github("biosurf/cyDefine")
+```
+
+## Load required libraries
+
+```{r libraries}
+library(cyCombine)
+library(cyDefine)
+```
+
+## Data preparation
+
+The modules of `cyDefine` work on `data.frames` with cells by rows and markers (along with potential metadata) by columns. 
+
+Importantly, the reference needs a `celltype` column, and both reference and query need a column named `batch` if batch effects are to be corrected for within the reference and/or query. Otherwise, only technical variations between the reference and query will be corrected.
+
+The following sections demonstrate how either the inbuilt or a custom reference is loaded, and how a query is loaded from FCS files.
+A `Seurat` or `SingleCellExperiment` object can easily be converted to a `data.frame` as well, just remember to include the relevant metadata as a column.
+
+### Universal PBMC reference
+
+`cyDefine` comes with a universal PBMC reference. See `?pbmc_reference` for more details.
+In short, it can be loaded and optionally stored with the following function:
+
+```{r pbmc, eval=FALSE}
+reference <- get_reference(
+  "pbmc", 
+  store = FALSE
+)
+```
+
+In case more references are included, they can be listed with `cyDefine:::get_all_references()`.
+
+### Prepare reference and query from FCS files
+
+The first step is to convert a directory of FCS files into a `data.frame` that `cyDefine` can process. In that process, we utilize the convenience functions from `cyCombine` to add optional metadata to the `data.frame`, such as sample IDs, potential conditions, batch information, as well as other features. For a custom reference, a _"celltype"_ column is also required.
+
+#### Marker panel
+
+Information on the marker panel can either be given as a character vector of marker names or as a panel file, i.e., a CSV/Excel file with columns that specify the FCS channel and antigen. See `?prepare_data` for panel arguments.
+
+#### Metadata
+
+The remaining information can either be extracted directly from the file names, if present within them, or it can be given in a metadata CSV/Excel file with columns `filename`, and e.g. `batch`, `condition`, etc. See `?prepare_data` for metadata arguments.
+
+If you want to extract the metadata from the FCS file names, use the `extract_filename_regex` and `extract_filename_into` arguments. More information can be found in the function documentation `?prepare_data`, but here is an example:
+
+```{r prepare, message=FALSE}
+# Markers of interest
+markers <- c('CD16', 'CD26', 'CD8a', 'CD33', 'CD161', 'CCR10', 'CCR7', 'CCR9', 
+             'CD3', 'ICOS', 'CD45RA', 'CD27', 'CXCR3', 'NKG2A', 'CD14', 'CD127',
+             'CD57', 'HLADR', 'CD62L', 'CD19', 'IgG', 'CD4', 'IgD', 'IgA', 
+             'CD86', 'CCR6', 'CD20', 'CD56', 'TCRgd', 'CD123', 'CD11c', 'CD25', 
+             'CXCR5', 'CD38', 'a4b7', 'PD1', 'CLA')
+
+# Prepare reference tibble from directory of FCS files
+reference <- prepare_data(
+  data_dir = system.file("extdata", package = "cyDefine", mustWork = TRUE), 
+  pattern = "Plate3_Sample1", # Using Sample1 from Plate3 as reference
+  markers = markers,
+  clean_colnames = TRUE,      # Set to FALSE, if you want marker names exactly like in your panel file or FCS files.
+  transform = TRUE,           # ArcSinh transformation
+  cofactor = 5,               # CyTOF: 5, flow cytometry: 150, spectral: 6000
+  derand = TRUE,              # Derandomization, only for CyTOF
+  compensate = FALSE,         # Compensation for spectral overlap, only for flow
+  extract_filename_regex = "\\d{2}Feb18_Helios2_(Plate\\d+)_(Sample\\d+)_HIMCctrl_(.+)$",
+  extract_filename_into = c("batch", "sample", "celltype"))
+
+# Prepare reference tibble from directory of FCS files
+query <- prepare_data(
+  data_dir = system.file("extdata", package = "cyDefine", mustWork = TRUE), 
+  pattern = "Plate4_Sample1", # Using Sample1 from Plate4 as query
+  markers = markers,
+  transform = TRUE,         # ArcSinh transformation
+  cofactor = 5,             # CyTOF: 5, flow cytometry: 150, spectral: 6000
+  derand = TRUE,            # Derandomization, only for CyTOF
+  compensate = FALSE,       # Compensation for spectral overlap, only for flow
+  extract_filename_regex = "^\\d{2}Feb18_Helios2_(Plate\\d+)_(Sample\\d+)",
+  extract_filename_into = c("batch", "sample"))
+```
+
+Check that column names of reference and query include all the expected information (incl. overlapping marker names):
+If marker names do not match, see `?map_marker_names`.
+
+```{r colnames}
+colnames(reference)
+colnames(query)
+all(colnames(query) %in% colnames(reference))
+```
+
+Additionally, check that the cell types of the reference are appropriate as these will be transferred to the query:
+
+```{r celltypes}
+unique(reference$celltype)
+```
+
+We see that two cell types do not represent canonical populations and are better described by 'unassigned'. We will label them accordingly:
+
+```{r unassigned}
+unassigned_names <- c("Non-pDC-non-mDC", "NonNK-nonDC")
+
+# rename cell types
+reference$celltype[reference$celltype %in% unassigned_names] <- "unassigned"
+
+```
+
+### Prepare data from CSV / data.frame
+
+If your data is in another format than CSV, you should convert it appropriately. `prepare_data` can also convert a `flowSet` by using the _"flowset"_ argument instead of _"data_dir"_. If needed `transform_asinh()` can transform a `data.frame` in cases where `prepare_data` is not needed.
+
+
+## Run cyDefine with a single function
+
+To make cell type identification with `cyDefine` as simple as possible, we offer a wrapper of the four main modules: `reference adaptation`, `batch correction`, `celltype classification`, and `identification of unassigned cells`. 
+Thereby, if you are not interested in any intermediary information, `cyDefine` can be performed by running a single function. However, running the workflow in steps provides more control over hyperparameters and intermediate outputs.
+<br>Details on the various steps in the workflow is presented in the [next section](#modular). Functions to visualize the results are demonstrated in the [last section](#visualizations).
+
+
+```{r cydefine, message=FALSE, eval=FALSE}
+classified <- cyDefine(
+  reference, 
+  query, 
+  markers,                          # markers/features to use
+  num.threads = 1,                  # Number of threads for parallelization
+  mtry = floor(length(markers)/3),  # Number of markers to use in random forest classification
+  num.trees = 500,                  # Number of trees to build in classification
+  use.weights = TRUE,               # Whether to weigh the celltype assignment by abundance weights
+  adapt_reference = TRUE,           # Whether the reference should be adapted to the markers available in the query
+  using_pbmc = FALSE,               # Whether the PBMC reference is used
+  batch_correct = TRUE,             # Whether to integrate the reference and query using cyCombine (see ?cyCombine::batch_correct for more options)
+  xdim = 6, ydim = 6,               # Clustering dimensions for the integration
+  identify_unassigned = TRUE,       # Whether unassignable cells should be identified
+  train_on_unassigned = FALSE,       # Whether unassigned cells should be identified unsupervised or using unassigned cells in the reference
+  unassigned_name = "unassigned",   # Name of unassigned cells in the reference
+  seed = 332,
+  verbose = TRUE
+  )
+
+```
+`cyDefine()` returns three objects: "query" - the classified query, "reference" - the adapted and integrated reference, and "model" - the random forest model trained on the reference and used for classification.
+
+
+## Running the cyDefine workflow in steps {#modular}
+
+For more control over parameters and intermediate output, the `cyDefine` workflow can be run in steps.
+
+
+### Adapt reference
+
+The first step is to adapt the reference to the markers in the query. If these markers are identical, you can safely skip this step.
+
+```{r adapt}
+mtry <- floor(length(markers)/3)
+reference <- adapt_reference(
+      reference = reference,
+      markers = markers,
+      num.threads = 4,
+      mtry = mtry,
+      min_f1 = .7,
+      using_pbmc = FALSE,
+      verbose = TRUE
+      )
+
+```
+
+
+### Batch correction via cyCombine
+
+<!-- cyCombine generally recommends the use of Z-score normalization for mild batch effects and rank-based normalization when strong batch effects are expected (for details, see the original publication). This is also valid for the application within cyDefine. Accordingly, if strong batch effects are expected between reference and query, but minor batch effects are expected within reference and/or query, batch correction should be performed in two steps. First, correction of the within-query or -reference batch effects using Z-score normalization and subsequently, correction of the batch effects between the datasets using rank-based normalization. However, if all batch effects are expected to be of equal magnitude, they can be corrected in a single step. -->
+
+
+If your reference and query samples do not originate from the same experimental batch, technical variance, referred to as batch effects, can lead to disparate signal intensities of cells of the same phenotype, between the samples. Therefore, `cyDefine` offers batch correction via `cyCombine` [(Pedersen et al., 2022)](https://www.nature.com/articles/s41467-022-29383-5), which allows for correction of batch effects within as well as across technologies. (This step is only strictly necessary if the reference and query stem from different batches/experiments). See `?cyCombine::batch_correct` for additional parameters and [the cyCombine vignettes](https://biosurf.org/cyCombine.html) for demonstrations of use cases.
+
+```{r correct, message=FALSE, results=FALSE, warning=FALSE}
+corrected <- cyDefine::batch_correct(
+  reference, 
+  query, 
+  markers = markers, 
+  covar = NULL,
+  xdim = 6, ydim = 6,
+  seed = 332)
+
+reference <- corrected$reference
+query <- corrected$query
+```
+
+### Exclude cells only present in the reference (Optional)
+
+An initial projection can gauge if any celltypes in the reference are missing from the query data, deeming them redundant to include in the classification.
+
+```{r exclude}
+# Run initial projection to exclude redundant cell types
+reference <- excl_redundant_populations(
+      reference = reference,
+      query = query,
+      markers = markers,
+      min_cells = 50,
+      min_pct = 0.05,
+      num.threads = 4,
+      mtry = mtry,
+      seed = 332
+    )
+```
+
+### Cell type assignment
+
+Now, our reference and query data are directly comparable. `cyDefine` enables the transfer of celltype labels from your reference dataset onto your query. The classified celltypes will be saved in a column named `model_prediction`. See `?classify_cells` for a full description of parameters.
+The random forest model trained on the reference is also returning in `classified$model`. The model can be reused with the argument `load_model = classified$model`.
+
+```{r classify, message=FALSE}
+classified <- classify_cells(
+  reference = reference,
+  query = query,
+  markers = markers,
+  mtry = mtry,
+  seed = 332
+  )
+
+table(classified$query$model_prediction)
+```
+
+
+### Identification of unassigned cells
+
+After classifying all query cells to one of the canonical cell types of your reference, you might want to filter out unassignable cells, i.e., cells that do not seem to actually belong to the population to which it was predicted to belong.
+Unassigned cells can represent artifacts or cell types that are not defined in the reference, i.e., they could potentially represent biological novelties.
+`cyDefine` has two strategies for identifying unassigned cells, a supervised strategy using unassigned cells of the reference in model training, and an unsupervised strategy that does not rely on unassigned cells in the reference.
+In this example, the supervised strategy is applied as the query sample is expected to hold similar cell types as the reference, and the reference have defined "unassigned" cells. The new cell type labels will be saved in a column named `predicted_celltype`.
+
+```{r identify, message=FALSE, warning=FALSE}
+classified$query <- identify_unassigned(
+  query = classified$query, 
+  reference = reference,
+  model = classified$model,
+  markers = markers, 
+  mtry = mtry,
+  train_on_unassigned = FALSE,
+  unassigned_name = "unassigned",
+  seed = 332
+  )
+
+table(classified$query$predicted_celltype)
+```
+
+
+
+## Visualizations {#visualizations}
+
+`cyDefine` provides functionality for visualizing your results by UMAP, cell type abundance, and marker expression.
+Additionally, you can create a diagram of the merged cell populations during reference adaptation, if any celltypes were merged.
+
+### Diagram of merged populations
+
+```{r diagram, fig.height=5, fig.width=12}
+plot_diagram(reference, fontcolor_nodes = c("unassigned" = "white"))
+```
+
+### UMAPs
+
+```{r umap, message=FALSE, warning=FALSE, fig.height=5, fig.width=12}
+
+# Define a color per cell type + black for unassigned
+celltype_colors <- get_distinct_colors(unique(reference$celltype), 
+                                       add_unassigned = TRUE)
+
+# UMAP of reference and query
+p_umap <- plot_umap(
+  reference,
+  classified$query,
+  markers = markers,
+  colors = celltype_colors,
+  query_col = "predicted_celltype",
+  ref_col = "celltype",
+  legend_title = "Cell type",
+  add_centroids = FALSE,
+  highlight_labels = FALSE,
+  sample_n = 5000,
+  return_data = TRUE)
+
+p_umap$plot
+```
+
+```{r marker_expression, message=FALSE, warning=FALSE, fig.height = 10, fig.width = 10}
+# Plot expression of a set of markers
+plot_markers(
+  p_umap$query,
+  markers = c("CD4", "CD8a", "CD19", "CD11c"),
+  title = "Query marker expression", 
+  ncol = 2)
+```
+
+### Celltype abundances
+
+```{r abundance, message=FALSE, warning=FALSE, fig.height = 7, fig.width = 13}
+# Barplot of cell type abundances in query
+plot_abundance(
+  predicted_populations = classified$query$predicted_celltype,
+  colors = celltype_colors)
+```
+
+```{r compare_abundance, message=FALSE, warning=FALSE, fig.height = 7, fig.width = 13}
+# Compare celltype abundances between query and reference
+plot_abundance_comparison(
+  reference = reference,
+  query = classified$query,
+  query_col = "predicted_celltype")
+```
+
+### Celltype expression
+
+```{r heatmap, message=FALSE, warning=FALSE, fig.height = 10, fig.width = 10}
+# Heatmap of marker expressions per cell type in query
+plot_heatmap(
+  classified$query, 
+  population_col = "predicted_celltype",
+  markers_to_plot = markers)
+```
+
+```{r expression_correlation, message=FALSE, warning=FALSE, fig.height = 10, fig.width = 10}
+# Celltype-wise expression correlation between reference and query
+plot_expression_correlation(
+  reference = reference,
+  query = classified$query,
+  markers = markers,
+  query_col = "predicted_celltype")
+```
+
+### Alluvium (sankey)
+
+The alluvium plot can illustrate how celltypes are merged or if any missclassifications happen, if compared to true values. Here, we compare before and after unassigned cells are predicted to illustrate how many cells of each type are labeled unassigned.
+
+```{r alluvium, message=FALSE, warning=FALSE, fig.height = 10, fig.width = 10}
+# Alluvium plot of annotation changes - true vs predicted or model_prediction vs predicted_celltype
+plot_alluvium(
+  classified$query,
+  predicted = "predicted_celltype", 
+  true = "model_prediction", 
+  color = celltype_colors,
+  n = 1000,
+  names = c("Model vs predicted"),
+  title = "Comparing model with unassigned prediction")
+```
+
+### Marker importance
+
+```{r marker_importance, message=FALSE, warning=FALSE, fig.height = 10, fig.width = 10}
+# Importance of each marker in the classification
+plot_marker_importance(classified$model, top_n = 15)
+```
+#### Marker usage
+
+```{r marker_usage, message=FALSE, warning=FALSE, fig.height = 10, fig.width = 10}
+# Importance of each marker in the classification per celltype
+plot_marker_usage(classified$model)
+```
+
+#### Marker importance per celltype
+
+```{r marker_importance_cell, message=FALSE, warning=FALSE, fig.height = 10, fig.width = 10}
+# Importance of each marker in the classification per celltype
+plot_marker_importance_cell(reference, markers = markers)
+```
+
+#### Top marker importance per celltype
+
+```{r top_marker_importance, message=FALSE, warning=FALSE, fig.height = 10, fig.width = 10}
+# Importance of each marker in the classification per celltype
+plot_top_marker_importance(reference)
+```
+
+
+
+## Report issues
+
+If you have any issues or questions regarding the use of `cyDefine`, please do not hesitate to raise an issue on GitHub. In this way, others may also benefit from the answers and discussions.
