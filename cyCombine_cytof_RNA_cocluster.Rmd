@@ -591,22 +591,7 @@ plot_cell <-
     axes = "collect",
     axis_titles = "collect")
 
-# plot_cell <- cyDefine::plot_umap(
-#   corrected |> dplyr::filter(batch == "CyTOF"),
-#   corrected |> dplyr::filter(batch == "RNA"),
-#   down_sample = T, 
-#   # build_umap_on = "reference",
-#   # min_dist = 0.2,
-#   colors = celltype_colors,
-#   sample_n = 5000,
-#   title = c("Integrated CyTOF", "Integrated scRNA-seq scennep"),
-#   markers = get_markers(corrected),
-#   return_data = T,
-#   metric = "cosine",
-#   col = "celltype")
 plot_cell
-# & ggplot2::theme(legend.position = "right")
-
 # saveRDS(plot_cell, "results/05_cytof_rnaseq_cell.rds")
 # ggplot2::ggsave(plot_cell, filename = "figs/05_cytof_rnaseq_cell.png")
 
@@ -665,10 +650,6 @@ corrected$label <- create_som(
   corrected, seed = seed, distf = "cosine", cluster_method = "flowsom", xdim = 6, ydim = 6, nClus = 18) |> 
   as.character()
 
-# markers_to_rename <- colnames(plot_batch$data) %in% protein_gene$Gene_Symbol
-# colnames(plot_batch$data)[markers_to_rename] <- protein_gene$Protein[match(colnames(plot_batch$data)[markers_to_rename], protein_gene$Gene_Symbol)]
-# markers <- get_markers(corrected)
-
 plot_batch$data$label <- NULL
 umap_combined <- plot_batch$data |> 
   left_join(corrected[, c("id", "label")], by = "id")
@@ -691,26 +672,6 @@ umap_combined <- plot_batch$data |>
   left_join(corrected[, c("id", "label")], by = "id")
 
 plot_embedding(umap_combined, col = "label", title = "Co-cluster labels")
-
-
-
-
-
-# 
-
-# 
-# umap_combined <- bind_rows(
-#   plot_cell$reference,
-#   plot_cell$query
-# ) |> 
-#   left_join(corrected[, c("id", "label")], by = "id")
-  
-
-# set.seed(seed)
-# umap_combined <- corrected |> 
-#   dplyr::group_by(sample) |> 
-#   dplyr::slice_sample(n = n_cells) |> 
-#   plot_umap(markers = markers, ref_col = "label", seed = seed, return_data = TRUE, down_sample = F)
 
 # ggsave(plot_embedding(umap_combined, col = "label", title = "Co-cluster labels"),
 #        file = "figs/05_cocluster_labels.png")
@@ -769,8 +730,6 @@ plot_markers(umap_combined, markers = sort(get_markers(umap_combined)), show_leg
 plot_markers(umap_combined, markers = sort(c("CD14", "CD16", "CD11b", "CD11c", "CD33", "CD38", "CD4", "CD68", "CD86", "HLADR")), show_legend = F)
 # plot_embedding(umap_cytof$data, col = "CD4", title = "CyTOF CD4")
 
-# co_markers <- sort(get_markers(umap_combined))
-# co_markers <- co_markers[co_markers != "celltype_cocluster"]
 cyDefine::plot_heatmap(corrected, population_col = "celltype_cocluster", markers_to_plot = sort(markers))
 cyDefine::plot_heatmap(corrected, population_col = "label", markers_to_plot = sort(markers))
 ```
@@ -789,16 +748,16 @@ corrected$celltype_cocluster <- as.character(corrected$celltype_cocluster)
 p_abundance_co <- plot_abundance_comparison(
   corrected |> dplyr::filter(batch == "CyTOF"),
   corrected |> dplyr::filter(batch == "RNA"),
+  CLR = T,
   ref_name = "CyTOF", query_name = "scRNA-seq",
-  ref_col = "celltype_cocluster", query_col = "celltype_cocluster") + ggtitle("Co-clustered") +
-  scale_y_continuous(trans = scales::transform_pseudo_log(base = 10))
+  ref_col = "celltype_cocluster", query_col = "celltype_cocluster") + ggtitle("Co-clustered")
 p_abundance <- plot_abundance_comparison(
   corrected |> dplyr::filter(batch == "CyTOF"),
   corrected |> dplyr::filter(batch == "RNA"),
+  CLR = T,
   ref_name = "CyTOF", query_name = "scRNA-seq",
   ref_col = "celltype", query_col = "celltype") + 
-  ggtitle("Independently") +
-  scale_y_continuous(trans = scales::transform_pseudo_log(base = 10))
+  ggtitle("Independently")
 
 p_abundances <- (p_abundance + theme(legend.position = "none")) / p_abundance_co
 p_abundances
@@ -812,16 +771,11 @@ Fig4 <- p_cocluster_annotation / (p_abundance + p_abundance_co + patchwork::plot
   1111111111
   2222222222
   ") +
-  # patchwork::plot_layout(
-  # design = "
-  # 11111111
-  # #222222#
-  # ") +
   plot_annotation(tag_levels = "A")
 
 
 Fig4
-# ggplot2::ggsave(Fig4, filename = "figs/05_annotation_abundance.png", height = 30, width = 30, units = "cm")
+ggplot2::ggsave(Fig4, filename = "figs/05_annotation_abundance.png", height = 30, width = 30, units = "cm")
 ```
 
 

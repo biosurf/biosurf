@@ -1,0 +1,714 @@
+---
+title: "Automated pre-gating using cyDefine"
+author: "Søren H Dam"
+date: "Last updated: `r format(Sys.Date(), '%Y.%m.%d')`"
+date: "Last updated on `r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: kate
+    df_print: paged
+---
+
+<style type="text/css">
+
+h1.title {
+  color: #004d66;
+}
+h4.author {
+  font-style: italic;
+  font-size: 18px;
+  color: #008cba;
+}
+h4.date {
+  font-style: italic;
+  font-size: 16px;
+  color: #008cba;
+}
+h1 { /* Header 1 */
+  color: #004d66;
+  font-size: 28px;
+}
+h2 { /* Header 2 */
+  color: #004d66;
+  font-size: 22px;
+}
+h3 { /* Header 3 */
+  color: #004d66;
+  font-size: 16px;
+}
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: scroll !important;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+}
+</style>
+
+
+```{r options, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 4,
+  out.width = "100%"
+)
+```
+
+## Phenotype transfer of non-pre-gated cells with cyDefine
+
+The purpose of pre-gating is to ensure the downstream analyses solely concern intact, living, singlet cells.
+
+In this vignette, we demonstrate that cyDefine is capable of automating this process by labeling otherwise pre-gated cells as *unassigned*. Thus, cyDefine can alleviate another tedious process.
+
+For the demonstration, we replicate a pre-gating strategy shown in [this](https://biosurf.org/cytof_data_scientist.html#35_Pre-gating) primer on biosurf.org using the same data.
+The first step is to download the sample *081216-Mike-HIMC ctrls-001_01_normalized.fcs* from FlowRepository (ID: [FR-FCM-ZYAJ](https://flowrepository.org/id/FR-FCM-ZYAJ)).
+
+## Dependencies
+
+```{r packages}
+library(MASS)
+library(dplyr, warn.conflicts = FALSE)
+library(ggplot2)
+suppressPackageStartupMessages(library(patchwork))
+library(grid)
+suppressPackageStartupMessages(library(ComplexHeatmap))
+suppressPackageStartupMessages(library(circlize))
+library(cyCombine, warn.conflicts = FALSE)
+library(cyDefine, warn.conflicts = FALSE)
+```
+
+
+## Prepare data
+
+We load the sample using functions from *cyCombine*.
+
+```{r prepare_data}
+# Define markers
+markers <- c("CD57", "CD19", "CD4", "CD8", "IgD", "CD11c", "CD16", "CD3", "CD38", "CD27", "CD14", "CXCR5", "CCR7", "CD45RA", "CD20", "CD127", "CD33", "CD28", "CD161", "TCRgd", "CD123", "CD56", "HLADR", "CD25")
+pregating_channels <- c("Bead", "DNA1", "DNA2", "Dead", "Event_length")
+
+# Compile fcs file into flowSet
+fs <- compile_fcs("../data/ZYAJ", pattern = "001_01_normalized.fcs")
+
+# Create panel from flowSet parameters
+panel <- tibble(channel = fs[[1]]@parameters@data$name,
+                antigen = fs[[1]]@parameters@data$desc) |> 
+  mutate(antigen = case_when(is.na(antigen) ~ channel,
+                             TRUE ~ antigen))
+
+# Convert to data.frame
+raw <- prepare_data(
+  flowset = fs, 
+  panel = panel, panel_antigen = "antigen", panel_channel = "channel", 
+  markers = c(markers, pregating_channels[1:4]), # Include pregating channels in the transformation
+  .keep = TRUE, # Keep all pregating channels
+  down_sample = FALSE,
+  derand = FALSE # FALSE for plotting
+  )
+
+raw
+```
+
+## Pre-gating
+
+In this pre-gating, we keep gated cells, but label them as either *Beads, Debris, Dead, or Doublets* for the analysis.
+
+### Gating for cells
+
+Gating on the DNA1 and Bead markers, we can remove beads, and some bead/cell doublets and debris.
+
+```{r gate_cells}
+# Gating values
+left <- 0; right <- 2; lower <- 5; upper <- 8.5
+
+p <- ggplot2::ggplot(raw |> dplyr::sample_n(20000), aes(x = Bead, y = DNA1)) +
+  geom_point(color = 'grey', size = 0.05, alpha = 0.6) +
+  geom_density2d(h = max(bandwidth.nrd(raw$Bead), bandwidth.nrd(raw$DNA1))) +
+  theme_bw()
+
+p + geom_rect(xmin = left, xmax = right, ymin = lower, ymax = upper, fill = NA, linetype = 1, color = 'red') +
+  annotate('text', x = right + 1, y = mean(c(lower, upper)),
+           label = paste0("Cells: ", round(mean(raw$Bead < right & raw$DNA1 > lower & raw$DNA1 < upper) * 100, 2), "%"),
+           color = 'red')
+
+raw <- raw |>
+  mutate(pregating = case_when(
+    Bead > right ~ "Beads",
+    DNA1 > upper ~ "Doublets",
+    DNA1 < lower ~ "Debris",
+    TRUE         ~ "Cells"
+  ))
+```
+
+### Gating for intact cells
+
+Gating on DNA1 and DNA2 helps identify intact cells.
+
+```{r gate_intact}
+# Gating values
+left <- 5.75; right <- 7.2; lower <- 6.35; upper <- 7.8
+
+p <- raw |>
+  filter(pregating == "Cells") |>
+  dplyr::sample_n(10000) |>
+  ggplot2::ggplot(aes(x = DNA1, y = DNA2)) +
+  geom_point(color = 'grey', size = 0.05, alpha = 0.6) +
+  coord_cartesian(xlim = c(5,8), ylim = c(5.5,8.5)) +
+  geom_density2d() +
+  theme_bw()
+
+p + geom_rect(xmin = left, xmax = right, ymin = lower, ymax = upper, fill = NA, linetype = 1, color = 'red') +
+  annotate('text', x = right + 0.4, y = mean(c(lower, upper)),
+         label = paste0("Intact cells: ", round(mean(raw$DNA1[raw$pregating == "Cells"] > left & 
+                                                       raw$DNA1[raw$pregating == "Cells"] < right & 
+                                                       raw$DNA2[raw$pregating == "Cells"] > lower & 
+                                                       raw$DNA2[raw$pregating == "Cells"] < upper) * 100, 2), "%"),
+         color = 'red')
+
+raw <- raw |>
+  mutate(pregating = case_when(
+    pregating != "Cells"          ~ pregating,
+    DNA1 > right | DNA2 > upper   ~ "Doublets",
+    DNA1 < left  | DNA2 < lower   ~ "Debris",
+    TRUE                          ~ "Cells"
+  ))
+# ggsave(filename = "figs/pregating_DNA.pdf")
+```
+
+### Gating for singlets
+
+Event length helps remove doublets.
+
+```{r gate_singlets}
+# Gating values
+left <- 12; lower <- 5.65; right <- 24; upper <- 7.35
+
+intact_idx <- raw$pregating == "Cells"
+
+p <- raw |>
+  filter(intact_idx) |>
+  dplyr::sample_n(10000) |>
+  ggplot2::ggplot(aes(x = Eventlength, y = DNA1)) +
+  geom_point(color = 'grey', size = 0.05, alpha = 0.6) +
+  coord_cartesian(ylim = c(0,8)) +
+  geom_density2d() +
+  theme_bw()
+
+pct_singlets <- mean(raw$Eventlength[intact_idx] > left & 
+                     raw$Eventlength[intact_idx] < right) * 100
+
+p + geom_rect(xmin = left, xmax = right, ymin = lower, ymax = upper, fill = NA, linetype = 1, color = 'red') +
+  annotate('text', x = mean(c(left, right)), y = lower - 0.5,
+           label = paste0("Intact singlets: ", round(pct_singlets, 2), "%"),
+           color = 'red')
+
+raw <- raw |>
+  mutate(pregating = case_when(
+    pregating != "Cells"  ~ pregating,
+    Eventlength >= right  ~ "Doublets",
+    Eventlength <= left   ~ "Debris",
+    TRUE                  ~ pregating
+  ))
+
+```
+
+
+### Gating for live cells
+
+Finally, we identify deads cells using the viability stain.
+
+```{r gate_live}
+# Gating values
+left <- 0; lower <- 5.65; right <- 3.5; upper <- 7.35
+
+singlets_idx <- raw$pregating == "Cells"
+
+p <- raw |>
+  filter(singlets_idx) |>
+  dplyr::sample_n(20000) |>
+  ggplot2::ggplot(aes(x = Dead, y = DNA1)) +
+  geom_point(color = 'grey', size = 0.05, alpha = 0.6) +
+  coord_cartesian(ylim = c(0,8)) +
+  geom_density2d() +
+  theme_bw()
+
+pct_live <- mean(raw$Dead[singlets_idx] < right) * 100
+
+p + geom_rect(xmin = left, xmax = right, ymin = lower, ymax = upper, fill = NA, linetype = 1, color = 'red') +
+  annotate('text', x = mean(c(left, right)), y = lower - 0.5,
+           label = paste0("Live intact singlets: ", round(pct_live, 2), "%"),
+           color = 'red')
+
+raw <- raw |>
+  mutate(pregating = case_when(
+    pregating != "Cells" ~ pregating,
+    Dead >= right        ~ "Dead",
+    TRUE                 ~ "Cells"
+  ))
+```
+This pre-gating leaves us with the following number of kept and discarded cells:
+
+```{r pregating_result}
+table(raw$pregating)
+```
+
+
+
+
+## Adapt PBMC reference
+
+With the pre-gating in place, we select a reference for our analysis.
+Having a manually gated sample from the same experiment would be ideal. However, *cyDefine* enables us to use a universal reference.
+Therefore, we use the universal PBMC reference prebuilt in *cyDefine*.
+
+In this step, we adapt the universal PBMC reference with our sample because the panels are not identical. In the adaptation, we define the random forest parameter *mtry* as half the available markers. *mtry* determines how many markers that are randomly selected at each branching point in the model.
+
+```{r adapt}
+# Load reference
+reference <- get_reference(path = "../data/")
+
+# Map marker names to reference markers
+raw_mapped <- map_marker_names(ref_markers = pbmc_markers,
+  using_pbmc = TRUE, query = raw,
+  query_markers = markers
+)
+
+# Redefine the marker list
+non_markers <- c(non_markers, colnames(raw)[!colnames(raw) %in% markers])
+markers <- get_markers(raw_mapped)
+
+# Define RF paramters
+mtry <- ceiling(length(markers)/2)
+
+# Adapt reference
+reference_adapted <- adapt_reference(
+  reference = reference,
+  markers = markers, 
+  using_pbmc = TRUE,
+  num.threads = 4,
+  # min_f1 = 0.7,
+  mtry = mtry
+  )
+
+# Define colors for adapted cell types
+celltype_colors <- get_distinct_colors(unique(reference_adapted$celltype), 
+                                       add_unassigned = TRUE)
+
+cyDefine::plot_umap(
+  reference_adapted,
+  markers = markers,
+  col = "celltype",
+  title = "Universal PBMC Reference",
+  colors = celltype_colors,
+  down_sample = TRUE,
+  sample_n = 25000
+  )
+
+```
+
+In this case, five groups of cell populations could not be accurately separated using the smaller marker panel. Therefore, *cyDefine* merges those populations.
+You can plot a diagram of the merged populations:
+
+
+```{r adapt_diagram}
+plot_diagram(reference_adapted)
+```
+
+
+## Classify all live cells
+
+Now, we classify all live cells, i.e., cells retained after the pre-gating.
+We leave *identify_unassigned = TRUE* to detect outliers, e.g., beads, debris, dead, and doublets.
+
+```{r classify_live}
+classified_live <- cyDefine(
+  reference = reference_adapted,
+  query = raw_mapped |> filter(pregating == "Cells"),
+  markers = markers, 
+  using_pbmc = TRUE,
+  adapt_reference = FALSE,
+  batch_correct = TRUE,
+  norm_method = "scale",
+  xdim = 6, ydim = 6,
+  identify_unassigned = FALSE,
+  # use.weights = TRUE,
+  # identify_type = "probability",
+  # probability_threshold = 0.5,
+  num.threads = 4,
+  mtry = mtry,
+  train_on_unassigned = FALSE,
+  # MAD_factor = 2.5,
+  seed = 332,
+  verbose = TRUE
+)
+# plot_umap(classified_live$query, markers = markers, col = "mode_prediction")
+
+```
+
+## Classify non-pre-gated cells
+
+Then, we do the exact same, but without removing cells from the pre-gating.
+We use the exact same settings to make it as comparable as possible.
+
+```{r classify_raw}
+
+classified_raw <- cyDefine(
+  reference = reference_adapted,
+  query = raw_mapped,
+  markers = markers, 
+  using_pbmc = TRUE,
+  adapt_reference = FALSE,
+  batch_correct = TRUE,
+  norm_method = "scale",
+  xdim = 6, ydim = 6,
+  identify_unassigned = FALSE,
+  num.threads = 4,
+  mtry = mtry,
+  train_on_unassigned = FALSE,
+  seed = 332,
+)
+# plot_umap(classified_raw$query, markers = markers)
+```
+
+## Identify unassigned
+
+<-- per-celltype mahalanobis distance threshold with a 2.5 MAD factor and using a --!>
+After the classification, we identify unassigned using a simple random forest probability threshold of 80% certainty. This is a rather tight gating, but that is reasonable when trying to capture debris, doublets, and dead cells.
+
+```{r identify_unassigned}
+
+classified_live$query <- identify_unassigned(
+  classified_live,
+  markers = markers,
+  identify_type = "probability",#c("maha", "probability"),
+  probability_threshold = 0.8,
+  # MAD_factor = 2.5
+)
+
+classified_raw$query <- identify_unassigned(
+  classified_raw,
+  markers = markers,
+  identify_type = "probability",#c("maha", "probability"),
+  probability_threshold = 0.8,
+  # MAD_factor = 2.5,
+)
+
+```
+
+
+
+## UMAP of celltype predictions
+
+The first visualization we use is a UMAP comparing the predicted celltypes.
+The UMAPs will look different because the filtered and unfiltered dataset are integrated separately with the reference, and the plots are generated using separate samplings.
+
+```{r plot_live}
+# Define celltype colors
+
+umap_live <- cyDefine::plot_umap(
+  classified_live$query,
+  markers = markers,
+  col = "predicted_celltype",
+  title = "Pre-gated cells",
+  colors = celltype_colors,
+  down_sample = TRUE,
+  sample_n = 25000
+  )
+
+```
+
+```{r plot_raw}
+umap_raw <- cyDefine::plot_umap(
+  classified_raw$query,
+  markers = markers,
+  col = "predicted_celltype",
+  title = "All cells",
+  colors = celltype_colors,
+  down_sample = TRUE,
+  sample_n = 25000
+  )
+
+```
+
+```{r umap,  fig.height=10,  fig.width=12}
+(umap_live + umap_raw) + plot_layout(guides = "collect")
+```
+
+### UMAP of pre-gated cells
+
+Here, we visually compare the pre-gating labels with the celltype predictions. We hope to see that most pre-gated cells are grouped in UMAP space, and those groups are correctly identified as "unassigned".
+
+That is exactly what we see, especially for beads and the clusters of doublets and dead cells. Debris and many dead cells appear harder to discern, at least from a UMAP.
+
+```{r celltypes_v_gating}
+pregating_colors <- get_distinct_colors(unique(c(names(celltype_colors), classified_raw$query$pregating)), add_unassigned = TRUE)
+
+umap_pregating <- cyDefine::plot_umap(
+  reference = classified_raw$query,
+  query = classified_raw$query,
+  markers = markers,
+  build_umap_on = "reference",
+  ref_col = "predicted_celltype",
+  query_col = "pregating",
+  title = c("Prediction", "Pre-gating"),
+  colors = pregating_colors,
+  down_sample = TRUE,
+  sample_n = 25000)
+umap_pregating
+
+```
+
+
+
+
+## Celltype abundances
+
+We also hope to see that the proportion of cell types remains nearly identical between the two analysis strategies. We remove unassigned cells, as the raw dataset contain many more of those, which would skew the proportions.
+
+```{r abundances, fig.height=11}
+ab_live <- classified_live$query |> 
+  filter(predicted_celltype != "unassigned") |>
+  pull(predicted_celltype) |> 
+  plot_abundance(colors = celltype_colors, title = "Cell type abundances - pre-gated") 
+
+ab_raw <- classified_raw$query |> 
+  filter(predicted_celltype != "unassigned") |>
+  # filter(pregating == "Cells") |>
+  pull(predicted_celltype) |> 
+  plot_abundance(colors = celltype_colors, title = "Cell type abundances - non-pre-gated")
+
+(ab_live / ab_raw) & ggplot2::theme(
+      axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1))
+```
+
+## Heatmap of prediction differences
+
+Lastly, we demonstrate the accuracy of the predictions with a heatmap comparing the predictions of live and raw, where the live pre-gated cells are appended with labels.
+
+The bottom row in the heatmap shows which celltypes were identified as unassigned in the raw data, compared to how the manual pre-gating and prediction on live cells classifies those cells.
+It appears the dead cells are particularly difficult to identify, which makes sense, as the viability stain is not used.
+
+
+```{r pheatmap, eval=FALSE,include=FALSE}
+library(pheatmap)
+
+query <- classified_raw$query |> 
+  left_join(classified_live$query |> dplyr::select(id, predicted_celltype) |> rename(celltype = predicted_celltype), by = "id") |> 
+  mutate(celltype = case_when(
+    is.na(celltype) ~ pregating,
+    TRUE ~ celltype
+  ))
+
+
+regular_levels <- setdiff(
+  unique(query$celltype),
+  c("Doublets", "Beads", "Dead", "Debris", "unassigned")
+)
+
+ordered_levels <- c("unassigned", "Beads", "Dead", "Debris", sort(regular_levels))
+
+# Turn `celltype` into a factor with that order
+query$celltype <- factor(query$celltype, levels = ordered_levels)
+
+conf_mat <- table(query$celltype, query$predicted_celltype)
+row_totals   <- rowSums(conf_mat)                # total cells per true type
+pct_mat <- sweep(conf_mat, 1, row_totals, FUN = "/") * 100
+pct_mat <- round(pct_mat, 1)
+
+
+display_mat <- matrix(
+  ifelse(t(pct_mat) == 0, "",
+         paste0(round(t(pct_mat), 1), "%")),
+  nrow = nrow(t(pct_mat)),
+  dimnames = dimnames(t(pct_mat))
+)
+
+heatmap <- pheatmap(
+  t(pct_mat),
+  cluster_rows = FALSE,          # keep the order we just set
+  cluster_cols = FALSE,
+  display_numbers = display_mat,
+  number_color = "black",
+  fontsize_number = 9,
+  color = colorRampPalette(c("#f7fbff", "#08519c"))(100),
+
+  # Axis labels
+  main = "Cell type prediction on non-pregated data",
+  annotation_legend = FALSE,    # hide the extra legend box
+  legend = TRUE,
+  legend_breaks = c(0, 25, 50, 75, 100),
+  legend_labels = c("25", "50", "75", "100"),
+  labels_col = rownames(pct_mat),   # explicit row labels (optional)
+  labels_row = colnames(pct_mat),   # explicit column labels (optional)
+  border_color = "white",
+
+  # Adding titles for the axes – pheatmap does not have dedicated
+  # arguments, so we use `grid::grid.text` after the plot is drawn.
+  silent = FALSE                # make sure the plot is rendered now
+)
+heatmap
+```
+
+```{r pheatmap2, eval=FALSE,include=FALSE}
+library(pheatmap)
+library(grid)
+
+display_mat <- matrix(
+  ifelse(t(pct_mat) == 0, "",
+         paste0(round(t(pct_mat), 1), "%")),
+  nrow = nrow(t(pct_mat)),
+  dimnames = dimnames(t(pct_mat))
+)
+
+heatmap2 <- pheatmap(
+  t(pct_mat),
+  cluster_rows = FALSE,
+  cluster_cols = FALSE,
+  display_numbers = display_mat,   # <-- use the matrix with blanks for zeros
+  number_color = "black",
+  fontsize_number = 7,
+  color = colorRampPalette(c("#f7fbff", "#deebf7", "#c6dbef",
+                              "#9ecae1", "#6baed6", "#4292c6",
+                              "#2171b5", "#08519c", "#08306b"))(100),
+  cellwidth  = 18,
+  cellheight = 18,
+  fontsize      = 9,
+  fontsize_row  = 8,
+  fontsize_col  = 8,
+  main = "Cell type prediction on unnormalized, non-pregated data",
+  legend = TRUE,
+  legend_breaks = c(0, 25, 50, 75, 100),
+  legend_labels = c("0", "25", "50", "75", "100"),
+  angle_col = 315,
+  border_color = "white",
+  silent = FALSE
+)
+
+# Add axis titles using grid (pheatmap doesn't support them natively)
+grid.text("Manually gated cell type",
+          x = 0.55, y = 0.01,
+          gp = gpar(fontsize = 10, fontface = "plain"))
+
+grid.text("Predicted cell type",
+          x = 0.01, y = 0.5,
+          rot = 90,
+          gp = gpar(fontsize = 10, fontface = "plain"))
+```
+
+```{r cheatmap, fig.height=16, fig.width=24, out.width = "100%"}
+query <- classified_live$query |> 
+  rename(celltype = predicted_celltype) |> 
+  dplyr::select(id, celltype)
+
+
+query <- classified_raw$query |> 
+  left_join(query, by = "id") |> 
+  mutate(celltype = case_when(
+    is.na(celltype) ~ pregating,
+    TRUE ~ celltype
+  )) |> 
+  filter(celltype != "Cells")
+
+
+regular_levels <- setdiff(
+  unique(query$celltype),
+  c("Doublets", "Beads", "Dead", "Debris", "unassigned")
+)
+
+ordered_levels <- c("unassigned", "Doublets", "Beads", "Dead", "Debris", sort(regular_levels))
+
+# Turn `celltype` into a factor with that order
+query$celltype <- factor(query$celltype, levels = ordered_levels)
+
+conf_mat <- table(query$celltype, query$predicted_celltype)
+row_totals   <- rowSums(conf_mat)           
+pct_mat <- sweep(conf_mat, 1, row_totals, FUN = "/") * 100
+pct_mat <- round(pct_mat, 1)
+
+
+
+plot_mat <- t(pct_mat)
+
+display_mat <- matrix(
+  ifelse(plot_mat == 0, "",
+         paste0(round(plot_mat, 1), "%")),
+  nrow = nrow(plot_mat),
+  dimnames = dimnames(plot_mat)
+)
+
+col_fun <- colorRamp2(
+  c(0, 25, 50, 75, 100),
+  c("#f7fbff", "#9ecae1", "#4292c6", "#2171b5", "#08519c")
+)
+
+ht <- Heatmap(
+  plot_mat,
+  col = col_fun,
+  na_col = "#f7fbff",
+  
+  cell_fun = function(j, i, x, y, width, height, fill) {
+    val <- plot_mat[i, j]
+    if (val != 0) {
+      grid.text(
+        paste0(round(val, 1), "%"),
+        x, y,
+        gp = gpar(fontsize = 10, col = "black")
+      )
+    }
+  },
+  
+  cluster_rows = FALSE,
+  cluster_columns = FALSE,
+  
+
+  row_names_side = "left",
+  
+  column_title = "Predicted celltypes of live cells + pre-gated labels",
+  # column_title_side = "bottom",
+  column_title_gp = gpar(fontsize = 12),
+  
+  row_title = "Predicted celltypes on non-pre-gated cells",
+  row_title_side = "right",
+  row_title_gp = gpar(fontsize = 12),
+  
+  column_names_rot = 45,
+  column_names_gp = gpar(fontsize = 12),
+  row_names_gp = gpar(fontsize = 12),
+  
+  # width  = unit(18 * ncol(plot_mat), "pt"),
+  # height = unit(18 * nrow(plot_mat), "pt"),
+  
+  rect_gp = gpar(col = "white", lwd = 1),
+  
+  heatmap_legend_param = list(
+    title = "Percentage of celltype\n agreement",
+    at = c(25, 50, 75, 100),
+    labels = c("25", "50", "75", "100"),
+    color_bar = "continuous",
+    legend_direction = "vertical"
+  ), 
+)
+
+# png("../figs/Pregating_Heatmap.png", 
+#     width = 2400*2,  # Width in pixels
+#     height = 1600*2, # Height in pixels
+#     res = 300) 
+# pdf("../figs/Pregating_Heatmap.pdf", width = 24, height = 16)
+draw(ht,
+     column_title = "Cell type prediction on non-pre-gated vs pre-gated data",
+     column_title_gp = gpar(fontsize = 18, fontface = "bold"),
+     padding = unit(c(5, 20, 5, 5), "mm"))
+
+# dev.off()
+```
+
+
+
+## Session info
+```{r}
+sessionInfo()
+```
+

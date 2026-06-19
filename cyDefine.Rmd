@@ -41,7 +41,7 @@ If you have any issues or questions regarding the use of cyDefine, please do not
 
 <td><center>[![](images/cyDefine/Logos/Pregating.png){ width=75% }](cyDefine_pregating.html)<br>Vignette for pregating analysis</center></td>
     
-<!-- <td><center>[![](images/cyCombine/Logos/Panel_merging.png){ width=75% }](cyCombine_panel_merging.html)<br>Vignette for panel merging module</center></td> -->
+<td><center>[![](images/cyDefine/Logos/pheno_trans.png){ width=75% }](cyDefine_multimodal_phenotransfer.html)<br>Vignette for multimodal phenotype transfer (CyTOF to scRNA-seq)</center></td>
 
 </tr>
 </table>
