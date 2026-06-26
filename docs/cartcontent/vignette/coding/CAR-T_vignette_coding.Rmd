@@ -24,7 +24,7 @@ This vignette exemplifies a comprehensive computational workflow for CAR-T targe
 
 ## Required Packages
 
-```{r load_packages, eval=FALSE}
+```{r load_packages}
 library(biomaRt)
 library(Biostrings)
 library(ggnewscale)
@@ -42,7 +42,7 @@ theme_set(theme_light())
 
 Download protein sequences for all HER2 isoforms from Ensembl (GRCh38, release 115). We retrieve sequences for all protein-coding transcripts to ensure comprehensive coverage.
 
-```{r retrieve_sequences, eval=FALSE}
+```{r retrieve_sequences}
 # Connect to Ensembl
 ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
 
@@ -127,7 +127,7 @@ saveRDS(her2_expr, output_rds)
 
 Identify which HER2 isoforms have expression data and filter sequences accordingly.
 
-```{r identify_transcripts, eval=FALSE}
+```{r identify_transcripts}
 # Load pre-filtered expression data
 her2_expr <- readRDS("../../results/HER2_analysis/her2_expr_filtered.rds")
 
@@ -165,7 +165,7 @@ cat("  • DeepTMHMM: https://dtu.biolib.com/DeepTMHMM\n")
 
 Align sequences using MAFFT with the `--localpair` algorithm, which is optimized for sequences with large insertions/deletions from alternative splicing. This ensures proper alignment of conserved functional domains.
 
-```{r align_sequences, eval=FALSE}
+```{r align_sequences}
 temp_input <- tempfile(fileext = ".fasta")
 temp_output <- tempfile(fileext = ".fasta")
 
@@ -187,10 +187,11 @@ cat("Alignment width:", unique(width(her2_aligned)), "positions\n")
 
 Import external prediction results and perform integrated analysis: classify isoforms by subcellular localization, map membrane topology to aligned sequences, and identify therapeutic epitope retention across all isoforms.
 
-```{r process_predictions, eval=FALSE}
+```{r process_predictions}
 # ===== Import DeepLoc2 Results =====
-deeploc_results <- read_csv("../../cartcontent/results/HER2_analysis/HER2_deeploc21_filtered.csv", 
+deeploc_results <- read_csv("../../results/HER2_analysis/HER2_deeploc21_filtered.csv", 
                              show_col_types = FALSE)
+
 deeploc_filtered <- deeploc_results %>%
   mutate(transcript_clean = str_remove(Protein_ID, "\\..*")) %>%
   filter(transcript_clean %in% her2_available_transcripts)
@@ -221,7 +222,7 @@ parse_deeptmhmm <- function(file_path) {
 }
 
 deeptmhmm_results <- parse_deeptmhmm(
-  "../../cartcontent/results/HER2_analysis/HER2_deeptmhmm_predicted_topologies_filtered.3line"
+  "../../results/HER2_analysis/HER2_deeptmhmm_predicted_topologies_filtered.3line"
 )
 
 # ===== Classify Isoforms by Localization =====
@@ -351,7 +352,7 @@ print(epitope_summary)
 
 Create comprehensive visualization combining subcellular localization (DeepLoc2), membrane topology (DeepTMHMM), and epitope locations in a single integrated figure.
 
-```{r visualize_integrated, eval=FALSE, fig.width=20, fig.height=8}
+```{r visualize_integrated, fig.width=20, fig.height=8}
 # Define isoform display order
 transcript_order <- c(
   "ENST00000580074",
@@ -466,7 +467,7 @@ print(combined_plot)
 
 Filter to targetable isoforms (membrane-bound with retained epitopes) and merge with tissue annotations from TCGA/GTEx.
 
-```{r prepare_expression, eval=FALSE}
+```{r prepare_expression}
 # Targetable isoforms based on topology and epitope analysis
 targetable_isoforms <- c("ENST00000269571", "ENST00000584601", "ENST00000584450", 
                          "ENST00000584014", "ENST00000578502", "ENST00000578199", 
@@ -503,7 +504,7 @@ her2_expr_final <- her2_expr_long %>%
 
 Compare expression across normal tissues (GTEx) and cancer types (TCGA) to assess tumor selectivity and on-target/off-tumor toxicity risk.
 
-```{r visualize_expression, eval=FALSE, fig.width=16, fig.height=8}
+```{r visualize_expression, fig.width=16, fig.height=8}
 # Categorize normal tissues by clinical importance
 tissue_categories <- list(
   "Critical" = c("brain", "blood", "blood vessel", "heart", "liver", "lung", "nerve"),
@@ -617,390 +618,6 @@ print(expression_plot)
 
 # ggsave("../../results/HER2_analysis/figures/her2_expression_gtex_tcga.pdf",
 #        expression_plot, width = 16, height = 8)
-```
-
-## Step 10: Off-target binding assessment
-
-### Sequence-level analysis (BLOSUM62)
-
-```{r, eval=FALSE}
-ensembl_family <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl", 
-                              mirror = "uswest")
-
-genes <- c("ERBB2", "ERBB3", "ERBB4", "EGFR")
-
-canonical_ids <- getBM(
-  attributes = c("hgnc_symbol", "ensembl_transcript_id", "transcript_is_canonical"),
-  filters = "hgnc_symbol",
-  values = genes,
-  mart = ensembl_family
-) %>%
-  filter(transcript_is_canonical == 1)
-
-seqs <- getBM(
-  attributes = c("ensembl_transcript_id", "peptide"),
-  filters = "ensembl_transcript_id",
-  values = canonical_ids$ensembl_transcript_id,
-  mart = ensembl_family
-) %>%
-  filter(peptide != "") %>%
-  left_join(canonical_ids %>% select(hgnc_symbol, ensembl_transcript_id),
-            by = "ensembl_transcript_id")
-
-family_sequences <- AAStringSet(seqs$peptide)
-names(family_sequences) <- paste0(seqs$hgnc_symbol, "_", seqs$ensembl_transcript_id)
-
-temp_input <- tempfile(fileext = ".fasta")
-temp_output <- tempfile(fileext = ".fasta")
-writeXStringSet(family_sequences, temp_input)
-
-system2("mafft",
-        args = c("--localpair", "--maxiterate", "1000", "--quiet", temp_input),
-        stdout = temp_output)
-
-family_aligned <- readAAStringSet(temp_output)
-unlink(c(temp_input, temp_output))
-
-# Epitope positions in canonical HER2
-epitope_positions <- list(
-  P = list(c(257, 267), c(308, 318)),               # Pertuzumab
-  T = list(c(580, 582), c(593, 595), c(610, 625))   # Trastuzumab
-)
-
-her2_name <- names(family_aligned)[str_detect(names(family_aligned), "ERBB2")]
-
-epitope_mapping <- map_epitopes_from_alignment(
-  aligned_seqs = family_aligned,
-  canonical_name = her2_name,
-  epitope_pos = epitope_positions
-)
-
-her2_seq <- strsplit(as.character(family_aligned[[her2_name]]), "")[[1]]
-
-substitution_table <- epitope_mapping %>%
-  mutate(
-    aa = map2_chr(transcript_id, position, function(tid, pos) {
-      strsplit(as.character(family_aligned[[tid]]), "")[[1]][pos]
-    }),
-    her2_aa = her2_seq[position]
-  ) %>%
-  filter(transcript_id != her2_name) %>%
-  select(transcript_id, epitope, canonical_pos, her2_aa, aa) %>%
-  mutate(changed = aa != her2_aa)
-
-data(BLOSUM62)
-
-substitution_table_scored <- substitution_table %>%
-  filter(aa != "-") %>%
-  rowwise() %>%
-  mutate(blosum62 = BLOSUM62[her2_aa, aa]) %>%
-  ungroup()
-
-# Gaps (missing residues) are scored separately, not by BLOSUM62
-gap_table <- epitope_mapping %>%
-  filter(transcript_id == her2_name) %>%
-  select(epitope, canonical_pos, position) %>%
-  crossing(transcript_id = setdiff(names(family_aligned), her2_name)) %>%
-  mutate(
-    aa = map2_chr(transcript_id, position, function(tid, pos) {
-      strsplit(as.character(family_aligned[[tid]]), "")[[1]][pos]
-    })
-  ) %>%
-  filter(aa == "-") %>%
-  mutate(her2_aa = her2_seq[position], changed = TRUE, blosum62 = NA) %>%
-  select(transcript_id, epitope, canonical_pos, her2_aa, aa, changed, blosum62)
-
-full_substitution_table <- bind_rows(substitution_table_scored, gap_table) %>%
-  arrange(transcript_id, epitope, canonical_pos)
-
-full_summary <- full_substitution_table %>%
-  filter(transcript_id != her2_name) %>%
-  mutate(protein = case_when(
-    str_detect(transcript_id, "ERBB2") ~ "HER2",
-    str_detect(transcript_id, "ERBB3") ~ "HER3",
-    str_detect(transcript_id, "ERBB4") ~ "HER4",
-    str_detect(transcript_id, "EGFR")  ~ "EGFR"
-  )) %>%
-  group_by(protein, epitope) %>%
-  summarise(
-    substitutions = sum(changed & aa != "-"),
-    n_negative_blosum = sum(blosum62 < 0, na.rm = TRUE),
-    gaps = sum(aa == "-"),
-    mean_blosum = round(mean(blosum62[changed & aa != "-"], na.rm = TRUE), 2),
-    .groups = "drop"
-  )
-```
-
-### Structural analysis (backbone RMSD)
-```{bash, eval = FALSE}
-# RMSD calculated externally in PyMOL (Cα atoms only, no outlier rejection,
-# cycles=0). The script below is shown for reproducibility but is not run
-# as part of this vignette — results are hardcoded in rmsd_table.
-
-# PyMOL: Pertuzumab epitope RMSD
-fetch 1S78
-fetch 1M6B
-fetch 2AHX
-fetch 1NQL
-
-remove solvent
-remove organic
-remove 1M6B and chain B
-remove 2AHX and chain B
-remove 1NQL and chain B
-
-hide everything
-show cartoon, all
-
-select ep_her2, 1S78 and chain A and (resi 235-245 or resi 286-296)
-select ep_her3, 1M6B and chain A and (resi 229-239 or resi 279-289)
-select ep_her4, 2AHX and chain A and (resi 226-236 or resi 276-286)
-select ep_egfr, 1NQL and chain A and (resi 229-239 or resi 280-290)
-
-align 1M6B and chain A and (resi 229-239 or resi 279-289) and name CA, 1S78 and chain A and (resi 235-245 or resi 286-296) and name CA, cycles=0
-align 2AHX and chain A and (resi 226-236 or resi 276-286) and name CA, 1S78 and chain A and (resi 235-245 or resi 286-296) and name CA, cycles=0
-align 1NQL and chain A and (resi 229-239 or resi 280-290) and name CA, 1S78 and chain A and (resi 235-245 or resi 286-296) and name CA, cycles=0
-
-
-# PyMOL: Trastuzumab epitope RMSD
-fetch 1N8Z
-fetch 1M6B
-fetch 2AHX
-fetch 1NQL
-
-remove solvent
-remove organic
-remove 1M6B and chain B
-remove 2AHX and chain B
-remove 1NQL and chain B
-
-hide everything
-show cartoon, all
-
-select epitope_her2, 1N8Z and chain C and (resi 558-560 or resi 571-573 or resi 588-603)
-select epitope_her3, 1M6B and chain A and (resi 550-552 or resi 563-565 or resi 580-593)
-select epitope_her4, 2AHX and chain A and (resi 548-550 or resi 561-563 or resi 578-591)
-select epitope_egfr, 1NQL and chain A and (resi 551-553 or resi 564-566 or resi 581-595)
-
-align 1M6B and chain A and (resi 550-552 or resi 563-565 or resi 580-593) and name CA, 1N8Z and chain C and (resi 558-560 or resi 571-573 or resi 588-603) and name CA, cycles=0
-align 2AHX and chain A and (resi 548-550 or resi 561-563 or resi 578-591) and name CA, 1N8Z and chain C and (resi 558-560 or resi 571-573 or resi 588-603) and name CA, cycles=0
-align 1NQL and chain A and (resi 551-553 or resi 564-566 or resi 581-595) and name CA, 1N8Z and chain C and (resi 558-560 or resi 571-573 or resi 588-603) and name CA, cycles=0
-```
-
-
-```{r, eval=FALSE}
-rmsd_table <- tibble(
-  epitope = c(rep("P", 3), rep("T", 3)),
-  protein = rep(c("HER3", "HER4", "EGFR"), 2),
-  backbone_rmsd = c(0.871, 0.800, 1.336, 0.587, 0.709, 0.620),
-  rmsd_atoms = c(20, 20, 18, 5, 17, 15)
-)
-rmsd_table
-```
-
-### B-factor analysis
-```{r, eval=FALSE}
-base_path <- "../../cartcontent/results/HER2_analysis/Pymol"
-
-parse_bfactors <- function(pdb_file, resi_ranges, protein_name) {
-  lines <- readLines(pdb_file)
-  atom_lines <- lines[startsWith(lines, "ATOM")]
-  
-  tibble(
-    resn = str_trim(substr(atom_lines, 18, 20)),
-    resi = as.integer(str_trim(substr(atom_lines, 23, 26))),
-    atom = str_trim(substr(atom_lines, 13, 16)),
-    bfactor = as.numeric(substr(atom_lines, 61, 66))
-  ) %>%
-    filter(atom == "CA", resi %in% resi_ranges) %>%
-    mutate(protein = protein_name) %>%
-    select(protein, resi, resn, bfactor)
-}
-
-# Pertuzumab epitope B-factors (HER2 excluded — antibody-bound structure)
-pert_bfactors <- bind_rows(
-  parse_bfactors(file.path(base_path, "1S78_her2.pdb"), c(235:245, 286:296), "HER2"),
-  parse_bfactors(file.path(base_path, "1M6B_her3.pdb"), c(229:239, 279:289), "HER3"),
-  parse_bfactors(file.path(base_path, "2AHX_her4.pdb"), c(226:236, 276:286), "HER4"),
-  parse_bfactors(file.path(base_path, "1NQL_egfr.pdb"), c(229:239, 280:290), "EGFR")
-)
-
-pert_bfactor_summary <- pert_bfactors %>%
-  filter(protein != "HER2") %>%
-  group_by(protein) %>%
-  summarise(mean_bfactor = round(mean(bfactor), 2), .groups = "drop") %>%
-  mutate(epitope = "P")
-
-# Trastuzumab epitope B-factors (B = 0.0 residues excluded — unresolved density)
-tras_bfactors <- bind_rows(
-  parse_bfactors(file.path(base_path, "1N8Z_her2.pdb"), c(558:560, 571:573, 588:603), "HER2"),
-  parse_bfactors(file.path(base_path, "1M6B_her3.pdb"), c(550:552, 563:565, 580:593), "HER3"),
-  parse_bfactors(file.path(base_path, "2AHX_her4.pdb"), c(548:550, 561:563, 578:591), "HER4"),
-  parse_bfactors(file.path(base_path, "1NQL_egfr.pdb"), c(551:553, 564:566, 581:595), "EGFR")
-) %>%
-  filter(bfactor > 0)
-
-tras_expected <- c(HER2 = 22, HER3 = 20, HER4 = 20, EGFR = 21)
-
-tras_bfactor_summary <- tras_bfactors %>%
-  filter(protein != "HER2") %>%
-  group_by(protein) %>%
-  summarise(mean_bfactor = round(mean(bfactor), 2), n_resolved = n(), .groups = "drop") %>%
-  mutate(
-    n_expected = tras_expected[protein],
-    n_unresolved = n_expected - n_resolved,
-    epitope = "T"
-  )
-```
-
-### Electrostatic surface complementarity (APBS)
-```{bash, eval = FALSE}
-### Electrostatic surface complementarity (APBS)
-# Antibody-antigen binding depends on electrostatic complementarity at the
-# epitope surface. Potential maps were generated externally as follows:
-#
-# 1. PDB2PQR (v3.7.1, AMBER force field) was run on each epitope-containing
-#    structure to assign atomic charges and radii, generating a .pqr file
-#    and APBS input file (.in).
-# 2. APBS (v3.4.1) was run on each .in file to produce an electrostatic
-#    potential grid (.dx file) for HER2 (1S78, 1N8Z), HER3 (1M6B),
-#    HER4 (2AHX), and EGFR (1NQL).
-# 3. Epitope Cα coordinates were exported from PyMOL for each structure.
-#    IMPORTANT: coordinates must come from the UNALIGNED, original
-#    structures — not from structures superimposed during the RMSD step —
-#    since the APBS potential grid is defined in each structure's own
-#    native coordinate frame.
-# 4. The R functions below sample the potential grid at each epitope
-#    Cα position (trilinear interpolation) and compare HER2 to each
-#    family member via Pearson correlation.
-```
-
-```{r, eval=FALSE}
-# DX maps generated externally via PDB2PQR + APBS; epitope coordinates exported
-# from PyMOL in the original (unaligned) coordinate frame.
-
-read_dx <- function(filepath) {
-  lines <- readLines(filepath)
-  grid_line <- grep("^object 1", lines, value = TRUE)
-  dims <- as.integer(str_extract_all(grid_line, "\\d+")[[1]][2:4])
-  
-  num_pattern <- "-?[\\d]+\\.?[\\d]*[eE]?[+-]?\\d*"
-  origin_line <- grep("^origin", lines, value = TRUE)
-  origin <- as.numeric(str_match_all(origin_line, num_pattern)[[1]])
-  
-  delta_lines <- grep("^delta", lines, value = TRUE)
-  dx <- as.numeric(str_match_all(delta_lines[1], num_pattern)[[1]])
-  dy <- as.numeric(str_match_all(delta_lines[2], num_pattern)[[1]])
-  dz <- as.numeric(str_match_all(delta_lines[3], num_pattern)[[1]])
-  spacing <- c(dx[1], dy[2], dz[3])
-  
-  data_start <- max(grep("^object 3", lines)) + 1
-  data_end <- grep("^attribute", lines)[1] - 1
-  values <- as.numeric(unlist(strsplit(trimws(lines[data_start:data_end]), "\\s+")))
-  
-  list(dims = dims, origin = origin, spacing = spacing, values = values)
-}
-
-get_potential <- function(dx_map, x, y, z) {
-  fi <- (x - dx_map$origin[1]) / dx_map$spacing[1]
-  fj <- (y - dx_map$origin[2]) / dx_map$spacing[2]
-  fk <- (z - dx_map$origin[3]) / dx_map$spacing[3]
-  i <- floor(fi); j <- floor(fj); k <- floor(fk)
-  fx <- fi - i; fy <- fj - j; fz <- fk - k
-  
-  if (i < 0 || i >= dx_map$dims[1]-1 ||
-      j < 0 || j >= dx_map$dims[2]-1 ||
-      k < 0 || k >= dx_map$dims[3]-1) return(NA)
-  
-  idx <- function(ii, jj, kk) ii * dx_map$dims[2] * dx_map$dims[3] + jj * dx_map$dims[3] + kk + 1
-  
-  v000 <- dx_map$values[idx(i, j, k)];     v100 <- dx_map$values[idx(i+1, j, k)]
-  v010 <- dx_map$values[idx(i, j+1, k)];   v110 <- dx_map$values[idx(i+1, j+1, k)]
-  v001 <- dx_map$values[idx(i, j, k+1)];   v101 <- dx_map$values[idx(i+1, j, k+1)]
-  v011 <- dx_map$values[idx(i, j+1, k+1)]; v111 <- dx_map$values[idx(i+1, j+1, k+1)]
-  
-  v000*(1-fx)*(1-fy)*(1-fz) + v100*fx*(1-fy)*(1-fz) +
-    v010*(1-fx)*fy*(1-fz) + v110*fx*fy*(1-fz) +
-    v001*(1-fx)*(1-fy)*fz + v101*fx*(1-fy)*fz +
-    v011*(1-fx)*fy*fz + v111*fx*fy*fz
-}
-
-# --- Pertuzumab APBS ---
-pert_maps <- list(
-  HER2 = read_dx(file.path(base_path, "1S78_her2.pqr.dx")),
-  HER3 = read_dx(file.path(base_path, "1M6B_her3.pqr.dx")),
-  HER4 = read_dx(file.path(base_path, "2AHX_her4.pqr.dx")),
-  EGFR = read_dx(file.path(base_path, "1NQL_egfr.pqr.dx"))
-)
-
-pert_coords <- list(
-  HER2 = read_csv(file.path(base_path, "her2_epitope_coords.csv"), show_col_types = FALSE),
-  HER3 = read_csv(file.path(base_path, "her3_epitope_coords.csv"), show_col_types = FALSE),
-  HER4 = read_csv(file.path(base_path, "her4_epitope_coords.csv"), show_col_types = FALSE),
-  EGFR = read_csv(file.path(base_path, "egfr_epitope_coords.csv"), show_col_types = FALSE)
-)
-
-pert_potentials <- map2_dfr(names(pert_maps), names(pert_coords), function(prot, coord_name) {
-  m <- pert_maps[[prot]]; c <- pert_coords[[coord_name]]
-  c %>% rowwise() %>% mutate(protein = prot, potential = get_potential(m, x, y, z)) %>% ungroup()
-})
-
-her2_pot_pert <- pert_potentials %>% filter(protein == "HER2") %>% pull(potential)
-
-pert_correlations <- map_dfr(c("HER3", "HER4", "EGFR"), function(prot) {
-  other_pot <- pert_potentials %>% filter(protein == prot) %>% pull(potential)
-  tibble(epitope = "P", protein = prot,
-         correlation = cor(her2_pot_pert, other_pot, use = "complete.obs"),
-         n_matched = length(other_pot))
-})
-
-# --- Trastuzumab APBS ---
-tras_maps <- list(
-  HER2 = read_dx(file.path(base_path, "1N8Z_her2.pqr.dx")),
-  HER3 = read_dx(file.path(base_path, "1M6B_her3.pqr.dx")),
-  HER4 = read_dx(file.path(base_path, "2AHX_her4.pqr.dx")),
-  EGFR = read_dx(file.path(base_path, "1NQL_egfr.pqr.dx"))
-)
-
-tras_coords <- list(
-  HER2 = read_csv(file.path(base_path, "tras_her2_epitope_coords.csv"), show_col_types = FALSE),
-  HER3 = read_csv(file.path(base_path, "tras_her3_epitope_coords.csv"), show_col_types = FALSE),
-  HER4 = read_csv(file.path(base_path, "tras_her4_epitope_coords.csv"), show_col_types = FALSE),
-  EGFR = read_csv(file.path(base_path, "tras_egfr_epitope_coords.csv"), show_col_types = FALSE)
-)
-
-tras_potentials <- map2_dfr(names(tras_maps), names(tras_coords), function(prot, coord_name) {
-  m <- tras_maps[[prot]]; c <- tras_coords[[coord_name]]
-  c %>% rowwise() %>% mutate(protein = prot, potential = get_potential(m, x, y, z)) %>% ungroup()
-}) %>%
-  group_by(protein) %>%
-  mutate(pos_idx = row_number()) %>%
-  ungroup()
-
-her2_pot_tras <- tras_potentials %>% filter(protein == "HER2") %>% select(pos_idx, potential)
-
-tras_correlations <- map_dfr(c("HER3", "HER4", "EGFR"), function(prot) {
-  other_pot <- tras_potentials %>% filter(protein == prot) %>% select(pos_idx, potential)
-  matched <- inner_join(her2_pot_tras, other_pot, by = "pos_idx", suffix = c("_her2", "_other"))
-  tibble(epitope = "T", protein = prot,
-         correlation = cor(matched$potential_her2, matched$potential_other, use = "complete.obs"),
-         n_matched = nrow(matched))
-})
-
-### Combined off-target summary table
-
-apbs_combined <- bind_rows(pert_correlations, tras_correlations)
-bfactor_combined <- bind_rows(pert_bfactor_summary, tras_bfactor_summary) %>%
-  select(protein, epitope, mean_bfactor)
-
-offtarget_summary <- full_summary %>%
-  left_join(rmsd_table, by = c("protein", "epitope")) %>%
-  left_join(bfactor_combined, by = c("protein", "epitope")) %>%
-  left_join(apbs_combined %>% select(protein, epitope, correlation, n_matched),
-            by = c("protein", "epitope")) %>%
-  mutate(epitope = recode(epitope, "P" = "Pertuzumab", "T" = "Trastuzumab"))
-
-print(offtarget_summary, width = Inf)
 ```
 
 # Session Info

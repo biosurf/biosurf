@@ -1,0 +1,784 @@
+---
+title: "Off-Target Binding Assessment: ERBB Family Cross-Reactivity Analysis"
+author: "Giorgia Moranzoni"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: tango
+    code_folding: show
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, 
+                      eval = TRUE, fig.width = 12, fig.height = 8)
+```
+
+# Overview
+
+The goal of this analysis is to assess whether pertuzumab and trastuzumab — two antibodies targeting HER2 — could cross-react with other ERBB family members (HER3, HER4, EGFR). This is a safety concern for CAR-T therapy because CAR-T cells are highly potent, and even low-affinity off-target binding could trigger toxicity in healthy tissues.
+
+We built four independent, complementary lines of evidence:
+
+1. **BLOSUM62 substitution scoring** — are the amino acid differences at the epitope biochemically compatible?
+2. **Backbone RMSD** — is the epitope in the same shape/position?
+3. **B-factors** — is the epitope rigid enough to support stable antibody binding?
+4. **APBS electrostatic potential** — is the charge pattern at the epitope compatible with the antibody?
+
+## Required Packages
+
+```{r load_packages}
+library(biomaRt)
+library(Biostrings)
+library(tidyverse)
+
+options(timeout = 300)
+theme_set(theme_light())
+```
+
+# Sequence-Level Analysis (BLOSUM62)
+
+## Reasoning
+
+Even if two proteins look similar, antibody binding depends on the exact amino acids at the contact interface. BLOSUM62 is a standard amino acid substitution matrix: positive scores mean the substitution is biochemically conservative (similar size, charge, hydrophobicity) and likely to preserve binding; negative scores mean the substitution is biochemically dissimilar and unlikely to preserve binding. Gaps (missing residues in the alignment) are not scored by BLOSUM62 and are reported separately — a gap represents complete loss of a contact point, which is arguably worse than an unfavorable substitution.
+
+## ERBB Family Alignment
+
+```{r alignment}
+# Connect to Ensembl
+ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl", 
+                      mirror = "uswest")
+
+genes <- c("ERBB2", "ERBB3", "ERBB4", "EGFR")
+
+# Get canonical transcript IDs
+canonical_ids <- getBM(
+  attributes = c("hgnc_symbol", "ensembl_transcript_id", "transcript_is_canonical"),
+  filters = "hgnc_symbol",
+  values = genes,
+  mart = ensembl
+) %>%
+  filter(transcript_is_canonical == 1)
+
+# Fetch peptide sequences separately (avoids Ensembl disk-full errors)
+seqs <- getBM(
+  attributes = c("ensembl_transcript_id", "peptide"),
+  filters = "ensembl_transcript_id",
+  values = canonical_ids$ensembl_transcript_id,
+  mart = ensembl
+) %>%
+  filter(peptide != "")
+
+seqs <- seqs %>%
+  left_join(canonical_ids %>% select(hgnc_symbol, ensembl_transcript_id),
+            by = "ensembl_transcript_id")
+
+sequences <- AAStringSet(seqs$peptide)
+names(sequences) <- paste0(seqs$hgnc_symbol, "_", seqs$ensembl_transcript_id)
+
+# Align with MAFFT (same parameters as the HER2 isoform vignette)
+temp_input <- tempfile(fileext = ".fasta")
+temp_output <- tempfile(fileext = ".fasta")
+writeXStringSet(sequences, temp_input)
+
+system2("mafft",
+        args = c("--localpair", "--maxiterate", "1000", "--quiet", temp_input),
+        stdout = temp_output)
+
+aligned <- readAAStringSet(temp_output)
+unlink(c(temp_input, temp_output))
+
+cat("Alignment width:", unique(width(aligned)), "positions\n")
+```
+
+## Epitope Mapping and BLOSUM62 Scoring
+
+```{r blosum62_scoring}
+# Epitope positions in canonical HER2
+epitope_positions <- list(
+  P = list(c(257, 267), c(308, 318)),  # Pertuzumab
+  T = list(c(580, 582), c(593, 595), c(610, 625))  # Trastuzumab
+)
+
+her2_name <- names(aligned)[str_detect(names(aligned), "ERBB2")]
+
+# Function to map epitope positions from canonical HER2 to other sequences via alignment
+map_epitopes_from_alignment <- function(aligned_seqs, canonical_name, epitope_pos) {
+  canonical_seq <- as.character(aligned_seqs[[canonical_name]])
+  epitope_map_list <- list()
+  
+  for(seq_name in names(aligned_seqs)) {
+    isoform_seq <- as.character(aligned_seqs[[seq_name]])
+    canonical_ungapped_pos <- 0
+    epitope_positions_aligned <- list()
+    
+    for(i in 1:nchar(canonical_seq)) {
+      canon_char <- substr(canonical_seq, i, i)
+      iso_char <- substr(isoform_seq, i, i)
+      
+      if(canon_char != "-") canonical_ungapped_pos <- canonical_ungapped_pos + 1
+      
+      for(epitope_name in names(epitope_pos)) {
+        for(region in epitope_pos[[epitope_name]]) {
+          if(canonical_ungapped_pos >= region[1] && 
+             canonical_ungapped_pos <= region[2] &&
+             iso_char != "-") {
+            epitope_positions_aligned[[length(epitope_positions_aligned) + 1]] <- data.frame(
+              epitope = epitope_name,
+              position = i,
+              canonical_pos = canonical_ungapped_pos
+            )
+          }
+        }
+      }
+    }
+    
+    if(length(epitope_positions_aligned) > 0) {
+      epitope_map_list[[seq_name]] <- bind_rows(epitope_positions_aligned)
+    }
+  }
+  
+  bind_rows(epitope_map_list, .id = "transcript_id")
+}
+
+epitope_mapping <- map_epitopes_from_alignment(
+  aligned_seqs = aligned,
+  canonical_name = her2_name,
+  epitope_pos = epitope_positions
+)
+
+# Build substitution table
+her2_seq <- strsplit(as.character(aligned[[her2_name]]), "")[[1]]
+
+substitution_table <- epitope_mapping %>%
+  mutate(
+    aa = map2_chr(transcript_id, position, function(tid, pos) {
+      strsplit(as.character(aligned[[tid]]), "")[[1]][pos]
+    }),
+    her2_aa = her2_seq[position]
+  ) %>%
+  filter(transcript_id != her2_name) %>%
+  select(transcript_id, epitope, canonical_pos, her2_aa, aa) %>%
+  mutate(changed = aa != her2_aa)
+
+# BLOSUM62 scoring (gaps excluded — scored separately below)
+data(BLOSUM62)
+
+substitution_table_scored <- substitution_table %>%
+  filter(aa != "-") %>%
+  rowwise() %>%
+  mutate(blosum62 = BLOSUM62[her2_aa, aa]) %>%
+  ungroup()
+
+substitution_table_scored %>%
+  filter(changed) %>%
+  select(transcript_id, epitope, canonical_pos, her2_aa, aa, blosum62) %>%
+  print(n = Inf)
+```
+
+## Gap Detection
+
+```{r gap_detection}
+# Detect gaps at epitope positions
+# Gaps are not in epitope_mapping because map_epitopes_from_alignment() excludes them
+gap_table <- epitope_mapping %>%
+  filter(transcript_id == her2_name) %>%
+  select(epitope, canonical_pos, position) %>%
+  crossing(transcript_id = setdiff(names(aligned), her2_name)) %>%
+  mutate(
+    aa = map2_chr(transcript_id, position, function(tid, pos) {
+      strsplit(as.character(aligned[[tid]]), "")[[1]][pos]
+    })
+  ) %>%
+  filter(aa == "-") %>%
+  mutate(
+    her2_aa = her2_seq[position],
+    changed = TRUE,
+    blosum62 = NA
+  ) %>%
+  select(transcript_id, epitope, canonical_pos, her2_aa, aa, changed, blosum62)
+
+cat("Gaps at epitope positions:\n")
+print(gap_table, n = Inf)
+
+# Combined table: substitutions + gaps
+full_substitution_table <- bind_rows(
+  substitution_table_scored,
+  gap_table
+) %>%
+  arrange(transcript_id, epitope, canonical_pos)
+
+# Summary with gap counts and gap positions
+full_summary <- full_substitution_table %>%
+  filter(transcript_id != her2_name) %>%
+  mutate(protein = case_when(
+    str_detect(transcript_id, "ERBB2") ~ "HER2",
+    str_detect(transcript_id, "ERBB3") ~ "HER3",
+    str_detect(transcript_id, "ERBB4") ~ "HER4",
+    str_detect(transcript_id, "EGFR")  ~ "EGFR"
+  )) %>%
+  group_by(protein, epitope) %>%
+  summarise(
+    total_positions = n(),
+    identical = sum(!changed & aa != "-"),
+    substitutions = sum(changed & aa != "-"),
+    n_negative_blosum = sum(blosum62 < 0, na.rm = TRUE),
+    gaps = sum(aa == "-"),
+    gap_positions = ifelse(
+      sum(aa == "-") > 0,
+      paste(canonical_pos[aa == "-"], "(", her2_aa[aa == "-"], ")", sep = "", collapse = ", "),
+      "none"
+    ),
+    mean_blosum = round(mean(blosum62[changed & aa != "-"], na.rm = TRUE), 2),
+    .groups = "drop"
+  )
+
+print(full_summary, width = Inf)
+```
+
+## Results
+
+**Pertuzumab epitope:** Negative mean BLOSUM62 scores across all three family members (mean: HER3 = -1.42, HER4 = -0.85, EGFR = -1.06), with 8–10 negative-scoring substitutions per protein. The amino acid substitutions at the epitope contact positions are biochemically dissimilar — different charge, size, and hydrophobicity. No alignment gaps observed.
+
+**Trastuzumab epitope:** Also negative mean BLOSUM62 scores, but milder than pertuzumab (mean: HER3 = -0.17, HER4 = -0.31, EGFR = -0.6), with 6–10 negative-scoring substitutions per protein. The trastuzumab epitope contains several conservative substitutions (e.g., W→Y, F→Y; scores: +2, +3) that partially offset the unfavorable ones, but the overall balance is still negative. All three family members had 1–2 alignment gaps (at HER2 positions M611 and P612) representing complete loss of epitope contact residues.
+
+# Structural Analysis (Backbone RMSD) {.tabset}
+
+## Reasoning
+
+Antibody binding requires the epitope to be in the correct 3D shape and position. We used solved crystal structures. The antibody-bound HER2 conformation was used as the alignment reference for each epitope, as it defines the epitope geometry the antibody was optimized to recognize. HER2 is an orphan receptor that constitutively adopts an extended conformation regardless of antibody binding (Cho et al., 2003, Nature), so the bound conformation is representative of native HER2.
+
+Structures used:
+
+- **1S78**: Pertuzumab–HER2 (chain A = HER2)
+- **1N8Z**: Trastuzumab–HER2 (chain C = HER2)
+- **1M6B**: HER3 ectodomain (chain A, tethered conformation)
+- **2AHX**: HER4 ectodomain (chain A, tethered conformation)
+- **1NQL**: EGFR ectodomain (chain A, tethered conformation)
+
+RMSD was calculated using Cα atoms only, without outlier rejection (`cycles=0`), to obtain unbiased measures of structural divergence at the epitope.
+
+## Pertuzumab RMSD (PyMOL)
+
+Epitope PDB residue positions:
+
+- HER2 (1S78): resi 235–245 + 286–296
+- HER3 (1M6B): resi 229–239 + 279–289
+- HER4 (2AHX): resi 226–236 + 276–286
+- EGFR (1NQL): resi 229–239 + 280–290
+
+```
+# PyMOL commands:
+fetch 1S78
+fetch 1M6B
+fetch 2AHX
+fetch 1NQL
+
+remove solvent
+remove organic
+remove 1M6B and chain B
+remove 2AHX and chain B
+remove 1NQL and chain B
+
+hide everything
+show cartoon, all
+
+select ep_her2, 1S78 and chain A and (resi 235-245 or resi 286-296)
+select ep_her3, 1M6B and chain A and (resi 229-239 or resi 279-289)
+select ep_her4, 2AHX and chain A and (resi 226-236 or resi 276-286)
+select ep_egfr, 1NQL and chain A and (resi 229-239 or resi 280-290)
+
+# Backbone-only alignment, no outlier rejection
+align 1M6B and chain A and (resi 229-239 or resi 279-289) and name CA, 1S78 and chain A and (resi 235-245 or resi 286-296) and name CA, cycles=0
+align 2AHX and chain A and (resi 226-236 or resi 276-286) and name CA, 1S78 and chain A and (resi 235-245 or resi 286-296) and name CA, cycles=0
+align 1NQL and chain A and (resi 229-239 or resi 280-290) and name CA, 1S78 and chain A and (resi 235-245 or resi 286-296) and name CA, cycles=0
+```
+
+**Results:**
+
+| Comparison | Backbone RMSD (Å) | Atoms aligned | Interpretation |
+|---|---|---|---|
+| HER3 vs HER2 | 0.871 | 20 | < 1.0 — Highly conserved backbone |
+| HER4 vs HER2 | 0.800 | 20 | < 1.0 — Highly conserved backbone |
+| EGFR vs HER2 | 1.336 | 18 | 1.0–2.5 — Borderline |
+
+## Trastuzumab RMSD (PyMOL)
+
+Epitope PDB residue positions:
+
+- HER2 (1N8Z): resi 558–560 + 571–573 + 588–603
+- HER3 (1M6B): resi 550–552 + 563–565 + 580–593
+- HER4 (2AHX): resi 548–550 + 561–563 + 578–591
+- EGFR (1NQL): resi 551–553 + 564–566 + 581–595
+
+```
+# PyMOL commands (fresh session):
+fetch 1N8Z
+fetch 1M6B
+fetch 2AHX
+fetch 1NQL
+
+remove solvent
+remove organic
+remove 1M6B and chain B
+remove 2AHX and chain B
+remove 1NQL and chain B
+
+hide everything
+show cartoon, all
+
+select epitope_her2, 1N8Z and chain C and (resi 558-560 or resi 571-573 or resi 588-603)
+select epitope_her3, 1M6B and chain A and (resi 550-552 or resi 563-565 or resi 580-593)
+select epitope_her4, 2AHX and chain A and (resi 548-550 or resi 561-563 or resi 578-591)
+select epitope_egfr, 1NQL and chain A and (resi 551-553 or resi 564-566 or resi 581-595)
+
+align 1M6B and chain A and (resi 550-552 or resi 563-565 or resi 580-593) and name CA, 1N8Z and chain C and (resi 558-560 or resi 571-573 or resi 588-603) and name CA, cycles=0
+align 2AHX and chain A and (resi 548-550 or resi 561-563 or resi 578-591) and name CA, 1N8Z and chain C and (resi 558-560 or resi 571-573 or resi 588-603) and name CA, cycles=0
+align 1NQL and chain A and (resi 551-553 or resi 564-566 or resi 581-595) and name CA, 1N8Z and chain C and (resi 558-560 or resi 571-573 or resi 588-603) and name CA, cycles=0
+```
+
+**Results:**
+
+| Comparison | Backbone RMSD (Å) | Atoms aligned | Interpretation |
+|---|---|---|---|
+| HER3 vs HER2 | 0.587 | **5** | Based on too few atoms — not reliable |
+| HER4 vs HER2 | 0.709 | 17 | < 1.0 — Highly conserved backbone |
+| EGFR vs HER2 | 0.620 | 15 | < 1.0 — Highly conserved backbone |
+
+**Note:** HER3's RMSD is based on only 5 atoms because 13 residues at the trastuzumab epitope core (positions 581–593) are unresolved in the 1M6B crystal structure. This value is not statistically meaningful.
+
+# B-Factor Analysis {.tabset}
+
+## Reasoning
+
+B-factors (temperature factors / Debye-Waller factors) measure how much each atom vibrates or is disordered in the crystal structure. Higher values = more flexible/mobile. For stable antibody binding, the epitope needs to present a well-defined, rigid surface.
+
+**Important caveats:**
+
+- HER2 is excluded from the B-factor comparison because it is antibody-bound in both structures (1S78, 1N8Z), which artificially stabilizes the epitope and lowers B-factors.
+- Residues with B-factor = 0.0 are unresolved (could not be modeled in the electron density) and are excluded from mean calculations. The number of unresolved residues is reported separately.
+
+## B-Factor Quantification
+
+```{r bfactor_analysis}
+parse_bfactors <- function(pdb_file, resi_ranges, protein_name) {
+  lines <- readLines(pdb_file)
+  atom_lines <- lines[startsWith(lines, "ATOM")]
+  
+  tibble(
+    resn = str_trim(substr(atom_lines, 18, 20)),
+    resi = as.integer(str_trim(substr(atom_lines, 23, 26))),
+    atom = str_trim(substr(atom_lines, 13, 16)),
+    bfactor = as.numeric(substr(atom_lines, 61, 66))
+  ) %>%
+    filter(atom == "CA", resi %in% resi_ranges) %>%
+    mutate(protein = protein_name) %>%
+    select(protein, resi, resn, bfactor)
+}
+
+base_path <- "~/Rprojects/biosurf2024/cartcontent/results/HER2_analysis/Pymol"
+
+# --- Pertuzumab epitope B-factors ---
+pert_bfactors <- bind_rows(
+  parse_bfactors(file.path(base_path, "1S78_her2.pdb"), c(235:245, 286:296), "HER2"),
+  parse_bfactors(file.path(base_path, "1M6B_her3.pdb"), c(229:239, 279:289), "HER3"),
+  parse_bfactors(file.path(base_path, "2AHX_her4.pdb"), c(226:236, 276:286), "HER4"),
+  parse_bfactors(file.path(base_path, "1NQL_egfr.pdb"), c(229:239, 280:290), "EGFR")
+)
+
+pert_bfactor_summary <- pert_bfactors %>%
+  group_by(protein) %>%
+  summarise(
+    mean_bfactor = round(mean(bfactor), 2),
+    .groups = "drop"
+  ) %>%
+  mutate(epitope = "Pertuzumab")
+
+# --- Trastuzumab epitope B-factors ---
+tras_bfactors <- bind_rows(
+  parse_bfactors(file.path(base_path, "1N8Z_her2.pdb"), c(558:560, 571:573, 588:603), "HER2"),
+  parse_bfactors(file.path(base_path, "1M6B_her3.pdb"), c(550:552, 563:565, 580:593), "HER3"),
+  parse_bfactors(file.path(base_path, "2AHX_her4.pdb"), c(548:550, 561:563, 578:591), "HER4"),
+  parse_bfactors(file.path(base_path, "1NQL_egfr.pdb"), c(551:553, 564:566, 581:595), "EGFR")
+) %>%
+  filter(bfactor > 0)  # Exclude unresolved residues (B = 0.0)
+
+# Count total expected vs resolved
+tras_expected <- c(HER2 = 22, HER3 = 20, HER4 = 20, EGFR = 21)
+
+tras_bfactor_summary <- tras_bfactors %>%
+  group_by(protein) %>%
+  summarise(
+    mean_bfactor = round(mean(bfactor), 2),
+    n_resolved = n(),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    n_expected = tras_expected[protein],
+    n_unresolved = n_expected - n_resolved,
+    epitope = "Trastuzumab"
+  )
+
+cat("=== Pertuzumab epitope B-factors ===\n")
+print(pert_bfactor_summary)
+
+cat("\n=== Trastuzumab epitope B-factors ===\n")
+print(tras_bfactor_summary)
+```
+
+## Results
+
+**Pertuzumab epitope** (compared among unbound structures only — HER2 excluded):
+
+| Protein | Mean B-factor (Å²) | Character |
+|---|---|---|
+| HER3 | 11.7 | Mostly rigid |
+| EGFR | 15.2 | Mixed — first loop rigid, second flexible |
+| HER4 | 26.6 | Flexible throughout |
+
+**Trastuzumab epitope** (B = 0.0 residues excluded):
+
+| Protein | Mean B-factor (Å²) | Resolved / Total | Character |
+|---|---|---|---|
+| EGFR | 7.14 | 21 / 21 | Very rigid |
+| HER3 | 18.6 | **7 / 20** | Only edges resolved; core disordered |
+| HER4 | 22.9 | 20 / 20 | Flexible throughout |
+
+HER3's trastuzumab epitope has 13 unresolved residues — the core of the binding site could not be crystallized, indicating severe intrinsic disorder.
+
+# Electrostatic Surface Complementarity (APBS) {.tabset}
+
+## Reasoning
+
+Antibody-antigen binding relies heavily on electrostatic complementarity. APBS (Adaptive Poisson-Boltzmann Solver) calculates the electrostatic potential at every point in and around a protein. PDB2PQR assigns atomic charges and radii (AMBER force field). We calculated the potential for each protein's epitope surface and compared them by Pearson correlation with HER2: high correlation means similar charge landscape (higher cross-reactivity risk), low or negative means different landscape (lower risk).
+
+**Important:** Epitope coordinates for APBS interpolation must be exported from the **original (unaligned)** structures, since the APBS maps are calculated in the original PDB coordinate frame. This applies to HER3/HER4/EGFR for the trastuzumab analysis, where structures were re-aligned to 1N8Z in PyMOL but the APBS maps were from the pertuzumab session.
+
+## Terminal: PDB2PQR + APBS
+
+```
+# Terminal/bash commands:
+cd ~/Rprojects/biosurf2024/cartcontent/results/HER2_analysis/Pymol
+
+# Pertuzumab reference (HER2 from 1S78)
+pdb2pqr --ff=AMBER --apbs-input=1S78_her2.in 1S78_her2.pdb 1S78_her2.pqr
+apbs 1S78_her2.in
+
+# Trastuzumab reference (HER2 from 1N8Z)
+pdb2pqr --ff=AMBER --apbs-input=1N8Z_her2.in 1N8Z_her2.pdb 1N8Z_her2.pqr
+apbs 1N8Z_her2.in
+
+# Family members (same structures used for both epitopes)
+pdb2pqr --ff=AMBER --apbs-input=1M6B_her3.in 1M6B_her3.pdb 1M6B_her3.pqr
+pdb2pqr --ff=AMBER --apbs-input=2AHX_her4.in 2AHX_her4.pdb 2AHX_her4.pqr
+pdb2pqr --ff=AMBER --apbs-input=1NQL_egfr.in 1NQL_egfr.pdb 1NQL_egfr.pqr
+
+apbs 1M6B_her3.in
+apbs 2AHX_her4.in
+apbs 1NQL_egfr.in
+```
+
+## PyMOL: Export Epitope Coordinates
+
+Coordinates must be from the **unaligned** structures (matching APBS map coordinate frame).
+
+```
+# PyMOL — Pertuzumab epitope coordinates:
+# Export from the pertuzumab session (structures aligned to 1S78)
+stored.data = []
+iterate_state 1, ep_her2 and name CA, stored.data.append("%s,%s,%s,%.3f,%.3f,%.3f" % (chain, resi, resn, x, y, z))
+f = open(".../Pymol/her2_epitope_coords.csv", "w")
+f.write("chain,resi,resn,x,y,z\n")
+f.write("\n".join(stored.data))
+f.close()
+# (repeat for ep_her3, ep_her4, ep_egfr -> her3/her4/egfr_epitope_coords.csv)
+
+# PyMOL — Trastuzumab epitope coordinates:
+# HER2: export from trastuzumab session (1N8Z doesn't move since it's the reference)
+stored.data = []
+iterate_state 1, epitope_her2 and name CA, stored.data.append("%s,%s,%s,%.3f,%.3f,%.3f" % (chain, resi, resn, x, y, z))
+f = open(".../Pymol/tras_her2_epitope_coords.csv", "w")
+f.write("chain,resi,resn,x,y,z\n")
+f.write("\n".join(stored.data))
+f.close()
+
+# HER3/HER4/EGFR: load FRESH copies from saved PDBs (unaligned frame)
+load .../Pymol/1M6B_her3.pdb, her3_fresh
+load .../Pymol/2AHX_her4.pdb, her4_fresh
+load .../Pymol/1NQL_egfr.pdb, egfr_fresh
+
+stored.data = []
+iterate_state 1, her3_fresh and chain A and (resi 550-552 or resi 563-565 or resi 580-593) and name CA, stored.data.append("%s,%s,%s,%.3f,%.3f,%.3f" % (chain, resi, resn, x, y, z))
+f = open(".../Pymol/tras_her3_epitope_coords.csv", "w")
+f.write("chain,resi,resn,x,y,z\n")
+f.write("\n".join(stored.data))
+f.close()
+# (repeat for her4_fresh, egfr_fresh)
+
+delete her3_fresh
+delete her4_fresh
+delete egfr_fresh
+```
+
+## R: APBS Quantification
+
+```{r apbs_functions}
+# --- DX file parser (handles scientific notation) ---
+read_dx <- function(filepath) {
+  lines <- readLines(filepath)
+  
+  grid_line <- grep("^object 1", lines, value = TRUE)
+  dims <- as.integer(str_extract_all(grid_line, "\\d+")[[1]][2:4])
+  
+  num_pattern <- "-?[\\d]+\\.?[\\d]*[eE]?[+-]?\\d*"
+  
+  origin_line <- grep("^origin", lines, value = TRUE)
+  origin <- as.numeric(str_match_all(origin_line, num_pattern)[[1]])
+  
+  delta_lines <- grep("^delta", lines, value = TRUE)
+  dx <- as.numeric(str_match_all(delta_lines[1], num_pattern)[[1]])
+  dy <- as.numeric(str_match_all(delta_lines[2], num_pattern)[[1]])
+  dz <- as.numeric(str_match_all(delta_lines[3], num_pattern)[[1]])
+  
+  spacing <- c(dx[1], dy[2], dz[3])
+  
+  data_start <- max(grep("^object 3", lines)) + 1
+  data_end <- grep("^attribute", lines)[1] - 1
+  values <- as.numeric(unlist(strsplit(trimws(lines[data_start:data_end]), "\\s+")))
+  
+  list(dims = dims, origin = origin, spacing = spacing, values = values)
+}
+
+# --- Trilinear interpolation ---
+get_potential <- function(dx_map, x, y, z) {
+  fi <- (x - dx_map$origin[1]) / dx_map$spacing[1]
+  fj <- (y - dx_map$origin[2]) / dx_map$spacing[2]
+  fk <- (z - dx_map$origin[3]) / dx_map$spacing[3]
+  
+  i <- floor(fi); j <- floor(fj); k <- floor(fk)
+  fx <- fi - i; fy <- fj - j; fz <- fk - k
+  
+  if (i < 0 || i >= dx_map$dims[1]-1 ||
+      j < 0 || j >= dx_map$dims[2]-1 ||
+      k < 0 || k >= dx_map$dims[3]-1) return(NA)
+  
+  idx <- function(ii, jj, kk) ii * dx_map$dims[2] * dx_map$dims[3] + jj * dx_map$dims[3] + kk + 1
+  
+  v000 <- dx_map$values[idx(i, j, k)]
+  v100 <- dx_map$values[idx(i+1, j, k)]
+  v010 <- dx_map$values[idx(i, j+1, k)]
+  v110 <- dx_map$values[idx(i+1, j+1, k)]
+  v001 <- dx_map$values[idx(i, j, k+1)]
+  v101 <- dx_map$values[idx(i+1, j, k+1)]
+  v011 <- dx_map$values[idx(i, j+1, k+1)]
+  v111 <- dx_map$values[idx(i+1, j+1, k+1)]
+  
+  v000*(1-fx)*(1-fy)*(1-fz) + v100*fx*(1-fy)*(1-fz) +
+    v010*(1-fx)*fy*(1-fz) + v110*fx*fy*(1-fz) +
+    v001*(1-fx)*(1-fy)*fz + v101*fx*(1-fy)*fz +
+    v011*(1-fx)*fy*fz + v111*fx*fy*fz
+}
+```
+
+```{r apbs_pertuzumab}
+# ===== PERTUZUMAB APBS =====
+pert_maps <- list(
+  HER2 = read_dx(file.path(base_path, "1S78_her2.pqr.dx")),
+  HER3 = read_dx(file.path(base_path, "1M6B_her3.pqr.dx")),
+  HER4 = read_dx(file.path(base_path, "2AHX_her4.pqr.dx")),
+  EGFR = read_dx(file.path(base_path, "1NQL_egfr.pqr.dx"))
+)
+
+pert_coords <- list(
+  HER2 = read_csv(file.path(base_path, "her2_epitope_coords.csv"), show_col_types = FALSE),
+  HER3 = read_csv(file.path(base_path, "her3_epitope_coords.csv"), show_col_types = FALSE),
+  HER4 = read_csv(file.path(base_path, "her4_epitope_coords.csv"), show_col_types = FALSE),
+  EGFR = read_csv(file.path(base_path, "egfr_epitope_coords.csv"), show_col_types = FALSE)
+)
+
+pert_potentials <- map2_dfr(names(pert_maps), names(pert_coords), function(prot, coord_name) {
+  m <- pert_maps[[prot]]
+  c <- pert_coords[[coord_name]]
+  c %>%
+    rowwise() %>%
+    mutate(protein = prot, potential = get_potential(m, x, y, z)) %>%
+    ungroup()
+})
+
+her2_pot_pert <- pert_potentials %>% filter(protein == "HER2") %>% pull(potential)
+
+pert_correlations <- map_dfr(c("HER3", "HER4", "EGFR"), function(prot) {
+  other_pot <- pert_potentials %>% filter(protein == prot) %>% pull(potential)
+  tibble(
+    epitope = "Pertuzumab",
+    comparison = paste0(prot, " vs HER2"),
+    correlation = cor(her2_pot_pert, other_pot, use = "complete.obs"),
+    n_matched = length(other_pot)
+  )
+})
+
+cat("=== Pertuzumab APBS correlations ===\n")
+print(pert_correlations)
+```
+
+```{r apbs_trastuzumab}
+# ===== TRASTUZUMAB APBS =====
+tras_maps <- list(
+  HER2 = read_dx(file.path(base_path, "1N8Z_her2.pqr.dx")),
+  HER3 = read_dx(file.path(base_path, "1M6B_her3.pqr.dx")),
+  HER4 = read_dx(file.path(base_path, "2AHX_her4.pqr.dx")),
+  EGFR = read_dx(file.path(base_path, "1NQL_egfr.pqr.dx"))
+)
+
+tras_coords <- list(
+  HER2 = read_csv(file.path(base_path, "tras_her2_epitope_coords.csv"), show_col_types = FALSE),
+  HER3 = read_csv(file.path(base_path, "tras_her3_epitope_coords.csv"), show_col_types = FALSE),
+  HER4 = read_csv(file.path(base_path, "tras_her4_epitope_coords.csv"), show_col_types = FALSE),
+  EGFR = read_csv(file.path(base_path, "tras_egfr_epitope_coords.csv"), show_col_types = FALSE)
+)
+
+tras_potentials <- map2_dfr(names(tras_maps), names(tras_coords), function(prot, coord_name) {
+  m <- tras_maps[[prot]]
+  c <- tras_coords[[coord_name]]
+  c %>%
+    rowwise() %>%
+    mutate(protein = prot, potential = get_potential(m, x, y, z)) %>%
+    ungroup()
+})
+
+# Correlation with position-index matching (different vector lengths)
+tras_potentials_indexed <- tras_potentials %>%
+  group_by(protein) %>%
+  mutate(pos_idx = row_number()) %>%
+  ungroup()
+
+her2_pot_tras <- tras_potentials_indexed %>%
+  filter(protein == "HER2") %>%
+  select(pos_idx, potential)
+
+tras_correlations <- map_dfr(c("HER3", "HER4", "EGFR"), function(prot) {
+  other_pot <- tras_potentials_indexed %>%
+    filter(protein == prot) %>%
+    select(pos_idx, potential)
+  
+  matched <- inner_join(her2_pot_tras, other_pot, by = "pos_idx", suffix = c("_her2", "_other"))
+  
+  tibble(
+    epitope = "Trastuzumab",
+    comparison = paste0(prot, " vs HER2"),
+    correlation = cor(matched$potential_her2, matched$potential_other, use = "complete.obs"),
+    n_matched = nrow(matched)
+  )
+})
+
+cat("=== Trastuzumab APBS correlations ===\n")
+print(tras_correlations)
+```
+
+## APBS Results
+
+| Epitope | Comparison | Correlation | N matched |
+|---|---|---|---|
+| Pertuzumab | HER3 vs HER2 | 0.131 | 22 |
+| Pertuzumab | HER4 vs HER2 | 0.302 | 22 |
+| Pertuzumab | EGFR vs HER2 | -0.091 | 22 |
+| Trastuzumab | HER3 vs HER2 | 0.865* | **7** |
+| Trastuzumab | HER4 vs HER2 | -0.239 | 20 |
+| Trastuzumab | EGFR vs HER2 | 0.098 | 21 |
+
+*Based on only 7 positions; not statistically reliable.
+
+# Combined Summary Tables {.tabset}
+
+## Pertuzumab Summary Table
+
+```{r pertuzumab_summary_table}
+pert_blosum <- full_summary %>%
+  filter(epitope == "P") %>%
+  select(protein, mean_blosum, n_negative_blosum, substitutions, gaps)
+
+pert_offtarget <- pert_bfactor_summary %>%
+  filter(protein != "HER2") %>%
+  select(protein, mean_bfactor) %>%
+  left_join(
+    pert_correlations %>%
+      mutate(protein = str_remove(comparison, " vs HER2")) %>%
+      select(protein, correlation),
+    by = "protein"
+  ) %>%
+  left_join(pert_blosum, by = "protein") %>%
+  left_join(
+    tibble(
+      protein = c("HER3", "HER4", "EGFR"),
+      backbone_rmsd = c(0.871, 0.800, 1.336),
+      rmsd_atoms = c(20, 20, 18)
+    ),
+    by = "protein"
+  )
+
+cat("=== Pertuzumab off-target summary ===\n")
+print(pert_offtarget, width = Inf)
+```
+
+## Trastuzumab Summary Table
+
+```{r trastuzumab_summary_table}
+tras_blosum <- full_summary %>%
+  filter(epitope == "T") %>%
+  select(protein, mean_blosum, n_negative_blosum, substitutions, gaps)
+
+tras_offtarget <- tras_bfactor_summary %>%
+  filter(protein != "HER2") %>%
+  select(protein, mean_bfactor, n_resolved) %>%
+  left_join(
+    tras_correlations %>%
+      mutate(protein = str_remove(comparison, " vs HER2")) %>%
+      select(protein, correlation, n_matched),
+    by = "protein"
+  ) %>%
+  left_join(tras_blosum, by = "protein") %>%
+  left_join(
+    tibble(
+      protein = c("HER3", "HER4", "EGFR"),
+      backbone_rmsd = c(0.587, 0.709, 0.620),
+      rmsd_atoms = c(5, 17, 15)
+    ),
+    by = "protein"
+  )
+
+cat("=== Trastuzumab off-target summary ===\n")
+print(tras_offtarget, width = Inf)
+```
+
+# Conclusions
+
+## Pertuzumab Epitope (Domain II)
+
+Multiple independent lines of evidence converge: biochemically dissimilar substitutions (mean BLOSUM62: -0.85 to -1.42), incompatible charge landscapes (APBS correlations 0.13 to -0.09), and for HER4, a conformationally disordered epitope (B-factor 26.6 Å²). The conserved backbone (RMSD < 1.0 Å for HER3/HER4) paradoxically strengthens this conclusion — the structures are similar enough for meaningful comparison, and that comparison reveals incompatible binding chemistry. Off-target binding at therapeutically relevant affinity is unlikely.
+
+Additionally, HER3, HER4, and EGFR are all in the tethered/autoinhibited conformation, in which domain II — the pertuzumab epitope — is partially buried. This provides an additional steric barrier to cross-reactivity.
+
+## Trastuzumab Epitope (Domain IV)
+
+The trastuzumab epitope presents a more heterogeneous profile than pertuzumab, though all BLOSUM62 means are still negative:
+
+- **HER3:** The majority of the epitope (13 of 20 residues) is unresolved in the crystal structure, indicating intrinsic disorder. Structural metrics (RMSD based on 5 atoms, APBS correlation based on 7 positions) are not reliable. The disorder itself is the strongest argument against binding. Additionally, 2 gaps at positions M611 and P612.
+- **HER4:** Negative APBS correlation (-0.239), elevated B-factors (22.9 Å²), 2 gaps, and mildly negative BLOSUM62 (-0.31). Electrostatic incompatibility and structural flexibility argue against binding.
+- **EGFR:** The most nuanced case. Rigid epitope (7.14 Å²), low RMSD (0.620 Å), and the least negative BLOSUM62 (-0.6) with several conservative substitutions. Counterbalanced by near-zero APBS correlation (0.098), 1 gap, and 15 substituted positions out of 22.
+
+## Experimental Validation
+
+Consistent with these computational findings, experimental studies have confirmed that trastuzumab does not bind EGFR, HER3, or HER4 (Dokmanovic et al., 2014, BMC Cancer; Ritter et al., 2007, AACR). This supports the conclusion that the observed differences — even when individually subtle as for the trastuzumab epitope — are collectively sufficient to prevent cross-reactive binding.
+
+## Key Distinction
+
+Both epitopes show negative mean BLOSUM62 scores across all family members, but they differ in magnitude and supporting evidence. Pertuzumab-based CARs benefit from strong, convergent evidence: strongly negative BLOSUM62 (-0.85 to -1.42), low APBS correlations, no gaps, and HER4's disordered epitope. Trastuzumab-based CARs show a less definitive but still unfavorable profile: mildly negative BLOSUM62 (-0.17 to -0.6), gaps at conserved positions, and — for HER3 — severe epitope disorder. The EGFR case for trastuzumab is the most borderline computationally, though experimental data confirms absence of cross-reactivity (Dokmanovic et al., 2014; Ritter et al., 2007). Given the high sensitivity of CAR-T cells, even low-affinity off-target interactions warrant careful preclinical evaluation.
+
+# Session Info
+
+```{r session_info}
+sessionInfo()
+```
