@@ -1000,7 +1000,7 @@ offtarget_summary <- full_summary %>%
             by = c("protein", "epitope")) %>%
   mutate(epitope = recode(epitope, "P" = "Pertuzumab", "T" = "Trastuzumab"))
 
-print(offtarget_summary, width = Inf)
+print(offtarget_summary, width = Inf) 
 ```
 
 # Session Info
